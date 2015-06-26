@@ -13,7 +13,8 @@ router.get('/newad', function(req, res) {
 
 
 router.get('/ad', function(req, res) {
-  //app.debug(req);
-  res.render('newad', { title: req.query.description })
+  res.render('ad', { title: 'Ad' })
 });
+
+
 module.exports = router;
