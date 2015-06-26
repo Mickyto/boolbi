@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+  p Fill in the fields
+
+  section
+
+    h2 User information
+
+    form(name="userinfo", action="/ad", method="post")
+       p Name:
+       input(type="text", name="user")
+       p E-mail:
+       input(type="email", name="email")
+       p Telephone:
+       input(type="tel", name="telephone")
+
+       h2 Item information
+
+       p Title:
+       input(type="text", name="title", maxlength=60, size=42)
+       p Description:
+       textarea(name="description", rows="10" cols="40")
+       p Price:
+       input(type="text", name="price", size=8)
+       p
+       input(type="submit", value="Save")
