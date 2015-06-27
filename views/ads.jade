@@ -1,9 +1,14 @@
 extends layout
 
 block content
+
+
+
   h1.
         Ad List
-  ul
+  ul.a
        each user, i in ads
            li
-               a(href="mailto:#{user.email}")= user.Name
+               a(href="mailto:#{user.email}" style="text-decoration: none")= user.Title
+               h5 #{user.Price}
+

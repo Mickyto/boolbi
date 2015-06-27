@@ -1,18 +1,41 @@
 body {
   padding-left: 60px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 20px "Britannic bold", Helvetica, Arial, sans-serif;
   background-color: cadetblue;
 }
 
-a {
-  color: #00B7FF;
+a:link {
+  color: #387038;
+  font-size: 25px;
+  font-weight: 900;
 }
 
-section {
+a:hover {
+  color: #468847;
+}
+
+section1 {
   border: 5px #eee solid;
   padding: 40px;
 }
 
 p {
   font-size: 16px;
+}
+
+section2 {
+  padding: 30px;
+  border: 20px #92A75C solid;
+}
+
+ul.a {
+  list-style-type: decimal;
+}
+
+li {
+  padding-bottom: 30px;
+}
+
+h5 {
+  padding-bottom: 50px;
 }

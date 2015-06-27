@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Bravito' });
 });
 
 /* GET New Ad page. */
@@ -27,7 +27,7 @@ router.post('/addad', function(req, res) {
     "Telephone" : userTelephone,
     "Title" : adTitle,
     "Description" : adDescription,
-    "Price" : "adPrice"
+    "Price" : adPrice
       }, function (err, doc) {
     if (err) {
       res.send("There was a problem adding the information to the database.");
@@ -38,10 +38,6 @@ router.post('/addad', function(req, res) {
   });
 });
 
-
-
-
-
 router.get('/ads', function(req, res) {
   var db =req.db;
   var collection = db.get('adcollection');
@@ -51,6 +47,7 @@ router.get('/ads', function(req, res) {
       })
   })
 });
+
 
 
 
