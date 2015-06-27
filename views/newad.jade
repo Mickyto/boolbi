@@ -8,21 +8,21 @@ block content
 
     h2 User information
 
-    form(name="userinfo", action="/ad", method="post")
+    form#formAddAd(name="addad", action="/addad", method="post")
        p Name:
-       input(type="text", name="user")
+       input#inputUserName(type="text", name="username")
        p E-mail:
-       input(type="email", name="email")
+       input#inputUserEmail(type="email", name="useremail")
        p Telephone:
-       input(type="tel", name="telephone")
+       input#UserTelephone(type="tel", name="usertelephone")
 
        h2 Item information
 
        p Title:
-       input(type="text", name="title", maxlength=60, size=42)
+       input#inputAdTitle(type="text", name="adtitle", maxlength=60, size=42)
        p Description:
-       textarea(name="description", rows="10" cols="40")
+       textarea#textareaAdDescription(name="addescription", rows="10" cols="40")
        p Price:
-       input(type="text", name="price", size=8)
+       input#inputAdPrice(type="text", name="adprice", size=8)
        p
-       input(type="submit", value="Save")
+       input#inputSubmit(type="submit", value="Save")

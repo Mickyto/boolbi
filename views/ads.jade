@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1.
+        Ad List
+  ul
+       each user, i in ads
+           li
+               a(href="mailto:#{user.email}")= user.Name
