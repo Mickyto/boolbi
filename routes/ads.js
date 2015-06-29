@@ -24,20 +24,14 @@ router.get('/newad', function(req, res) {
 /* GET Add ad page. */
 router.post('/addad', function(req, res) {
   var db = req.db;
-  var userName = req.body.username;
-  var userEmail = req.body.useremail;
-  var userTelephone = req.body.usertelephone;
-  var adTitle = req.body.adtitle;
-  var adDescription = req.body.addescription;
-  var adPrice = req.body.adprice;
   var collection = db.get('adcollection');
   collection.insert({
-    name : userName,
-    email : userEmail,
-    telephone : userTelephone,
-    title : adTitle,
-    description : adDescription,
-    price : adPrice
+    name : req.body.username,
+    email : req.body.useremail,
+    telephone : req.body.usertelephone,
+    title : req.body.adtitle,
+    description : req.body.addescription,
+    price : req.body.adprice
   }, function (err, doc) {
     if (err) {
       res.send('There was a problem adding the information to the database.');
@@ -114,21 +108,15 @@ router.get('/:id/edit', function(req, res) {
 //PUT to update a ad by ID
 router.put('/:id/adedit', function(req, res) {
     var db = req.db;
-    var userName = req.body.username;
-    var userEmail = req.body.useremail;
-    var userTelephone = req.body.usertelephone;
-    var adTitle = req.body.adtitle;
-    var adDescription = req.body.addescription;
-    var adPrice = req.body.adprice;
     var collection = db.get('adcollection');
     collection.findById(req.id, function (err, doc) {
       collection.updateById(req.id.toString(), {
-          name : userName,
-          email : userEmail,
-          telephone : userTelephone,
-          title : adTitle,
-          description : adDescription,
-          price : adPrice
+          name : req.body.username,
+          email : req.body.useremail,
+          telephone : req.body.usertelephone,
+          title : req.body.adtitle,
+          description : req.body.addescription,
+          price : req.body.adprice
         }, function (err, user) {
           if (err) {
             res.send('There was a problem updating the information to the database: ' + err);
