@@ -11,11 +11,5 @@ block content
            li
                a(href='/ads/#{user._id}' style="text-decoration: none")= user.title
                h5 #{user.price}
-               form(action='/ads/#{user._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                   input(type='hidden',value='DELETE',name='_method')
-                   button(type='submit').
-                       Delete
-               p
-                   a(href='/ads/#{user._id}/edit') Edit
 
 
