@@ -93,7 +93,7 @@ router.get('/:id', function(req, res) {
 })
 
 
-//GET the individual blob by Mongo ID
+//GET the individual ad by Mongo ID
 router.get('/:id/edit', function(req, res) {
   var db =req.db;
   var collection = db.get('adcollection');
@@ -111,9 +111,8 @@ router.get('/:id/edit', function(req, res) {
 
 
 
-//PUT to update a blob by ID
+//PUT to update a ad by ID
 router.put('/:id/adedit', function(req, res) {
-    // Get our REST or form values. These rely on the "name" attributes
     var db = req.db;
     var userName = req.body.username;
     var userEmail = req.body.useremail;
@@ -142,38 +141,24 @@ router.put('/:id/adedit', function(req, res) {
 
 
 
-//DELETE a Blob by ID
+//DELETE a Ad by ID
 router.delete('/:id/edit', function (req, res){
-  //find blob by ID
+  //find Ad by ID
   var db =req.db;
   var collection = db.get('adcollection');
   collection.findById(req.id, function (err, docs) {
     if (err) {
       return console.error(err);
     } else {
-      //remove it from Mongo
       collection.removeById(req.id,function (err, docs) {
         if (err) {
           return console.error(err);
         } else {
-          //Returning success messages saying it was deleted
-          //console.log('DELETE removing ID: ' + user._id);
-          //res.format({
-            //HTML returns us back to the main page, or you can create a success page
-            //html: function(){
               res.redirect('/ads');
-            }
-            //JSON returns the item with the message that is has been deleted
-           // json: function(){
-             // res.json({message : 'deleted',
-               // item : user
-              });
-            }
-          });
-
-
-
-
+         }
+       });
+     }
+  });
 });
 
 
