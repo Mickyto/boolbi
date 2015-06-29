@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser'); //parses information from POST
-var methodOverride = require('method-override'); //used to manipulate POST
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
 router.use(bodyParser.urlencoded({ extended: true }))
 
@@ -19,6 +19,7 @@ router.use(methodOverride(function(req, res){
 router.get('/newad', function(req, res) {
   res.render('newad', { title: 'New ad' })
 })
+
 
 /* GET Add ad page. */
 router.post('/addad', function(req, res) {
@@ -39,10 +40,10 @@ router.post('/addad', function(req, res) {
     price : adPrice
   }, function (err, doc) {
     if (err) {
-      res.send("There was a problem adding the information to the database.");
+      res.send('There was a problem adding the information to the database.');
     }
     else {
-      res.redirect("/ads");
+      res.redirect('/ads');
     }
   });
 });
@@ -51,9 +52,9 @@ router.post('/addad', function(req, res) {
 router.get('/', function(req, res) {
   var db =req.db;
   var collection = db.get('adcollection');
-  collection.find({},{},function(e,docs){
+  collection.find({},{},function(e, docs){
     res.render('ads', {
-      "ads" : docs
+      'ads' : docs
     })
   })
 });
@@ -75,6 +76,7 @@ router.param('id', function(req, res, next, id) {
   })
 })
 
+
 router.get('/:id', function(req, res) {
   var db =req.db;
   var collection = db.get('adcollection');
@@ -83,10 +85,8 @@ router.get('/:id', function(req, res) {
       console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
       console.log(doc);
-      var out = doc;
-      //out.id = doc.id;
           res.render('show', {
-            "user": out
+            'user': doc
           })
        }
     })
@@ -102,8 +102,7 @@ router.get('/:id/edit', function(req, res) {
       console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
           res.render('edit', {
-            //title: 'My Ad' + user._id,
-            "user" : docs
+            'user' : docs
           })
         }
   })
@@ -124,12 +123,6 @@ router.put('/:id/adedit', function(req, res) {
     var adPrice = req.body.adprice;
     var collection = db.get('adcollection');
     collection.findById(req.id, function (err, doc) {
-      //if (err) {
-     //   return console.error(err);
-     // } else {
-        //update it
-       // var idObject = db.objectId(req.id);
-
       collection.updateById(req.id.toString(), {
           name : userName,
           email : userEmail,
@@ -139,15 +132,11 @@ router.put('/:id/adedit', function(req, res) {
           price : adPrice
         }, function (err, user) {
           if (err) {
-            res.send("There was a problem updating the information to the database: " + err);
+            res.send('There was a problem updating the information to the database: ' + err);
+          } else {
+            res.redirect('/ads/' + req.id.toString());
           }
-          else {
-            res.redirect("/ads/" + req.id.toString());
-            //res.redirect("/ads");
-          }
-
         })
-     // }
     })
 });
 
