@@ -9,7 +9,7 @@ block content
   ul.a
        each user, i in ads
            li
-               a(href="mailto:#{user.email}" style="text-decoration: none")= user.title
+               a(href='/ads/#{user._id}' style="text-decoration: none")= user.title
                h5 #{user.price}
                form(action='/ads/#{user._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                    input(type='hidden',value='DELETE',name='_method')
@@ -17,6 +17,5 @@ block content
                        Delete
                p
                    a(href='/ads/#{user._id}/edit') Edit
-               p
-                   a(href='/ads/#{user._id}') Show
+
 
