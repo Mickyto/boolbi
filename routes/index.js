@@ -9,35 +9,4 @@ router.get('/', function(req, res, next) {
 
 
 
-
-
-
-
-
-/*router.get('/ads/adlist/:id',function(req,res){
-  var db =req.db;
-  var collection = db.get('adcollection');
-  var userInfo = req.params.id;
-  var userInfoName = req.params.Name;
-  collection.find({'_id' : userInfo},function(e,docs){
-   // res.json(docs);
-    res.render('ad', {
-      "ad" : docs
-    })
-  })
-});
-
-/*
- * GET adlist.
- */
-/*router.get('/ads/adlist', function(req, res) {
-  var db = req.db;
-  var collection = db.get('adcollection');
-  collection.find({},{},function(e,docs){
-    res.json(docs);
-  });
-});
-*/
-
-
 module.exports = router;
