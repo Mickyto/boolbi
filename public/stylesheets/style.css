@@ -1,39 +1,103 @@
 body {
   padding-left: 60px;
-  font: 20px "Britannic bold", Helvetica, Arial, sans-serif;
-  background-color: cadetblue;
+  font: 20px "Raleway", Helvetica, Arial, sans-serif;
+  background-color: #E0FFFF;
+}
+@font-face {
+  font-family: Raleway;
+  src: url("fonts/Raleway-Thin.ttf");
+}
+.raleway {
+  font-family: Raleway;
 }
 
-a:link {
-  color: #387038;
-  font-size: 25px;
-  font-weight: 900;
+@font-face {
+  font-family: OpenSans;
+  src: url("fonts/OpenSans-Light.ttf");
+}
+.opensans {
+  font-family: OpenSans;
 }
 
-a:hover {
-  color: #468847;
+textarea,
+input {
+  border: 1px solid #000000;
+  border-radius: 5px;
+  font-family: OpenSans;
+  margin: 30px;
+  font-size: 20px;
 }
+
+a.one {
+  Font-size: 30px;
+  background-color: lightblue;
+  border: inset;
+  border-radius: 10px;
+  padding: 10px 20px 10px 20px;
+}
+
+a.two {
+  font: 30px black;
+  border: 4px solid black;
+  margin-left: 60px;
+  background-color: lightblue;
+  border-radius: 10px;
+  padding: 10px 60px 10px 50px;
+  font-family: Helvetica;
+}
+
+a {
+  color: #000000;
+  font-size: 30px;
+}
+
+a:hover,
+a.one:hover { text-shadow: 1px 1px black }
+a.two:hover { background: #ffff4f; color: black }
 
 section1 {
-  border: 5px #eee solid;
-  padding: 40px;
+  border: 5px #000000 solid;
 }
 
 p {
-  font-size: 16px;
-}
-
-section2 {
-  padding: 30px;
-  border: 20px #92A75C solid;
+  font-size: 25px;
+  font-family: OpenSans;
 }
 
 ul.a {
   list-style-type: decimal;
 }
 
-
+ul li {
+  font-family: OpenSans;
+}
 
 h5 {
-  padding-left: 30px;
+  padding-left: 20px;
+  margin-top: auto;
+  font-family: OpenSans;
 }
+
+div {
+  background-color: lightblue;
+  width: auto;
+  padding: 25px;
+  border: 5px solid black;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+p {
+  font-family: Raleway;
+}
+
+button {
+  font-size: 30px;
+  border: 4px solid black;
+  margin-left: 60px;
+  cursor: pointer;
+  background-color: lightblue;
+  border-radius: 10px;
+  padding: 10px 40px 10px 40px;
+}
+button:hover { background: #ffff4f }

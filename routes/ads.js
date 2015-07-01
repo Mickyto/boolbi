@@ -17,7 +17,7 @@ router.use(methodOverride(function(req, res){
 
 /* GET New Ad page. */
 router.get('/newad', function(req, res) {
-  res.render('newad', { title: 'New ad' })
+  res.render('newad')
 })
 
 
