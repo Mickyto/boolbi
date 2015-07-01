@@ -1,23 +1,25 @@
 extends layout
 
 block content
-  h1.
-       User ID #{user._id}
-  form(action='/ads/#{user._id}/adedit' method='post' name='updatead' enctype='application/x-www-form-urlencoded')
-     p Name:
-       input#inputUserName(type='text' value='#{user.name}' name='username')
-     p E-mail:
-       input#inputUserEmail(type='text' value='#{user.email}' name='useremail')
-     p Telephone:
-       input#inputUserTelephone(type='text' value='#{user.telephone}' name='usertelephone')
-     p Title:
-       input#inputAdTitle(type='text' value='#{user.title}' name='adtitle' maxlength=60 size=42)
-     p Description:
-       textarea#textareaAdDescription(name='addescription' rows=10 cols=40) #{user.description}
-     p Price:
-       input#inpuAdPrice(type='text' value='#{user.price}' name='adprice')
-     p
-       input(type='hidden' value='PUT' name='_method')
-     p
-       button#btnSubmit(type='submit').
-         Update
+ h1 Ad Edit
+
+    div
+
+      form(action='/ads/#{user._id}/adedit' method='post' name='updatead' enctype='application/x-www-form-urlencoded')
+         p Name:
+           input#inputUserName(type='text' value='#{user.name}' name='username')
+         p E-mail:
+           input#inputUserEmail(type='text' value='#{user.email}' name='useremail')
+         p Telephone:
+           input#inputUserTelephone(type='text' value='#{user.telephone}' name='usertelephone')
+         p Title:
+           input#inputAdTitle(type='text' value='#{user.title}' name='adtitle' maxlength=60 size=42)
+         p Description:
+           textarea#textareaAdDescription(name='addescription' rows=10 cols=40) #{user.description}
+         p Price:
+           input#inpuAdPrice(type='text' value='#{user.price}' name='adprice')
+         p
+           input(type='hidden' value='PUT' name='_method')
+         p
+           button#btnSubmit(type='submit').
+             Update

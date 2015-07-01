@@ -2,19 +2,19 @@ extends layout
 
 block content
 
-    h1.
-         Infophoto #{user.id}
-    p Name: #{user.name}
-    p E-mail: #{user.email}
-    p Telephone: #{user.telephone}
-    p Title: #{user.title}
-    p Description: #{user.description}
-    p Price: #{user.price}
+    div
+
+        h1 Ad Info
+        p Name: #{user.name}
+        p E-mail: #{user.email}
+        p Telephone: #{user.telephone}
+        p Title: #{user.title}
+        p Description: #{user.description}
+        p Price: #{user.price}
 
     form(action='/ads/#{user._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
         input(type='hidden',value='DELETE',name='_method')
-        button(type='submit').
-            Delete
+        button(type='submit') Delete
     p
-        a(href='/ads/#{user._id}/edit' style='text-decoration: none') Edit
+    a.two(href='/ads/#{user._id}/edit' style='text-decoration: none') Edit
 

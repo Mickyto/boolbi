@@ -36,14 +36,24 @@ a.one {
   padding: 10px 20px 10px 20px;
 }
 
+a.two {
+  font: 30px black;
+  border: 4px solid black;
+  margin-left: 60px;
+  background-color: lightblue;
+  border-radius: 10px;
+  padding: 10px 60px 10px 50px;
+  font-family: Helvetica;
+}
+
 a {
   color: #000000;
   font-size: 30px;
 }
 
-a:hover {  color: #468847  }
-a.one:hover { color: #ffff4f}
-
+a:hover,
+a.one:hover { text-shadow: 1px 1px black }
+a.two:hover { background: #ffff4f; color: black }
 
 section1 {
   border: 5px #000000 solid;
@@ -83,11 +93,11 @@ p {
 
 button {
   font-size: 30px;
-  border: 3px solid black;
+  border: 4px solid black;
   margin-left: 60px;
   cursor: pointer;
   background-color: lightblue;
   border-radius: 10px;
-  padding: 10px 20px 10px 20px;
+  padding: 10px 40px 10px 40px;
 }
 button:hover { background: #ffff4f }
