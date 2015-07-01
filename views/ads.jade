@@ -5,11 +5,12 @@ block content
 
 
   h1.
-        Ad List
+        Ad List:
   ul.a
        each user, i in ads
            li
-               a(href='/ads/#{user._id}' style='text-decoration: none')= user.title
-               h5 #{user.price}
+            div
+               a.opensans(href='/ads/#{user._id}' style='text-decoration: none')= user.title
+                  h5 #{user.price}
 
 

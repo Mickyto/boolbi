@@ -4,12 +4,16 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+
+
+
     table(style={width: '100%'})
      tr
       td
-       a(href='/' style='text-decoration: none') Index page
+       a(href='/')
+         img(src='/images/IMG_0464.jpg' alt='logo' width=230 height=80)
       td
-       a(href='/ads' style='text-decoration: none') All ads
+       a.one(href='/ads' style='text-decoration: none')  all ads
       td
-       a(href='/ads/newad' style='text-decoration: none') New add
+       a.one(href='/ads/newad' style='text-decoration: none') new ad
     block content
