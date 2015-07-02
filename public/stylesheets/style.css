@@ -1,7 +1,7 @@
 
 body {
   padding-left: 60px;
-  font: 20px "Raleway", Helvetica, Arial, sans-serif;
+  font: 20px "Comfortaa", Helvetica, Arial, sans-serif;
   background: #DCDCDC ;
 }
 @font-face {
@@ -13,11 +13,11 @@ body {
 }
 
 @font-face {
-  font-family: OpenSans;
-  src: url("fonts/OpenSans-Light.ttf");
+  font-family: Comfortaa;
+  src: url("fonts/Comfortaa-Light.ttf");
 }
-.opensans {
-  font-family: OpenSans;
+.comfortaa {
+  font-family: Comfortaa;
 }
 
 textarea,
@@ -31,8 +31,8 @@ input {
 
 a.one {
   Font-size: 30px;
-  background-color: lightblue;
-  border: inset;
+  background-color: #cacaca;
+  border: 2px solid black;
   border-radius: 10px;
   padding: 10px 20px 10px 20px;
 }
@@ -52,8 +52,8 @@ a {
   font-size: 30px;
 }
 
-a:hover,
-a.one:hover { text-shadow: 1px 1px black }
+a:hover { text-shadow: 1px 1px black }
+a.one:hover { background: #778899}
 a.two:hover { background: #ffff4f; color: black }
 
 section1 {
@@ -62,28 +62,22 @@ section1 {
 
 p {
   font-size: 25px;
-  font-family: OpenSans;
 }
 
 ul.a {
   list-style-type: none;
 }
 
-ul li {
-  font-family: OpenSans;
-}
-
 h5 {
   padding-left: 20px;
   margin-top: auto;
-  font-family: OpenSans;
 }
 
 div {
-  background-color: lightblue;
+  background-color: #778899;
   width: auto;
   padding: 25px;
-  border: 5px solid black;
+  border: 4px solid black;
   border-radius: 20px;
   margin: 10px;
 }
