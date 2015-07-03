@@ -82,6 +82,11 @@ div {
   margin: 10px;
 }
 
+div.img {
+  width: 120px;
+  margin: 5px;
+}
+
 p {
   font-family: Raleway;
 }
