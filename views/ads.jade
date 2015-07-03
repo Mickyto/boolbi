@@ -12,5 +12,7 @@ block content
             div
                a.opensans(href='/ads/#{user._id}' style='text-decoration: none')= user.title
                   h5 #{user.price}
+                  div.img
+                      img(scr='images/#{user.photo}')
 
 
