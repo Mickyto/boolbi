@@ -28,7 +28,8 @@ var multipartMiddleware = multiparty();
 router.post('/addad', multipartMiddleware, function(req, res) {
 
   var filePath = req.files.adphotos.path;
-    var imageName = Math.random() + '.jpg';
+  var fileName = req.files.adphotos.name;
+  var imageName = Math.random() + fileName;
   var targetPath = './public/images/'+imageName;
   fs.rename(filePath, targetPath, function(err) {
   })
