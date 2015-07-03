@@ -6,7 +6,7 @@ block content
   div
 
 
-     form#formAddAd(name='addad' action='/ads/addad' method='post')
+     form#formAddAd(name='addad' action='/ads/addad' method='post' enctype='multipart/form-data')
 
        h1 User information
 
@@ -26,5 +26,6 @@ block content
        p Price:
        input#inputAdPrice(type='text' name='adprice' size=8)
        p
-
+       input#inputAdPhotos(type='file' name='adphotos')
+       p
        button#btnSubmit(type='submit') Save

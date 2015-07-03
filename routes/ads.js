@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var fs = require('fs');
+var multiparty = require('connect-multiparty');
 
-router.use(bodyParser.urlencoded({ extended: true }))
+
 
 router.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -22,7 +24,17 @@ router.get('/newad', function(req, res) {
 
 
 /* GET Add ad page. */
-router.post('/addad', function(req, res) {
+var multipartMiddleware = multiparty();
+router.post('/addad', multipartMiddleware, function(req, res) {
+
+  var filePath = req.files.adphotos.path;
+    var imageName = Math.random() + '.jpg';
+  var targetPath = './public/images/'+imageName;
+  fs.rename(filePath, targetPath, function(err) {
+  })
+
+
+
   var db = req.db;
   var collection = db.get('adcollection');
   collection.insert({
@@ -31,7 +43,8 @@ router.post('/addad', function(req, res) {
     telephone : req.body.usertelephone,
     title : req.body.adtitle,
     description : req.body.addescription,
-    price : req.body.adprice
+    price : req.body.adprice,
+    photo : imageName
   }, function (err, doc) {
     if (err) {
       res.send('There was a problem adding the information to the database.');
