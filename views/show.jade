@@ -11,6 +11,9 @@ block content
         p Title: #{user.title}
         p Description: #{user.description}
         p Price: #{user.price}
+        p Photo:
+         div.img
+             img(src='/images/#{user.photo}' alt='#{user.photo}' width=150)
 
     form(action='/ads/#{user._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
         input(type='hidden',value='DELETE',name='_method')
