@@ -128,15 +128,15 @@ router.get('/:id/edit', function(req, res) {
 //PUT to update a ad by ID
 router.post('/:id/adedit', multipartMiddleware, function(req, res) {
 
-      var filePath = req.files.photo1.path;
+    var filePath = req.files.photo1.path;
     var imageName = Math.random() + req.files.photo1.name;
-    var targetPath = './public/images/'+imageName;
+    var targetPath = './public/images/' + imageName;
     fs.rename(filePath, targetPath, function(err) {
     });
 
     var filePath2 = req.files.photo2.path;
     var imageName2 = Math.random() + req.files.photo2.name;
-    var targetPath2 = './public/images/'+imageName2;
+    var targetPath2 = './public/images/' + imageName2;
     fs.rename(filePath2, targetPath2, function(err) {
     });
 
@@ -170,9 +170,12 @@ router.delete('/:id/edit', function (req, res){
   var db =req.db;
   var collection = db.get('adcollection');
   collection.findById(req.id, function (err, docs) {
+     //var filePath = './public/images/' + req.mainphoto.toString();
+     //fs.unlink(filePath);
     if (err) {
       return console.error(err);
     } else {
+
       collection.removeById(req.id,function (err, docs) {
         if (err) {
           return console.error(err);

@@ -28,30 +28,28 @@ block content
              input.upload(type='file' name='photo2' accept='image/*' onchange='openPhoto2(event)')
              img#photo2(src='/images/#{user.photo1}' width=150)
          p
-         //  input(type='hidden' value='POST' name='_method')
-         p
            button(type='submit') Update
 
   script(type='text/javascript').
-    var openPhoto1 = function (event) {
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function () {
-            var dataURL = reader.result;
-            var output = document.getElementById('photo1');
-            output.src = dataURL;
-            };
-            reader.readAsDataURL(input.files[0]);
-    };
+      var openPhoto1 = function (event) {
+          var input = event.target;
+          var reader = new FileReader();
+          reader.onload = function () {
+              var dataURL = reader.result;
+              var output = document.getElementById('photo1');
+              output.src = dataURL;
+          };
+          reader.readAsDataURL(input.files[0]);
+      };
 
   script(type='text/javascript').
-    var openPhoto2 = function (event) {
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function () {
-            var dataURL = reader.result;
-            var output = document.getElementById('photo2');
-            output.src = dataURL;
-        };
-        reader.readAsDataURL(input.files[0]);
-    };
+      var openPhoto2 = function (event) {
+          var input = event.target;
+          var reader = new FileReader();
+          reader.onload = function () {
+              var dataURL = reader.result;
+              var output = document.getElementById('photo2');
+              output.src = dataURL;
+          };
+          reader.readAsDataURL(input.files[0]);
+      };
