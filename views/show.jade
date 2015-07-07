@@ -11,9 +11,11 @@ block content
         p Title: #{user.title}
         p Description: #{user.description}
         p Price: #{user.price}
-        p Photo:
+        p Photos:
          div.img
-             img(src='/images/#{user.photo}' alt='#{user.photo}' width=150)
+             img(src='/images/#{user.mainphoto}' width=150)
+         div.img
+             img(src='/images/#{user.photo1}' width=150)
 
     form(action='/ads/#{user._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
         input(type='hidden',value='DELETE',name='_method')

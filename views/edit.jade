@@ -5,7 +5,7 @@ block content
 
     div
 
-      form(action='/ads/#{user._id}/adedit' method='post' name='updatead' enctype='application/x-www-form-urlencoded')
+      form(action='/ads/#{user._id}/adedit' method='post' name='updatead' enctype="multipart/form-data, application/x-www-form-urlencoded")
          p Name:
            input#inputUserName(type='text' value='#{user.name}' name='username')
          p E-mail:
@@ -18,6 +18,18 @@ block content
            textarea#textareaAdDescription(name='addescription' rows=10 cols=40) #{user.description}
          p Price:
            input#inpuAdPrice(type='text' value='#{user.price}' name='adprice')
+         p Photos:
+
+         div
+             div.img
+               img(src='/images/#{user.mainphoto}' width=150)
+             div.upload
+              input#inputAdPhotos(type='file' name='photo3' accept='image/*' multiple="multiple")
+         div
+             div.img
+              img(src='/images/#{user.photo1}' width=150)
+             div.upload
+              input#inputAdPhotos(type='file' name='photo2' accept='image/*' multiple="multiple")
          p
            input(type='hidden' value='PUT' name='_method')
          p
