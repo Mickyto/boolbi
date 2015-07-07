@@ -1,17 +1,19 @@
 extends layout
 
 block content
- h1 Ad Edit
+  h1 Ad Edit
 
-    div
+  div
 
-      form(action='/ads/#{user._id}/adedit' method='post' name='updatead' enctype="multipart/form-data, application/x-www-form-urlencoded")
+     form(action='/ads/#{user._id}/adedit' method='post' name='updatead' enctype="multipart/form-data")
+         h1 User information
          p Name:
            input(type='text' value='#{user.name}' name='username')
          p E-mail:
            input(type='text' value='#{user.email}' name='useremail')
          p Telephone:
            input(type='text' value='#{user.telephone}' name='usertelephone')
+         h1 Item information
          p Title:
            input(type='text' value='#{user.title}' name='adtitle' maxlength=60 size=42)
          p Description:
@@ -19,18 +21,18 @@ block content
          p Price:
            input(type='text' value='#{user.price}' name='adprice')
          p Photos:
-             div.fileUpload
-               input.upload(type='file' name='photo1' accept='image/*' onchange='openPhoto1(event)')
-               img#photo1(src='/images/#{user.mainphoto}' width=150)
-             div.fileUpload
-               input.upload(type='file' name='photo2' accept='image/*' onchange='openPhoto2(event)')
-               img#photo2(src='/images/#{user.photo1}' width=150)
+           div.fileUpload
+             input.upload(type='file' name='photo1' accept='image/*' onchange='openPhoto1(event)')
+             img#photo1(src='/images/#{user.mainphoto}' width=150)
+           div.fileUpload
+             input.upload(type='file' name='photo2' accept='image/*' onchange='openPhoto2(event)')
+             img#photo2(src='/images/#{user.photo1}' width=150)
          p
-           input(type='hidden' value='PUT' name='_method')
+         //  input(type='hidden' value='POST' name='_method')
          p
            button(type='submit') Update
 
- script(type='text/javascript').
+  script(type='text/javascript').
     var openPhoto1 = function (event) {
         var input = event.target;
         var reader = new FileReader();
@@ -42,7 +44,7 @@ block content
             reader.readAsDataURL(input.files[0]);
     };
 
- script(type='text/javascript').
+  script(type='text/javascript').
     var openPhoto2 = function (event) {
         var input = event.target;
         var reader = new FileReader();

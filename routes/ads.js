@@ -126,10 +126,10 @@ router.get('/:id/edit', function(req, res) {
 
 
 //PUT to update a ad by ID
-router.put('/:id/adedit', multipartMiddleware, function(req, res) {
+router.post('/:id/adedit', multipartMiddleware, function(req, res) {
 
-  /*  var filePath = req.files.photo3.path;
-    var imageName = Math.random() + req.files.photo3.name;
+      var filePath = req.files.photo1.path;
+    var imageName = Math.random() + req.files.photo1.name;
     var targetPath = './public/images/'+imageName;
     fs.rename(filePath, targetPath, function(err) {
     });
@@ -140,14 +140,6 @@ router.put('/:id/adedit', multipartMiddleware, function(req, res) {
     fs.rename(filePath2, targetPath2, function(err) {
     });
 
-
-*/
-
-
-
-
-
-
     var db = req.db;
     var collection = db.get('adcollection');
     collection.findById(req.id, function (err, doc) {
@@ -157,9 +149,9 @@ router.put('/:id/adedit', multipartMiddleware, function(req, res) {
           telephone : req.body.usertelephone,
           title : req.body.adtitle,
           description : req.body.addescription,
-          price : req.body.adprice
-         // mainphoto : imageName,
-         // photo1 : imageName2
+          price : req.body.adprice,
+          mainphoto : imageName,
+          photo1 : imageName2
         }, function (err, user) {
           if (err) {
             res.send('There was a problem updating the information to the database: ' + err);
