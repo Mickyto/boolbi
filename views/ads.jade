@@ -10,9 +10,8 @@ block content
        each user, i in ads
            li
             div
-               a.opensans(href='/ads/#{user._id}' style='text-decoration: none')= user.title
-                  h5 #{user.price}
+               a(href='/ads/#{user._id}' style='text-decoration: none')
                   div.img
-                      img(scr='images/#{user.photo}')
-
-
+                      img(src='/images/#{user.mainphoto}' width=150)
+                  p #{user.title}
+                  h5 #{user.price}

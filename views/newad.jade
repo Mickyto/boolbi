@@ -5,27 +5,52 @@ block content
 
   div
 
+     form(name='addad' action='/ads/addad' method='post' enctype='multipart/form-data')
+         h1 User information
+         p Name:
+           input(type='text' name='username' autofocus)
+         p E-mail:
+           input(type='email' name='useremail')
+         p Telephone:
+           input(type='tel' name='usertelephone')
+         h1 Item information
+         p Title:
+           input(type='text' name='adtitle' maxlength=60 size=42)
+         p Description:
+           textarea(name='addescription' rows=10 cols=40)
+         p Price:
+           input(type='text' name='adprice' size=8)
+         p Photos:
+           div.fileUpload
+             input.upload(type='file' name='photo1' accept='image/*' onchange='openPhoto1(event)')
+             img#photo1(width=150)
+           div.fileUpload
+             input.upload(type='file' name='photo2' accept='image/*' onchange='openPhoto2(event)')
+             img#photo2(width=150)
+         p
+           button(type='submit') Save
 
-     form#formAddAd(name='addad' action='/ads/addad' method='post' enctype='multipart/form-data')
+  script(type='text/javascript').
+      var openPhoto1 = function (event) {
+          var input = event.target;
+          var reader = new FileReader();
+          reader.onload = function () {
+              var dataURL = reader.result;
+              var output = document.getElementById('photo1');
+              output.src = dataURL;
+          };
+          reader.readAsDataURL(input.files[0]);
+      };
 
-       h1 User information
+  script(type='text/javascript').
+      var openPhoto2 = function (event) {
+          var input = event.target;
+          var reader = new FileReader();
+          reader.onload = function () {
+              var dataURL = reader.result;
+              var output = document.getElementById('photo2');
+              output.src = dataURL;
+          };
+          reader.readAsDataURL(input.files[0]);
+      };
 
-       p Name:
-       input#inputUserName(type='text' name='username')
-       p E-mail:
-       input#inputUserEmail(type='email' name='useremail')
-       p Telephone:
-       input#UserTelephone(type='tel' name='usertelephone')
-
-       h1 Item information
-
-       p Title:
-       input#inputAdTitle(type='text' name='adtitle' maxlength=60 size=42)
-       p Description:
-       textarea#textareaAdDescription(name='addescription' rows='10' cols='40')
-       p Price:
-       input#inputAdPrice(type='text' name='adprice' size=8)
-       p
-       input#inputAdPhotos(type='file' name='adphotos')
-       p
-       button#btnSubmit(type='submit') Save
