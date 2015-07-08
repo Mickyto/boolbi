@@ -166,17 +166,17 @@ router.post('/:id/adedit', multipartMiddleware, function(req, res) {
 
 //DELETE a Ad by ID
 router.delete('/:id/edit', function (req, res){
-  //find Ad by ID
   var db =req.db;
   var collection = db.get('adcollection');
-  collection.findById(req.id, function (err, docs) {
-     //var filePath = './public/images/' + req.mainphoto.toString();
-     //fs.unlinkSync(filePath);
+  collection.findById(req.id, function (err, doc) {
     if (err) {
       return console.error(err);
     } else {
-
-      collection.removeById(req.id,function (err, docs) {
+      var filePath1 = './public/images/' + doc.mainphoto;
+      var filePath2 = './public/images/' + doc.photo1;
+      fs.unlinkSync(filePath1);
+      fs.unlinkSync(filePath2);
+      collection.removeById(req.id,function (err, doc) {
         if (err) {
           return console.error(err);
         } else {
