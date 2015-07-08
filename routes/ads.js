@@ -171,7 +171,7 @@ router.delete('/:id/edit', function (req, res){
   var collection = db.get('adcollection');
   collection.findById(req.id, function (err, docs) {
      //var filePath = './public/images/' + req.mainphoto.toString();
-     //fs.unlink(filePath);
+     //fs.unlinkSync(filePath);
     if (err) {
       return console.error(err);
     } else {

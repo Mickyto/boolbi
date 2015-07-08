@@ -13,9 +13,9 @@ block content
         p Price: #{user.price}
         p Photos:
          div.img
-             img(src='/images/#{user.mainphoto}' width=150)
+             img.show(src='/images/#{user.mainphoto}')
          div.img
-             img(src='/images/#{user.photo1}' width=150)
+             img.show(src='/images/#{user.photo1}')
 
     form(action='/ads/#{user._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
         input(type='hidden',value='DELETE',name='_method')
