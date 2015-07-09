@@ -9,7 +9,6 @@ var multipart = require('connect-multiparty');
 
 router.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-    // look in urlencoded POST bodies and delete it
     var method = req.body._method
     delete req.body._method
     return method
@@ -164,29 +163,30 @@ router.post('/:id/adedit', multipartMiddleware, function(req, res) {
 
     var db = req.db;
     var collection = db.get('adcollection');
-    var updateObject = {
-        name : req.body.username,
-        email : req.body.useremail,
-        telephone : req.body.usertelephone,
-        title : req.body.adtitle,
-        description : req.body.addescription,
-        price : req.body.adprice
-    };
-    if(imageName != undefined) {
-        updateObject.mainphoto = imageName
-    }
-    if(imageName2 != undefined){
-        updateObject.photo1 = imageName2
-    }
-
-
+    collection.findById(req.id, function (err, doc) {
+        var updateObject = {
+            name: req.body.username,
+            email: req.body.useremail,
+            telephone: req.body.usertelephone,
+            title: req.body.adtitle,
+            description: req.body.addescription,
+            price: req.body.adprice
+        };
+        if (imageName != undefined) {
+            updateObject.mainphoto = imageName;
+            var filePath1 = './public/images/' + doc.mainphoto;
+            fs.unlinkSync(filePath1);
+        }
+        if (imageName2 != undefined) {
+            updateObject.photo1 = imageName2;
+            var filePath2 = './public/images/' + doc.photo1;
+            fs.unlinkSync(filePath2);
+        }
     collection.findAndModify({ _id : req.id}, {$set: updateObject})
           .success(function () {
-
             res.redirect('/ads/' + req.id);
-
           })
-
+    });
 });
 
 
@@ -197,7 +197,7 @@ router.delete('/:id/edit', function (req, res){
   var collection = db.get('adcollection');
   collection.findById(req.id, function (err, doc) {
     if (err) {
-      return console.error(err);
+      return err;
     } else {
       var filePath1 = './public/images/' + doc.mainphoto;
       var filePath2 = './public/images/' + doc.photo1;
@@ -205,7 +205,7 @@ router.delete('/:id/edit', function (req, res){
       fs.unlinkSync(filePath2);
       collection.removeById(req.id,function (err, doc) {
         if (err) {
-          return console.error(err);
+          return err;
         } else {
               res.redirect('/ads');
          }
