@@ -31,12 +31,20 @@ router.post('/addad', multipartMiddleware, function(req, res) {
   var imageName = Math.random() + req.files.photo1.name;
   var targetPath = './public/images/'+imageName;
   fs.rename(filePath, targetPath, function(err) {
+      if (err) throw err;
+      fs.unlink(filePath, function() {
+          if (err) throw err;
+      });
   });
 
   var filePath2 = req.files.photo2.path;
   var imageName2 = Math.random() + req.files.photo2.name;
   var targetPath2 = './public/images/'+imageName2;
   fs.rename(filePath2, targetPath2, function(err) {
+      if (err) throw err;
+      fs.unlink(filePath2, function() {
+          if (err) throw err;
+      });
   });
 
 
@@ -125,41 +133,60 @@ router.get('/:id/edit', function(req, res) {
 
 
 
-//PUT to update a ad by ID
+//Update an ad by ID
 router.post('/:id/adedit', multipartMiddleware, function(req, res) {
 
-    var filePath = req.files.photo1.path;
-    var imageName = Math.random() + req.files.photo1.name;
-    var targetPath = './public/images/' + imageName;
-    fs.rename(filePath, targetPath, function(err) {
-    });
+    if (req.files.photo1.name != '') {
 
-    var filePath2 = req.files.photo2.path;
-    var imageName2 = Math.random() + req.files.photo2.name;
-    var targetPath2 = './public/images/' + imageName2;
-    fs.rename(filePath2, targetPath2, function(err) {
-    });
+        var filePath = req.files.photo1.path;
+        var imageName = Math.random() + req.files.photo1.name;
+        var targetPath = './public/images/' + imageName;
+        fs.rename(filePath, targetPath, function (err) {
+            if (err) throw err;
+            fs.unlink(filePath, function () {
+                if (err) throw err;
+            });
+        });
+    }
+
+    if (req.files.photo2.name != '') {
+
+        var filePath2 = req.files.photo2.path;
+        var imageName2 = Math.random() + req.files.photo2.name;
+        var targetPath2 = './public/images/' + imageName2;
+        fs.rename(filePath2, targetPath2, function (err) {
+            if (err) throw err;
+            fs.unlink(filePath2, function () {
+                if (err) throw err;
+            })
+        });
+    }
 
     var db = req.db;
     var collection = db.get('adcollection');
-    collection.findById(req.id, function (err, doc) {
-      collection.updateById(req.id.toString(), {
-          name : req.body.username,
-          email : req.body.useremail,
-          telephone : req.body.usertelephone,
-          title : req.body.adtitle,
-          description : req.body.addescription,
-          price : req.body.adprice,
-          mainphoto : imageName,
-          photo1 : imageName2
-        }, function (err, user) {
-          if (err) {
-            res.send('There was a problem updating the information to the database: ' + err);
-          } else {
-            res.redirect('/ads/' + req.id.toString());
-          }
-        })
-    })
+    var updateObject = {
+        name : req.body.username,
+        email : req.body.useremail,
+        telephone : req.body.usertelephone,
+        title : req.body.adtitle,
+        description : req.body.addescription,
+        price : req.body.adprice
+    };
+    if(imageName != undefined) {
+        updateObject.mainphoto = imageName
+    }
+    if(imageName2 != undefined){
+        updateObject.photo1 = imageName2
+    }
+
+
+    collection.findAndModify({ _id : req.id}, {$set: updateObject})
+          .success(function () {
+
+            res.redirect('/ads/' + req.id);
+
+          })
+
 });
 
 
