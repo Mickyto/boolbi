@@ -216,11 +216,15 @@ router.delete('/:id/edit', function (req, res){
     if (err) {
       return err;
     } else {
-      var filePath1 = './public/images/' + doc.mainphoto;
-      var filePath2 = './public/images/' + doc.photo1;
-      fs.unlinkSync(filePath1);
-      fs.unlinkSync(filePath2);
-      colAds.removeById(req.id,function (err, doc) {
+        if (doc.mainphoto !== undefined) {
+            var filePath1 = './public/images/' + doc.mainphoto;
+            fs.unlinkSync(filePath1);
+        }
+        if (doc.photo1 !== undefined) {
+            var filePath2 = './public/images/' + doc.photo1;
+            fs.unlinkSync(filePath2);
+        }
+      colAds.removeById(req.id,function (err) {
         if (err) {
           return err;
         } else {
