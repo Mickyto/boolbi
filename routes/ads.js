@@ -108,7 +108,7 @@ router.get('/:id', function(req, res) {
       console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
           res.render('show', {
-            'user': doc
+            'ad': doc
           })
        }
     })
@@ -125,7 +125,7 @@ router.get('/:id/edit', function(req, res) {
       console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
       res.render('edit', {
-        'user' : docs
+        'ad' : docs
       })
     }
   })
@@ -179,7 +179,7 @@ var adCallback = function(req, res) {
         if (imageName2 !== undefined) {
             updateObject.photo1 = imageName2;
         }
-    if (req.body.hiddenField !== undefined) {
+    if (req.id !== undefined) {
         colAds.findAndModify({_id: req.id}, {$set: updateObject})
         .success(function () {
             res.redirect('/ads/' + req.id);

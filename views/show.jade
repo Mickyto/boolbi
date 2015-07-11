@@ -5,21 +5,21 @@ block content
     h1 Ad Info
 
     div
-        p Name: #{user.name}
-        p E-mail: #{user.email}
-        p Telephone: #{user.telephone}
-        p Title: #{user.title}
-        p Description: #{user.description}
-        p Price: #{user.price}
+        p Name: #{ad.name}
+        p E-mail: #{ad.email}
+        p Telephone: #{ad.telephone}
+        p Title: #{ad.title}
+        p Description: #{ad.description}
+        p Price: #{ad.price}
         p Photos:
          div.img
-             img.show(src='/images/#{user.mainphoto}')
+             img.show(src='/images/#{ad.mainphoto}')
          div.img
-             img.show(src='/images/#{user.photo1}')
+             img.show(src='/images/#{ad.photo1}')
 
-    form(action='/ads/#{user._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+    form(action='/ads/#{ad._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
         input(type='hidden',value='DELETE',name='_method')
         button(type='submit') Delete
     p
-    a.two(href='/ads/#{user._id}/edit' style='text-decoration: none') Edit
+    a.two(href='/ads/#{ad._id}/edit' style='text-decoration: none') Edit
 
