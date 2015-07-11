@@ -20,7 +20,17 @@ router.use(methodOverride(function(req, res){
 
 /* GET New Ad page. */
 router.get('/newad', function(req, res) {
-  res.render('newad');
+  res.render('edit', {
+      'ad':
+      {   name : '',
+          email : '',
+          telephone : '',
+          title : '',
+          description : '',
+          price : ''
+      },
+      'formAction' : '/ads/addad'
+  });
 });
 
 
@@ -120,12 +130,13 @@ router.get('/:id/edit', function(req, res) {
 
   var db =req.db;
   var colAds = db.get('adcollection');
-  colAds.findById(req.id, function (err, docs) {
+  colAds.findById(req.id, function (err, doc) {
     if (err) {
       console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
       res.render('edit', {
-        'ad' : docs
+        'ad' : doc,
+        'formAction' : '/ads/' + req.id + '/adedit'
       })
     }
   })
@@ -190,15 +201,6 @@ var adCallback = function(req, res) {
         })
     }
 };
-
-
-
-//if (hideField != undefined) {
-   // var filePath = './public/images/' + doc.mainphoto;
-  //  fs.unlinkSync(filePath);
-
-
-
 
 
 router.post('/addad', multipartMiddleware, adCallback);

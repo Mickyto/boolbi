@@ -6,9 +6,8 @@ block content
 
   div
 
-      form(action='/ads/#{user._id}/adedit' method='post' name='updatead' enctype="multipart/form-data")
-
-          h1 User information
+      form(action='#{formAction}' method='post' name='updatead' enctype="multipart/form-data")
+         h1 User information
          p Name:
            input(type='text' value='#{ad.name}' name='username')
          p E-mail:
@@ -30,7 +29,7 @@ block content
              input.upload(type='file' name='photo2' accept='image/*' onchange='openPhoto2(event)')
              img#photo2(src='/images/#{ad.photo1}' width=150)
          p
-           button(type='submit') Update
+           button(type='submit') Save
 
 
 
