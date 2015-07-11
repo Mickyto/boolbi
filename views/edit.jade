@@ -26,7 +26,7 @@ block content
              input.upload(type='file' name='photo1' accept='image/*' onchange='openPhoto1(event)')
              img#photo1(src='/images/#{ad.mainphoto}' width=150)
            div.fileUpload
-             input.upload(type='file' name='photo2' accept='image/*' onchange='openPhoto2(event)')
+             input.upload(type='file' name='photo2' accept='image/*' onchange='openPhoto1(event)')
              img#photo2(src='/images/#{ad.photo1}' width=150)
          p
            button(type='submit') Save
@@ -39,19 +39,7 @@ block content
           var reader = new FileReader();
           reader.onload = function () {
               var dataURL = reader.result;
-              var output = document.getElementById('photo1');
-              output.src = dataURL;
-          };
-          reader.readAsDataURL(input.files[0]);
-      };
-
-  script(type='text/javascript').
-      var openPhoto2 = function (event) {
-          var input = event.target;
-          var reader = new FileReader();
-          reader.onload = function () {
-              var dataURL = reader.result;
-              var output = document.getElementById('photo2');
+              var output = document.getElementById(event.target.name);
               output.src = dataURL;
           };
           reader.readAsDataURL(input.files[0]);

@@ -18,7 +18,6 @@ router.use(methodOverride(function(req, res){
 }));
 
 
-/* GET New Ad page. */
 router.get('/newad', function(req, res) {
   res.render('edit', {
       'ad':
@@ -34,51 +33,6 @@ router.get('/newad', function(req, res) {
 });
 
 
-/* GET Add ad page.
-router.post('/addad', multipartMiddleware, function(req, res) {
-
-    if (req.files.photo1.name != '') {
-        var filePath = req.files.photo1.path;
-        var imageName = Math.random() + req.files.photo1.name;
-        var targetPath = './public/images/' + imageName;
-        fs.rename(filePath, targetPath, function (err) {
-            if (err) throw err;
-        });
-    }
-
-    if (req.files.photo2.name != '') {
-        var filePath2 = req.files.photo2.path;
-        var imageName2 = Math.random() + req.files.photo2.name;
-        var targetPath2 = './public/images/' + imageName2;
-        fs.rename(filePath2, targetPath2, function (err) {
-            if (err) throw err;
-        });
-    }
-
-  var db = req.db;
-  var colAds = db.get('adcollection');
-  colAds.insert({
-    name : req.body.username,
-    email : req.body.useremail,
-    telephone : req.body.usertelephone,
-    title : req.body.adtitle,
-    description : req.body.addescription,
-    price : req.body.adprice,
-    mainphoto : imageName,
-    photo1 : imageName2
-  }, function (err, doc) {
-    if (err) {
-      res.send('There was a problem adding the information to the database.');
-    }
-    else {
-      res.redirect('/ads');
-    }
-  });
-});
-*/
-
-
-
 router.get('/', function(req, res) {
 
   var db =req.db;
@@ -89,7 +43,6 @@ router.get('/', function(req, res) {
     })
   })
 });
-
 
 
 // route middleware to validate :id
@@ -115,7 +68,6 @@ router.get('/:id', function(req, res) {
   var colAds = db.get('adcollection');
   colAds.findById(req.id, function (err, doc) {
     if (err) {
-      console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
           res.render('show', {
             'ad': doc
@@ -132,7 +84,6 @@ router.get('/:id/edit', function(req, res) {
   var colAds = db.get('adcollection');
   colAds.findById(req.id, function (err, doc) {
     if (err) {
-      console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
       res.render('edit', {
         'ad' : doc,
@@ -141,9 +92,6 @@ router.get('/:id/edit', function(req, res) {
     }
   })
 })
-
-
-
 
 
 var adCallback = function(req, res) {
@@ -205,11 +153,8 @@ var adCallback = function(req, res) {
 
 router.post('/addad', multipartMiddleware, adCallback);
 
-//Update an ad by ID
 router.post('/:id/adedit', multipartMiddleware, adCallback);
 
-
-//DELETE a Ad by ID
 router.delete('/:id/edit', function (req, res){
 
   var db =req.db;
@@ -236,7 +181,6 @@ router.delete('/:id/edit', function (req, res){
      }
   });
 });
-
 
 
 module.exports = router;
