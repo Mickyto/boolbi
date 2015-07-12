@@ -24,10 +24,10 @@ block content
          p Photos:
            div.fileUpload
              input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto1(event)')
-             img#photo1(src='/images/#{ad.mainphoto}', width=150)
+             img#photo1(src=(ad.mainphoto !== undefined ? '/images/#{ad.mainphoto}' : ''), width=150)
            div.fileUpload
              input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto1(event)')
-             img#photo2(src='/images/#{ad.photo1}', width=150)
+             img#photo2(src=(ad.photo1 !== undefined ? '/images/#{ad.photo1}' : ''), width=150)
          p
            button(type='submit') Save
 
