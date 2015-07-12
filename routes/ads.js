@@ -18,55 +18,19 @@ router.use(methodOverride(function(req, res){
 }));
 
 
-/* GET New Ad page. */
 router.get('/newad', function(req, res) {
-  res.render('newad');
-});
-
-
-/* GET Add ad page.
-router.post('/addad', multipartMiddleware, function(req, res) {
-
-    if (req.files.photo1.name != '') {
-        var filePath = req.files.photo1.path;
-        var imageName = Math.random() + req.files.photo1.name;
-        var targetPath = './public/images/' + imageName;
-        fs.rename(filePath, targetPath, function (err) {
-            if (err) throw err;
-        });
-    }
-
-    if (req.files.photo2.name != '') {
-        var filePath2 = req.files.photo2.path;
-        var imageName2 = Math.random() + req.files.photo2.name;
-        var targetPath2 = './public/images/' + imageName2;
-        fs.rename(filePath2, targetPath2, function (err) {
-            if (err) throw err;
-        });
-    }
-
-  var db = req.db;
-  var colAds = db.get('adcollection');
-  colAds.insert({
-    name : req.body.username,
-    email : req.body.useremail,
-    telephone : req.body.usertelephone,
-    title : req.body.adtitle,
-    description : req.body.addescription,
-    price : req.body.adprice,
-    mainphoto : imageName,
-    photo1 : imageName2
-  }, function (err, doc) {
-    if (err) {
-      res.send('There was a problem adding the information to the database.');
-    }
-    else {
-      res.redirect('/ads');
-    }
+  res.render('edit', {
+      'ad':
+      {   name : '',
+          email : '',
+          telephone : '',
+          title : '',
+          description : '',
+          price : ''
+      },
+      'formAction' : '/ads/addad'
   });
 });
-*/
-
 
 
 router.get('/', function(req, res) {
@@ -79,7 +43,6 @@ router.get('/', function(req, res) {
     })
   })
 });
-
 
 
 // route middleware to validate :id
@@ -105,10 +68,9 @@ router.get('/:id', function(req, res) {
   var colAds = db.get('adcollection');
   colAds.findById(req.id, function (err, doc) {
     if (err) {
-      console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
           res.render('show', {
-            'user': doc
+            'ad': doc
           })
        }
     })
@@ -120,52 +82,24 @@ router.get('/:id/edit', function(req, res) {
 
   var db =req.db;
   var colAds = db.get('adcollection');
-  colAds.findById(req.id, function (err, docs) {
+  colAds.findById(req.id, function (err, doc) {
     if (err) {
-      console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
       res.render('edit', {
-        'user' : docs
+        'ad' : doc,
+        'formAction' : '/ads/' + req.id + '/adedit'
       })
     }
   })
 })
 
 
-
-
-
 var adCallback = function(req, res) {
 
-    if (req.files.photo1.name != '') {
-
-        var origPath = req.files.photo1.path;
-        var imageName = Math.random() + req.files.photo1.name;
-        var targetPath = './public/images/' + imageName;
-        fs.rename(origPath, targetPath, function (err) {
-            if (err) throw err;
-            fs.unlink(origPath, function () {
-                if (err) throw err;
-            });
-        });
-    }
-
-    if (req.files.photo2.name != '') {
-
-        var origPath2 = req.files.photo2.path;
-        var imageName2 = Math.random() + req.files.photo2.name;
-        var targetPath2 = './public/images/' + imageName2;
-        fs.rename(origPath2, targetPath2, function (err) {
-            if (err) throw err;
-            fs.unlink(origPath2, function () {
-                if (err) throw err;
-            })
-        });
-    }
 
     var db = req.db;
     var colAds = db.get('adcollection');
-    var updateObject = {
+    var colObject = {
         name: req.body.username,
         email: req.body.useremail,
         telephone: req.body.usertelephone,
@@ -173,41 +107,73 @@ var adCallback = function(req, res) {
         description: req.body.addescription,
         price: req.body.adprice
     };
-        if (imageName !== undefined) {
-            updateObject.mainphoto = imageName;
-        }
-        if (imageName2 !== undefined) {
-            updateObject.photo1 = imageName2;
-        }
-    if (req.body.hiddenField !== undefined) {
-        colAds.findAndModify({_id: req.id}, {$set: updateObject})
+
+    if (req.files.photo1.name != '') {
+
+        var origPath = req.files.photo1.path;
+        var imageName = Math.random() + req.files.photo1.name;
+        var targetPath = './public/images/' + imageName;
+        colObject.mainphoto = imageName;
+
+        fs.rename(origPath, targetPath, function (err) {
+            if (err) throw err;
+        });
+
+    }
+
+    if (req.files.photo2.name != '') {
+
+        var origPath2 = req.files.photo2.path;
+        var imageName2 = Math.random() + req.files.photo2.name;
+        var targetPath2 = './public/images/' + imageName2;
+        colObject.photo1 = imageName2;
+
+        fs.rename(origPath2, targetPath2, function (err) {
+            if (err) throw err;
+        });
+    }
+
+
+    // updating record
+
+    if (req.id !== undefined) {
+
+        // removing old pictures
+
+        colAds.findById(req.id, function (err, doc) {
+            if (imageName !== undefined) {
+                fs.unlink('./public/images/' + doc.mainphoto);
+            }
+            if (imageName2 !== undefined) {
+                fs.unlink('./public/images/' + doc.photo1);
+            }
+
+        });
+
+
+        colAds.findAndModify({_id: req.id}, {$set: colObject})
         .success(function () {
             res.redirect('/ads/' + req.id);
         })
+
+
+
+
+
+        // inserting record
+
     } else {
-        colAds.insert(updateObject).success(function () {
+        colAds.insert(colObject).success(function () {
                 res.redirect('/ads');
         })
     }
 };
 
 
-
-//if (hideField != undefined) {
-   // var filePath = './public/images/' + doc.mainphoto;
-  //  fs.unlinkSync(filePath);
-
-
-
-
-
 router.post('/addad', multipartMiddleware, adCallback);
 
-//Update an ad by ID
 router.post('/:id/adedit', multipartMiddleware, adCallback);
 
-
-//DELETE a Ad by ID
 router.delete('/:id/edit', function (req, res){
 
   var db =req.db;
@@ -217,12 +183,10 @@ router.delete('/:id/edit', function (req, res){
       return err;
     } else {
         if (doc.mainphoto !== undefined) {
-            var filePath1 = './public/images/' + doc.mainphoto;
-            fs.unlinkSync(filePath1);
+            fs.unlinkSync('./public/images/' + doc.mainphoto);
         }
         if (doc.photo1 !== undefined) {
-            var filePath2 = './public/images/' + doc.photo1;
-            fs.unlinkSync(filePath2);
+            fs.unlinkSync('./public/images/' + doc.photo1);
         }
       colAds.removeById(req.id,function (err) {
         if (err) {
@@ -234,7 +198,6 @@ router.delete('/:id/edit', function (req, res){
      }
   });
 });
-
 
 
 module.exports = router;

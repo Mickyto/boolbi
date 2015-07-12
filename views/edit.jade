@@ -3,33 +3,35 @@ extends layout
 block content
   h1 Ad Edit
 
+
   div
 
-     form(action='/ads/#{user._id}/adedit' method='post' name='updatead' enctype="multipart/form-data")
+      form(action='#{formAction}', method='post', enctype='multipart/form-data')
          h1 User information
          p Name:
-           input(type='text' value='#{user.name}' name='username')
+           input(type='text', value='#{ad.name}', name='username')
          p E-mail:
-           input(type='text' value='#{user.email}' name='useremail')
+           input(type='text', value='#{ad.email}', name='useremail')
          p Telephone:
-           input(type='text' value='#{user.telephone}' name='usertelephone')
+           input(type='text', value='#{ad.telephone}', name='usertelephone')
          h1 Item information
          p Title:
-           input(type='text' value='#{user.title}' name='adtitle' maxlength=60 size=42)
+           input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=42)
          p Description:
-           textarea(name='addescription' rows=10 cols=40) #{user.description}
+           textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:
-           input(type='text' value='#{user.price}' name='adprice')
+           input(type='text', value='#{ad.price}', name='adprice')
          p Photos:
            div.fileUpload
-             input.upload(type='file' name='photo1' accept='image/*' onchange='openPhoto1(event)')
-             img#photo1(src='/images/#{user.mainphoto}' width=150)
+             input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto1(event)')
+             img#photo1(src=(ad.mainphoto !== undefined ? '/images/#{ad.mainphoto}' : ''), width=150)
            div.fileUpload
-             input.upload(type='file' name='photo2' accept='image/*' onchange='openPhoto2(event)')
-             img#photo2(src='/images/#{user.photo1}' width=150)
-           input(type='hidden' value='#{user._id}' name='hiddenField')
+             input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto1(event)')
+             img#photo2(src=(ad.photo1 !== undefined ? '/images/#{ad.photo1}' : ''), width=150)
          p
-           button(type='submit') Update
+           button(type='submit') Save
+
+
 
   script(type='text/javascript').
       var openPhoto1 = function (event) {
@@ -37,19 +39,7 @@ block content
           var reader = new FileReader();
           reader.onload = function () {
               var dataURL = reader.result;
-              var output = document.getElementById('photo1');
-              output.src = dataURL;
-          };
-          reader.readAsDataURL(input.files[0]);
-      };
-
-  script(type='text/javascript').
-      var openPhoto2 = function (event) {
-          var input = event.target;
-          var reader = new FileReader();
-          reader.onload = function () {
-              var dataURL = reader.result;
-              var output = document.getElementById('photo2');
+              var output = document.getElementById(event.target.name);
               output.src = dataURL;
           };
           reader.readAsDataURL(input.files[0]);
