@@ -142,10 +142,10 @@ var adCallback = function(req, res) {
 
         colAds.findById(req.id, function (err, doc) {
             if (imageName !== undefined) {
-                fs.unlink('./public/images/' + doc.mainphoto);
+                fs.unlinkSync('./public/images/' + doc.mainphoto);
             }
             if (imageName2 !== undefined) {
-                fs.unlink('./public/images/' + doc.photo1);
+                fs.unlinkSync('./public/images/' + doc.photo1);
             }
 
         });
