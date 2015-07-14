@@ -98,6 +98,16 @@ button:hover {  background: #33aa33  }
 
 textarea {  margin-top: auto; }
 
+
+div.showAds {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+  width: 150px;
+}
+
+
 div.img,
 div.fileUpload {
   float: left;
@@ -125,6 +135,10 @@ div.img:hover {
 }
 
 div.fileUpload:hover { background: #ffff4f }
+
+img.showAds {
+  width: 150px;
+}
 
 img.show {
   width: 150px;

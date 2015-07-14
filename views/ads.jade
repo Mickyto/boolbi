@@ -11,7 +11,7 @@ block content
 
 
                a(href='/ads/#{ad._id}' style='text-decoration: none')
-                  div.img
-                      img.show(src='/images/#{ad.mainphoto}' width=150)
+                  div.showAds
+                      img.showAds(src='/images/#{ad.mainphoto}' width=150)
                   p #{ad.title}
                   h5 #{ad.price}
