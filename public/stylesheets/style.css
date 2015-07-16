@@ -107,6 +107,10 @@ div.showAds {
   width: 150px;
 }
 
+div.signup {
+  width: 430px;
+  margin: auto;
+}
 
 div.img,
 div.fileUpload {
