@@ -1,0 +1,12 @@
+extends layout
+
+
+block content
+
+ p Hi, #{user.username}
+
+  div
+    p E-mail:   #{user.email}
+    p Password:   #{user.password}
+
+    a.two(href='/users/logout', style='text-decoration: none') Log out
