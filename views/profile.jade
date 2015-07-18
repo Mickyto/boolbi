@@ -3,10 +3,10 @@ extends layout
 
 block content
 
- p Hi, #{user.username}
+ h1 Hi, #{user.username}
 
   div
     p E-mail:   #{user.email}
     p Password:   #{user.password}
-
+    p Telephone: #{user.telephone}
     a.two(href='/users/logout', style='text-decoration: none') Log out

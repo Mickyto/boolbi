@@ -36,7 +36,7 @@ router.post('/signup/', function(req, res) {
 
 
 router.get('/login', function(req, res) {
-  res.render('login');
+  res.render('login', { message: req.flash('info') });
 });
 
 router.post('/login', function (req, res) {
@@ -49,10 +49,10 @@ router.post('/login', function (req, res) {
     } else {
       if (req.body.password === doc.password) {
         req.session.user_id = doc.email;
-        console.log(req.session.user_id);
-        res.redirect('profile');
+        res.redirect('/users/profile');
       } else {
-        res.send('Bad username or password');
+        req.flash('info', 'Email or password is wrong');
+        res.redirect('/users/login');
       }
     }
   });

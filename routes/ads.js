@@ -37,7 +37,7 @@ router.get('/', function(req, res) {
 
   var db =req.db;
   var colAds = db.get('adcollection');
-  colAds.find({},{},function(e, docs){
+  colAds.find({},{},function(err, docs){
     res.render('ads', {
       'ads' : docs
     })

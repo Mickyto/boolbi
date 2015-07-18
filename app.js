@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var flash = require('connect-flash');
 
 var monk = require('monk');
 var db = monk('localhost:27017/bravito');
@@ -33,6 +34,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.use(flash());
 
 // Make our db accessible to our router
 app.use(function(req,res,next){

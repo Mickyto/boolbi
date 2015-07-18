@@ -5,16 +5,39 @@ block content
 
  div.signup
 
-    form(name='login', action='/users/login', method='post', enctype='application/x-www-form-urlencoded')
+    form(name='login', action='/users/login', onsubmit="return validateForm()", method='post', enctype='application/x-www-form-urlencoded')
         h1 Log in
+
+        if message.length > 0
+            div.msg
+                p #{message}
+
         p E-mail:
         input(type='email', name='useremail', autofocus)
         p Password:
         input(type='password', name='password')
         p
-        button(type='submit') Save
+        button(type='submit') Log in
+
         hr
         p Need an account?
         p
 
         a.two(href='/users/signup/', style='text-decoration: none') Sign up
+
+
+ script(type='text/javascript').
+     function validateForm() {
+         var emailField = document.forms["login"]["useremail"].value;
+         if (emailField == null || emailField == "") {
+             alert("Email must be filled out");
+             return false;
+         }
+         var passwordField = document.forms["login"]["password"].value;
+         if (passwordField == null || passwordField == "") {
+             alert("Password must be filled out");
+             return false;
+         }
+     }
+
+
