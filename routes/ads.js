@@ -19,7 +19,7 @@ router.use(methodOverride(function(req, res){
 
 
 router.get('/newad', function(req, res) {
-  res.render('edit', {
+  res.render('ad/edit', {
       'ad':
       {   name : '',
           email : '',
@@ -38,7 +38,7 @@ router.get('/', function(req, res) {
   var db =req.db;
   var colAds = db.get('adcollection');
   colAds.find({},{},function(err, docs){
-    res.render('ads', {
+    res.render('ad/ads', {
       'ads' : docs
     })
   })
@@ -69,7 +69,7 @@ router.get('/:id', function(req, res) {
   colAds.findById(req.id, function (err, doc) {
     if (err) {
     } else {
-          res.render('show', {
+          res.render('ad/show', {
             'ad': doc
           })
        }
@@ -85,7 +85,7 @@ router.get('/:id/edit', function(req, res) {
   colAds.findById(req.id, function (err, doc) {
     if (err) {
     } else {
-      res.render('edit', {
+      res.render('ad/edit', {
         'ad' : doc,
         'formAction' : '/ads/' + req.id + '/adedit'
       })

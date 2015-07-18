@@ -8,7 +8,7 @@ router.get('/', function(req, res) {
 
 
 router.get('/signup/', function(req, res) {
-  res.render('signup');
+  res.render('user/signup');
 });
 
 
@@ -36,7 +36,7 @@ router.post('/signup/', function(req, res) {
 
 
 router.get('/login', function(req, res) {
-  res.render('login', { message: req.flash('info') });
+  res.render('user/login', { message : req.flash('info') });
 });
 
 router.post('/login', function (req, res) {
@@ -76,7 +76,7 @@ router.get('/profile', checkAuth, function (req, res) {
     if (err) {
       res.send('No user found.')
     } else {
-      res.render('profile', {
+      res.render('user/profile', {
         user : doc
       });
     }
