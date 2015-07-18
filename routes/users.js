@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var validator = require('validator');
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -62,7 +63,8 @@ router.post('/login', function (req, res) {
 
 function checkAuth(req, res, next) {
   if (!req.session.user_id) {
-    res.render('default', { msg : 'You are not authorized to view this page'})
+    req.flash('info', 'Please log in');
+    res.redirect('/users/login');
   } else {
     next();
   }

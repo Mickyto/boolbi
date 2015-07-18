@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
+var validator = require('validator');
 
 var monk = require('monk');
 var db = monk('localhost:27017/bravito');
