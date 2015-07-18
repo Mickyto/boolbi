@@ -5,9 +5,9 @@ block content
 
  div.signup
 
-    form(name='signup', action='/users/signup/', method='post', enctype='application/x-www-form-urlencoded')
+    form(name='signup', action='/users/signup/', onsubmit='return validateForm()', method='post', enctype='application/x-www-form-urlencoded')
         h1 Sign up
-        p User name:
+        p Username:
             input(type='text', name='username', autofocus)
         p E-mail:
             input(type='email', name='useremail')
@@ -16,3 +16,22 @@ block content
         p
             button(type='submit') Save
 
+ script(type='text/javascript').
+    function validateForm() {
+        var nameField = document.forms["signup"]["username"].value;
+        if (nameField == null || nameField == "") {
+            alert("Username must be filled out");
+            return false;
+        }
+        var emailField = document.forms["signup"]["useremail"].value;
+        if (emailField == null || emailField == "") {
+            alert("Email must be filled out");
+            return false;
+        }
+        var passwordField = document.forms["signup"]["password"].value;
+        if (passwordField == null || passwordField == "") {
+            alert("Password must be filled out");
+            return false;
+        }
+
+    }

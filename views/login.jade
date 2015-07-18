@@ -5,7 +5,7 @@ block content
 
  div.signup
 
-    form(name='login', action='/users/login', onsubmit="return validateForm()", method='post', enctype='application/x-www-form-urlencoded')
+    form(name='login', action='/users/login', onsubmit='return validateForm()', method='post', enctype='application/x-www-form-urlencoded')
         h1 Log in
 
         if message.length > 0
