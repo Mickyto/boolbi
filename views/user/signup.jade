@@ -7,6 +7,11 @@ block content
 
     form(name='signup', action='/users/signup/', onsubmit='return validateForm()', method='post', enctype='application/x-www-form-urlencoded')
         h1 Sign up
+
+        if message.length > 0
+            div.msg
+                p #{message}
+
         p Username:
             input(type='text', name='username', autofocus)
         p E-mail:
@@ -20,7 +25,7 @@ block content
  script(type='text/javascript').
     function validateForm() {
         var name = document.forms['signup']['username'].value;
-        if (name == null || name == '' || !validator.isAlphanumeric(name)) {
+        if (name == null || name == '') {
             alert('Incorrect enter of username');
             return false;
         }

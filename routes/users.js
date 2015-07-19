@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 
 
 router.get('/signup/', function(req, res) {
-  res.render('user/signup');
+  res.render('user/signup', { message : req.flash('info') });
 });
 
 
@@ -19,14 +19,16 @@ router.post('/signup/', function(req, res) {
   var bodyEmail = req.body.useremail;
   colUser.findOne({ 'email' :  bodyEmail }, function(err, doc) {
     if (doc) {
-      res.render('default', { msg : 'That email is already taken.' });
+      req.flash('info', 'That email is already taken.');
+      res.redirect('/users/signup/');
     } else {
       colUser.insert({
         username : req.body.username,
         email: req.body.useremail,
         password: req.body.password
       }, function () {
-          res.redirect('/');
+          req.session.user_id = req.body.useremail;
+          res.redirect('/users/profile');
         });
     }
   });
