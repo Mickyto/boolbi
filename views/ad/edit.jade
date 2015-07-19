@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
   h1 Ad Edit
@@ -9,7 +9,7 @@ block content
       form(action='#{formAction}', method='post', enctype='multipart/form-data')
          h1 User information
          p Name:
-           input(type='text', value='#{ad.name}', name='username')
+           input(type='text', value='#{ad.name}', name='username', autofocus)
          p E-mail:
            input(type='text', value='#{ad.email}', name='useremail')
          p Telephone:
@@ -18,7 +18,7 @@ block content
          p Title:
            input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=42)
          p Description:
-           textarea(name='addescription', rows=10, cols=40) #{ad.description}
+         textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:
            input(type='text', value='#{ad.price}', name='adprice')
          p Photos:

@@ -9,15 +9,19 @@ html
      tr
       td
        a(href='/')
-         img.logo(src='/images/logo/logo.png' alt='logo' width=280)
+         img.logo(src='/images/logo/logo.png', alt='logo' width=280)
       td
-       a.one(href='/ads' style='text-decoration: none')  all ads
+       a.one(href='/ads', style='text-decoration: none')  all ads
       td
-       a.one(href='/ads/newad' style='text-decoration: none') new ad
-    p
+       a.one(href='/ads/newad', style='text-decoration: none') new ad
+      td
+       a.one(href='/users/login', style='text-decoration: none') log in
+      td
+       a.one(href='/users/profile', style='text-decoration: none') profile
+  p
      hr
     block content
 
-    p
-     hr
-    p E-mail: info@bravito.ru
+  p
+  hr
+  p E-mail: info@bravito.ru
