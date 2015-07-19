@@ -9,7 +9,11 @@ router.get('/', function(req, res) {
 
 
 router.get('/signup/', function(req, res) {
-  res.render('user/signup', { message : req.flash('info') });
+  res.render('user/signup', {
+    message : req.flash('info'),
+    formAction : '/users/signup/',
+    btnValue : 'Sign up'
+  });
 });
 
 
@@ -19,7 +23,7 @@ router.post('/signup/', function(req, res) {
   var bodyEmail = req.body.useremail;
   colUser.findOne({ 'email' :  bodyEmail }, function(err, doc) {
     if (doc) {
-      req.flash('info', 'That email is already taken.');
+      req.flash('info', 'That email is already taken');
       res.redirect('/users/signup/');
     } else {
       colUser.insert({
@@ -39,7 +43,11 @@ router.post('/signup/', function(req, res) {
 
 
 router.get('/login', function(req, res) {
-  res.render('user/login', { message : req.flash('info') });
+  res.render('user/signup', {
+    message : req.flash('info'),
+    formAction : '/users/login/',
+    btnValue : 'Log in'
+  });
 });
 
 router.post('/login', function (req, res) {

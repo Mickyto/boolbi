@@ -28,7 +28,7 @@ router.get('/newad', function(req, res) {
           description : '',
           price : ''
       },
-      'formAction' : '/ads/addad'
+      formAction : '/ads/addad'
   });
 });
 
@@ -87,7 +87,7 @@ router.get('/:id/edit', function(req, res) {
     } else {
       res.render('ad/edit', {
         'ad' : doc,
-        'formAction' : '/ads/' + req.id + '/adedit'
+        formAction : '/ads/' + req.id + '/adedit'
       })
     }
   })

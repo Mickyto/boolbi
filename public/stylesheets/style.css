@@ -47,12 +47,15 @@ a.two {
   font-family: Helvetica;
 }
 
-a {
-  color: #000000;
+a.three {
+  color: #df8505;
   font-size: 30px;
+  padding-left: 30px;
 }
 
-a:hover { text-shadow: 1px 1px black }
+
+
+a.three:hover { text-shadow: 1px 1px black }
 a.one:hover { background: #778899}
 a.two:hover { background: #ffff4f; color: black }
 
