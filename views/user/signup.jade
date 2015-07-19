@@ -16,22 +16,22 @@ block content
         p
             button(type='submit') Save
 
- script(type="text/javascript" src="/javascripts/validator.min.js").
+ script(type='text/javascript', src='/javascripts/validator.min.js').
  script(type='text/javascript').
     function validateForm() {
-        var name = document.forms["signup"]["username"].value;
-        if (name == null || name == "" || !validator.isAlphanumeric(name)) {
-            alert("Username must be filled out");
+        var name = document.forms['signup']['username'].value;
+        if (name == null || name == '' || !validator.isAlphanumeric(name)) {
+            alert('Incorrect enter of username');
             return false;
         }
-        var email = document.forms["signup"]["useremail"].value;
-        if (email == null || email == "" || !validator.isEmail(email)) {
-            alert("Email must be filled out");
+        var email = document.forms['signup']['useremail'].value;
+        if (email == null || email == '' || !validator.isEmail(email)) {
+            alert('Incorrect enter of Email');
             return false;
         }
-        var pass = document.forms["signup"]["password"].value;
-        if (pass == null || pass == "" || !validator.isAlphanumeric(pass)) {
-            alert("Password must be filled out");
+        var pass = document.forms['signup']['password'].value;
+        if (pass == null || pass == '' || !validator.isAlphanumeric(pass)) {
+            alert('Incorrect enter of password');
             return false;
         }
 

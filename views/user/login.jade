@@ -25,17 +25,17 @@ block content
 
         a.two(href='/users/signup/', style='text-decoration: none') Sign up
 
-
+ script(type='text/javascript', src='/javascripts/validator.min.js').
  script(type='text/javascript').
      function validateForm() {
-         var emailField = document.forms["login"]["useremail"].value;
-         if (emailField == null || emailField == "") {
-             alert("Email must be filled out");
+         var email = document.forms['login']['useremail'].value;
+         if (email == null || email == '' || !validator.isEmail(email)) {
+             alert('Incorrect enter of username');
              return false;
          }
-         var passwordField = document.forms["login"]["password"].value;
-         if (passwordField == null || passwordField == "") {
-             alert("Password must be filled out");
+         var pass = document.forms['login']['password'].value;
+         if (pass == null || pass == '' || !validator.isAlphanumeric(pass)) {
+             alert('Incorrect enter of password');
              return false;
          }
      }
