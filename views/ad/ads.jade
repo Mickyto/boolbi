@@ -2,15 +2,13 @@ extends ../layout
 
 block content
 
-
-
   h1 Ad List:
 
-  each ad, i in ads
+      each ad, i in ads
 
-            div
-               a(href='/ads/#{ad._id}' style='text-decoration: none')
-                  div.showAds
-                      img.showAds(src='/images/#{ad.mainphoto}' width=150)
-                  h5 #{ad.title}
-                  h5 #{ad.price}
+          div
+              a(href='/ads/#{ad._id}', style='text-decoration: none')
+                 img.showAds(src='/images/#{ad.mainphoto}', width=150)
+                 h5 #{ad.title}
+                 p
+                 h5 #{ad.price}

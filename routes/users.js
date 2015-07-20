@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 
 
 router.get('/signup/', function(req, res) {
-  res.render('user/signup', {
+  res.render('user/login', {
     message : req.flash('info'),
     formAction : '/users/signup/',
     btnValue : 'Sign up'
@@ -43,7 +43,7 @@ router.post('/signup/', function(req, res) {
 
 
 router.get('/login', function(req, res) {
-  res.render('user/signup', {
+  res.render('user/login', {
     message : req.flash('info'),
     formAction : '/users/login/',
     btnValue : 'Log in'
