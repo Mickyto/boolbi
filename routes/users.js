@@ -25,24 +25,25 @@ router.get('/signup/', function(req, res) {
   });
 });
 
+var rand,mailOptions,link,bodyEmail;
 
 router.post('/signup/', function(req, res) {
   var db = req.db;
   var colUser = db.get('usercollection');
-  var bodyEmail = req.body.useremail;
+  bodyEmail = req.body.useremail;
   colUser.findOne({ 'email' :  bodyEmail }, function(err, doc) {
     if (doc) {
       req.flash('info', 'That email is already taken');
       res.redirect('/users/signup/');
     } else {
       colUser.insert({
-        email: req.body.useremail,
+        email: bodyEmail,
         password: req.body.password
       }, function () {
-        var link = "http://" + req.get('host') + "/verify?id=" + Math.random();
-         console.log(link)
-        var mailOptions = {
-          to: req.body.useremail,
+        rand = Math.random();
+        link = "http://" + req.get('host') + "/users/verify?id=" + rand;
+        mailOptions = {
+          to: bodyEmail,
           subject: "Please confirm your Email account",
           html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + link + ">Click here to verify</a>"
         };
@@ -51,13 +52,21 @@ router.post('/signup/', function(req, res) {
             res.end("error");
           }
         });
-        res.redirect('/users/login');
+        res.render('default', { msg : 'Check your Email' });
 
       });
     }
   });
 });
 
+router.get('/verify', function (req, res) {
+    if(req.query.id == rand) {
+      req.session.user_id = bodyEmail;
+      res.redirect('/users/profile');
+    } else {
+      res.render('default', { msg : 'Bad request' });
+    }
+});
 
 
 
