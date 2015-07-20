@@ -15,11 +15,12 @@ html
       td
        a.one(href='/ads/newad', style='text-decoration: none') new ad
       td
-       a.one(href='/users/login', style='text-decoration: none') log in
-      td
-       a.one(href='/users/profile', style='text-decoration: none') profile
-  p
-     hr
+       if session.user_id
+           a.one(href='/users/profile', style='text-decoration: none') profile
+       else
+           a.one(href='/users/login', style='text-decoration: none') log in
+    p #{session.user_id}
+      hr
     block content
 
   p

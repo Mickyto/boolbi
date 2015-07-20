@@ -102,6 +102,7 @@ function checkAuth(req, res, next) {
     req.flash('info', 'Please log in');
     res.redirect('/users/login');
   } else {
+
     next();
   }
 }

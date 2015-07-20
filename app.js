@@ -37,6 +37,12 @@ app.use(session({
 }));
 app.use(flash());
 
+
+app.use(function(req, res, next){
+  res.locals.session = req.session;
+  next();
+});
+
 // Make our db accessible to our router
 app.use(function(req,res,next){
   req.db = db;
