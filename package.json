@@ -18,6 +18,7 @@
     "mongodb": "~2.0.33",
     "monk": "~1.0.1",
     "morgan": "~1.5.3",
+    "nodemailer": "^1.4.0",
     "serve-favicon": "~2.2.1",
     "validator": "^3.41.2"
   }

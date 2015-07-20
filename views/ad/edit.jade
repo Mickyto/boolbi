@@ -28,8 +28,7 @@ block content
            div.fileUpload
              input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto1(event)')
              img#photo2(src=(ad.photo1 !== undefined ? '/images/#{ad.photo1}' : ''), width=150)
-         p
-           button(type='submit') Save
+         button(type='submit') Save
 
 
 
