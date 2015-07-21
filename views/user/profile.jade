@@ -6,9 +6,22 @@ block content
   h1 Hello
 
   div
-    p E-mail:   #{user.email}
-    p Password:   #{user.password}
-    p Telephone: #{user.telephone}
+    table
+      tr
+        td
+          h5 E-mail:
+        td
+          p #{user.email}
+      tr
+        td
+          h5 Password:
+        td
+          p #{user.password}
+      tr
+        td
+          h5 Telephone:
+        td
+          p #{user.telephone}
 
   a.one(href='/users/edit', style='text-decoration: none') Edit
   p

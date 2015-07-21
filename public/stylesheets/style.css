@@ -121,7 +121,9 @@ button {
 button:hover {  background: steelblue  }
 
 
-
+td {
+  padding: 0;
+}
 
 div.signup {
   width: 430px;
