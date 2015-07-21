@@ -19,7 +19,7 @@ router.use(methodOverride(function(req, res){
 
 
 function checkAuth(req, res, next) {
-    if (!req.session.email) {
+    if (!req.session.user_id) {
         req.flash('info', 'Please log in');
         res.redirect('/users/login');
     } else {
@@ -29,14 +29,19 @@ function checkAuth(req, res, next) {
 
 
 router.get('/newad', checkAuth, function(req, res) {
-  res.render('ad/newad', {
-      'ad':
-      {   title : '',
-          description : '',
-          price : ''
-      },
-      formAction : '/ads/addad'
-  });
+    var db = req.db;
+    var colUser = db.get('usercollection');
+    colUser.findById(req.session.user_id, function (err, doc) {
+        res.render('ad/newad', {
+            user: doc,
+            ad: {
+                title: '',
+                description: '',
+                price: ''
+            },
+            formAction: '/ads/addad'
+        });
+    });
 });
 
 
@@ -72,16 +77,17 @@ router.param('id', function (req, res, next, id) {
 router.get('/:id', function(req, res) {
 
   var db =req.db;
+  var colUser = db.get('usercollection');
   var colAds = db.get('adcollection');
-  colAds.findById(req.id, function (err, doc) {
-    if (err) {
-    } else {
+  colAds.findById(req.id, function (err, ad) {
+      colUser.findById(ad.user_id, function (err, user) {
           res.render('ad/show', {
-            'ad': doc
-          })
-       }
-    })
-})
+              ad: ad,
+              user: user
+          });
+      })
+  })
+});
 
 
 //GET the individual ad by Mongo ID
@@ -90,13 +96,10 @@ router.get('/:id/edit', function(req, res) {
   var db =req.db;
   var colAds = db.get('adcollection');
   colAds.findById(req.id, function (err, doc) {
-    if (err) {
-    } else {
       res.render('ad/newad', {
         'ad' : doc,
         formAction : '/ads/' + req.id + '/adedit'
       })
-    }
   })
 })
 
@@ -107,6 +110,7 @@ var adCallback = function(req, res) {
     var db = req.db;
     var colAds = db.get('adcollection');
     var colObject = {
+        user_id : req.session.user_id,
         title: req.body.adtitle,
         description: req.body.addescription,
         price: req.body.adprice

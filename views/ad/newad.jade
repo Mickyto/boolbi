@@ -7,6 +7,21 @@ block content
   div
       h1 User information
       table
+          tr
+            td
+              p Name:
+            td
+              h5 #{user.name}
+          tr
+            td
+              p Email:
+            td
+              h5 #{user.email}
+          tr
+            td
+              p Telephone:
+            td
+              h5 #{user.telephone}
 
       form(action='#{formAction}', method='post', enctype='multipart/form-data')
          h1 Item information
