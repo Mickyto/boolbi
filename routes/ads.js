@@ -19,7 +19,7 @@ router.use(methodOverride(function(req, res){
 
 
 function checkAuth(req, res, next) {
-    if (!req.session.user_id) {
+    if (!req.session.email) {
         req.flash('info', 'Please log in');
         res.redirect('/users/login');
     } else {

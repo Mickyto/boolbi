@@ -12,7 +12,7 @@ html
          img.logo(src='/images/logo/logo.png', alt='logo', width=280, height=80)
       td
        a.one(href='/ads', style='text-decoration: none')  all ads
-      if session.user_id
+      if session.email
           td
            a.one(href='/ads/newad', style='text-decoration: none') new ad
           td
@@ -20,7 +20,7 @@ html
       else
           td
            a.one(href='/users/login', style='text-decoration: none') log in
-    p #{session.user_id}
+    p #{session.email}
       hr
     block content
 

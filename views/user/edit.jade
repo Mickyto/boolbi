@@ -15,10 +15,6 @@ block content
         table
              tr
                td
-                 h6 old password
-                 input(type='password', value='#{user.password}', name='oldpass')
-             tr
-               td
                  h6 new password
                  input(type='password', name='newpass1')
              tr
@@ -30,16 +26,9 @@ block content
 
  script(type='text/javascript').
     function validateForm() {
-        var old = document.forms['userinfo']['oldpass'].value;
         var new1 = document.forms['userinfo']['newpass1'].value;
         var new2 = document.forms['userinfo']['newpass2'].value;
-
-
-        if (old == null || old == '') {
-            alert('Incorrect enter of old password');
-            return false;
-        }
-        if (new1 != new2) {
+        if (new1 !== new2) {
             alert('Incorrect enter of new password');
             return false;
         }

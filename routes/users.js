@@ -61,7 +61,7 @@ router.post('/signup/', function(req, res) {
 
 router.get('/verify', function (req, res) {
     if(req.query.id == rand) {
-      req.session.user_id = bodyEmail;
+      req.session.email = bodyEmail;
       res.redirect('/users/profile');
     } else {
       res.render('default', { msg : 'Bad request' });
@@ -86,7 +86,7 @@ router.post('/login', function (req, res) {
   colUser.findOne({email : bodyEmail}, function (err, doc) {
 
     if (doc && req.body.password === doc.password) {
-      req.session.user_id = doc.email;
+      req.session.email = doc.email;
       res.redirect('/users/profile');
     } else {
       req.flash('info', 'Email or password is wrong');
@@ -98,7 +98,7 @@ router.post('/login', function (req, res) {
 
 
 function checkAuth(req, res, next) {
-  if (!req.session.user_id) {
+  if (!req.session.email) {
     req.flash('info', 'Please log in');
     res.redirect('/users/login');
   } else {
@@ -110,7 +110,7 @@ function checkAuth(req, res, next) {
 router.get('/profile', checkAuth, function (req, res) {
   var db = req.db;
   var colUser = db.get('usercollection');
-  colUser.findOne({'email' : req.session.user_id}, function (err, doc) {
+  colUser.findOne({'email' : req.session.email}, function (err, doc) {
     if (err) {
       res.send('No user found.');
     } else {
@@ -125,7 +125,7 @@ router.get('/profile', checkAuth, function (req, res) {
 router.get('/edit', checkAuth, function (req, res) {
   var db =req.db;
   var colUser = db.get('usercollection');
-  colUser.findOne({'email' : req.session.user_id}, function (err, doc) {
+  colUser.findOne({'email' : req.session.email}, function (err, doc) {
     if (err) {
       res.send('No user found.');
     } else {
@@ -147,13 +147,11 @@ router.post('/edit', checkAuth, function (req, res) {
   };
   // TODO: Check 2 passwords identical
   // FIXME:
-    if (req.body.newpass2 == '') {
-      colObject.password = req.body.oldpass
-    } else {
+    if (req.body.newpass2 !== '') {
       colObject.password = req.body.newpass2
     }
 
-  colUser.findAndModify({email: req.session.user_id}, {$set: colObject})
+  colUser.findAndModify({email: req.session.email}, {$set: colObject})
       .success(function () {
         res.redirect('/users/profile');
   })
@@ -164,7 +162,7 @@ router.post('/edit', checkAuth, function (req, res) {
 
 
 router.get('/logout', function (req, res) {
-  delete req.session.user_id;
+  delete req.session.email;
   res.redirect('/');
 });
 
