@@ -7,13 +7,6 @@ block content
   div
 
       form(action='#{formAction}', method='post', enctype='multipart/form-data')
-         h1 User information
-         p Name:
-           input(type='text', value='#{ad.name}', name='username', autofocus)
-         p E-mail:
-           input(type='text', value='#{ad.email}', name='useremail')
-         p Telephone:
-           input(type='text', value='#{ad.telephone}', name='usertelephone')
          h1 Item information
          p Title:
            input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=42)

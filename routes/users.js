@@ -102,7 +102,6 @@ function checkAuth(req, res, next) {
     req.flash('info', 'Please log in');
     res.redirect('/users/login');
   } else {
-
     next();
   }
 }
@@ -113,14 +112,55 @@ router.get('/profile', checkAuth, function (req, res) {
   var colUser = db.get('usercollection');
   colUser.findOne({'email' : req.session.user_id}, function (err, doc) {
     if (err) {
-      res.send('No user found.')
+      res.send('No user found.');
     } else {
+
       res.render('user/profile', {
         user : doc
       });
     }
   });
 });
+
+router.get('/edit', checkAuth, function (req, res) {
+  var db =req.db;
+  var colUser = db.get('usercollection');
+  colUser.findOne({'email' : req.session.user_id}, function (err, doc) {
+    if (err) {
+      res.send('No user found.');
+    } else {
+      res.render('user/edit', {
+        'user' : doc
+
+      })
+    }
+  })
+})
+
+
+router.post('/edit', checkAuth, function (req, res) {
+  var db =req.db;
+  var colUser = db.get('usercollection');
+  var colObject = {
+    telephone : req.body.telephone
+  };
+  // TODO: Check 2 passwords identical
+  // FIXME:
+    if (req.body.newpass2 == '') {
+      colObject.password = req.body.oldpass
+    } else {
+      colObject.password = req.body.newpass2
+    }
+
+  colUser.findAndModify({email: req.session.user_id}, {$set: colObject})
+      .success(function () {
+        res.redirect('/users/profile');
+  })
+});
+
+
+
+
 
 router.get('/logout', function (req, res) {
   delete req.session.user_id;

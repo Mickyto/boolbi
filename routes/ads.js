@@ -18,13 +18,20 @@ router.use(methodOverride(function(req, res){
 }));
 
 
-router.get('/newad', function(req, res) {
-  res.render('ad/edit', {
+function checkAuth(req, res, next) {
+    if (!req.session.user_id) {
+        req.flash('info', 'Please log in');
+        res.redirect('/users/login');
+    } else {
+        next();
+    }
+}
+
+
+router.get('/newad', checkAuth, function(req, res) {
+  res.render('ad/newad', {
       'ad':
-      {   name : '',
-          email : '',
-          telephone : '',
-          title : '',
+      {   title : '',
           description : '',
           price : ''
       },
@@ -85,7 +92,7 @@ router.get('/:id/edit', function(req, res) {
   colAds.findById(req.id, function (err, doc) {
     if (err) {
     } else {
-      res.render('ad/edit', {
+      res.render('ad/newad', {
         'ad' : doc,
         formAction : '/ads/' + req.id + '/adedit'
       })
@@ -100,9 +107,6 @@ var adCallback = function(req, res) {
     var db = req.db;
     var colAds = db.get('adcollection');
     var colObject = {
-        name: req.body.username,
-        email: req.body.useremail,
-        telephone: req.body.usertelephone,
         title: req.body.adtitle,
         description: req.body.addescription,
         price: req.body.adprice

@@ -73,6 +73,13 @@ h5 {
   margin: auto;
 }
 
+h6 {
+  padding-left: 10px;
+  padding-top: 10px;
+  margin: auto;
+  font-size: small;
+}
+
 div {
   overflow: auto;
   background-color: #60AB91;
@@ -93,6 +100,7 @@ p {
   font-size: 20px;
   font-family: Raleway, Helvetica, Arial, sans-serif;
   margin: auto;
+  color: yellow;
 }
 textarea,
 input {
