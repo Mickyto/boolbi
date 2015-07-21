@@ -142,6 +142,7 @@ router.post('/edit', checkAuth, function (req, res) {
   var db =req.db;
   var colUser = db.get('usercollection');
   var colObject = {
+    name : req.body.name,
     telephone : req.body.telephone
   };
   // TODO: Check 2 passwords identical
