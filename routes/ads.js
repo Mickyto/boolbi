@@ -30,7 +30,7 @@ function checkAuth(req, res, next) {
 
 router.get('/newad', checkAuth, function(req, res) {
     var db = req.db;
-    var colUser = db.get('usercollection');
+    var colUser = db.get('users');
     colUser.findById(req.session.user_id, function (err, doc) {
         res.render('ad/newad', {
             user: doc,
@@ -48,7 +48,7 @@ router.get('/newad', checkAuth, function(req, res) {
 router.get('/', function(req, res) {
 
   var db =req.db;
-  var colAds = db.get('adcollection');
+  var colAds = db.get('ads');
   colAds.find({},function(err, docs){
     res.render('ad/ads', {
       ads : docs
@@ -61,7 +61,7 @@ router.get('/', function(req, res) {
 router.param('id', function (req, res, next, id) {
 
   var db = req.db;
-  var colAds = db.get('adcollection');
+  var colAds = db.get('ads');
   colAds.findById(id, function (err) {
         if (err) {
           res.send(id + ' was not found');
@@ -77,8 +77,8 @@ router.param('id', function (req, res, next, id) {
 router.get('/:id', function(req, res) {
 
   var db =req.db;
-  var colUser = db.get('usercollection');
-  var colAds = db.get('adcollection');
+  var colUser = db.get('users');
+  var colAds = db.get('ads');
   colAds.findById(req.id, function (err, ad) {
       colUser.findById(ad.user_id, function (err, user) {
           res.render('ad/show', {
@@ -94,8 +94,8 @@ router.get('/:id', function(req, res) {
 router.get('/:id/edit', function(req, res) {
 
   var db =req.db;
-  var colAds = db.get('adcollection');
-  var colUser = db.get('usercollection');
+  var colAds = db.get('ads');
+  var colUser = db.get('users');
   colAds.findById(req.id, function (err, ad) {
       colUser.findById(ad.user_id, function (err, user) {
           res.render('ad/newad', {
@@ -112,7 +112,7 @@ var adCallback = function(req, res) {
 
 
     var db = req.db;
-    var colAds = db.get('adcollection');
+    var colAds = db.get('ads');
     var colObject = {
         user_id : req.session.user_id,
         title: req.body.adtitle,
@@ -186,7 +186,7 @@ router.post('/:id/adedit', multipartMiddleware, adCallback);
 router.delete('/:id/edit', function (req, res){
 
   var db =req.db;
-  var colAds = db.get('adcollection');
+  var colAds = db.get('ads');
   colAds.findById(req.id, function (err, doc) {
     if (err) {
       return err;

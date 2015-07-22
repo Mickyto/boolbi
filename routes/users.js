@@ -29,7 +29,7 @@ router.get('/signup/', function(req, res) {
 
 router.post('/signup/', function(req, res) {
   var db = req.db;
-  var colUser = db.get('usercollection');
+  var colUser = db.get('users');
   var rand = Math.random();
   var bodyEmail = req.body.useremail;
   colUser.findOne({ email :  bodyEmail }, function(err, doc) {
@@ -43,7 +43,7 @@ router.post('/signup/', function(req, res) {
         active : 'no',
         rand : rand
       }, function () {
-        var link = "http://" + req.get('host') + "/users/verify?id=" + rand + '&verify[email]=' + bodyEmail ;
+        var link = "http://" + req.get('host') + "/users/emailactivation?id=" + rand + '&verify[email]=' + bodyEmail ;
         var mailOptions = {
           to: bodyEmail,
           subject: "Please confirm your Email account",
@@ -61,9 +61,9 @@ router.post('/signup/', function(req, res) {
   });
 });
  //TODO check existing doc, but not activated
-router.get('/verify', function (req, res) {
+router.get('/emailactivation', function (req, res) {
   var db = req.db;
-  var colUser = db.get('usercollection');
+  var colUser = db.get('users');
     colUser.findOne({ email : req.query.verify.email }, function (err, doc) {
       if (req.query.id == doc.rand) {
         colUser.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
@@ -88,15 +88,16 @@ router.get('/login', function(req, res) {
 
 router.post('/login', function (req, res) {
   var db = req.db;
-  var colUser = db.get('usercollection');
+  var colUser = db.get('users');
   colUser.findOne({email : req.body.useremail}, function (err, doc) {
 
-    if (doc.active == 'no' ) {
-      req.flash('info', 'Email wasn\'t activated');
-      res.redirect('/users/login');
-    } else if (req.body.password === doc.password ) {
+    if (doc && req.body.password === doc.password && doc.active == 'yes' ) {
       req.session.user_id = doc._id;
       res.redirect('/users/profile');
+
+    /*} else if (doc.active == 'no' ) {
+      req.flash('info', 'Email wasn\'t activated');
+      res.redirect('/users/login');*/
     } else {
       req.flash('info', 'Email or password is wrong');
       res.redirect('/users/login');
@@ -120,8 +121,8 @@ function checkAuth(req, res, next) {
 
 router.get('/profile', checkAuth, function (req, res) {
   var db = req.db;
-  var colUser = db.get('usercollection');
-  var colAds = db.get('adcollection');
+  var colUser = db.get('users');
+  var colAds = db.get('ads');
   colUser.findById(req.session.user_id, function (err, user) {
     colAds.find({user_id : req.session.user_id}, function(err, ads) {
       res.render('user/profile', {
@@ -134,7 +135,7 @@ router.get('/profile', checkAuth, function (req, res) {
 
 router.get('/edit', checkAuth, function (req, res) {
   var db =req.db;
-  var colUser = db.get('usercollection');
+  var colUser = db.get('users');
   colUser.findById(req.session.user_id, function (err, doc) {
     if (err) {
       res.send('No user found.');
@@ -150,7 +151,7 @@ router.get('/edit', checkAuth, function (req, res) {
 
 router.post('/edit', checkAuth, function (req, res) {
   var db =req.db;
-  var colUser = db.get('usercollection');
+  var colUser = db.get('users');
   var colObject = {
     name : req.body.name,
     telephone : req.body.telephone
