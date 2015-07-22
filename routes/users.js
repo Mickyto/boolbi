@@ -145,8 +145,8 @@ router.get('/edit', checkAuth, function (req, res) {
       res.send('No user found.');
     } else {
       res.render('user/edit', {
-        user : doc
-
+        user : doc,
+        message : req.flash('info')
       })
     }
   })
@@ -154,22 +154,28 @@ router.get('/edit', checkAuth, function (req, res) {
 
 
 router.post('/edit', checkAuth, function (req, res) {
-  var db =req.db;
-  var colUser = db.get('users');
-  var colObject = {
-    name : req.body.name,
-    telephone : req.body.telephone
-  };
-  // TODO: Check 2 passwords identical
-  // FIXME:
+
+  if (req.body.newpass1 !== req.body.newpass2) {
+    req.flash('info', 'Passwords are not identical');
+    res.redirect('/users/edit');
+  }
+  else {
+    var db = req.db;
+    var colUser = db.get('users');
+    var colObject = {
+      name: req.body.name,
+      telephone: req.body.telephone
+    };
+
     if (req.body.newpass2 !== '') {
       colObject.password = req.body.newpass2
     }
 
-  colUser.findAndModify({_id: req.session.user_id}, {$set: colObject})
-      .success(function () {
-        res.redirect('/users/profile');
-  })
+    colUser.findAndModify({_id: req.session.user_id}, {$set: colObject})
+        .success(function () {
+          res.redirect('/users/profile');
+        })
+  }
 });
 
 

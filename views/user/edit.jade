@@ -21,7 +21,9 @@ block content
                td
                  h6 new password again
                  input(type='password', name='newpass2')
-        p
+        if message.length > 0
+            div.msg
+                p #{message}
         button(type='submit') Save
 
  script(type='text/javascript').
