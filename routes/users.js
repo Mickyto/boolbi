@@ -145,7 +145,7 @@ router.get('/edit', checkAuth, function (req, res) {
       res.send('No user found.');
     } else {
       res.render('user/edit', {
-        'user' : doc
+        user : doc
 
       })
     }
