@@ -44,9 +44,9 @@ router.post('/signup/', function(req, res) {
         email: bodyEmail,
         password: req.body.password,
         active : 'no',
-        rand : rand
+        secure_code : rand
       }, function () {
-        var link = "http://" + req.get('host') + "/users/emailactivation?id=" + rand + '&verify[email]=' + bodyEmail ;
+        var link = "http://" + req.get('host') + "/users/emailactivation?random=" + rand + '&email=' + bodyEmail ;
         var mailOptions = {
           to: bodyEmail,
           subject: "Please confirm your Email account",
@@ -67,8 +67,8 @@ router.post('/signup/', function(req, res) {
 router.get('/emailactivation', function (req, res) {
   var db = req.db;
   var colUser = db.get('users');
-    colUser.findOne({ email : req.query.verify.email }, function (err, doc) {
-      if (req.query.id == doc.rand) {
+    colUser.findOne({ email : req.query.email }, function (err, doc) {
+      if (req.query.random == doc.secure_code) {
         colUser.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
         req.session.user_id = doc._id;
         res.redirect('/users/profile');
@@ -94,13 +94,14 @@ router.post('/login', function (req, res) {
   var colUser = db.get('users');
   colUser.findOne({email : req.body.useremail}, function (err, doc) {
 
-    if (doc && req.body.password === doc.password && doc.active == 'yes' ) {
-      req.session.user_id = doc._id;
-      res.redirect('/users/profile');
-
-    /*} else if (doc.active == 'no' ) {
-      req.flash('info', 'Email wasn\'t activated');
-      res.redirect('/users/login');*/
+    if (doc && req.body.password === doc.password) {
+      if (doc.active == 'no') {
+        req.flash('info', 'Email wasn\'t activated');
+        res.redirect('/users/login');
+      } else {
+        req.session.user_id = doc._id;
+        res.redirect('/users/profile');
+      }
     } else {
       req.flash('info', 'Email or password is wrong');
       res.redirect('/users/login');
