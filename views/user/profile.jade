@@ -28,3 +28,13 @@ block content
   p
   p
   a.one(href='/users/logout', style='text-decoration: none') Log out
+
+
+  h1 My ads:
+    each ad, i in myAds
+      div
+        a(href='/ads/#{ad._id}', style='text-decoration: none')
+          img.showAds(src='/images/#{ad.mainphoto}', width=150)
+          h5 #{ad.title}
+          p
+          h5 #{ad.price}

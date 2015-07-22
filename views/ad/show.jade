@@ -44,13 +44,13 @@ block content
     if ad.photo1 !== undefined
         img.show(src='/images/#{ad.photo1}')
 
-
-    form(action='/ads/#{ad._id}/edit', method='post', enctype='application/x-www-form-urlencoded')
-        input(type='hidden', value='DELETE', name='_method')
-        button(type='submit') Delete
-    p
-    form(action='/ads/#{ad._id}/edit')
-        button(type='submit') Edit
+    if session.user_id == user._id
+        form(action='/ads/#{ad._id}/edit', method='post', enctype='application/x-www-form-urlencoded')
+            input(type='hidden', value='DELETE', name='_method')
+            button(type='submit') Delete
+        p
+        form(action='/ads/#{ad._id}/edit')
+            button(type='submit') Edit
 
 
 

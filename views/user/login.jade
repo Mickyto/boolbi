@@ -10,11 +10,17 @@ block content
         if message.length > 0
             div.msg
                 p #{message}
-
-        p E-mail:
-            input(type='email', name='useremail', autofocus)
-        p Password:
-            input(type='password', name='password')
+        table
+            tr
+              td
+                p E-mail:
+              td
+                input(type='email', name='useremail', autofocus)
+            tr
+              td
+                p Password:
+              td
+                input(type='password', name='password')
         p
             button(type='submit') #{btnValue}
 

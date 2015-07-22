@@ -49,9 +49,9 @@ router.get('/', function(req, res) {
 
   var db =req.db;
   var colAds = db.get('adcollection');
-  colAds.find({},{},function(err, docs){
+  colAds.find({},function(err, docs){
     res.render('ad/ads', {
-      'ads' : docs
+      ads : docs
     })
   })
 });
@@ -73,7 +73,7 @@ router.param('id', function (req, res, next, id) {
   })
 })
 
-
+// TODO: edit ads available
 router.get('/:id', function(req, res) {
 
   var db =req.db;
@@ -95,13 +95,17 @@ router.get('/:id/edit', function(req, res) {
 
   var db =req.db;
   var colAds = db.get('adcollection');
-  colAds.findById(req.id, function (err, doc) {
-      res.render('ad/newad', {
-        'ad' : doc,
-        formAction : '/ads/' + req.id + '/adedit'
-      })
-  })
-})
+  var colUser = db.get('usercollection');
+  colAds.findById(req.id, function (err, ad) {
+      colUser.findById(ad.user_id, function (err, user) {
+          res.render('ad/newad', {
+              user: user,
+              ad: ad,
+              formAction: '/ads/' + req.id + '/adedit'
+          });
+      });
+  });
+});
 
 
 var adCallback = function(req, res) {
@@ -163,9 +167,6 @@ var adCallback = function(req, res) {
         .success(function () {
             res.redirect('/ads/' + req.id);
         })
-
-
-
 
 
         // inserting record

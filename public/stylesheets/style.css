@@ -52,7 +52,7 @@ a.two {
 }
 
 a.three {
-  color: yellow;
+  color: #aa5500;
   font-size: 30px;
   padding: 30px;
 }
@@ -126,7 +126,7 @@ td {
 }
 
 div.signup {
-  width: 430px;
+  width: 350px;
   margin: auto;
 }
 
