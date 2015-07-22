@@ -36,6 +36,9 @@ router.post('/signup/', function(req, res) {
     if (doc) {
       req.flash('info', 'That email is already taken');
       res.redirect('/users/signup/');
+    /*} else if (doc.active == 'no') {
+      req.flash('info', 'That email was not activated');
+      res.redirect('/users/signup/');*/
     } else {
       colUser.insert({
         email: bodyEmail,

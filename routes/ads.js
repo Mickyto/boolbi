@@ -49,7 +49,7 @@ router.get('/', function(req, res) {
 
   var db =req.db;
   var colAds = db.get('ads');
-  colAds.find({},function(err, docs){
+  colAds.find({},{sort:{_id:-1}},function(err, docs){
     res.render('ad/ads', {
       ads : docs
     })
@@ -91,7 +91,7 @@ router.get('/:id', function(req, res) {
 
 
 //GET the individual ad by Mongo ID
-router.get('/:id/edit', function(req, res) {
+router.get('/:id/edit', checkAuth, function(req, res) {
 
   var db =req.db;
   var colAds = db.get('ads');
@@ -179,11 +179,11 @@ var adCallback = function(req, res) {
 };
 
 
-router.post('/addad', multipartMiddleware, adCallback);
+router.post('/addad', checkAuth,  multipartMiddleware, adCallback);
 
-router.post('/:id/adedit', multipartMiddleware, adCallback);
+router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
 
-router.delete('/:id/edit', function (req, res){
+router.delete('/:id/edit', checkAuth, function (req, res){
 
   var db =req.db;
   var colAds = db.get('ads');
