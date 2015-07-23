@@ -5,6 +5,23 @@ block content
 
 
   div
+      h1 User information
+      table
+          tr
+            td
+              p Name:
+            td
+              h5 #{user.name}
+          tr
+            td
+              p Email:
+            td
+              h5 #{user.email}
+          tr
+            td
+              p Telephone:
+            td
+              h5 #{user.telephone}
 
       form(action='#{formAction}', method='post', enctype='multipart/form-data')
          h1 Item information
@@ -16,22 +33,21 @@ block content
            input(type='text', value='#{ad.price}', name='adprice')
          p Photos:
            div.fileUpload
-             input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto1(event)')
-             img#photo1(src=(ad.mainphoto !== undefined ? '/images/#{ad.mainphoto}' : ''), width=150)
+             input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
+             img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : ''), width=150)
+         p
            div.fileUpload
-             input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto1(event)')
-             img#photo2(src=(ad.photo1 !== undefined ? '/images/#{ad.photo1}' : ''), width=150)
+             input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
+             img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : ''), width=150)
          button(type='submit') Save
 
-
-
   script(type='text/javascript').
-      var openPhoto1 = function (event) {
+      var openPhoto = function (event) {
           var input = event.target;
           var reader = new FileReader();
           reader.onload = function () {
               var dataURL = reader.result;
-              var output = document.getElementById(event.target.name);
+              var output = document.getElementById(input.name);
               output.src = dataURL;
           };
           reader.readAsDataURL(input.files[0]);

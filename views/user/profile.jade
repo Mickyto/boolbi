@@ -6,12 +6,41 @@ block content
   h1 Hello
 
   div
-    p E-mail:   #{user.email}
-    p Password:   #{user.password}
-    p Telephone: #{user.telephone}
+    table
+      tr
+        td
+          h5 E-mail:
+        td
+          p #{user.email}
+      tr
+        td
+          h5 Name:
+        td
+          p #{user.name}
+      tr
+        td
+          h5 Telephone:
+        td
+          p #{user.telephone}
+      tr
+        td
+          h5
+      tr
+        td
+          a.one(href='/users/edit', style='text-decoration: none') Edit
+        td
+          a.one(href='/users/logout', style='text-decoration: none') Log out
 
-  a.one(href='/users/edit', style='text-decoration: none') Edit
-  p
-  p
-  p
-  a.one(href='/users/logout', style='text-decoration: none') Log out
+  if myAds.length > 0
+      h1 My ads:
+        each ad, i in myAds
+          div
+            a(href='/ads/#{ad._id}', style='text-decoration: none')
+              if ad.image1
+                 img.showAds(src='/images/#{ad.image1}', width=150)
+              else if ad.image2
+                 img.showAds(src='/images/#{ad.image2}', width=150)
+              else
+              h5 #{ad.title}
+              p
+              h5 #{ad.price}

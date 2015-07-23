@@ -29,24 +29,29 @@ function checkAuth(req, res, next) {
 
 
 router.get('/newad', checkAuth, function(req, res) {
-  res.render('ad/newad', {
-      'ad':
-      {   title : '',
-          description : '',
-          price : ''
-      },
-      formAction : '/ads/addad'
-  });
+    var db = req.db;
+    var colUser = db.get('users');
+    colUser.findById(req.session.user_id, function (err, doc) {
+        res.render('ad/newad', {
+            user: doc,
+            ad: {
+                title: '',
+                description: '',
+                price: ''
+            },
+            formAction: '/ads/addad'
+        });
+    });
 });
 
 
 router.get('/', function(req, res) {
 
   var db =req.db;
-  var colAds = db.get('adcollection');
-  colAds.find({},{},function(err, docs){
+  var colAds = db.get('ads');
+  colAds.find({},{sort:{_id:-1}},function(err, docs){
     res.render('ad/ads', {
-      'ads' : docs
+      ads : docs
     })
   })
 });
@@ -56,7 +61,7 @@ router.get('/', function(req, res) {
 router.param('id', function (req, res, next, id) {
 
   var db = req.db;
-  var colAds = db.get('adcollection');
+  var colAds = db.get('ads');
   colAds.findById(id, function (err) {
         if (err) {
           res.send(id + ' was not found');
@@ -72,41 +77,44 @@ router.param('id', function (req, res, next, id) {
 router.get('/:id', function(req, res) {
 
   var db =req.db;
-  var colAds = db.get('adcollection');
-  colAds.findById(req.id, function (err, doc) {
-    if (err) {
-    } else {
+  var colUser = db.get('users');
+  var colAds = db.get('ads');
+  colAds.findById(req.id, function (err, ad) {
+      colUser.findById(ad.user_id, function (err, user) {
           res.render('ad/show', {
-            'ad': doc
-          })
-       }
-    })
-})
+              ad : ad,
+              user : user
+          });
+      })
+  })
+});
 
 
 //GET the individual ad by Mongo ID
-router.get('/:id/edit', function(req, res) {
+router.get('/:id/edit', checkAuth, function(req, res) {
 
   var db =req.db;
-  var colAds = db.get('adcollection');
-  colAds.findById(req.id, function (err, doc) {
-    if (err) {
-    } else {
-      res.render('ad/newad', {
-        'ad' : doc,
-        formAction : '/ads/' + req.id + '/adedit'
-      })
-    }
-  })
-})
+  var colAds = db.get('ads');
+  var colUser = db.get('users');
+  colAds.findById(req.id, function (err, ad) {
+      colUser.findById(ad.user_id, function (err, user) {
+          res.render('ad/newad', {
+              user: user,
+              ad: ad,
+              formAction: '/ads/' + req.id + '/adedit'
+          });
+      });
+  });
+});
 
 
 var adCallback = function(req, res) {
 
 
     var db = req.db;
-    var colAds = db.get('adcollection');
+    var colAds = db.get('ads');
     var colObject = {
+        user_id : req.session.user_id,
         title: req.body.adtitle,
         description: req.body.addescription,
         price: req.body.adprice
@@ -117,7 +125,7 @@ var adCallback = function(req, res) {
         var origPath = req.files.photo1.path;
         var imageName = Math.random() + req.files.photo1.name;
         var targetPath = './public/images/' + imageName;
-        colObject.mainphoto = imageName;
+        colObject.image1 = imageName;
 
         fs.rename(origPath, targetPath, function (err) {
             if (err) throw err;
@@ -130,7 +138,7 @@ var adCallback = function(req, res) {
         var origPath2 = req.files.photo2.path;
         var imageName2 = Math.random() + req.files.photo2.name;
         var targetPath2 = './public/images/' + imageName2;
-        colObject.photo1 = imageName2;
+        colObject.image2 = imageName2;
 
         fs.rename(origPath2, targetPath2, function (err) {
             if (err) throw err;
@@ -145,11 +153,11 @@ var adCallback = function(req, res) {
         // removing old pictures
 
         colAds.findById(req.id, function (err, doc) {
-            if (imageName !== undefined) {
-                fs.unlinkSync('./public/images/' + doc.mainphoto);
+            if (imageName !== undefined && doc.image1 !== undefined) {
+                fs.unlinkSync('./public/images/' + doc.image1);
             }
-            if (imageName2 !== undefined) {
-                fs.unlinkSync('./public/images/' + doc.photo1);
+            if (imageName2 !== undefined && doc.image2 !== undefined) {
+                fs.unlinkSync('./public/images/' + doc.image2);
             }
 
         });
@@ -159,9 +167,6 @@ var adCallback = function(req, res) {
         .success(function () {
             res.redirect('/ads/' + req.id);
         })
-
-
-
 
 
         // inserting record
@@ -174,23 +179,23 @@ var adCallback = function(req, res) {
 };
 
 
-router.post('/addad', multipartMiddleware, adCallback);
+router.post('/addad', checkAuth,  multipartMiddleware, adCallback);
 
-router.post('/:id/adedit', multipartMiddleware, adCallback);
+router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
 
-router.delete('/:id/edit', function (req, res){
+router.delete('/:id/edit', checkAuth, function (req, res){
 
   var db =req.db;
-  var colAds = db.get('adcollection');
+  var colAds = db.get('ads');
   colAds.findById(req.id, function (err, doc) {
     if (err) {
       return err;
     } else {
-        if (doc.mainphoto !== undefined) {
-            fs.unlinkSync('./public/images/' + doc.mainphoto);
+        if (doc.image1 !== undefined) {
+            fs.unlinkSync('./public/images/' + doc.image1);
         }
-        if (doc.photo1 !== undefined) {
-            fs.unlinkSync('./public/images/' + doc.photo1);
+        if (doc.image2 !== undefined) {
+            fs.unlinkSync('./public/images/' + doc.image2);
         }
       colAds.removeById(req.id,function (err) {
         if (err) {

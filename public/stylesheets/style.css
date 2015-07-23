@@ -52,7 +52,7 @@ a.two {
 }
 
 a.three {
-  color: yellow;
+  color: #aa5500;
   font-size: 30px;
   padding: 30px;
 }
@@ -121,10 +121,12 @@ button {
 button:hover {  background: steelblue  }
 
 
-
+td {
+  padding: 0;
+}
 
 div.signup {
-  width: 430px;
+  width: 350px;
   margin: auto;
 }
 

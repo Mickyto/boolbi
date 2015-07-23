@@ -7,14 +7,12 @@ block content
 
     form(name='userinfo', action='/users/edit', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
         p Email: #{user.email}
+        p Name:
+            input(type='text', value=(user.name !== undefined ? '#{user.name}' : ''), name='name')
         p Telephone:
             input(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
         p Change password
         table
-             tr
-               td
-                 h6 old password
-                 input(type='password', value='#{user.password}', name='oldpass')
              tr
                td
                  h6 new password
@@ -23,21 +21,16 @@ block content
                td
                  h6 new password again
                  input(type='password', name='newpass2')
-            p
+        if message.length > 0
+            div.msg
+                p #{message}
         button(type='submit') Save
 
  script(type='text/javascript').
     function validateForm() {
-        var old = document.forms['userinfo']['oldpass'].value;
         var new1 = document.forms['userinfo']['newpass1'].value;
         var new2 = document.forms['userinfo']['newpass2'].value;
-
-
-        if (old == null || old == '') {
-            alert('Incorrect enter of old password');
-            return false;
-        }
-        if (new1 != new2) {
+        if (new1 !== new2) {
             alert('Incorrect enter of new password');
             return false;
         }

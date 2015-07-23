@@ -8,7 +8,13 @@ block content
 
           div
               a(href='/ads/#{ad._id}', style='text-decoration: none')
-                 img.showAds(src='/images/#{ad.mainphoto}', width=150)
+                 if ad.image1
+                      img.showAds(src='/images/#{ad.image1}', width=150)
+                 else if ad.image2
+                      img.showAds(src='/images/#{ad.image2}', width=150)
+                 else
+
+
                  h5 #{ad.title}
                  p
                  h5 #{ad.price}
