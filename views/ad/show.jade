@@ -39,10 +39,10 @@ block content
           td
             p #{ad.price}
     h5 Photos:
-    if ad.mainphoto !== undefined
-        img.show(src='/images/#{ad.mainphoto}')
-    if ad.photo1 !== undefined
-        img.show(src='/images/#{ad.photo1}')
+    if ad.image1 !== undefined
+        img.show(src='/images/#{ad.image1}')
+    if ad.image2 !== undefined
+        img.show(src='/images/#{ad.image2}')
 
     if session.user_id == user._id
         form(action='/ads/#{ad._id}/edit', method='post', enctype='application/x-www-form-urlencoded')

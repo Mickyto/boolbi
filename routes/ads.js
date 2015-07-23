@@ -125,7 +125,7 @@ var adCallback = function(req, res) {
         var origPath = req.files.photo1.path;
         var imageName = Math.random() + req.files.photo1.name;
         var targetPath = './public/images/' + imageName;
-        colObject.mainphoto = imageName;
+        colObject.image1 = imageName;
 
         fs.rename(origPath, targetPath, function (err) {
             if (err) throw err;
@@ -138,7 +138,7 @@ var adCallback = function(req, res) {
         var origPath2 = req.files.photo2.path;
         var imageName2 = Math.random() + req.files.photo2.name;
         var targetPath2 = './public/images/' + imageName2;
-        colObject.photo1 = imageName2;
+        colObject.image2 = imageName2;
 
         fs.rename(origPath2, targetPath2, function (err) {
             if (err) throw err;
@@ -153,11 +153,11 @@ var adCallback = function(req, res) {
         // removing old pictures
 
         colAds.findById(req.id, function (err, doc) {
-            if (imageName !== undefined && doc.mainphoto !== undefined) {
-                fs.unlinkSync('./public/images/' + doc.mainphoto);
+            if (imageName !== undefined && doc.image1 !== undefined) {
+                fs.unlinkSync('./public/images/' + doc.image1);
             }
-            if (imageName2 !== undefined && doc.photo1 !== undefined) {
-                fs.unlinkSync('./public/images/' + doc.photo1);
+            if (imageName2 !== undefined && doc.image2 !== undefined) {
+                fs.unlinkSync('./public/images/' + doc.image2);
             }
 
         });
@@ -191,11 +191,11 @@ router.delete('/:id/edit', checkAuth, function (req, res){
     if (err) {
       return err;
     } else {
-        if (doc.mainphoto !== undefined) {
-            fs.unlinkSync('./public/images/' + doc.mainphoto);
+        if (doc.image1 !== undefined) {
+            fs.unlinkSync('./public/images/' + doc.image1);
         }
-        if (doc.photo1 !== undefined) {
-            fs.unlinkSync('./public/images/' + doc.photo1);
+        if (doc.image2 !== undefined) {
+            fs.unlinkSync('./public/images/' + doc.image2);
         }
       colAds.removeById(req.id,function (err) {
         if (err) {

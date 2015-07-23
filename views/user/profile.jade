@@ -36,10 +36,10 @@ block content
         each ad, i in myAds
           div
             a(href='/ads/#{ad._id}', style='text-decoration: none')
-              if ad.mainphoto
-                 img.showAds(src='/images/#{ad.mainphoto}', width=150)
-              else if ad.photo1
-                 img.showAds(src='/images/#{ad.photo1}', width=150)
+              if ad.image1
+                 img.showAds(src='/images/#{ad.image1}', width=150)
+              else if ad.image2
+                 img.showAds(src='/images/#{ad.image2}', width=150)
               else
               h5 #{ad.title}
               p

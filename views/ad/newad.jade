@@ -34,19 +34,12 @@ block content
          p Photos:
            div.fileUpload
              input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
-             img#photo1(src=(ad.mainphoto !== undefined ? '/images/#{ad.mainphoto}' : ''), width=150)
-         p(onclick="deletePhoto()") delete
+             img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : ''), width=150)
+         p
            div.fileUpload
              input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
-             img#photo2(src=(ad.photo1 !== undefined ? '/images/#{ad.photo1}' : ''), width=150)
+             img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : ''), width=150)
          button(type='submit') Save
-
-  script(type='text/javascript').
-      var deletePhoto = function () {
-
-         document.getElementById('photo1').src='';
-          //x.getAttributeNode('src').value = '';
-      };
 
   script(type='text/javascript').
       var openPhoto = function (event) {
