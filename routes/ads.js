@@ -73,7 +73,7 @@ router.param('id', function (req, res, next, id) {
   })
 })
 
-// TODO: edit ads available
+
 router.get('/:id', function(req, res) {
 
   var db =req.db;
@@ -82,8 +82,8 @@ router.get('/:id', function(req, res) {
   colAds.findById(req.id, function (err, ad) {
       colUser.findById(ad.user_id, function (err, user) {
           res.render('ad/show', {
-              ad: ad,
-              user: user
+              ad : ad,
+              user : user
           });
       })
   })
@@ -153,10 +153,10 @@ var adCallback = function(req, res) {
         // removing old pictures
 
         colAds.findById(req.id, function (err, doc) {
-            if (imageName !== undefined) {
+            if (imageName !== undefined && doc.mainphoto !== undefined) {
                 fs.unlinkSync('./public/images/' + doc.mainphoto);
             }
-            if (imageName2 !== undefined) {
+            if (imageName2 !== undefined && doc.photo1 !== undefined) {
                 fs.unlinkSync('./public/images/' + doc.photo1);
             }
 
