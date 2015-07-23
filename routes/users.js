@@ -63,7 +63,7 @@ router.post('/signup/', function(req, res) {
     }
   });
 });
- //TODO check existing doc, but not activated
+
 router.get('/emailactivation', function (req, res) {
   var db = req.db;
   var colUser = db.get('users');
@@ -71,6 +71,7 @@ router.get('/emailactivation', function (req, res) {
       if (req.query.random == doc.secure_code) {
         colUser.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
         req.session.user_id = doc._id;
+
         res.redirect('/users/profile');
       } else {
         res.render('default', {msg: 'Bad request'});
@@ -100,6 +101,8 @@ router.post('/login', function (req, res) {
         res.redirect('/users/login');
       } else {
         req.session.user_id = doc._id;
+        req.session.email = doc.email;
+
         res.redirect('/users/profile');
       }
     } else {
