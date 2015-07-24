@@ -41,21 +41,24 @@ block content
                  td
                    div.fileUpload
                      input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
-                     img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : ''), width=150)
+                     img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : '/images/logo/camera.png'), width=150)
                  td
                    div.fileUpload
                      input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
-                     img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : ''), width=150)
+                     img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : '/images/logo/camera.png'), width=150)
                tr
                  td
-                     a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none') delete
-                     p(onclick="delImage('photo1')") del
+                   if ad.image1
+                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none') delete
+                   else
+                      p(onclick="delImage('photo1')") delete
                  td
-                   p del
-                   a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', style='text-decoration: none') delete
+                   if ad.image2
+                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', style='text-decoration: none') delete
+                   else
+                      p(onclick="delImage('photo2')") delete
 
-
-         button(type='submit') Save
+          button(type='submit') Save
 
   script(type='text/javascript').
       var delImage = function (name) {
