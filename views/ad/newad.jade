@@ -39,30 +39,29 @@ block content
            table
                tr
                  td
-                   div#img1.fileUpload
+                   div.fileUpload
                      input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
                      img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : ''), width=150)
                  td
-                   div#img2.fileUpload
+                   div.fileUpload
                      input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
                      img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : ''), width=150)
                tr
                  td
-                   a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none') delete
+                     a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none') delete
+                     p(onclick="delImage('photo1')") del
                  td
+                   p del
                    a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', style='text-decoration: none') delete
 
 
          button(type='submit') Save
 
-
-
-         // var x = document.getElementById('img1');
-          var y = document.getElementById('photo1');
-          x.removeChild(y);
-          // removeAttribute('src');
-          //x.getAttributeNode('src').value = '';
-
+  script(type='text/javascript').
+      var delImage = function (name) {
+          document.getElementById(name).getAttributeNode('src').value='/images/logo/camera.png';
+          document.getElementsByName(name)[0].value='';
+      } ;
 
   script(type='text/javascript').
       var openPhoto = function (event) {
