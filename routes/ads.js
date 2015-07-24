@@ -159,7 +159,6 @@ var adCallback = function(req, res) {
             if (imageName2 !== undefined && doc.image2 !== undefined) {
                 fs.unlinkSync('./public/images/' + doc.image2);
             }
-
         });
 
 
@@ -179,9 +178,31 @@ var adCallback = function(req, res) {
 };
 
 
-router.post('/addad', checkAuth,  multipartMiddleware, adCallback);
+router.post('/addad', checkAuth, multipartMiddleware, adCallback);
 
 router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
+
+router.get('/:id/imgdel', function (req, res) {
+
+
+    var db =req.db;
+    var colAds = db.get('ads');
+    var imgObject = {};
+    colAds.findById(req.id, function (err, doc) {
+        if (req.query.img === doc.image1) {
+           imgObject.image1 = 1;
+        }
+        if (req.query.img === doc.image2) {
+           imgObject.image2 = 1;
+        }
+            colAds.findAndModify({_id: req.id}, {$unset: imgObject});
+
+        fs.unlinkSync('./public/images/' + req.query.img);
+        res.redirect('/ads/' + req.id + '/edit')
+
+    });
+});
+
 
 router.delete('/:id/edit', checkAuth, function (req, res){
 

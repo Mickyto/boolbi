@@ -71,7 +71,7 @@ router.get('/emailactivation', function (req, res) {
       if (req.query.random == doc.secure_code) {
         colUser.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
         req.session.user_id = doc._id;
-
+        req.session.email = doc.email;
         res.redirect('/users/profile');
       } else {
         res.render('default', {msg: 'Bad request'});

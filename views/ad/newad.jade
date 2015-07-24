@@ -24,22 +24,45 @@ block content
               h5 #{user.telephone}
 
       form(action='#{formAction}', method='post', enctype='multipart/form-data')
+
          h1 Item information
+
          p Title:
            input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=42)
          p Description:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:
            input(type='text', value='#{ad.price}', name='adprice')
+
+
          p Photos:
-           div.fileUpload
-             input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
-             img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : ''), width=150)
-         p
-           div.fileUpload
-             input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
-             img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : ''), width=150)
+           table
+               tr
+                 td
+                   div#img1.fileUpload
+                     input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
+                     img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : ''), width=150)
+                 td
+                   div#img2.fileUpload
+                     input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
+                     img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : ''), width=150)
+               tr
+                 td
+                   a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none') delete
+                 td
+                   a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', style='text-decoration: none') delete
+
+
          button(type='submit') Save
+
+
+
+         // var x = document.getElementById('img1');
+          var y = document.getElementById('photo1');
+          x.removeChild(y);
+          // removeAttribute('src');
+          //x.getAttributeNode('src').value = '';
+
 
   script(type='text/javascript').
       var openPhoto = function (event) {
