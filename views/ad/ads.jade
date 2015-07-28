@@ -2,9 +2,8 @@ extends ../layout
 
 block content
 
-  h1 Search
-    form(action='/ads/search', method='post', enctype='application/x-www-form-urlencoded')
-        input(type='text', name='search')
+    form(action='/ads/search', method='post', align='left', enctype='application/x-www-form-urlencoded')
+        input.search(type='text', name='search')
         button(type='submit') search
 
 

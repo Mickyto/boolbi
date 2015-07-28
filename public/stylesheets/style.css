@@ -107,6 +107,11 @@ input {
   margin: 10px;
   background: WhiteSmoke;
 }
+
+input.search {
+  width: 400px;
+}
+
 button {
   font-size: 21px;
   border: 2px solid white;
