@@ -9,7 +9,7 @@ var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
 
-router.use(methodOverride(function(req, res){
+router.use(methodOverride(function(req){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     var method = req.body._method;
     delete req.body._method;
@@ -71,7 +71,7 @@ router.param('id', function (req, res, next, id) {
       next();
     }
   })
-})
+});
 
 
 router.get('/:id', function(req, res) {
@@ -159,14 +159,13 @@ var adCallback = function(req, res) {
             if (imageName2 !== undefined && doc.image2 !== undefined) {
                 fs.unlinkSync('./public/images/' + doc.image2);
             }
-
         });
 
 
         colAds.findAndModify({_id: req.id}, {$set: colObject})
         .success(function () {
             res.redirect('/ads/' + req.id);
-        })
+        });
 
 
         // inserting record
@@ -174,14 +173,59 @@ var adCallback = function(req, res) {
     } else {
         colAds.insert(colObject).success(function () {
                 res.redirect('/ads');
-        })
+        });
     }
 };
 
 
-router.post('/addad', checkAuth,  multipartMiddleware, adCallback);
+router.post('/addad', checkAuth, multipartMiddleware, adCallback);
 
 router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
+
+router.get('/:id/imgdel', function (req, res) {
+
+
+    var db =req.db;
+    var colAds = db.get('ads');
+    var imgObject = {};
+    colAds.findById(req.id, function (err, doc) {
+        if (req.query.img === doc.image1) {
+           imgObject.image1 = 1;
+        }
+        if (req.query.img === doc.image2) {
+           imgObject.image2 = 1;
+        }
+            colAds.findAndModify({_id: req.id}, {$unset: imgObject});
+
+        fs.unlinkSync('./public/images/' + req.query.img);
+        res.redirect('/ads/' + req.id + '/edit')
+
+    });
+});
+
+
+router.post('/search', function (req, res) {
+    var searchText = req.body.search;
+    var arrayInput = searchText.split(' ');
+    var pattern = arrayInput.map( function(word) {
+        return '(' + '?'+ '=' + '.' + '*' + word + ')'
+    });
+    var regexString = pattern.join('') + '.+';
+    var reg = new RegExp(regexString, 'ig');
+    req.db.get('ads').find(
+        {
+            $or : [
+                    { title :       { $regex : reg } },
+                    { description : { $regex : reg } }
+                  ]
+        }, function(err, docs) {
+            res.render('ad/ads', {
+                ads : docs
+            });
+        }
+    );
+});
+
 
 router.delete('/:id/edit', checkAuth, function (req, res){
 

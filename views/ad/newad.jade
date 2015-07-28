@@ -24,22 +24,52 @@ block content
               h5 #{user.telephone}
 
       form(action='#{formAction}', method='post', enctype='multipart/form-data')
+
          h1 Item information
+
          p Title:
            input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=42)
          p Description:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:
            input(type='text', value='#{ad.price}', name='adprice')
+
+
          p Photos:
-           div.fileUpload
-             input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
-             img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : ''), width=150)
-         p
-           div.fileUpload
-             input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
-             img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : ''), width=150)
-         button(type='submit') Save
+           table
+               tr
+                 td
+                   div.fileUpload
+                     input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
+                     img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : '/images/logo/camera.png'), width=150)
+                 td
+                   div.fileUpload
+                     input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
+                     img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : '/images/logo/camera.png'), width=150)
+               tr
+                 td
+                   if ad.image1
+                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none')
+                          img(src='/images/logo/trash.png', width=30)
+                   else
+                       p(onclick="delImage('photo1')")
+                          img(src='/images/logo/trash.png', width=30)
+
+                 td
+                   if ad.image2
+                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', style='text-decoration: none')
+                          img(src='/images/logo/trash.png', width=30)
+                   else
+                      p(onclick="delImage('photo2')")
+                          img(src='/images/logo/trash.png', width=30)
+
+          button(type='submit') Save
+
+  script(type='text/javascript').
+      var delImage = function (name) {
+          document.getElementById(name).getAttributeNode('src').value='/images/logo/camera.png';
+          document.getElementsByName(name)[0].value='';
+      } ;
 
   script(type='text/javascript').
       var openPhoto = function (event) {
