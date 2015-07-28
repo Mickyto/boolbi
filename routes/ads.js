@@ -31,29 +31,32 @@ function checkAuth(req, res, next) {
 router.get('/newad', checkAuth, function(req, res) {
     var db = req.db;
     var colUser = db.get('users');
-    colUser.findById(req.session.user_id, function (err, doc) {
-        res.render('ad/newad', {
-            user: doc,
-            ad: {
-                title: '',
-                description: '',
-                price: ''
-            },
-            formAction: '/ads/addad'
+    var colCateg = db.get('categories');
+    colCateg.find({}, function(err, docs) {
+        colUser.findById(req.session.user_id, function (err, doc) {
+            res.render('ad/newad', {
+                categories : docs,
+                user: doc,
+                ad: {
+                    title: '',
+                    description: '',
+                    price: ''
+                },
+                formAction: '/ads/addad'
+            });
         });
     });
 });
 
 
 router.get('/', function(req, res) {
-
-  var db =req.db;
-  var colAds = db.get('ads');
-  colAds.find({},{sort:{_id:-1}},function(err, docs){
-    res.render('ad/ads', {
-      ads : docs
-    })
-  })
+    var db =req.db;
+    var colAds = db.get('ads');
+    colAds.find( {}, {sort:{_id : -1 } }, function(err, docs) {
+        res.render( 'ad/ads', {
+          ads : docs
+    });
+  });
 });
 
 
@@ -115,6 +118,7 @@ var adCallback = function(req, res) {
     var colAds = db.get('ads');
     var colObject = {
         user_id : req.session.user_id,
+        category_id : req.body.category,
         title: req.body.adtitle,
         description: req.body.addescription,
         price: req.body.adprice
@@ -171,8 +175,8 @@ var adCallback = function(req, res) {
         // inserting record
 
     } else {
-        colAds.insert(colObject).success(function () {
-                res.redirect('/ads');
+        colAds.insert( colObject ).success( function () {
+            res.redirect('/ads');
         });
     }
 };
