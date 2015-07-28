@@ -2,7 +2,15 @@ extends ../layout
 
 block content
 
-  h1 Ad List:
+  h1 Search
+    form(action='/ads/search', method='post', enctype='application/x-www-form-urlencoded')
+        input(type='text', name='search')
+        button(type='submit') search
+
+
+
+
+    h1 Ad List:
 
       each ad, i in ads
 

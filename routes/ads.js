@@ -9,7 +9,7 @@ var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
 
-router.use(methodOverride(function(req, res){
+router.use(methodOverride(function(req){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     var method = req.body._method;
     delete req.body._method;
@@ -71,7 +71,7 @@ router.param('id', function (req, res, next, id) {
       next();
     }
   })
-})
+});
 
 
 router.get('/:id', function(req, res) {
@@ -165,7 +165,7 @@ var adCallback = function(req, res) {
         colAds.findAndModify({_id: req.id}, {$set: colObject})
         .success(function () {
             res.redirect('/ads/' + req.id);
-        })
+        });
 
 
         // inserting record
@@ -173,7 +173,7 @@ var adCallback = function(req, res) {
     } else {
         colAds.insert(colObject).success(function () {
                 res.redirect('/ads');
-        })
+        });
     }
 };
 
@@ -201,6 +201,29 @@ router.get('/:id/imgdel', function (req, res) {
         res.redirect('/ads/' + req.id + '/edit')
 
     });
+});
+
+
+router.post('/search', function (req, res) {
+    var searchText = req.body.search;
+    var arrayInput = searchText.split(' ');
+    var pattern = arrayInput.map( function(word) {
+        return '(' + '?'+ '=' + '.' + '*' + word + ')'
+    });
+    var regexString = pattern.join('') + '.+';
+    var reg = new RegExp(regexString, 'ig');
+    req.db.get('ads').find(
+        {
+            $or : [
+                    { title :       { $regex : reg } },
+                    { description : { $regex : reg } }
+                  ]
+        }, function(err, docs) {
+            res.render('ad/ads', {
+                ads : docs
+            });
+        }
+    );
 });
 
 

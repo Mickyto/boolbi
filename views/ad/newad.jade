@@ -49,14 +49,19 @@ block content
                tr
                  td
                    if ad.image1
-                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none') delete
+                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none')
+                          img(src='/images/logo/trash.png', width=30)
                    else
-                      p(onclick="delImage('photo1')") delete
+                       p(onclick="delImage('photo1')")
+                          img(src='/images/logo/trash.png', width=30)
+
                  td
                    if ad.image2
-                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', style='text-decoration: none') delete
+                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', style='text-decoration: none')
+                          img(src='/images/logo/trash.png', width=30)
                    else
-                      p(onclick="delImage('photo2')") delete
+                      p(onclick="delImage('photo2')")
+                          img(src='/images/logo/trash.png', width=30)
 
           button(type='submit') Save
 
