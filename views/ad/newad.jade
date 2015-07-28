@@ -26,7 +26,19 @@ block content
       form(action='#{formAction}', method='post', enctype='multipart/form-data')
 
          h1 Item information
-
+         p Category:
+           select(name='select')
+              option(value='none') none
+              option(value='transport') transport
+              option(value='immovables') immovables
+              option(value='job') job
+              option(value='services') services
+              option(value='personal') personal items
+              option(value='forHome') for home
+              option(value='electonics') electonics
+              option(value='rest') rest and hobby
+              option(value='animals') animals
+              option(value='business') business
          p Title:
            input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=42)
          p Description:
