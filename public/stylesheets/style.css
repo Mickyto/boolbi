@@ -35,13 +35,12 @@ input.search {
   width: 400px;
 }
 
-  a {
+a {
   font-size: 25px;
   color: white;
   font-family: Raleway, Helvetica, Arial, sans-serif; }
 
-  a.one {
-  font-family: Raleway, Helvetica, Arial, sans-serif;
+a.one {
   background: none;
   border: 2px solid white;
   border-radius: 5px;
@@ -93,10 +92,30 @@ div {
   margin: 20px;
 }
 
+
+
 div.msg {
   background: Teal;
   border-radius: 10px;
   width: 270px;
+}
+
+div.category {
+  margin: auto;
+  padding: 0;
+  width: 250px;
+}
+
+div.categ {
+  margin: 0;
+  padding: 10px
+}
+
+div.categ:hover {background: cadetblue }
+
+div.inv {
+  width: 250px;
+  padding: 0px;
 }
 
 p {
