@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
-
+var ObjectId = require('mongodb').ObjectId;
 
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -131,7 +131,7 @@ router.get('/profile', checkAuth, function (req, res) {
   var colUser = db.get('users');
   var colAds = db.get('ads');
   colUser.findById(req.session.user_id, function (err, user) {
-    colAds.find({user_id : req.session.user_id}, function(err, ads) {
+    colAds.find({user_id : ObjectId(req.session.user_id)}, {sort:{_id : -1 } }, function(err, ads) {
       res.render('user/profile', {
         user : user,
         myAds : ads
@@ -150,10 +150,10 @@ router.get('/edit', checkAuth, function (req, res) {
       res.render('user/edit', {
         user : doc,
         message : req.flash('info')
-      })
+      });
     }
   })
-})
+});
 
 
 router.post('/edit', checkAuth, function (req, res) {

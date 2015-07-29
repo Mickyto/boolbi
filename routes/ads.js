@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var fs = require('fs');
 var multipart = require('connect-multiparty');
-
+var ObjectId = require('mongodb').ObjectId;
 
 var multipartMiddleware = multipart();
 
@@ -42,7 +42,8 @@ router.get('/newad', checkAuth, function(req, res) {
                     description: '',
                     price: ''
                 },
-                formAction: '/ads/addad'
+                formAction: '/ads/addad',
+                message : req.flash('info')
             });
         });
     });
@@ -82,14 +83,18 @@ router.get('/:id', function(req, res) {
   var db =req.db;
   var colUser = db.get('users');
   var colAds = db.get('ads');
+  var colCateg = db.get('categories');
   colAds.findById(req.id, function (err, ad) {
-      colUser.findById(ad.user_id, function (err, user) {
-          res.render('ad/show', {
-              ad : ad,
-              user : user
+      colCateg.findById(ad.category_id, function(err, category) {
+          colUser.findById(ad.user_id, function (err, user) {
+              res.render('ad/show', {
+                  ad : ad,
+                  category : category,
+                  user : user
+              });
           });
-      })
-  })
+      });
+  });
 });
 
 
@@ -99,12 +104,16 @@ router.get('/:id/edit', checkAuth, function(req, res) {
   var db =req.db;
   var colAds = db.get('ads');
   var colUser = db.get('users');
+  var colCateg = db.get('categories');
   colAds.findById(req.id, function (err, ad) {
-      colUser.findById(ad.user_id, function (err, user) {
-          res.render('ad/newad', {
-              user: user,
-              ad: ad,
-              formAction: '/ads/' + req.id + '/adedit'
+      colCateg.findById(ad.category_id, function(err, category) {
+          colUser.findById(ad.user_id, function (err, user) {
+              res.render('ad/newad', {
+                  user : user,
+                  category : category,
+                  ad : ad,
+                  formAction: '/ads/' + req.id + '/adedit'
+              });
           });
       });
   });
@@ -117,8 +126,7 @@ var adCallback = function(req, res) {
     var db = req.db;
     var colAds = db.get('ads');
     var colObject = {
-        user_id : req.session.user_id,
-        category_id : req.body.category,
+        user_id : ObjectId(req.session.user_id),
         title: req.body.adtitle,
         description: req.body.addescription,
         price: req.body.adprice
@@ -174,10 +182,27 @@ var adCallback = function(req, res) {
 
         // inserting record
 
+    } else if (req.body.category == '') {
+
+        req.flash('info', 'You did not select the category');
+        res.redirect('/ads/newad');
+
     } else {
-        colAds.insert( colObject ).success( function () {
-            res.redirect('/ads');
+        db.get('categories').findById(req.body.category, function(err, doc) {
+            
+            if (doc) {
+                colObject.category_id = ObjectId(req.body.category);
+                colAds.insert( colObject ).success( function () {
+                    res.redirect('/ads');
+                });
+            }
+            else {
+                req.flash('info', 'There is no such category');
+                res.redirect('/ads/newad');
+            }
+
         });
+
     }
 };
 

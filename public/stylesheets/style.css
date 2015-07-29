@@ -96,6 +96,7 @@ div {
 div.msg {
   background: Teal;
   border-radius: 10px;
+  width: 270px;
 }
 
 p {
