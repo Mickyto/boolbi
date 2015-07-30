@@ -200,9 +200,7 @@ var adCallback = function(req, res) {
                 req.flash('info', 'There is no such category');
                 res.redirect('/ads/newad');
             }
-
         });
-
     }
 };
 

@@ -41,7 +41,7 @@ block content
                            each category, i in categories
                                option(value='#{category._id}') #{category.name}
          p Title:
-           input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=42)
+           input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
          p Description:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:

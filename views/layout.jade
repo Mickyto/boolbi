@@ -6,24 +6,23 @@ html
 
   body
     table(style={width: '100%'})
-     tr
-      td
-       a(href='/')
-         img.logo(src='/images/logo/logo.png', alt='logo', width=280, height=80)
-      td
-       a.one(href='/ads', style='text-decoration: none')  all ads
-      if session.user_id
+       tr
           td
-           a.one(href='/ads/newad', style='text-decoration: none') new ad
-          td
-           a.one(href='/users/profile', style='text-decoration: none') profile
-      else
-          td
-           a.one(href='/users/login', style='text-decoration: none') log in
-    p #{session.email}
-      hr
-    block content
+           a(href='/')
+             img.logo(src='/images/logo/logo.png', alt='logo', width=280, height=80)
+           p #{session.email}
+          if session.user_id
+              td
+               a.one(href='/ads/newad', style='text-decoration: none') new ad
+              td
+               a.one(href='/users/profile', style='text-decoration: none') profile
+          else
+              td
+               a.one(href='/users/login', style='text-decoration: none') log in
 
-  p
-  hr
-  p E-mail: info@bravito.ru
+      hr
+  block content
+
+  div.footer
+      hr
+      p E-mail: info@bravito.ru

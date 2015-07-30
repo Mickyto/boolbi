@@ -92,7 +92,11 @@ div {
   margin: 20px;
 }
 
-
+div.footer {
+  width: 100%;
+  margin: 0;
+  background: none
+}
 
 div.msg {
   background: Teal;
@@ -111,11 +115,12 @@ div.categ {
   padding: 10px
 }
 
-div.categ:hover {background: cadetblue }
+div.categ:hover {background: seagreen }
 
 div.inv {
   width: 250px;
   padding: 0px;
+  float: left;
 }
 
 p {
