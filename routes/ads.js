@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var fs = require('fs');
 var multipart = require('connect-multiparty');
-
+var ObjectId = require('mongodb').ObjectId;
 
 var multipartMiddleware = multipart();
 
@@ -30,30 +30,34 @@ function checkAuth(req, res, next) {
 
 router.get('/newad', checkAuth, function(req, res) {
     var db = req.db;
-    var colUser = db.get('users');
-    colUser.findById(req.session.user_id, function (err, doc) {
-        res.render('ad/newad', {
-            user: doc,
-            ad: {
-                title: '',
-                description: '',
-                price: ''
-            },
-            formAction: '/ads/addad'
+    var userCol = db.get('users');
+    var categoryCol = db.get('categories');
+    categoryCol.find({}, function(err, docs) {
+        userCol.findById(req.session.user_id, function (err, doc) {
+            res.render('ad/newad', {
+                categories : docs,
+                user: doc,
+                ad: {
+                    title: '',
+                    description: '',
+                    price: ''
+                },
+                formAction: '/ads/addad',
+                message : req.flash('info')
+            });
         });
     });
 });
 
 
 router.get('/', function(req, res) {
-
-  var db =req.db;
-  var colAds = db.get('ads');
-  colAds.find({},{sort:{_id:-1}},function(err, docs){
-    res.render('ad/ads', {
-      ads : docs
-    })
-  })
+    var db =req.db;
+    var adCol = db.get('ads');
+    adCol.find( {}, {sort:{_id : -1 } }, function(err, docs) {
+        res.render( 'ad/ads', {
+          ads : docs
+    });
+  });
 });
 
 
@@ -61,8 +65,8 @@ router.get('/', function(req, res) {
 router.param('id', function (req, res, next, id) {
 
   var db = req.db;
-  var colAds = db.get('ads');
-  colAds.findById(id, function (err) {
+  var adCol = db.get('ads');
+  adCol.findById(id, function (err) {
         if (err) {
           res.send(id + ' was not found');
     }
@@ -77,16 +81,20 @@ router.param('id', function (req, res, next, id) {
 router.get('/:id', function(req, res) {
 
   var db =req.db;
-  var colUser = db.get('users');
-  var colAds = db.get('ads');
-  colAds.findById(req.id, function (err, ad) {
-      colUser.findById(ad.user_id, function (err, user) {
-          res.render('ad/show', {
-              ad : ad,
-              user : user
+  var userCol = db.get('users');
+  var adCol = db.get('ads');
+  var categoryCol = db.get('categories');
+  adCol.findById(req.id, function (err, ad) {
+      categoryCol.findById(ad.category_id, function(err, category) {
+          userCol.findById(ad.user_id, function (err, user) {
+              res.render('ad/show', {
+                  ad : ad,
+                  category : category,
+                  user : user
+              });
           });
-      })
-  })
+      });
+  });
 });
 
 
@@ -94,14 +102,18 @@ router.get('/:id', function(req, res) {
 router.get('/:id/edit', checkAuth, function(req, res) {
 
   var db =req.db;
-  var colAds = db.get('ads');
-  var colUser = db.get('users');
-  colAds.findById(req.id, function (err, ad) {
-      colUser.findById(ad.user_id, function (err, user) {
-          res.render('ad/newad', {
-              user: user,
-              ad: ad,
-              formAction: '/ads/' + req.id + '/adedit'
+  var adCol = db.get('ads');
+  var userCol = db.get('users');
+  var categoryCol = db.get('categories');
+  adCol.findById(req.id, function (err, ad) {
+      categoryCol.findById(ad.category_id, function(err, category) {
+          userCol.findById(ad.user_id, function (err, user) {
+              res.render('ad/newad', {
+                  user : user,
+                  category : category,
+                  ad : ad,
+                  formAction: '/ads/' + req.id + '/adedit'
+              });
           });
       });
   });
@@ -112,9 +124,9 @@ var adCallback = function(req, res) {
 
 
     var db = req.db;
-    var colAds = db.get('ads');
+    var adCol = db.get('ads');
     var colObject = {
-        user_id : req.session.user_id,
+        user_id : ObjectId(req.session.user_id),
         title: req.body.adtitle,
         description: req.body.addescription,
         price: req.body.adprice
@@ -152,7 +164,7 @@ var adCallback = function(req, res) {
 
         // removing old pictures
 
-        colAds.findById(req.id, function (err, doc) {
+        adCol.findById(req.id, function (err, doc) {
             if (imageName !== undefined && doc.image1 !== undefined) {
                 fs.unlinkSync('./public/images/' + doc.image1);
             }
@@ -162,7 +174,7 @@ var adCallback = function(req, res) {
         });
 
 
-        colAds.findAndModify({_id: req.id}, {$set: colObject})
+        adCol.findAndModify({_id: req.id}, {$set: colObject})
         .success(function () {
             res.redirect('/ads/' + req.id);
         });
@@ -170,9 +182,24 @@ var adCallback = function(req, res) {
 
         // inserting record
 
+    } else if (req.body.category == '') {
+
+        req.flash('info', 'You did not select the category');
+        res.redirect('/ads/newad');
+
     } else {
-        colAds.insert(colObject).success(function () {
-                res.redirect('/ads');
+        db.get('categories').findById(req.body.category, function(err, doc) {
+
+            if (doc) {
+                colObject.category_id = ObjectId(req.body.category);
+                adCol.insert( colObject ).success( function () {
+                    res.redirect('/ads');
+                });
+            }
+            else {
+                req.flash('info', 'There is no such category');
+                res.redirect('/ads/newad');
+            }
         });
     }
 };
@@ -186,16 +213,16 @@ router.get('/:id/imgdel', function (req, res) {
 
 
     var db =req.db;
-    var colAds = db.get('ads');
+    var adCol = db.get('ads');
     var imgObject = {};
-    colAds.findById(req.id, function (err, doc) {
+    adCol.findById(req.id, function (err, doc) {
         if (req.query.img === doc.image1) {
            imgObject.image1 = 1;
         }
         if (req.query.img === doc.image2) {
            imgObject.image2 = 1;
         }
-            colAds.findAndModify({_id: req.id}, {$unset: imgObject});
+            adCol.findAndModify({_id: req.id}, {$unset: imgObject});
 
         fs.unlinkSync('./public/images/' + req.query.img);
         res.redirect('/ads/' + req.id + '/edit')
@@ -230,8 +257,8 @@ router.post('/search', function (req, res) {
 router.delete('/:id/edit', checkAuth, function (req, res){
 
   var db =req.db;
-  var colAds = db.get('ads');
-  colAds.findById(req.id, function (err, doc) {
+  var adCol = db.get('ads');
+  adCol.findById(req.id, function (err, doc) {
     if (err) {
       return err;
     } else {
@@ -241,7 +268,7 @@ router.delete('/:id/edit', checkAuth, function (req, res){
         if (doc.image2 !== undefined) {
             fs.unlinkSync('./public/images/' + doc.image2);
         }
-      colAds.removeById(req.id,function (err) {
+      adCol.removeById(req.id,function (err) {
         if (err) {
           return err;
         } else {

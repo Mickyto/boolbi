@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
-
+var ObjectId = require('mongodb').ObjectId;
 
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -29,10 +29,10 @@ router.get('/signup/', function(req, res) {
 
 router.post('/signup/', function(req, res) {
   var db = req.db;
-  var colUser = db.get('users');
+  var userCol = db.get('users');
   var rand = Math.random();
   var bodyEmail = req.body.useremail;
-  colUser.findOne({ email :  bodyEmail }, function(err, doc) {
+  userCol.findOne({ email :  bodyEmail }, function(err, doc) {
     if (doc) {
       req.flash('info', 'That email is already taken');
       res.redirect('/users/signup/');
@@ -40,7 +40,7 @@ router.post('/signup/', function(req, res) {
       req.flash('info', 'That email was not activated');
       res.redirect('/users/signup/');*/
     } else {
-      colUser.insert({
+      userCol.insert({
         email: bodyEmail,
         password: req.body.password,
         active : 'no',
@@ -66,10 +66,10 @@ router.post('/signup/', function(req, res) {
 
 router.get('/emailactivation', function (req, res) {
   var db = req.db;
-  var colUser = db.get('users');
-    colUser.findOne({ email : req.query.email }, function (err, doc) {
+  var userCol = db.get('users');
+    userCol.findOne({ email : req.query.email }, function (err, doc) {
       if (req.query.random == doc.secure_code) {
-        colUser.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
+        userCol.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
         req.session.user_id = doc._id;
         req.session.email = doc.email;
         res.redirect('/users/profile');
@@ -92,8 +92,8 @@ router.get('/login', function(req, res) {
 
 router.post('/login', function (req, res) {
   var db = req.db;
-  var colUser = db.get('users');
-  colUser.findOne({email : req.body.useremail}, function (err, doc) {
+  var userCol = db.get('users');
+  userCol.findOne({email : req.body.useremail}, function (err, doc) {
 
     if (doc && req.body.password === doc.password) {
       if (doc.active == 'no') {
@@ -128,10 +128,10 @@ function checkAuth(req, res, next) {
 
 router.get('/profile', checkAuth, function (req, res) {
   var db = req.db;
-  var colUser = db.get('users');
-  var colAds = db.get('ads');
-  colUser.findById(req.session.user_id, function (err, user) {
-    colAds.find({user_id : req.session.user_id}, function(err, ads) {
+  var userCol = db.get('users');
+  var adCol = db.get('ads');
+  userCol.findById(req.session.user_id, function (err, user) {
+    adCol.find({user_id : ObjectId(req.session.user_id)}, {sort:{_id : -1 } }, function(err, ads) {
       res.render('user/profile', {
         user : user,
         myAds : ads
@@ -142,18 +142,18 @@ router.get('/profile', checkAuth, function (req, res) {
 
 router.get('/edit', checkAuth, function (req, res) {
   var db =req.db;
-  var colUser = db.get('users');
-  colUser.findById(req.session.user_id, function (err, doc) {
+  var userCol = db.get('users');
+  userCol.findById(req.session.user_id, function (err, doc) {
     if (err) {
       res.send('No user found.');
     } else {
       res.render('user/edit', {
         user : doc,
         message : req.flash('info')
-      })
+      });
     }
   })
-})
+});
 
 
 router.post('/edit', checkAuth, function (req, res) {
@@ -164,7 +164,7 @@ router.post('/edit', checkAuth, function (req, res) {
   }
   else {
     var db = req.db;
-    var colUser = db.get('users');
+    var userCol = db.get('users');
     var colObject = {
       name: req.body.name,
       telephone: req.body.telephone
@@ -174,7 +174,7 @@ router.post('/edit', checkAuth, function (req, res) {
       colObject.password = req.body.newpass2
     }
 
-    colUser.findAndModify({_id: req.session.user_id}, {$set: colObject})
+    userCol.findAndModify({_id: req.session.user_id}, {$set: colObject})
         .success(function () {
           res.redirect('/users/profile');
         })

@@ -23,12 +23,25 @@ block content
             td
               h5 #{user.telephone}
 
-      form(action='#{formAction}', method='post', enctype='multipart/form-data')
-
+      form(name='adForm', action='#{formAction}', method='post', onsubmit='return validateForm()', enctype='multipart/form-data')
          h1 Item information
-
+         if message.length > 0
+             div.msg
+                 p #{message}
+         table
+              tr
+                td
+                  p Category:
+                td
+                   if category
+                       h5 #{category.name}
+                   else
+                       select(name='category')
+                           option(value='') select category
+                           each category, i in categories
+                               option(value='#{category._id}') #{category.name}
          p Title:
-           input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=42)
+           input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
          p Description:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:
@@ -82,3 +95,12 @@ block content
           };
           reader.readAsDataURL(input.files[0]);
       };
+  script(type='text/javascript', src='/javascripts/validator.min.js').
+  script(type = 'text/javascript').
+      function validateForm() {
+        var category = document.forms['adForm']['category'].value;
+        if (!validator.isMongoId(category)) {
+            alert('You did not select the category');
+            return false;
+        }
+      }

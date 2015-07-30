@@ -21,21 +21,26 @@ body {
   font-family: Comfortaa, Helvetica, Arial, sans-serif;
 }
 
-  textarea,
-  input {
+select,
+textarea,
+input {
   border: 0;
   border-radius: 5px;
-  margin: 30px;
+  margin: 10px;
   font-size: 20px;
+  background: WhiteSmoke;
 }
 
-  a {
+input.search {
+  width: 400px;
+}
+
+a {
   font-size: 25px;
   color: white;
   font-family: Raleway, Helvetica, Arial, sans-serif; }
 
-  a.one {
-  font-family: Raleway, Helvetica, Arial, sans-serif;
+a.one {
   background: none;
   border: 2px solid white;
   border-radius: 5px;
@@ -56,9 +61,6 @@ a.three {
   font-size: 30px;
   padding: 30px;
 }
-
-
-
 
 a.three:hover { color: gold }
 a.one:hover { background: LightSeaGreen }
@@ -90,9 +92,35 @@ div {
   margin: 20px;
 }
 
+div.footer {
+  width: 100%;
+  margin: 0;
+  background: none
+}
+
 div.msg {
   background: Teal;
   border-radius: 10px;
+  width: 270px;
+}
+
+div.category {
+  margin: auto;
+  padding: 0;
+  width: 250px;
+}
+
+div.categ {
+  margin: 0;
+  padding: 10px
+}
+
+div.categ:hover {background: seagreen }
+
+div.inv {
+  width: 250px;
+  padding: 0px;
+  float: left;
 }
 
 p {
@@ -102,15 +130,8 @@ p {
   margin: auto;
   color: yellow;
 }
-textarea,
-input {
-  margin: 10px;
-  background: WhiteSmoke;
-}
 
-input.search {
-  width: 400px;
-}
+
 
 button {
   font-size: 21px;
