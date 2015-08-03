@@ -62,12 +62,27 @@ a.three {
   padding: 30px;
 }
 
+a.four {
+  background: none;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 10px 20px 10px 20px;
+  margin-left: 5px;
+}
+
 a.three:hover { color: gold }
+a.four:visited { color: gold }
+a.four:hover,
 a.one:hover { background: LightSeaGreen }
 a.two:hover { background: #ffff4f; color: black }
 
+
 ul.a {
   list-style-type: none;
+}
+
+li.a {
+  display: inline;
 }
 
 h5 {

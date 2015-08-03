@@ -193,7 +193,7 @@ var adCallback = function(req, res) {
             if (doc) {
                 colObject.category_id = ObjectId(req.body.category);
                 adCol.insert(colObject).success( function () {
-                    res.redirect('/ads');
+                    res.redirect('/users/profile');
                 });
             }
             else {

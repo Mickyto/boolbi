@@ -28,7 +28,8 @@ block content
 
 
 
-
-    ul
-        li
-           #{str}
+    if pages.length>1
+        ul.a
+            each page, i in pages
+                li.a
+                       a.four(href='#{page}', style='text-decoration: none') #{[i] * 1 + 1}
