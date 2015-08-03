@@ -119,7 +119,7 @@ div.categ:hover {background: seagreen }
 
 div.inv {
   width: 250px;
-  padding: 0px;
+  padding: 0;
   float: left;
 }
 

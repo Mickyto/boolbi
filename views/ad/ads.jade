@@ -11,9 +11,9 @@ block content
 
     h1 Ad List:
 
-      each ad, i in ads
+    each ad, i in ads
 
-          div
+        div
               a(href='/ads/#{ad._id}', style='text-decoration: none')
                  if ad.image1
                       img.showAds(src='/images/#{ad.image1}', width=150)
@@ -25,3 +25,10 @@ block content
                  h5 #{ad.title}
                  p
                  h5 #{ad.price}
+
+
+
+
+    ul
+        li
+           #{str}
