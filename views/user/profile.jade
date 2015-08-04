@@ -44,3 +44,9 @@ block content
               h5 #{ad.title}
               p
               h5 #{ad.price}
+
+  if pages.length > 1
+    ul.a
+      each page, i in pages
+        li.a
+          a.four(href='#{page}', style='text-decoration: none') #{[i] * 1 + 1}

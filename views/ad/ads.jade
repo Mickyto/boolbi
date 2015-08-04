@@ -2,11 +2,16 @@ extends ../layout
 
 block content
 
-    form(action='/ads/search', method='post', align='left', enctype='application/x-www-form-urlencoded')
-        input.search(type='text', name='search')
+
+    form(action='/ads/search', method='get', align='left', enctype='application/x-www-form-urlencoded')
+        input.search(type='text', name='search', value=(word ? '#{word}' : ''))
         button(type='submit') search
 
 
+
+    if message.length > 0
+        div.msg
+            p #{message}
 
 
     h1 Ad List:
@@ -28,8 +33,3 @@ block content
 
 
 
-    if pages.length>1
-        ul.a
-            each page, i in pages
-                li.a
-                       a.four(href='#{page}', style='text-decoration: none') #{[i] * 1 + 1}

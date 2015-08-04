@@ -71,7 +71,7 @@ a.four {
 }
 
 a.three:hover { color: gold }
-a.four:visited { color: gold }
+a.four:visited { color: gold; border-color: gold }
 a.four:hover,
 a.one:hover { background: LightSeaGreen }
 a.two:hover { background: #ffff4f; color: black }

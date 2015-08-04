@@ -28,17 +28,20 @@ router.param('id', function (req, res, next, id) {
 });
 
 
+
+
+
 router.get('/category/:id', function(req, res) {
     var db =req.db;
     var adCol = db.get('ads');
     var perPage = 4;
     var page = req.query.page;
-    adCol.find({category_id : ObjectId(req.id)},{
+    adCol.find({ category_id : ObjectId(req.id) },{
         skip: perPage * page,
         limit: perPage,
-        sort: { '_id': -1}
+        sort: { _id: -1 }
     }, function(err, ads) {
-        adCol.count({category_id : ObjectId(req.id)}, function(err, count) {
+        adCol.count({ category_id : ObjectId(req.id) }, function(err, count) {
 
             var pages = [];
             for (var p = 0; p < count/perPage; p++) {
@@ -47,7 +50,8 @@ router.get('/category/:id', function(req, res) {
 
             res.render('ad/ads', {
                 ads: ads,
-                pages: pages
+                pages: pages,
+                message : req.flash('info')
             });
         });
     });

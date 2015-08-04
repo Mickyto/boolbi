@@ -10,7 +10,7 @@ block content
                  div.categ
                    p #{category.name}
 
-        form(action='/ads/search', method='post', align='left', enctype='application/x-www-form-urlencoded')
+        form(action='/ads/search', method='get', enctype='application/x-www-form-urlencoded')
             input.search(type='text', name='search')
             button(type='submit') search
         div

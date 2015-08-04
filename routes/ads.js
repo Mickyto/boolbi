@@ -231,7 +231,7 @@ router.get('/:id/imgdel', function (req, res) {
 });
 
 
-router.post('/search', function (req, res) {
+router.get('/search', function (req, res) {
     var searchText = req.body.search;
     var arrayInput = searchText.split(' ');
     var pattern = arrayInput.map( function(word) {
@@ -247,7 +247,8 @@ router.post('/search', function (req, res) {
                   ]
         }, function(err, docs) {
             res.render('ad/ads', {
-                ads : docs
+                ads : docs,
+                message : req.flash('info')
             });
         }
     );
