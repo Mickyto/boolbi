@@ -112,7 +112,8 @@ router.get('/:id/edit', checkAuth, function(req, res) {
                   user : user,
                   category : category,
                   ad : ad,
-                  formAction: '/ads/' + req.id + '/adedit'
+                  formAction: '/ads/' + req.id + '/adedit',
+                  message: req.flash('info')
               });
           });
       });
@@ -229,7 +230,6 @@ router.get('/:id/imgdel', function (req, res) {
 
     });
 });
-
 
 
 router.delete('/:id/edit', checkAuth, function (req, res){
