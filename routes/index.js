@@ -59,5 +59,32 @@ router.get('/category/:id', function(req, res) {
 
 
 
+router.get('/search', function (req, res) {
+
+    var searchText = req.query.search;
+    console.log(searchText);
+    var arrayInput = searchText.split(' ');
+    var pattern = arrayInput.map( function(word) {
+        return '(' + '?'+ '=' + '.' + '*' + word + ')'
+    });
+    var regexString = pattern.join('') + '.+';
+    var reg = new RegExp(regexString, 'ig');
+    req.db.get('ads').find(
+        {
+            $or : [
+                { title :       { $regex : reg } },
+                { description : { $regex : reg } }
+            ]
+        }, function(err, docs) {
+            res.render('ad/ads', {
+                ads : docs,
+                message : req.flash('info')
+            });
+        }
+    );
+});
+
+
+
 
 module.exports = router;
