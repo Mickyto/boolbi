@@ -55,7 +55,8 @@ router.get('/', function(req, res) {
     var adCol = db.get('ads');
     adCol.find( {}, {sort:{_id : -1 } }, function(err, docs) {
         res.render( 'ad/ads', {
-          ads : docs
+          ads : docs,
+          message : req.flash('info')
     });
   });
 });
@@ -250,7 +251,7 @@ router.delete('/:id/edit', checkAuth, function (req, res){
         if (err) {
           return err;
         } else {
-              res.redirect('/ads');
+              res.redirect('/users/profile');
          }
        });
      }

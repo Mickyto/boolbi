@@ -4,7 +4,7 @@ block content
 
 
     form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-        input.search(type='text', name='search', value=(word ? '#{word}' : ''))
+        input.search(type='text', name='search', , value=(word ? '#{word}' : ''))
         button(type='submit') search
 
 
@@ -32,8 +32,8 @@ block content
                  h5 #{ad.price}
 
 
-    if pages.length > 1
-    ul.a
-        each page, i in pages
-            li.a
-                a.four(href='#{page}', style='text-decoration: none') #{[i] * 1 + 1}
+    if pages && pages.length > 1
+        ul.a
+            each page, i in pages
+                li.a
+                    a.four(href='#{page}', style='text-decoration: none') #{[i] * 1 + 1}

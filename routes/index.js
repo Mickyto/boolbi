@@ -65,7 +65,6 @@ router.get('/search', function (req, res) {
     var perPage = 4;
     var page = req.query.page;
     var searchText = req.query.search;
-    console.log(searchText);
     var arrayInput = searchText.split(' ');
     var pattern = arrayInput.map( function(word) {
         return '(' + '?'+ '=' + '.' + '*' + word + ')'
@@ -83,26 +82,29 @@ router.get('/search', function (req, res) {
             limit: perPage,
             sort: { _id: -1 }
         }, function(err, docs) {
-            adCol.count({
-                $or : [
-                    { title :       { $regex : reg } },
-                    { description : { $regex : reg } }
-                ]
-            }, function(err, count) {
+            if (docs == 0) {
+                res.render('default', { msg : 'Nothing was founded' });
+            }
+            else {
+                adCol.count({
+                    $or : [
+                        { title :       { $regex : reg } },
+                        { description : { $regex : reg } }
+                    ]
+                }, function(err, count) {
 
-                var pages = [];
-                for (var p = 0; p < count/perPage; p++) {
-                    pages.push('/search?page=' + p + '&search=' + searchText);
-                }
-                console.log(count);
-                console.log(reg);
-                console.log(pages);
-                res.render('ad/ads', {
-                    ads: docs,
-                    pages: pages,
-                    message: req.flash('info')
+                    var pages = [];
+                    for (var p = 0; p < count/perPage; p++) {
+                        pages.push('/search?page=' + p + '&search=' + searchText);
+                    }
+                    res.render('ad/ads', {
+                        ads: docs,
+                        pages: pages,
+                        message: req.flash('info'),
+                        word: searchText
+                    });
                 });
-            });
+            }
         }
     );
 });
