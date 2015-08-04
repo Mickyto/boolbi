@@ -130,11 +130,26 @@ router.get('/profile', checkAuth, function (req, res) {
   var db = req.db;
   var userCol = db.get('users');
   var adCol = db.get('ads');
+  var perPage = 4;
+  var page = req.query.page;
   userCol.findById(req.session.user_id, function (err, user) {
-    adCol.find({user_id : ObjectId(req.session.user_id)}, {sort:{_id : -1 } }, function(err, ads) {
-      res.render('user/profile', {
-        user : user,
-        myAds : ads
+    adCol.find({ user_id : ObjectId(req.session.user_id) }, {
+      skip: perPage * page,
+      limit: perPage,
+      sort: { _id : -1 }
+    }, function(err, ads) {
+      adCol.count({ user_id : ObjectId(req.session.user_id) }, function(err, count) {
+
+          var pages = [];
+          for (var p = 0; p < count/perPage; p++) {
+            pages.push('/users/profile?page=' + p);
+          }
+
+          res.render('user/profile', {
+            pages: pages,
+            user: user,
+            myAds: ads
+          });
       });
     });
   });

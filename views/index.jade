@@ -6,11 +6,11 @@ block content
           each category, i in categories
 
             div.category
-              a.category(href='/category?id=#{category._id}', style='text-decoration: none')
+              a.category(href='/category/#{category._id}', style='text-decoration: none')
                  div.categ
                    p #{category.name}
 
-        form(action='/ads/search', method='post', align='left', enctype='application/x-www-form-urlencoded')
+        form(action='/ads/search', method='get', enctype='application/x-www-form-urlencoded')
             input.search(type='text', name='search')
             button(type='submit') search
         div

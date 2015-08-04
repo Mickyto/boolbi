@@ -2,18 +2,23 @@ extends ../layout
 
 block content
 
-    form(action='/ads/search', method='post', align='left', enctype='application/x-www-form-urlencoded')
-        input.search(type='text', name='search')
+
+    form(action='/ads/search', method='get', align='left', enctype='application/x-www-form-urlencoded')
+        input.search(type='text', name='search', value=(word ? '#{word}' : ''))
         button(type='submit') search
 
 
 
+    if message.length > 0
+        div.msg
+            p #{message}
+
 
     h1 Ad List:
 
-      each ad, i in ads
+    each ad, i in ads
 
-          div
+        div
               a(href='/ads/#{ad._id}', style='text-decoration: none')
                  if ad.image1
                       img.showAds(src='/images/#{ad.image1}', width=150)
@@ -25,3 +30,6 @@ block content
                  h5 #{ad.title}
                  p
                  h5 #{ad.price}
+
+
+

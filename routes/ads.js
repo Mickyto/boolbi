@@ -192,8 +192,8 @@ var adCallback = function(req, res) {
 
             if (doc) {
                 colObject.category_id = ObjectId(req.body.category);
-                adCol.insert( colObject ).success( function () {
-                    res.redirect('/ads');
+                adCol.insert(colObject).success( function () {
+                    res.redirect('/users/profile');
                 });
             }
             else {
@@ -231,7 +231,7 @@ router.get('/:id/imgdel', function (req, res) {
 });
 
 
-router.post('/search', function (req, res) {
+router.get('/search', function (req, res) {
     var searchText = req.body.search;
     var arrayInput = searchText.split(' ');
     var pattern = arrayInput.map( function(word) {
@@ -247,7 +247,8 @@ router.post('/search', function (req, res) {
                   ]
         }, function(err, docs) {
             res.render('ad/ads', {
-                ads : docs
+                ads : docs,
+                message : req.flash('info')
             });
         }
     );
