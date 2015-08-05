@@ -36,9 +36,6 @@ router.post('/signup/', function(req, res) {
     if (doc) {
       req.flash('info', 'That email is already taken');
       res.redirect('/users/signup/');
-    /*} else if (doc.active == 'no') {
-      req.flash('info', 'That email was not activated');
-      res.redirect('/users/signup/');*/
     } else {
       userCol.insert({
         email: bodyEmail,
@@ -46,11 +43,25 @@ router.post('/signup/', function(req, res) {
         active : 'no',
         secure_code : rand
       }, function () {
-        var link = "http://" + req.get('host') + "/users/emailactivation?random=" + rand + '&email=' + bodyEmail ;
+        var link ='http://' + req.get('host') + '/users/emailactivation?random=' + rand + '&email=' + bodyEmail;
         var mailOptions = {
           to: bodyEmail,
           subject: "Please confirm your Email account",
-          html: 'Hello,<br> Please Click on the link to verify your email.<br><a href=' + link + '>Click here to verify</a>'
+          html: '<head><style>a:hover{border: 2px solid white;}</style></head>' +
+          '<body style="background:#247BA7"><div align="center" style="height: 800px; padding: 50px">' +
+          '<div style="border: 2px solid green; border-radius: 20px;' +
+          'margin-top: 60px; margin-bottom: 60px; background-color: #60AB91;">' +
+          '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
+          'Congratulations, you successfully created account on bravito.ru</p>' +
+          '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 15px; color: white;">' +
+          'Bravito is a board of free ads where you can find necessary items<br> or services for few minutes<br>' +
+          'Now you can compose your own ads to sell items or to tell about your services</p><br>' +
+          '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 20px; color: white;">' +
+          'Just one little piece you need:</p><div align="center"><a href=' + link + ' style="font-size: 25px;' +
+          ' margin: 20px; background: goldenrod; border-radius: 10px; padding: 10px 40px 10px 40px;' +
+          'color: white; text-decoration: none">Click here to confirm your email</a></div>' +
+          '<p align="center", style="font-family: Arial,Helvetica,sans-serif;font-size: 30px; color: white;">' +
+          'Wish you bargain and successful sales</p></div></div></body>'
         };
         transporter.sendMail(mailOptions, function (err, res) {
           if (err) {

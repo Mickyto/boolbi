@@ -2,11 +2,10 @@ extends ../layout
 
 block content
 
-
-    form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-        input.search(type='text', name='search', , value=(word ? '#{word}' : ''))
-        button(type='submit') search
-
+    div.search
+        form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
+            input.search(type='text', name='search', , value=(word ? '#{word}' : ''))
+            button.search(type='submit') search
 
 
     if message.length > 0
@@ -19,7 +18,7 @@ block content
     each ad, i in ads
 
         div
-              a(href='/ads/#{ad._id}', style='text-decoration: none')
+              a(href='/ads/#{ad._id}')
                  if ad.image1
                       img.showAds(src='/images/#{ad.image1}', width=150)
                  else if ad.image2
@@ -36,4 +35,4 @@ block content
         ul.a
             each page, i in pages
                 li.a
-                    a.four(href='#{page}', style='text-decoration: none') #{[i] * 1 + 1}
+                    a.four(href='#{page}') #{[i] * 1 + 1}

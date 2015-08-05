@@ -13,12 +13,12 @@ html
            p #{session.email}
           if session.user_id
               td
-               a.one(href='/ads/newad', style='text-decoration: none') new ad
+               a.one(href='/ads/newad') new ad
               td
-               a.one(href='/users/profile', style='text-decoration: none') profile
+               a.one(href='/users/profile') profile
           else
               td
-               a.one(href='/users/login', style='text-decoration: none') log in
+               a.one(href='/users/login') log in
 
       hr
   block content

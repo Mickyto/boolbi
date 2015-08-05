@@ -6,13 +6,13 @@ block content
           each category, i in categories
 
             div.category
-              a.category(href='/category/#{category._id}', style='text-decoration: none')
+              a.category(href='/category/#{category._id}')
                  div.categ
                    p #{category.name}
-
-        form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-            input.search(type='text', name='search')
-            button(type='submit') search
+        div.search
+            form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
+                input.search(type='text', name='search', maxlength='40')
+                button.search(type='submit') search
         div
           h5 Bravito — сайт бесплатных объявлений. Миллионы людей в месяц посещают наш сайт. Ежедневно подаются сотни тысяч новых объявлений. Здесь легко найти нужный товар или услугу всего за несколько минут. Для каждого региона и города — своя доска объявлений. У нас есть объявления частных лиц и компаний, объявления о продаже. Вы можете отфильтровать нужные объявления по характеристикам, таким как пробег автомобиля, порода кошки, площадь земельного участка и т.п.
           p

@@ -33,12 +33,26 @@ input {
 
 input.search {
   width: 400px;
+  height: 35px;
+  border-radius: 10px;
+  margin: 5px;
+  text-indent: 15px;
+}
+
+button.search {
+  margin: 0;
+  background: goldenrod;
+  border: 0;
+  border-radius: 10px;
+  padding: 7px 25px 7px 25px;
 }
 
 a {
   font-size: 25px;
   color: white;
-  font-family: Raleway, Helvetica, Arial, sans-serif; }
+  font-family: Raleway, Helvetica, Arial, sans-serif;
+  text-decoration: none;
+}
 
 a.one {
   background: none;
@@ -110,7 +124,8 @@ div {
 div.footer {
   width: 100%;
   margin: 0;
-  background: none
+  background: none;
+  padding: 0;
 }
 
 div.msg {
@@ -136,6 +151,11 @@ div.inv {
   width: 250px;
   padding: 0;
   float: left;
+}
+
+div.search {
+  padding: 10px 20px 10px 20px;
+  width: 530px;
 }
 
 p {
