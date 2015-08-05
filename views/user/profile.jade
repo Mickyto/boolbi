@@ -50,3 +50,7 @@ block content
       each page, i in pages
         li.a
           a.four(href='#{page}') #{[i] * 1 + 1}
+
+  script.
+    document.getElementsByClassName('four')[#{currentPage}].setAttribute('class', 'five');
+    document.getElementsByClassName('four')[0].setAttribute('class', 'six');

@@ -142,7 +142,7 @@ router.get('/profile', checkAuth, function (req, res) {
   var userCol = db.get('users');
   var adCol = db.get('ads');
   var perPage = 4;
-  var page = req.query.page;
+  var page = req.query.page || 0;
   userCol.findById(req.session.user_id, function (err, user) {
     adCol.find({ user_id : ObjectId(req.session.user_id) }, {
       skip: perPage * page,
@@ -159,6 +159,7 @@ router.get('/profile', checkAuth, function (req, res) {
           res.render('user/profile', {
             pages: pages,
             user: user,
+            currentPage: page,
             myAds: ads
           });
       });

@@ -48,24 +48,24 @@ button.search {
 }
 
 a {
+  border-radius: 10px;
+  background: none;
   font-size: 25px;
   color: white;
   font-family: Raleway, Helvetica, Arial, sans-serif;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 a.one {
-  background: none;
   border: 2px solid white;
   border-radius: 5px;
   padding: 10px 20px 10px 20px;
-  white-space: nowrap;  }
+}
 
 a.two {
   border: 2px solid white;
   margin-left: 60px;
-  background: none;
-  border-radius: 10px;
   padding: 10px 30px 10px 30px;
   font-family: Helvetica,  Arial, sans-serif;
 }
@@ -77,12 +77,24 @@ a.three {
 }
 
 a.four {
-  background: none;
   border: 2px solid white;
-  border-radius: 10px;
-  padding: 10px 20px 10px 20px;
-  margin-left: 5px;
+  padding: 5px 15px 5px 15px;
+  margin: 3px;
 }
+a.five {
+  border: 3px solid yellowgreen;
+  padding: 10px 20px 10px 20px;
+  margin: 5px;
+  color: yellowgreen;
+}
+
+a.six {
+  border: 2px solid gold;
+  padding: 5px 15px 5px 15px;
+  margin: 5px;
+  color: gold;
+}
+
 
 a.three:hover { color: gold }
 a.four:visited { color: gold; border-color: gold }

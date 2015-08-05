@@ -35,7 +35,7 @@ router.get('/category/:id', function(req, res) {
     var db =req.db;
     var adCol = db.get('ads');
     var perPage = 4;
-    var page = req.query.page;
+    var page = req.query.page || 0;
     adCol.find({ category_id : ObjectId(req.id) },{
         skip: perPage * page,
         limit: perPage,
@@ -51,6 +51,7 @@ router.get('/category/:id', function(req, res) {
             res.render('ad/ads', {
                 ads: ads,
                 pages: pages,
+                currentPage: page,
                 message : req.flash('info')
             });
         });
@@ -63,7 +64,7 @@ router.get('/search', function (req, res) {
     var db =req.db;
     var adCol = db.get('ads');
     var perPage = 4;
-    var page = req.query.page;
+    var page = req.query.page || 0;
     var searchText = req.query.search;
     var arrayInput = searchText.split(' ');
     var pattern = arrayInput.map( function(word) {
@@ -100,9 +101,11 @@ router.get('/search', function (req, res) {
                     res.render('ad/ads', {
                         ads: docs,
                         pages: pages,
+                        currentPage: page,
                         message: req.flash('info'),
                         word: searchText
                     });
+
                 });
             }
         }
