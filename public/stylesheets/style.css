@@ -25,10 +25,20 @@ select,
 textarea,
 input {
   border: 0;
-  border-radius: 5px;
+  border-radius: 6px;
   margin: 10px;
-  font-size: 20px;
+  font-size: 18px;
   background: WhiteSmoke;
+}
+
+textarea {
+  padding: 7px;
+}
+
+select,
+input {
+  height: 26px;
+  text-indent: 5px;
 }
 
 input.search {
@@ -37,6 +47,13 @@ input.search {
   border-radius: 10px;
   margin: 5px;
   text-indent: 15px;
+}
+
+select:focus,
+textarea:focus,
+input:focus {
+  outline: 0;
+  box-shadow: 0 0 3px 2px #008855;
 }
 
 button.search {

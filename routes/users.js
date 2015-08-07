@@ -57,11 +57,11 @@ router.post('/signup/', function(req, res) {
           'Bravito is a board of free ads where you can find necessary items<br> or services for few minutes<br>' +
           'Now you can compose your own ads to sell items or to tell about your services</p><br>' +
           '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 20px; color: white;">' +
-          'Just one little piece you need:</p><div align="center"><a href=' + link + ' style="font-size: 25px;' +
+          'Just one last action:</p><div align="center"><a href=' + link + ' style="font-size: 25px;' +
           ' margin: 20px; background: goldenrod; border-radius: 10px; padding: 10px 40px 10px 40px;' +
           'color: white; text-decoration: none">Click here to confirm your email</a></div>' +
           '<p align="center", style="font-family: Arial,Helvetica,sans-serif;font-size: 30px; color: white;">' +
-          'Wish you bargain and successful sales</p></div></div></body>'
+          'Wish you successful sales</p></div></div></body>'
         };
         transporter.sendMail(mailOptions, function (err, res) {
           if (err) {
