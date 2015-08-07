@@ -5,6 +5,7 @@ var methodOverride = require('method-override');
 var fs = require('fs');
 var multipart = require('connect-multiparty');
 var ObjectId = require('mongodb').ObjectId;
+var captchapng = require('captchapng');
 
 var multipartMiddleware = multipart();
 
@@ -34,6 +35,14 @@ router.get('/newad', checkAuth, function(req, res) {
     var categoryCol = db.get('categories');
     categoryCol.find({}, function(err, docs) {
         userCol.findById(req.session.user_id, function (err, doc) {
+            var newCaptcha = parseInt(Math.random()*9000+1000);
+            req.session.captcha = newCaptcha;
+            var p = new captchapng(80,30,newCaptcha); // width,height,numeric captcha
+            p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
+            p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
+
+            var img = p.getBase64();
+            var imgbase64 = new Buffer(img,'base64').toString('base64');
             res.render('ad/newad', {
                 categories : docs,
                 user: doc,
@@ -43,6 +52,7 @@ router.get('/newad', checkAuth, function(req, res) {
                     price: ''
                 },
                 formAction: '/ads/addad',
+                captcha: imgbase64,
                 message : req.flash('info')
             });
         });
@@ -109,11 +119,19 @@ router.get('/:id/edit', checkAuth, function(req, res) {
   adCol.findById(req.id, function (err, ad) {
       categoryCol.findById(ad.category_id, function(err, category) {
           userCol.findById(ad.user_id, function (err, user) {
+              var newCaptcha = parseInt(Math.random()*9000+1000);
+              req.session.captcha = newCaptcha;
+              var p = new captchapng(80, 40, newCaptcha); // width,height,numeric captcha
+              p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
+              p.color(80, 80, 10, 255); // Second color: paint (red, green, blue, alpha)
+              var img = p.getBase64();
+              imgbase64 = new Buffer(img,'base64').toString('base64');
               res.render('ad/newad', {
                   user : user,
                   category : category,
                   ad : ad,
                   formAction: '/ads/' + req.id + '/adedit',
+                  captcha: imgbase64,
                   message: req.flash('info')
               });
           });
@@ -123,6 +141,12 @@ router.get('/:id/edit', checkAuth, function(req, res) {
 
 
 var adCallback = function(req, res) {
+
+    if (req.body.captcha != req.session.captcha) {
+        req.flash('info', 'Your code from the picture is wrong');
+        res.redirect('/ads/newad');
+        return;
+    }
 
 
     var db = req.db;
