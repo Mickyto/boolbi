@@ -23,12 +23,15 @@ block content
             td
               h5 #{user.telephone}
 
-      form(name='adForm', action='#{formAction}', method='post', onsubmit='return validateForm()', enctype='multipart/form-data')
+      form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm()', enctype='multipart/form-data')
          h1 Item information
          if message.length > 0
              div.msg
                  p #{message}
          table
+              tr
+                td(colspan=2)
+                  p.small#validator1(align='right')
               tr
                 td
                   p Category:
@@ -36,12 +39,19 @@ block content
                    if category
                        h5 #{category.name}
                    else
-                       select(name='category')
+                       select#select(name='category')
                            option(value='') select category
                            each category, i in categories
                                option(value='#{category._id}') #{category.name}
-         p Title:
-           input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
+         table
+              tr
+                td(colspan=2)
+                  p.small#validator2(align='right')
+              tr
+                td
+                  p Title:
+                td
+                  input.title(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
          p Description:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:
@@ -65,20 +75,23 @@ block content
                      div.delete(align='center')
                         a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1') delete
                    else
-                     p.img(onclick="delImage('photo1')", align='center') delete
+                     p.img#PARphoto1(onclick="delImage('photo1')", align='center') delete
                  td
                    if ad.image2
                      div.delete(align='center')
                         a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', align='center') delete
                    else
-                     p.img(onclick="delImage('photo2')", align='center') delete
-         div.captcha
+                     p.img#PARphoto2(onclick="delImage('photo2')", align='center') delete
+
+         div.invCaptcha
+           p.small#validator3(align='right')
+           div.captcha#captcha
              table
-                   tr
-                     td
-                         img(src='data:image/jpeg;base64, #{captcha}')
-                     td
-                         input.captcha(type='text', name='captcha', maxlength=4)
+               tr
+                 td
+                     img(src='data:image/jpeg;base64, #{captcha}')
+                 td
+                     input.captcha(type='text', name='captcha', maxlength=4)
 
 
           button(type='submit') Save
@@ -87,6 +100,7 @@ block content
       var delImage = function (name) {
           document.getElementById(name).getAttributeNode('src').value='/images/logo/camera.png';
           document.getElementsByName(name)[0].value='';
+          document.getElementById('PAR' + name).style.visibility='hidden';
       } ;
 
   script(type='text/javascript').
@@ -99,13 +113,35 @@ block content
               output.src = dataURL;
           };
           reader.readAsDataURL(input.files[0]);
+          document.getElementById('PAR' + input.name).style.visibility='visible';
       };
+
   script(type='text/javascript', src='/javascripts/validator.min.js').
   script(type = 'text/javascript').
       function validateForm() {
-        var category = document.forms['adForm']['category'].value;
-        if (!validator.isMongoId(category)) {
-            alert('You did not select the category');
-            return false;
-        }
+          var form = document.forms['adForm'];
+          var captcha = form['captcha'];
+          var isValid = true;
+          if (!captcha.value)  {
+              captcha.focus();
+              document.getElementById('validator3').innerHTML = 'You didn\'t enter code';
+              document.getElementById('captcha').style.border = "solid LightSalmon";
+              isValid = false;
+          }
+          var title = form['adtitle'];
+          if (!title.value)  {
+              title.focus();
+              document.getElementById('validator2').innerHTML = 'You didn\'t enter title';
+              title.style.border = "solid LightSalmon";
+              isValid = false;
+          }
+          var category = form['category'];
+          if (!validator.isMongoId(category.value)) {
+              category.focus();
+              document.getElementById('validator1').innerHTML = 'You didn\'t select category';
+              category.style.border = "solid LightSalmon";
+              isValid = false;
+          }
+
+          return isValid ? form.submit() : false;
       }

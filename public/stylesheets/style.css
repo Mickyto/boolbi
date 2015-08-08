@@ -35,10 +35,18 @@ textarea {
   padding: 7px;
 }
 
-select,
+select {
+  height: 32px;
+  margin-top: 5px;
+}
+
 input {
   height: 26px;
   text-indent: 5px;
+}
+
+input.title {
+  margin: 5px;
 }
 
 input.search {
@@ -65,14 +73,6 @@ input.captcha {
   text-indent: 0;
 }
 
-button.search {
-  margin: 0;
-  background: goldenrod;
-  border: 0;
-  border-radius: 10px;
-  padding: 7px 25px 7px 25px;
-}
-
 a {
   border-radius: 10px;
   background: none;
@@ -97,7 +97,7 @@ a.two {
 }
 
 a.three {
-  color: #aa5500;
+  color: SandyBrown;
   font-size: 30px;
   padding: 30px;
 }
@@ -197,6 +197,12 @@ div.inv {
   float: left;
 }
 
+div.invCaptcha {
+  padding: 0;
+  margin: 0;
+  width: 230px;
+}
+
 div.search {
   padding: 10px 20px 10px 20px;
   width: 530px;
@@ -227,6 +233,7 @@ p.img {
   padding: 0;
   cursor: pointer;
   font-size: 15px;
+  visibility: hidden
 }
 
 p.img:hover,
@@ -236,7 +243,10 @@ a.img:hover{
 
 p.small {
   font-size: 15px;
-  padding: 5px 0 0 12px;
+  padding: 0 12px 0 0 ;
+  color: SandyBrown;
+  vertical-align: bottom;
+  font-family: Comfortaa, Helvetica, Arial, sans-serif;
 }
 
 button {
@@ -250,8 +260,26 @@ button {
   font-family: Raleway, Helvetica, Arial, sans-serif;
   color: white;
 }
-button:hover {  background: steelblue  }
 
+button.login:hover,
+button.signup:hover,
+button:hover {  background: MediumSeaGreen  }
+
+button.search {
+  margin: 0;
+  background: goldenrod;
+  border: 0;
+  border-radius: 10px;
+  padding: 7px 25px 7px 25px;
+}
+
+button.signup {
+  background: Peru;
+}
+
+button.login {
+  background: SteelBlue;
+}
 
 td {
   padding: 0;
