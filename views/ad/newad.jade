@@ -23,33 +23,33 @@ block content
             td
               h5 #{user.telephone}
 
-      form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm()', enctype='multipart/form-data')
+      form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm("adForm")', enctype='multipart/form-data')
          h1 Item information
          if message.length > 0
              div.msg
                  p #{message}
          table
               tr
-                td(colspan=2)
-                  p.small#validator1(align='right')
-              tr
-                td
+                td(rowspan=2)
                   p Category:
+                td
+                  p.validateErr#category You didn't select category
+              tr
                 td
                    if category
                        h5 #{category.name}
                    else
-                       select#select(name='category')
+                       select#select(name='category', align='right')
                            option(value='') select category
                            each category, i in categories
                                option(value='#{category._id}') #{category.name}
          table
               tr
-                td(colspan=2)
-                  p.small#validator2(align='right')
-              tr
-                td
+                td(rowspan=2)
                   p Title:
+                td
+                  p.validateErr#adtitle You didn't enter title
+              tr
                 td
                   input.title(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
          p Description:
@@ -84,8 +84,8 @@ block content
                      p.img#PARphoto2(onclick="delImage('photo2')", align='center') delete
 
          div.invCaptcha
-           p.small#validator3(align='right')
-           div.captcha#captcha
+           p.validateErr#captcha You didn't enter code
+           div.captcha
              table
                tr
                  td
@@ -117,31 +117,6 @@ block content
       };
 
   script(type='text/javascript', src='/javascripts/validator.min.js').
-  script(type = 'text/javascript').
-      function validateForm() {
-          var form = document.forms['adForm'];
-          var captcha = form['captcha'];
-          var isValid = true;
-          if (!captcha.value)  {
-              captcha.focus();
-              document.getElementById('validator3').innerHTML = 'You didn\'t enter code';
-              document.getElementById('captcha').style.border = "solid LightSalmon";
-              isValid = false;
-          }
-          var title = form['adtitle'];
-          if (!title.value)  {
-              title.focus();
-              document.getElementById('validator2').innerHTML = 'You didn\'t enter title';
-              title.style.border = "solid LightSalmon";
-              isValid = false;
-          }
-          var category = form['category'];
-          if (!validator.isMongoId(category.value)) {
-              category.focus();
-              document.getElementById('validator1').innerHTML = 'You didn\'t select category';
-              category.style.border = "solid LightSalmon";
-              isValid = false;
-          }
+  script(type ='text/javascript', src='/javascripts/validateFields.js').
 
-          return isValid ? form.submit() : false;
-      }
+

@@ -5,22 +5,30 @@ block content
 
  div.signup
 
-    form(name='login', action='#{formAction}', onsubmit='return validateForm()', method='post', enctype='application/x-www-form-urlencoded')
+    form(name='login', action='#{formAction}', onsubmit='event.preventDefault(); return validateForm("login")', method='post', enctype='application/x-www-form-urlencoded')
 
         if message.length > 0
             div.msg
                 p #{message}
         table
+
+
             tr
-              td
+              td(rowspan=2)
                 p E-mail:
               td
-                input(type='email', name='useremail', autofocus)
+                p.validateErr#useremail email is incorrect
+            tr
+              td
+                input.login#email(type='email', name='useremail', autofocus)
+            tr
+                td(colspan=2)
+                    p.validateErr#password Password has to be minimum 8 characters
             tr
               td
                 p Password:
               td
-                input(type='password', name='password')
+                input.login#pass(type='password', name='password')
         p
             button(type='submit', class=(btnValue == 'Log in' ? 'login' : 'signup')) #{btnValue}
 
@@ -32,17 +40,6 @@ block content
                     a.three(href='/users/login/', style='color: PaleTurquoise') Log in
 
  script(type='text/javascript', src='/javascripts/validator.min.js').
- script(type='text/javascript').
-    function validateForm() {
-        var email = document.forms['login']['useremail'].value;
-        if (email == null || email == '' || !validator.isEmail(email)) {
-            alert('Incorrect enter of Email');
-            return false;
-        }
-        var pass = document.forms['login']['password'].value;
-        if (pass == null || pass == '') {
-            alert('Incorrect enter of password');
-            return false;
-        }
+ script(type='text/javascript', src='/javascripts/validateFields.js').
 
-    }
+

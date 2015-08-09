@@ -9,16 +9,10 @@ body {
   font-family: Raleway;
   src: url('../fonts/Raleway-Thin.ttf');
 }
-.raleway {
-  font-family: Raleway, Helvetica, Arial, sans-serif;
-}
 
 @font-face {
   font-family: Comfortaa;
   src: url("../fonts/Comfortaa-Light.ttf");
-}
-.comfortaa {
-  font-family: Comfortaa, Helvetica, Arial, sans-serif;
 }
 
 select,
@@ -31,13 +25,21 @@ input {
   background: WhiteSmoke;
 }
 
+select:focus,
+textarea:focus,
+input:focus {
+  outline: 0;
+  box-shadow: 0 0 3px 3px #008855;
+}
+
 textarea {
   padding: 7px;
 }
 
 select {
   height: 32px;
-  margin-top: 5px;
+  margin: 0;
+  width: 195px;
 }
 
 input {
@@ -46,7 +48,7 @@ input {
 }
 
 input.title {
-  margin: 5px;
+  margin: 0 0 5px 5px;
 }
 
 input.search {
@@ -57,13 +59,6 @@ input.search {
   text-indent: 15px;
 }
 
-select:focus,
-textarea:focus,
-input:focus {
-  outline: 0;
-  box-shadow: 0 0 3px 5px #008855;
-}
-
 input.captcha {
   margin: 8px;
   width: 90px;
@@ -71,6 +66,10 @@ input.captcha {
   font-size: 23px;
   text-align: center;
   text-indent: 0;
+}
+
+input.login {
+  margin: 0 10px 10px 10px;
 }
 
 a {
@@ -241,12 +240,14 @@ a.img:hover{
   color: black;
 }
 
-p.small {
+p.validateErr {
+  text-align: right;
   font-size: 15px;
   padding: 0 12px 0 0 ;
   color: SandyBrown;
   vertical-align: bottom;
   font-family: Comfortaa, Helvetica, Arial, sans-serif;
+  visibility: hidden
 }
 
 button {
@@ -283,9 +284,6 @@ button.login {
 
 td {
   padding: 0;
-}
-
-td.img {
   vertical-align: bottom;
 }
 

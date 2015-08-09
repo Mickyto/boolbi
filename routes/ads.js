@@ -143,7 +143,7 @@ router.get('/:id/edit', checkAuth, function(req, res) {
 var adCallback = function(req, res) {
 
     if (req.body.captcha != req.session.captcha) {
-        req.flash('info', 'Your code from the picture is wrong');
+        req.flash('info', 'Code is incorrect');
         res.redirect('/ads/newad');
         return;
     }
@@ -210,7 +210,7 @@ var adCallback = function(req, res) {
 
     } else if (req.body.category == '') {
 
-        req.flash('info', 'You did not select the category');
+        req.flash('info', 'You didn\'t select the category');
         res.redirect('/ads/newad');
 
     } else {
