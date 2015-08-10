@@ -52,6 +52,7 @@ block content
               tr
                 td
                   input.title(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
+         p
          p Description:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:
@@ -59,7 +60,7 @@ block content
 
 
          p Photos:
-           table
+         table
                tr
                  td.img
                    div.fileUpload
@@ -82,7 +83,6 @@ block content
                         a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', align='center') delete
                    else
                      p.img#PARphoto2(onclick="delImage('photo2')", align='center') delete
-
          div.invCaptcha
            p.validateErr#captcha You didn't enter code
            div.captcha
@@ -92,9 +92,8 @@ block content
                      img(src='data:image/jpeg;base64, #{captcha}')
                  td
                      input.captcha(type='text', name='captcha', maxlength=4)
-
-
-          button(type='submit') Save
+         p
+         button(type='submit') Save
 
   script(type='text/javascript').
       var delImage = function (name) {

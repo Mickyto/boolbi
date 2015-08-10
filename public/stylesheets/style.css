@@ -1,13 +1,14 @@
 
 body {
-  padding: 20px;
+  padding: 0;
+  margin: 0;
   font: 20px Comfortaa, Helvetica, Arial, sans-serif;
   color: white;
-  background: #247BA7;
+  background: white;
 }
 @font-face {
-  font-family: Raleway;
-  src: url('../fonts/Raleway-Thin.ttf');
+  font-family: Roboto;
+  src: url('../fonts/Roboto-Thin.ttf');
 }
 
 @font-face {
@@ -69,15 +70,15 @@ input.captcha {
 }
 
 input.login {
-  margin: 0 10px 10px 10px;
+  margin: 0 10px 5px 10px;
 }
 
 a {
   border-radius: 10px;
   background: none;
   font-size: 25px;
-  color: white;
-  font-family: Raleway, Helvetica, Arial, sans-serif;
+  color: SteelBlue;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -85,7 +86,7 @@ a {
 a.one {
   border: 2px solid white;
   border-radius: 5px;
-  padding: 10px 20px 10px 20px;
+  padding: 6px 20px 6px 20px;
 }
 
 a.two {
@@ -130,7 +131,7 @@ a.img {
 a.three:hover { color: gold }
 a.four:visited { color: gold; border-color: gold }
 a.four:hover,
-a.one:hover { background: LightSeaGreen }
+a.one:hover { background: LightSeaGreen; transition: background 1s;}
 a.two:hover { background: #ffff4f; color: black }
 
 
@@ -143,7 +144,7 @@ li.a {
 }
 
 h5 {
-  padding: 10px;
+  padding: 5px;
   margin: auto;
 }
 
@@ -220,10 +221,16 @@ div.captcha {
   width: 200px;
 }
 
+div.header {
+  padding: 10px;
+  margin: 0;
+  border-radius: 0;
+}
+
 p {
   padding: 5px;
   font-size: 20px;
-  font-family: Raleway, Helvetica, Arial, sans-serif;
+  font-family: Roboto, Arial, sans-serif;
   margin: auto;
   color: yellow;
 }
@@ -258,7 +265,7 @@ button {
   background: none;
   border-radius: 5px;
   padding: 10px 40px 10px 40px;
-  font-family: Raleway, Helvetica, Arial, sans-serif;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   color: white;
 }
 

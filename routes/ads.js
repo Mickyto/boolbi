@@ -123,7 +123,7 @@ router.get('/:id/edit', checkAuth, function(req, res) {
               req.session.captcha = newCaptcha;
               var p = new captchapng(80, 40, newCaptcha); // width,height,numeric captcha
               p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
-              p.color(80, 80, 10, 255); // Second color: paint (red, green, blue, alpha)
+              p.color(150, 80, 10, 205); // Second color: paint (red, green, blue, alpha)
               var img = p.getBase64();
               imgbase64 = new Buffer(img,'base64').toString('base64');
               res.render('ad/newad', {

@@ -5,20 +5,23 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
 
   body
-    table(style={width: '100%'})
-       tr
-          td
-           a(href='/')
-             img.logo(src='/images/logo/logo.png', alt='logo', width=280, height=80)
-           p #{session.email}
-          if session.user_id
-              td
-               a.one(href='/ads/newad') new ad
-              td
-               a.one(href='/users/profile') profile
-          else
-              td
-               a.one(href='/users/login') log in
+      div.header
+        table(style={width: '100%'})
+           tr
+              td(rowspan=2)
+               a(href='/')
+                 img.logo(src='/images/logo/logo.png', alt='logo', width=280, height=80)
+               td
+                 a.one(href='/ads/newad') new ad
+               td
+                 if session.user_id
+                    a.one(href='/users/profile') profile
+                 else
+                    a.one(href='/users/login') log in
+           tr
+               td(colspan=2)
+                 if session.user_id
+                   p #{session.email}
 
       hr
   block content
