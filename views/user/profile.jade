@@ -3,9 +3,7 @@ extends ../layout
 
 block content
 
-  h1 Hello
-
-  div
+  div.bravito
     table
       tr
         td
@@ -34,8 +32,8 @@ block content
   if myAds.length > 0
       h1 My ads:
         each ad, i in myAds
-          div
-            a(href='/ads/#{ad._id}')
+          a(href='/ads/#{ad._id}')
+            div.bravito.divHover
               if ad.image1
                  img.showAds(src='/images/#{ad.image1}', width=150)
               else if ad.image2

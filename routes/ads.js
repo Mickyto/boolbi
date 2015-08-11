@@ -61,13 +61,10 @@ router.get('/newad', checkAuth, function(req, res) {
 
 
 router.get('/', function(req, res) {
-    var db =req.db;
-    var adCol = db.get('ads');
-    adCol.find( {}, {sort:{_id : -1 } }, function(err, docs) {
         res.render( 'ad/ads', {
-          ads : docs,
+          ads : 0,
           message : req.flash('info')
-    });
+
   });
 });
 

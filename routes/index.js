@@ -79,7 +79,8 @@ router.get('/search', function (req, res) {
             sort: { _id: -1 }
         }, function(err, docs) {
             if (docs == 0) {
-                res.render('default', { msg : 'Nothing was founded' });
+                req.flash('info', 'Nothing was founded');
+                res.redirect('/ads');
             }
             else {
                 adCol.count({

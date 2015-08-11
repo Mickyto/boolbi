@@ -7,13 +7,13 @@ body {
   background: white;
 }
 @font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-Thin.ttf');
+  font-family: Roboto-Thin;
+  src: url('../fonts/roboto/Roboto-Thin.ttf');
 }
 
 @font-face {
-  font-family: Comfortaa;
-  src: url("../fonts/Comfortaa-Light.ttf");
+  font-family: Roboto-Light;
+  src: url('../fonts/roboto/Roboto-Light.ttf');
 }
 
                                          /*     I N P U T      */
@@ -94,26 +94,30 @@ button {
 button.search {
   margin: 0;
   background: goldenrod;
-  border: solid goldenrod;
+  border-color: goldenrod;
   border-radius: 10px;
-  padding: 5px 22px 5px 22px;
+  padding: 2px 22px 3px 22px;
+  font-size: 25px;
 }
 
 button.signup {
   background: Peru;
+  padding: 10px 30px 10px 20px;
 }
 
 button.login {
   background: SteelBlue;
+  padding: 10px 30px 10px 20px;
+
 }
 
 button.login:hover,
 button.signup:hover,
 button:hover {  background: MediumSeaGreen  }
 button.search:hover {
-  background: whitesmoke;
+  background: darkgoldenrod;
   border: 2px solid goldenrod;
-  color: goldenrod
+  transition: background 0.5s;
 }
 
 
@@ -134,6 +138,7 @@ div.footer {
   padding: 0;
 }
 
+
 div.msg {
   background: Teal;
   text-align: center;
@@ -143,21 +148,20 @@ div.category {
   margin: auto;
   padding: 0;
   width: 250px;
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 10px 10px 0;
 }
 
 div.categ {
   margin: 0;
   padding: 10px;
-  border-radius: 0 20px 20px 0;
-
+  border-radius: 0 10px 10px 0;
 }
 
 div.left {
   width: 250px;
   padding: 0;
   margin: 0;
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 10px 10px 0;
 }
 
 div.invCaptcha {
@@ -166,17 +170,12 @@ div.invCaptcha {
   width: 230px;
 }
 
-div.search {
-  padding: 10px 20px 10px 20px;
-  margin: 0 10px 10px 10px;
-  width: 530px;
-}
 
 div.block {
   width: 780px;
   margin: 0;
   padding: 0;
-  background: white;
+  background: none;
 }
 
 div.captcha {
@@ -190,6 +189,7 @@ div.header {
   padding: 10px;
   margin: 0;
   border-radius: 0;
+  box-shadow: 2px 2px 6px 3px gray;
 }
 
 div.bravito {
@@ -200,15 +200,8 @@ div.bravito {
 div.advertisement {
   width: auto;
   height: 300px;
-  border-radius: 20px 0 0 20px;
+  border-radius: 10px 0 0 10px;
   margin: 0 0 10px 0;
-}
-
-div.right {
-  background: white;
-  border-radius: 20px 0 0 20px;
-  padding: 0;
-  margin: 0;
 }
 
 div.delete{
@@ -247,7 +240,7 @@ div.fileUpload {
 }
 
 div.fileUpload:hover { background: #ffff4f }
-div.categ:hover {background: DarkCyan}
+.divHover:hover {background: DarkCyan; transition: background 0.2s;}
 div.img:hover {
   width: 300px;
   transition: width 1s linear;
@@ -268,6 +261,7 @@ a {
 a.one {
   border: 0;
   padding: 6px 20px 6px 20px;
+  background: DarkCyan;
 }
 
 a.two {
@@ -319,10 +313,29 @@ a.six:hover,
 a.four:hover,
 a.one:hover {
   background: goldenrod;
-  transition: background 1s;
+  transition: background 0.5s;
   color: white
 }
 
+h1 {
+  color: goldenrod;
+  margin: 0;
+  padding: 10px;
+}
+
+p.logo {
+  font-size: 30px;
+}
+
+h5 {
+  padding: 5px;
+  margin: auto;
+  font-size: 16px;
+}
+
+h6 {
+  margin: 0;
+}
 
 p {
   padding: 5px;
@@ -349,12 +362,20 @@ p.img {
   visibility: hidden
 }
 
+p.small {
+  font-size: 16px;
+}
+
+p.info {
+  font-family: Roboto-Thin, Arial, sans-serif;
+  font-size: 24px;
+}
+
 .img:hover{
   color: goldenrod;
 }
 
-td {
-  padding: 0;
+table.bottom {               a(href='/')
 }
 
 table.full {
@@ -400,22 +421,6 @@ li.a {
   display: inline;
 }
 
-h1 {
-  color: goldenrod;
-  margin: 0;
-  padding: 10px;
-}
-
-h5 {
-  padding: 5px;
-  margin: auto;
-  font-size: 16px;
-}
-
-h6 {
-  margin: 0;
-}
-
 hr {
   background-color: goldenrod;
   height: 1px;
@@ -425,3 +430,7 @@ hr {
 .center {
   text-align: center;
 }
+
+.scope { margin: 0; padding: 0 }
+
+.shadow { box-shadow: 2px 2px 6px 3px gray; }

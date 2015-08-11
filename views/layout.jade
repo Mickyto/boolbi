@@ -3,19 +3,25 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/font-awesome.css')
 
   body
       div.header
         table.full
            tr
               td(rowspan=2)
-               a(href='/')
-                 img.logo(src='/images/logo/logo.png', alt='logo', width=180, height=60)
-               td.center
+                  a(href='/')
+                      p.logo giwwer
+              td.center
+                  form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
+                      input.search(type='text', placeholder='find ads', name='search', , value=(word ? '#{word}' : ''))
+                      button.search(type='submit') search
+              td.center
                  a.one(href='/ads/newad') new ad
-               td.center
+              td.center
                  if session.user_id
-                    a.one(href='/users/profile') #{session.email}
+                    a.one(href='/users/profile')
+                        span(class='fa fa-user') &nbsp #{session.email}
                  else
                     a.one(href='/users/login') log in
       hr
@@ -27,13 +33,12 @@ html
               each category, i in categories
                   div.category
                       a.category(href='/category/#{category._id}')
-                          div.categ
+                          div.categ.divHover
                               p #{category.name}
         td.index
           div.block
             block content
         td.index
-            div.right
                 div.advertisement
                     p.center Здесь могла бы быть ваша реклама
                 div.advertisement
@@ -43,3 +48,4 @@ html
   hr
   div.header
       p E-mail: info@bravito.ru
+

@@ -2,28 +2,24 @@ extends ../layout
 
 block content
 
-
-  h1 Ad Edit
-
-
-  div
+  div.bravito
       h1 User information
       table
           tr
             td
-              p Name:
+              p.small Name:
             td
-              h5 #{user.name}
+              p #{user.name}
           tr
             td
-              p Email:
+              p.small Email:
             td
-              h5 #{user.email}
+              p #{user.email}
           tr
             td
-              p Telephone:
+              p.small Telephone:
             td
-              h5 #{user.telephone}
+              p #{user.telephone}
 
       form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm("adForm")', enctype='multipart/form-data')
          h1 Item information

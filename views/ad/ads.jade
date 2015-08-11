@@ -2,31 +2,22 @@ extends ../layout
 
 block content
 
-    div.search
-        form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-            input.search(type='text', name='search', , value=(word ? '#{word}' : ''))
-            button.search(type='submit') search
-
-
     if message.length > 0
         div.msg
             p #{message}
 
-
-    h1 Ad List:
-
     each ad, i in ads
-        div.bravito
           a(href='/ads/#{ad._id}')
-             if ad.image1
-                  img.showAds(src='/images/#{ad.image1}', width=150)
-             else if ad.image2
-                  img.showAds(src='/images/#{ad.image2}', width=150)
+              div.bravito.divHover
+                 if ad.image1
+                      img.showAds(src='/images/#{ad.image1}', width=150)
+                 else if ad.image2
+                      img.showAds(src='/images/#{ad.image2}', width=150)
 
 
-             h5 #{ad.title}
-             p
-             h5 #{ad.price}
+                 h5 #{ad.title}
+                 p
+                 h5 #{ad.price}
 
 
     if pages && pages.length > 1

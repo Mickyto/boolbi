@@ -30,7 +30,8 @@ block content
               td
                 input.login#pass(type='password', name='password')
         p
-            button(type='submit', class=(btnValue == 'Log in' ? 'login' : 'signup')) #{btnValue}
+            button(type='submit', class=(btnValue == 'Log in' ? 'login' : 'signup'), class='fa fa-sign-in') &nbsp #{btnValue}
+
 
             if btnValue == 'Log in'
                 p Need an account?
