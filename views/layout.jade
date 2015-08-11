@@ -6,26 +6,40 @@ html
 
   body
       div.header
-        table(style={width: '100%'})
+        table.full
            tr
               td(rowspan=2)
                a(href='/')
-                 img.logo(src='/images/logo/logo.png', alt='logo', width=280, height=80)
-               td
+                 img.logo(src='/images/logo/logo.png', alt='logo', width=180, height=60)
+               td.center
                  a.one(href='/ads/newad') new ad
-               td
+               td.center
                  if session.user_id
-                    a.one(href='/users/profile') profile
+                    a.one(href='/users/profile') #{session.email}
                  else
                     a.one(href='/users/login') log in
-           tr
-               td(colspan=2)
-                 if session.user_id
-                   p #{session.email}
-
       hr
-  block content
 
-  div.footer
-      hr
+  table
+      tr
+        td.index
+          div.left
+              each category, i in categories
+                  div.category
+                      a.category(href='/category/#{category._id}')
+                          div.categ
+                              p #{category.name}
+        td.index
+          div.block
+            block content
+        td.index
+            div.right
+                div.advertisement
+                    p.center Здесь могла бы быть ваша реклама
+                div.advertisement
+                    p.center Здесь могла бы быть ваша реклама
+                div.advertisement
+                    p.center Здесь могла бы быть ваша реклама
+  hr
+  div.header
       p E-mail: info@bravito.ru

@@ -4,12 +4,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  var db =req.db;
-  db.get('categories').find({}, function(err, docs) {
-      res.render('index', {
-        categories : docs
-      });
-  });
+      res.render('index');
 });
 
 router.param('id', function (req, res, next, id) {

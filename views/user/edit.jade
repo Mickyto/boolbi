@@ -8,19 +8,19 @@ block content
     form(name='userinfo', action='/users/edit', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
         p Email: #{user.email}
         p Name:
-            input(type='text', value=(user.name !== undefined ? '#{user.name}' : ''), name='name')
+            input.login(type='text', value=(user.name !== undefined ? '#{user.name}' : ''), name='name')
         p Telephone:
-            input(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
-        p Change password
+            input.login(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
+        p Change password:
         table
              tr
-               td
+               td.center
                  h6 new password
-                 input(type='password', name='newpass1')
+                 input.login(type='password', name='newpass1')
              tr
-               td
+               td.center
                  h6 new password again
-                 input(type='password', name='newpass2')
+                 input.login(type='password', name='newpass2')
         if message.length > 0
             div.msg
                 p #{message}

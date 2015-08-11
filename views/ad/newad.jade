@@ -1,6 +1,8 @@
 extends ../layout
 
 block content
+
+
   h1 Ad Edit
 
 
@@ -30,7 +32,7 @@ block content
                  p #{message}
          table
               tr
-                td(rowspan=2)
+                td.input(rowspan=2)
                   p Category:
                 td
                   p.validateErr#category You didn't select category
@@ -45,7 +47,7 @@ block content
                                option(value='#{category._id}') #{category.name}
          table
               tr
-                td(rowspan=2)
+                td.input(rowspan=2)
                   p Title:
                 td
                   p.validateErr#adtitle You didn't enter title
@@ -62,11 +64,11 @@ block content
          p Photos:
          table
                tr
-                 td.img
+                 td
                    div.fileUpload
                      input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
                      img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : '/images/logo/camera.png'), width=150)
-                 td.img
+                 td
                    div.fileUpload
                      input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
                      img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : '/images/logo/camera.png'), width=150)

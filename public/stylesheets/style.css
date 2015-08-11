@@ -16,21 +16,17 @@ body {
   src: url("../fonts/Comfortaa-Light.ttf");
 }
 
+                                         /*     I N P U T      */
+
 select,
 textarea,
 input {
-  border: 0;
+  border: 1px solid whitesmoke;
   border-radius: 6px;
   margin: 10px;
   font-size: 18px;
   background: WhiteSmoke;
-}
-
-select:focus,
-textarea:focus,
-input:focus {
-  outline: 0;
-  box-shadow: 0 0 3px 3px #008855;
+  text-indent: 5px;
 }
 
 textarea {
@@ -45,7 +41,15 @@ select {
 
 input {
   height: 26px;
-  text-indent: 5px;
+}
+
+select:focus,
+textarea:focus,
+input:focus {
+  outline: 0;
+  border: 1px solid goldenrod;
+  box-shadow: 0 0 2px 2px goldenrod;
+
 }
 
 input.title {
@@ -54,7 +58,7 @@ input.title {
 
 input.search {
   width: 400px;
-  height: 35px;
+  height: 30px;
   border-radius: 10px;
   margin: 5px;
   text-indent: 15px;
@@ -73,19 +77,196 @@ input.login {
   margin: 0 10px 5px 10px;
 }
 
+                                 /*   B U T T O N S   */
+
+button {
+  font-size: 21px;
+  border: 2px solid white;
+  margin: 10px;
+  cursor: pointer;
+  background: none;
+  border-radius: 5px;
+  padding: 10px 40px 10px 40px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  color: white;
+}
+
+button.search {
+  margin: 0;
+  background: goldenrod;
+  border: solid goldenrod;
+  border-radius: 10px;
+  padding: 5px 22px 5px 22px;
+}
+
+button.signup {
+  background: Peru;
+}
+
+button.login {
+  background: SteelBlue;
+}
+
+button.login:hover,
+button.signup:hover,
+button:hover {  background: MediumSeaGreen  }
+button.search:hover {
+  background: whitesmoke;
+  border: 2px solid goldenrod;
+  color: goldenrod
+}
+
+
+                              /*     D I V S     */
+div {
+  overflow: auto;
+  background-color: CadetBlue;
+  padding: 20px;
+  border: 0;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+div.footer {
+  width: 100%;
+  margin: 0;
+  background: none;
+  padding: 0;
+}
+
+div.msg {
+  background: Teal;
+  text-align: center;
+}
+
+div.category {
+  margin: auto;
+  padding: 0;
+  width: 250px;
+  border-radius: 0 20px 20px 0;
+}
+
+div.categ {
+  margin: 0;
+  padding: 10px;
+  border-radius: 0 20px 20px 0;
+
+}
+
+div.left {
+  width: 250px;
+  padding: 0;
+  margin: 0;
+  border-radius: 0 20px 20px 0;
+}
+
+div.invCaptcha {
+  padding: 0;
+  margin: 0;
+  width: 230px;
+}
+
+div.search {
+  padding: 10px 20px 10px 20px;
+  margin: 0 10px 10px 10px;
+  width: 530px;
+}
+
+div.block {
+  width: 780px;
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+div.captcha {
+  margin: 0 0 0 10px;
+  padding: 0 0 0 10px;
+  border: 2px solid;
+  width: 200px;
+}
+
+div.header {
+  padding: 10px;
+  margin: 0;
+  border-radius: 0;
+}
+
+div.bravito {
+  margin: 0 10px 10px 10px;
+  padding: 20px;
+}
+
+div.advertisement {
+  width: auto;
+  height: 300px;
+  border-radius: 20px 0 0 20px;
+  margin: 0 0 10px 0;
+}
+
+div.right {
+  background: white;
+  border-radius: 20px 0 0 20px;
+  padding: 0;
+  margin: 0;
+}
+
+div.delete{
+  padding: 0;
+  margin: 0 45px 0 45px;
+}
+
+
+div.signup {
+  width: 350px;
+  margin: auto;
+  padding: 20px;
+}
+
+div.img,
+div.fileUpload {
+  border: 2px solid white;
+  overflow: hidden;
+  float: left;
+  position: relative;
+  margin: 0 10px 0 10px;
+  width: 150px;
+}
+
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  font-size: 300px;
+  opacity: 0;
+  height: 200px;
+  filter: alpha(opacity=0);
+}
+
+div.fileUpload:hover { background: #ffff4f }
+div.categ:hover {background: DarkCyan}
+div.img:hover {
+  width: 300px;
+  transition: width 1s linear;
+}
+
+                                       /*     L I N K S    */
+
 a {
   border-radius: 10px;
   background: none;
   font-size: 25px;
-  color: SteelBlue;
+  color: white;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   text-decoration: none;
   white-space: nowrap;
 }
 
 a.one {
-  border: 2px solid white;
-  border-radius: 5px;
+  border: 0;
   padding: 6px 20px 6px 20px;
 }
 
@@ -106,19 +287,22 @@ a.four {
   border: 2px solid white;
   padding: 5px 15px 5px 15px;
   margin: 3px;
+  font-size: 16px;
 }
 a.five {
   border: 3px solid yellowgreen;
   padding: 10px 20px 10px 20px;
   margin: 5px;
   color: yellowgreen;
+  font-size: 16px;
 }
 
 a.six {
-  border: 2px solid gold;
+  border: 2px solid goldenrod;
   padding: 5px 15px 5px 15px;
   margin: 5px;
-  color: gold;
+  color: goldenrod;
+  font-size: 16px;
 }
 
 a.img {
@@ -128,123 +312,24 @@ a.img {
   color: yellow;
 }
 
-a.three:hover { color: gold }
-a.four:visited { color: gold; border-color: gold }
-a.four:hover,
-a.one:hover { background: LightSeaGreen; transition: background 1s;}
 a.two:hover { background: #ffff4f; color: black }
-
-
-ul.a {
-  list-style-type: none;
+a.three:hover { color: gold }
+a.four:visited { color: goldenrod; border-color: goldenrod }
+a.six:hover,
+a.four:hover,
+a.one:hover {
+  background: goldenrod;
+  transition: background 1s;
+  color: white
 }
 
-li.a {
-  display: inline;
-}
-
-h5 {
-  padding: 5px;
-  margin: auto;
-}
-
-h6 {
-  padding-left: 10px;
-  padding-top: 10px;
-  margin: auto;
-  font-size: small;
-}
-
-div {
-  overflow: auto;
-  background-color: #60AB91;
-  opacity: 50;
-  padding: 20px;
-  border: 0;
-  border-radius: 20px;
-  margin: 20px;
-}
-
-div.footer {
-  width: 100%;
-  margin: 0;
-  background: none;
-  padding: 0;
-}
-
-div.msg {
-  background: Teal;
-  border-radius: 10px;
-  width: 270px;
-}
-
-div.category {
-  margin: auto;
-  padding: 0;
-  width: 250px;
-}
-
-div.categ {
-  margin: 0;
-  padding: 10px
-}
-
-div.categ:hover {background: seagreen }
-
-div.inv {
-  width: 250px;
-  padding: 0;
-  float: left;
-}
-
-div.invCaptcha {
-  padding: 0;
-  margin: 0;
-  width: 230px;
-}
-
-div.search {
-  padding: 10px 20px 10px 20px;
-  width: 530px;
-}
-
-div.delete{
-  padding: 0;
-  margin: 0 45px 0 45px;
-}
-
-div.captcha {
-  margin: 0 0 0 10px;
-  padding: 0 0 0 10px;
-  border: 2px solid;
-  border-radius: 15px;
-  width: 200px;
-}
-
-div.header {
-  padding: 10px;
-  margin: 0;
-  border-radius: 0;
-}
 
 p {
   padding: 5px;
   font-size: 20px;
   font-family: Roboto, Arial, sans-serif;
   margin: auto;
-  color: yellow;
-}
-
-p.img {
-  padding: 0;
-  cursor: pointer;
-  font-size: 15px;
-  visibility: hidden
-}
-
-p.img:hover,
-a.img:hover{
-  color: black;
+  color: white;
 }
 
 p.validateErr {
@@ -257,84 +342,42 @@ p.validateErr {
   visibility: hidden
 }
 
-button {
-  font-size: 21px;
-  border: 2px solid white;
-  margin: 10px;
+p.img {
+  padding: 0;
   cursor: pointer;
-  background: none;
-  border-radius: 5px;
-  padding: 10px 40px 10px 40px;
-  font-family: Roboto, Helvetica, Arial, sans-serif;
-  color: white;
+  font-size: 15px;
+  visibility: hidden
 }
 
-button.login:hover,
-button.signup:hover,
-button:hover {  background: MediumSeaGreen  }
-
-button.search {
-  margin: 0;
-  background: goldenrod;
-  border: 0;
-  border-radius: 10px;
-  padding: 7px 25px 7px 25px;
-}
-
-button.signup {
-  background: Peru;
-}
-
-button.login {
-  background: SteelBlue;
+.img:hover{
+  color: goldenrod;
 }
 
 td {
   padding: 0;
+}
+
+table.full {
+  width: 100%;
+}
+
+td {
+  padding: 0;
+}
+
+td.index {
+  vertical-align: top;
+}
+
+td.input {
   vertical-align: bottom;
 }
-
-div.signup {
-  width: 350px;
-  margin: auto;
-}
-
-div.img,
-div.fileUpload {
-  border: 2px solid white;
-  overflow: hidden;
-  float: left;
-  position: relative;
-  margin: 0 10px 0 10px;
-  width: 150px;
-}
-
-div.img:hover {
-  width: 300px;
-  transition: width 1s linear;
-}
-
-.fileUpload input.upload {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-  font-size: 300px;
-  opacity: 0;
-  height: 200px;
-  filter: alpha(opacity=0);
-}
-
-div.fileUpload:hover { background: #ffff4f }
 
 img.showAds {
   width: 200px;
   margin: 10px;
   border-radius: 10px;
   float: left;
-
 }
 
 img.show {
@@ -349,3 +392,36 @@ img.show:hover {
   transition: width 1s linear;
 }
 
+ul.a {
+  list-style-type: none;
+}
+
+li.a {
+  display: inline;
+}
+
+h1 {
+  color: goldenrod;
+  margin: 0;
+  padding: 10px;
+}
+
+h5 {
+  padding: 5px;
+  margin: auto;
+  font-size: 16px;
+}
+
+h6 {
+  margin: 0;
+}
+
+hr {
+  background-color: goldenrod;
+  height: 1px;
+  border: 0;
+}
+
+.center {
+  text-align: center;
+}

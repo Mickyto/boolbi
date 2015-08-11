@@ -16,25 +16,26 @@ block content
     h1 Ad List:
 
     each ad, i in ads
+        div.bravito
+          a(href='/ads/#{ad._id}')
+             if ad.image1
+                  img.showAds(src='/images/#{ad.image1}', width=150)
+             else if ad.image2
+                  img.showAds(src='/images/#{ad.image2}', width=150)
 
-        div
-              a(href='/ads/#{ad._id}')
-                 if ad.image1
-                      img.showAds(src='/images/#{ad.image1}', width=150)
-                 else if ad.image2
-                      img.showAds(src='/images/#{ad.image2}', width=150)
 
-
-                 h5 #{ad.title}
-                 p
-                 h5 #{ad.price}
+             h5 #{ad.title}
+             p
+             h5 #{ad.price}
 
 
     if pages && pages.length > 1
         ul.a
             each page, i in pages
                 li.a
-                    a#link(href='#{page}', class='four') #{[i] * 1 + 1}
+                    a.four(href='#{page}') #{[i] * 1 + 1}
+
+
 
     script.
         document.getElementsByClassName('four')[#{currentPage}].setAttribute('class', 'five');
