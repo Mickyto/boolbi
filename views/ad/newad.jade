@@ -29,11 +29,11 @@ block content
                  p #{message}
          table
               tr
-                td.b(rowspan=2)
-                  p Category: &nbsp
-                td
+                td(colspan=2)
                   p.validateErr#category You didn't select category
               tr
+                td
+                    p.small Category: &nbsp
                 td
                    if category
                        p #{category.name}
@@ -44,21 +44,21 @@ block content
                                option(value='#{category._id}') #{category.name}
          table
               tr
-                td.b(rowspan=2)
-                  p Title:
-                td
+                td(colspan=2)
                   p.validateErr#adtitle You didn't enter title
               tr
                 td
+                  p.small Title: &nbsp
+                td
                   input.title(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
          p
-         p Description:
+         p.small Description:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
-         p Price:
+         p.small Price:
            input(type='text', value='#{ad.price}', name='adprice')
 
 
-         p Photos:
+         p.small Photos:
          table
                tr
                  td
