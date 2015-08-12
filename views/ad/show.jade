@@ -2,48 +2,60 @@ extends ../layout
 
 block content
 
- h1 Ad Info
- div
+ div.bravito
+    h1 User information
+
+
     table
-      h2 User information
-        tr
-          td
-            h5 Name:
-          td
+       tr
+          td.r
+            p.small Name: &nbsp &nbsp
+          td.l
             p #{user.name}
-        tr
-          td
-            h5 Email:
-          td
+
+       tr
+          td.r
+            p.small Email: &nbsp &nbsp
+          td.l
             p #{user.email}
-        tr
-          td
-            h5 Telephone:
-          td
+
+       tr
+          td.r
+            p.small Telephone: &nbsp &nbsp
+          td.l
             p #{user.telephone}
+
+    h1 Item information
+
+
     table
-      h2 Item information
         tr
-          td
-            h5 Category:
-          td
+          td.r
+            p.small Category: &nbsp &nbsp
+          td.l
             p #{category.name}
+
         tr
-          td
-            h5 Title:
-          td
+          td.r
+            p.small Title: &nbsp &nbsp
+          td.l
             p #{ad.title}
+
         tr
-          td
-            h5 Description:
-          td
+          td.r
+            p.small Description: &nbsp &nbsp
+          td.l
             p #{ad.description}
+
         tr
-          td
-            h5 Price:
-          td
-            p #{ad.price}
-    h5 Photos:
+          td.r
+            p.small Price: &nbsp &nbsp
+          td.l
+            p.info #{ad.price}
+
+        tr
+          td.r
+            p.small Photos: &nbsp &nbsp
     if ad.image1 !== undefined
         img.show(src='/images/#{ad.image1}')
     if ad.image2 !== undefined

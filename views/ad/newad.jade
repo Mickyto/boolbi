@@ -1,47 +1,57 @@
 extends ../layout
 
 block content
-  h1 Ad Edit
 
-
-  div
+  div.bravito
       h1 User information
+
       table
           tr
-            td
-              p Name:
-            td
-              h5 #{user.name}
+            td.r
+              p.small Name: &nbsp &nbsp
+            td.l
+              p #{user.name}
           tr
-            td
-              p Email:
-            td
-              h5 #{user.email}
+            td.r
+              p.small Email: &nbsp &nbsp
+            td.l
+              p #{user.email}
           tr
-            td
-              p Telephone:
-            td
-              h5 #{user.telephone}
+            td.r
+              p.small Telephone: &nbsp &nbsp
+            td.l
+              p #{user.telephone}
 
-      form(name='adForm', action='#{formAction}', method='post', onsubmit='return validateForm()', enctype='multipart/form-data')
+      form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm("adForm")', enctype='multipart/form-data')
          h1 Item information
          if message.length > 0
              div.msg
                  p #{message}
          table
               tr
+                td.b(rowspan=2)
+                  p Category: &nbsp
                 td
-                  p Category:
+                  p.validateErr#category You didn't select category
+              tr
                 td
                    if category
-                       h5 #{category.name}
+                       p #{category.name}
                    else
-                       select(name='category')
+                       select#select(name='category', align='right')
                            option(value='') select category
                            each category, i in categories
                                option(value='#{category._id}') #{category.name}
-         p Title:
-           input(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
+         table
+              tr
+                td.b(rowspan=2)
+                  p Title:
+                td
+                  p.validateErr#adtitle You didn't enter title
+              tr
+                td
+                  input.title(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
+         p
          p Description:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
          p Price:
@@ -49,7 +59,7 @@ block content
 
 
          p Photos:
-           table
+         table
                tr
                  td
                    div.fileUpload
@@ -62,26 +72,37 @@ block content
                tr
                  td
                    if ad.image1
-                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1', style='text-decoration: none')
-                          img(src='/images/logo/trash.png', width=30)
+                     div.delete(align='center')
+                        a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1')
+                            i.fa.fa-trash &nbsp delete
                    else
-                       p(onclick="delImage('photo1')")
-                          img(src='/images/logo/trash.png', width=30)
-
+                     p.img#PARphoto1(onclick="delImage('photo1')", align='center')
+                         i.fa.fa-trash &nbsp delete
                  td
                    if ad.image2
-                      a.three(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', style='text-decoration: none')
-                          img(src='/images/logo/trash.png', width=30)
+                     div.delete(align='center')
+                        a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', align='center')
+                            i.fa.fa-trash &nbsp delete
                    else
-                      p(onclick="delImage('photo2')")
-                          img(src='/images/logo/trash.png', width=30)
-
-          button(type='submit') Save
+                     p.img#PARphoto2(onclick="delImage('photo2')", align='center')
+                         i.fa.fa-trash &nbsp delete
+         div.invCaptcha
+           p.validateErr#captcha You didn't enter code
+           div.captcha
+             table
+               tr
+                 td
+                     img(src='data:image/jpeg;base64, #{captcha}')
+                 td
+                     input.captcha(type='text', name='captcha', maxlength=4)
+         p
+         button(type='submit') Save
 
   script(type='text/javascript').
       var delImage = function (name) {
           document.getElementById(name).getAttributeNode('src').value='/images/logo/camera.png';
           document.getElementsByName(name)[0].value='';
+          document.getElementById('PAR' + name).style.visibility='hidden';
       } ;
 
   script(type='text/javascript').
@@ -94,13 +115,10 @@ block content
               output.src = dataURL;
           };
           reader.readAsDataURL(input.files[0]);
+          document.getElementById('PAR' + input.name).style.visibility='visible';
       };
+
   script(type='text/javascript', src='/javascripts/validator.min.js').
-  script(type = 'text/javascript').
-      function validateForm() {
-        var category = document.forms['adForm']['category'].value;
-        if (!validator.isMongoId(category)) {
-            alert('You did not select the category');
-            return false;
-        }
-      }
+  script(type ='text/javascript', src='/javascripts/validateFields.js').
+
+

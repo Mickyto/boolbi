@@ -3,26 +3,56 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/font-awesome.css')
 
   body
-    table(style={width: '100%'})
-       tr
-          td
-           a(href='/')
-             img.logo(src='/images/logo/logo.png', alt='logo', width=280, height=80)
-           p #{session.email}
-          if session.user_id
-              td
-               a.one(href='/ads/newad') new ad
-              td
-               a.one(href='/users/profile') profile
-          else
-              td
-               a.one(href='/users/login') log in
-
+      div.header
+        table.full
+           tr
+              td(rowspan=2)
+                  a(href='/')
+                      p.logo giwwer
+              td.center
+                 form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
+                   i.fa.fa-search &nbsp
+                      input.search(type='text', placeholder='find ads', name='search', , value=(word ? '#{word}' : ''))
+                      button.search(type='submit') search
+              td.center
+                 a.one(href='/ads/newad') new ad
+              td.center
+                 if session.user_id
+                    a.one(href='/users/profile')
+                        span(class='fa fa-user') &nbsp #{session.email}
+                 else
+                    a.one(href='/users/login') log in
       hr
-  block content
 
-  div.footer
-      hr
+  table
+      tr
+        td.t
+          div.left
+              each category, i in categories
+                  div.category
+                      a.category(href='/category/#{category._id}')
+                          div.categ.divHover
+                            p  #{category.name} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                 span(id='#{category._id}', align='right')
+
+
+        td.t
+          div.block
+            block content
+        td.t
+                div.advertisement
+                    p.center Здесь могла бы быть ваша реклама
+                div.advertisement
+                    p.center Здесь могла бы быть ваша реклама
+                div.advertisement
+                    p.center Здесь могла бы быть ваша реклама
+  hr
+  div.header
       p E-mail: info@bravito.ru
+
+  script.
+      document.getElementById('#{category}').setAttribute('class', 'fa fa-circle r');
+

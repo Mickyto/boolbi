@@ -1,24 +1,17 @@
 extends ../layout
 
+block variables
+    var category =  #{category}
+
 block content
-
-    div.search
-        form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-            input.search(type='text', name='search', , value=(word ? '#{word}' : ''))
-            button.search(type='submit') search
-
 
     if message.length > 0
         div.msg
             p #{message}
 
-
-    h1 Ad List:
-
     each ad, i in ads
-
-        div
-              a(href='/ads/#{ad._id}')
+          a(href='/ads/#{ad._id}')
+              div.bravito.divHover
                  if ad.image1
                       img.showAds(src='/images/#{ad.image1}', width=150)
                  else if ad.image2
@@ -34,7 +27,9 @@ block content
         ul.a
             each page, i in pages
                 li.a
-                    a#link(href='#{page}', class='four') #{[i] * 1 + 1}
+                    a.four(href='#{page}') #{[i] * 1 + 1}
+
+
 
     script.
         document.getElementsByClassName('four')[#{currentPage}].setAttribute('class', 'five');

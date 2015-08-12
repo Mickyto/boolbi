@@ -4,12 +4,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  var db =req.db;
-  db.get('categories').find({}, function(err, docs) {
-      res.render('index', {
-        categories : docs
-      });
-  });
+      res.render('index');
 });
 
 router.param('id', function (req, res, next, id) {
@@ -49,6 +44,7 @@ router.get('/category/:id', function(req, res) {
             }
 
             res.render('ad/ads', {
+                category: req.id,
                 ads: ads,
                 pages: pages,
                 currentPage: page,
@@ -84,7 +80,8 @@ router.get('/search', function (req, res) {
             sort: { _id: -1 }
         }, function(err, docs) {
             if (docs == 0) {
-                res.render('default', { msg : 'Nothing was founded' });
+                req.flash('info', 'Nothing was founded');
+                res.redirect('/ads');
             }
             else {
                 adCol.count({
