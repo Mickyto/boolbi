@@ -14,15 +14,15 @@ block content
 
 
             tr
-              td.input(rowspan=2)
+              td.b(rowspan=2)
                 p E-mail:
-              td.input
+              td
                 p.validateErr#useremail Email is incorrect
             tr
-              td.input
+              td
                 input.login#email(type='email', name='useremail', autofocus)
             tr
-                td.input(colspan=2)
+                td(colspan=2)
                     p.validateErr#password Password has to be minimum 8 characters
             tr
               td
@@ -30,7 +30,7 @@ block content
               td
                 input.login#pass(type='password', name='password')
         p
-            button(type='submit', class=(btnValue == 'Log in' ? 'login' : 'signup'), class='fa fa-sign-in') &nbsp #{btnValue}
+            button.fa.fa-sign-in(type='submit', class=(btnValue == 'Log in' ? 'login' : 'signup')) &nbsp #{btnValue}
 
 
             if btnValue == 'Log in'
@@ -38,7 +38,7 @@ block content
                    a.three(href='/users/signup/') Sign up
             else
                 p Have an account?
-                    a.three(href='/users/login/', style='color: PaleTurquoise') Log in
+                   a.two(href='/users/login/') Log in
 
  script(type='text/javascript', src='/javascripts/validator.min.js').
  script(type='text/javascript', src='/javascripts/validateFields.js').

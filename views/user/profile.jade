@@ -6,28 +6,28 @@ block content
   div.bravito
     table
       tr
-        td
-          h5 E-mail:
-        td
+        td.center.r
+          h5 E-mail: &nbsp &nbsp
+        td.center.l
           p #{user.email}
+
       tr
-        td
-          h5 Name:
-        td
+        td.center.r
+          h5 Name: &nbsp &nbsp
+        td.center.l
           p #{user.name}
+
       tr
-        td
-          h5 Telephone:
-        td
+        td.center.r
+          h5 Telephone: &nbsp &nbsp
+        td.center.l
           p #{user.telephone}
+
       tr
-        td
-          h5
-      tr
-        td
-          a.one(href='/users/edit') Edit
-        td
-          a.one(href='/users/logout') Log out
+        td.center.r
+          a.three(href='/users/edit') Edit
+        td.center.l
+          a.three(href='/users/logout') Log out
 
   if myAds.length > 0
       h1 My ads:

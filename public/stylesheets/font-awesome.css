@@ -955,6 +955,7 @@
 }
 .fa-circle:before {
   content: "\f111";
+  color: gold;
 }
 .fa-mail-reply:before,
 .fa-reply:before {

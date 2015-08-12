@@ -4,21 +4,22 @@ block content
 
   div.bravito
       h1 User information
+
       table
           tr
-            td
-              p.small Name:
-            td
+            td.r
+              p.small Name: &nbsp &nbsp
+            td.l
               p #{user.name}
           tr
-            td
-              p.small Email:
-            td
+            td.r
+              p.small Email: &nbsp &nbsp
+            td.l
               p #{user.email}
           tr
-            td
-              p.small Telephone:
-            td
+            td.r
+              p.small Telephone: &nbsp &nbsp
+            td.l
               p #{user.telephone}
 
       form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm("adForm")', enctype='multipart/form-data')
@@ -28,14 +29,14 @@ block content
                  p #{message}
          table
               tr
-                td.input(rowspan=2)
-                  p Category:
+                td.b(rowspan=2)
+                  p Category: &nbsp
                 td
                   p.validateErr#category You didn't select category
               tr
                 td
                    if category
-                       h5 #{category.name}
+                       p #{category.name}
                    else
                        select#select(name='category', align='right')
                            option(value='') select category
@@ -43,7 +44,7 @@ block content
                                option(value='#{category._id}') #{category.name}
          table
               tr
-                td.input(rowspan=2)
+                td.b(rowspan=2)
                   p Title:
                 td
                   p.validateErr#adtitle You didn't enter title
@@ -72,15 +73,19 @@ block content
                  td
                    if ad.image1
                      div.delete(align='center')
-                        a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1') delete
+                        a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1')
+                            i.fa.fa-trash &nbsp delete
                    else
-                     p.img#PARphoto1(onclick="delImage('photo1')", align='center') delete
+                     p.img#PARphoto1(onclick="delImage('photo1')", align='center')
+                         i.fa.fa-trash &nbsp delete
                  td
                    if ad.image2
                      div.delete(align='center')
-                        a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', align='center') delete
+                        a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', align='center')
+                            i.fa.fa-trash &nbsp delete
                    else
-                     p.img#PARphoto2(onclick="delImage('photo2')", align='center') delete
+                     p.img#PARphoto2(onclick="delImage('photo2')", align='center')
+                         i.fa.fa-trash &nbsp delete
          div.invCaptcha
            p.validateErr#captcha You didn't enter code
            div.captcha

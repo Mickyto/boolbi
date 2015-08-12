@@ -13,7 +13,8 @@ html
                   a(href='/')
                       p.logo giwwer
               td.center
-                  form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
+                 form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
+                   i.fa.fa-search &nbsp
                       input.search(type='text', placeholder='find ads', name='search', , value=(word ? '#{word}' : ''))
                       button.search(type='submit') search
               td.center
@@ -28,17 +29,20 @@ html
 
   table
       tr
-        td.index
+        td.t
           div.left
               each category, i in categories
                   div.category
                       a.category(href='/category/#{category._id}')
                           div.categ.divHover
-                              p #{category.name}
-        td.index
+                            p  #{category.name} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                 span(id='#{category._id}', align='right')
+
+
+        td.t
           div.block
             block content
-        td.index
+        td.t
                 div.advertisement
                     p.center Здесь могла бы быть ваша реклама
                 div.advertisement
@@ -48,4 +52,7 @@ html
   hr
   div.header
       p E-mail: info@bravito.ru
+
+  script.
+      document.getElementById('#{category}').setAttribute('class', 'fa fa-circle r');
 

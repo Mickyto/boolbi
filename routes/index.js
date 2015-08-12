@@ -44,6 +44,7 @@ router.get('/category/:id', function(req, res) {
             }
 
             res.render('ad/ads', {
+                category: req.id,
                 ads: ads,
                 pages: pages,
                 currentPage: page,
