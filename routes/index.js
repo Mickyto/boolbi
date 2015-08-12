@@ -110,6 +110,10 @@ router.get('/search', function (req, res) {
 });
 
 
-
+router.get('/locale', function (req, res) {
+    req.session.locale = req.query.locale;
+    console.log();
+    res.redirect('/');
+});
 
 module.exports = router;

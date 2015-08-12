@@ -80,13 +80,13 @@ input.login {
                                  /*   B U T T O N S   */
 
 button {
-  font-size: 21px;
+  font-size: 18px;
   border: 2px solid white;
   margin: 10px;
   cursor: pointer;
   background: none;
   border-radius: 10px;
-  padding: 10px 40px 10px 40px;
+  padding: 10px 20px 10px 20px;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   color: white;
 }
@@ -95,8 +95,8 @@ button.search {
   margin: 0;
   background: goldenrod;
   border-radius: 10px;
-  padding: 2px 22px 5px 22px;
-  font-size: 25px;
+  padding: 5px 25px 5px 25px;
+  font-size: 20px;
 }
 
 button.signup {
@@ -142,6 +142,8 @@ div {
 div.msg {
   background: Teal;
   text-align: center;
+  padding: 10px;
+  margin: 10px;
 }
 
 div.category {
@@ -195,6 +197,7 @@ div.header {
 div.bravito {
   margin: 0 10px 10px 10px;
   padding: 20px;
+  white-space: normal;
 }
 
 div.advertisement {
@@ -212,7 +215,7 @@ div.delete{
 
 
 div.signup {
-  width: 350px;
+  width: 330px;
   margin: auto;
   padding: 20px;
 }
@@ -252,7 +255,7 @@ div.img:hover {
 a {
   border-radius: 10px;
   background: none;
-  font-size: 25px;
+  font-size: 20px;
   color: white;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   text-decoration: none;
@@ -266,13 +269,13 @@ a.one {
 
 a.two {
   color: yellow;
-  font-size: 30px;
+  font-size: 20px;
   padding: 30px;
 }
 
 a.three {
   color: orange;
-  font-size: 30px;
+  font-size: 20px;
   padding: 30px;
 }
 
@@ -346,7 +349,7 @@ p {
 
 p.validateErr {
   text-align: right;
-  font-size: 12px;
+  font-size: 14px;
   padding: 0 12px 0 0 ;
   color: orange;
   vertical-align: bottom;
@@ -431,6 +434,10 @@ hr {
   background-color: goldenrod;
   height: 1px;
   border: 0;
+}
+
+.inline {
+  display: inline;
 }
 
 .center {

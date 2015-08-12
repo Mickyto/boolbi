@@ -3,7 +3,7 @@ extends ../layout
 
 block content
 
- div.signup
+ div.signup.center
 
     form(name='login', action='#{formAction}', onsubmit='event.preventDefault(); return validateForm("login")', method='post', enctype='application/x-www-form-urlencoded')
 
@@ -14,31 +14,30 @@ block content
 
 
             tr
-              td.b(rowspan=2)
-                p E-mail:
+              td.b.r(rowspan=2)
+                p Email:
               td
-                p.validateErr#useremail Email is incorrect
+                p.validateErr#useremail #{i18n('emailErr')}
             tr
-              td
+              td.l
                 input.login#email(type='email', name='useremail', autofocus)
             tr
                 td(colspan=2)
-                    p.validateErr#password Password has to be minimum 8 characters
+                    p.validateErr#password #{i18n('passErr')}
             tr
-              td
-                p Password:
-              td
+              td.r
+                p #{i18n('pass')}:
+              td.l
                 input.login#pass(type='password', name='password')
-        p
-            button.fa.fa-sign-in(type='submit', class=(btnValue == 'Log in' ? 'login' : 'signup')) &nbsp #{btnValue}
 
+        button.fa.fa-sign-in(type='submit', class=(btnValue == 'Log in' ? 'login' : 'signup')) &nbsp #{btnValue}
 
-            if btnValue == 'Log in'
-                p Need an account?
-                   a.three(href='/users/signup/') Sign up
-            else
-                p Have an account?
-                   a.two(href='/users/login/') Log in
+        if btnValue == 'Log in'
+            p.small #{i18n('need')}
+               a.three(href='/users/signup/') #{i18n('signup')}
+        else
+            p.small #{i18n('have')}
+               a.two(href='/users/login/') #{i18n('login')}
 
  script(type='text/javascript', src='/javascripts/validator.min.js').
  script(type='text/javascript', src='/javascripts/validateFields.js').

@@ -4,28 +4,28 @@ extends ../layout
 block content
 
   div.bravito
-    table
-      tr
-        td.r
-          h5 E-mail: &nbsp &nbsp
-        td.l
-          p #{user.email}
+     table
+        tr
+          td.r
+            p.small Email: &nbsp &nbsp
+          td.l
+            p #{user.email}
 
-      tr
-        td.r
-          h5 Name: &nbsp &nbsp
-        td.l
-          p #{user.name}
+        tr
+          td.r
+            p.small #{i18n('name')}: &nbsp &nbsp
+          td.l
+            p #{user.name}
 
-      tr
-        td.r
-          h5 Telephone: &nbsp &nbsp
-        td.l
-          p #{user.telephone}
+        tr
+          td.r
+            p.small #{i18n('tel')}: &nbsp &nbsp
+          td.l
+            p #{user.telephone}
 
 
-    a.three(href='/users/edit') Edit
-    a.three(href='/users/logout') Log out
+       a.three(href='/users/edit') #{i18n('edit')}
+       a.three(href='/users/logout') #{i18n('logout')}
 
   if myAds.length > 0
       h1 My ads:

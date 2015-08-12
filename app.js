@@ -37,6 +37,117 @@ app.use(session({
 app.use(flash());
 
 
+
+app.use(function(req, res, next) {
+    var locale = req.session.locale ? req.session.locale : 'en';
+    var i18n = function(word) {
+        var t = {
+
+            ru: {
+                search: 'Поиск',
+                newad: 'Создать объявление',
+                findad: 'Найти объявление',
+                login: 'Войти',
+                pass: 'Пароль',
+                signup: 'Регистрация',
+                need: 'Нужен аккаунт?',
+                have: 'Есть аккаунт?',
+                emailErr: 'Не верный email',
+                passErr: 'Для пароля нужно не меньше 8 символов',
+                name:'Имя',
+                tel:'Телефон',
+                category:'Категория',
+                title: 'Название',
+                description: 'Описание',
+                price: 'Цена',
+                photo: 'Фото',
+                save: 'Сохранить',
+                categoryErr: 'Вы не выбрали категорию',
+                titleErr: 'Вы не ввели название',
+                captchaErr: 'Вы не ввели код',
+                del: 'удалить',
+                Del: 'Удалить',
+                edit: 'Изменить',
+                changePass: 'Поменять пароль',
+                newPass: 'новый пароль',
+                againPass: 'новый пароль еще раз',
+                logout: 'Выйти',
+
+
+
+
+
+                Transport: 'Транспорт',
+                'Real estate': 'Недвижимость',
+                Job: 'Работа',
+                Services: 'Услуги',
+                'Personal items': 'Личные вещи',
+                'For home': 'Для дома',
+                Electronics: 'Электроника',
+                'Rest and hobby': 'Отдых и хобби',
+                Animals: 'Животные',
+                Business: 'Бизнес'
+                },
+
+            en: {
+                search: 'Search',
+                newad: 'New ad',
+                findad: 'Find ad',
+                login: 'Log in',
+                pass: 'Password',
+                signup: 'Sign up',
+                need: 'Need an account?',
+                have: 'Have an account?',
+                emailErr: 'Email is incorrect',
+                passErr: 'Password has to be minimum 8 characters',
+                name:'Name',
+                tel:'Telephone',
+                category:'Category',
+                title: 'Title',
+                description: 'Descroption',
+                price: 'Price',
+                photo: 'Photos',
+                save: 'Save',
+                categoryErr: 'You didn\'t select category',
+                titleErr: 'You didn\'t enter title',
+                captchaErr: 'You didn\'t enter code',
+                del: 'delete',
+                Del: 'Delete',
+                edit: 'Edit',
+                changePass: 'Change password',
+                newPass: 'new password',
+                againPass: 'new password again',
+                logout: 'Log out',
+
+
+
+
+
+                Transport: 'Transport',
+                'Real estate': 'Real Estate',
+                Job: 'Job',
+                Services: 'Services',
+                'Personal items': 'Personal items',
+                'For home': 'For home',
+                Electronics: 'Electronics',
+                'Rest and hobby': 'Rest and hobby',
+                Animals: 'Animals',
+                Business: 'Business'
+
+
+                }
+        };
+
+      return t[locale][word];
+
+    };
+    console.log(locale);
+    res.locals.i18n = i18n;
+    next()
+});
+
+
+
 app.use(function(req, res, next) {
   db.get('categories').find({}, function(err, categories) {
     res.locals.categories = categories;

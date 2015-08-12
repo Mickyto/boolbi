@@ -9,7 +9,7 @@ block content
     table
        tr
           td.r
-            p.small Name: &nbsp &nbsp
+            p.small #{i18n('name')}: &nbsp &nbsp
           td.l
             p #{user.name}
 
@@ -21,7 +21,7 @@ block content
 
        tr
           td.r
-            p.small Telephone: &nbsp &nbsp
+            p.small #{i18n('tel')}: &nbsp &nbsp
           td.l
             p #{user.telephone}
 
@@ -31,31 +31,31 @@ block content
     table
         tr
           td.r
-            p.small Category: &nbsp &nbsp
+            p.small #{i18n('category')}: &nbsp &nbsp
           td.l
             p #{category.name}
 
         tr
           td.r
-            p.small Title: &nbsp &nbsp
+            p.small #{i18n('title')}: &nbsp &nbsp
           td.l
             p #{ad.title}
 
         tr
           td.r
-            p.small Description: &nbsp &nbsp
+            p.small #{i18n('description')}: &nbsp &nbsp
           td.l
             p #{ad.description}
 
         tr
           td.r
-            p.small Price: &nbsp &nbsp
+            p.small #{i18n('price')}: &nbsp &nbsp
           td.l
             p.info #{ad.price}
 
         tr
           td.r
-            p.small Photos: &nbsp &nbsp
+            p.small #{i18n('photo')}: &nbsp &nbsp
     if ad.image1 !== undefined
         img.show(src='/images/#{ad.image1}')
     if ad.image2 !== undefined
@@ -64,10 +64,9 @@ block content
     if session.user_id == user._id
         form(action='/ads/#{ad._id}/edit', method='post', enctype='application/x-www-form-urlencoded')
             input(type='hidden', value='DELETE', name='_method')
-            button(type='submit') Delete
-        p
+            button(type='submit') #{i18n('Del')}
         form(action='/ads/#{ad._id}/edit')
-            button(type='submit') Edit
+            button(type='submit') #{i18n('edit')}
 
 
 

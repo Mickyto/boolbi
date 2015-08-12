@@ -8,7 +8,7 @@ block content
       table
           tr
             td.r
-              p.small Name: &nbsp &nbsp
+              p.small #{i18n('name')}: &nbsp &nbsp
             td.l
               p #{user.name}
           tr
@@ -18,7 +18,7 @@ block content
               p #{user.email}
           tr
             td.r
-              p.small Telephone: &nbsp &nbsp
+              p.small #{i18n('tel')}: &nbsp &nbsp
             td.l
               p #{user.telephone}
 
@@ -30,10 +30,10 @@ block content
          table
               tr
                 td(colspan=2)
-                  p.validateErr#category You didn't select category
+                  p.validateErr#category #{i18n('categoryErr')}
               tr
                 td
-                    p.small Category: &nbsp
+                    p.small #{i18n('category')}: &nbsp
                 td
                    if category
                        p #{category.name}
@@ -45,20 +45,20 @@ block content
          table
               tr
                 td(colspan=2)
-                  p.validateErr#adtitle You didn't enter title
+                  p.validateErr#adtitle #{i18n('titleErr')}
               tr
                 td
-                  p.small Title: &nbsp
+                  p.small #{i18n('title')}: &nbsp
                 td
                   input.title(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
          p
-         p.small Description:
+         p.small #{i18n('description')}:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
-         p.small Price:
+         p.small #{i18n('price')}:
            input(type='text', value='#{ad.price}', name='adprice')
 
 
-         p.small Photos:
+         p.small #{i18n('photo')}:
          table
                tr
                  td
@@ -74,20 +74,20 @@ block content
                    if ad.image1
                      div.delete(align='center')
                         a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1')
-                            i.fa.fa-trash &nbsp delete
+                            i.fa.fa-trash &nbsp #{i18n('del')}
                    else
                      p.img#PARphoto1(onclick="delImage('photo1')", align='center')
-                         i.fa.fa-trash &nbsp delete
+                         i.fa.fa-trash &nbsp #{i18n('del')}
                  td
                    if ad.image2
                      div.delete(align='center')
                         a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', align='center')
-                            i.fa.fa-trash &nbsp delete
+                            i.fa.fa-trash &nbsp #{i18n('del')}
                    else
                      p.img#PARphoto2(onclick="delImage('photo2')", align='center')
-                         i.fa.fa-trash &nbsp delete
+                         i.fa.fa-trash &nbsp #{i18n('del')}
          div.invCaptcha
-           p.validateErr#captcha You didn't enter code
+           p.validateErr#captcha #{i18n('captchaErr')}
            div.captcha
              table
                tr
@@ -96,7 +96,7 @@ block content
                  td
                      input.captcha(type='text', name='captcha', maxlength=4)
          p
-         button(type='submit') Save
+         button(type='submit') #{i18n('save')}
 
   script(type='text/javascript').
       var delImage = function (name) {

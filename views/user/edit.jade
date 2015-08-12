@@ -6,25 +6,26 @@ block content
  div
 
     form(name='userinfo', action='/users/edit', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
-        p Email: #{user.email}
-        p Name:
+        p.small.inline Email: &nbsp &nbsp
+          p.inline #{user.email}
+        p.small #{i18n('name')}: &nbsp&nbsp
             input.login(type='text', value=(user.name !== undefined ? '#{user.name}' : ''), name='name')
-        p Telephone:
+        p.small #{i18n('tel')}:&nbsp&nbsp
             input.login(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
-        p Change password:
+        p.small #{i18n('changePass')}:
         table
              tr
                td.center
-                 h6 new password
+                 h6 #{i18n('newPass')}
                  input.login(type='password', name='newpass1')
              tr
                td.center
-                 h6 new password again
+                 h6 #{i18n('againPass')}
                  input.login(type='password', name='newpass2')
         if message.length > 0
             div.msg
                 p #{message}
-        button(type='submit') Save
+        button(type='submit') #{i18n('save')}
 
  script(type='text/javascript').
     function validateForm() {
