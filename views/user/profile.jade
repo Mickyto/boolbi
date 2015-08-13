@@ -24,8 +24,8 @@ block content
             p #{user.telephone}
 
 
-       a.three(href='/users/edit') #{i18n('edit')}
-       a.three(href='/users/logout') #{i18n('logout')}
+       a.three.fa.fa-edit(href='/users/edit')  #{i18n('edit')}
+       a.three.fa.fa-sign-out(href='/users/logout')  #{i18n('logout')}
 
   if myAds.length > 0
       h1 My ads:
@@ -48,5 +48,5 @@ block content
           a.four(href='#{page}') #{[i] * 1 + 1}
 
   script.
-    document.getElementsByClassName('four')[#{currentPage}].setAttribute('class', 'five');
+    document.getElementsByClassName('four')[#{pageIndex}].setAttribute('class', 'five');
     document.getElementsByClassName('four')[0].setAttribute('class', 'six');

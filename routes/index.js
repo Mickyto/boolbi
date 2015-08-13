@@ -2,10 +2,16 @@ var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectId;
 
+
+
 /* GET home page. */
 router.get('/', function(req, res) {
-      res.render('index');
+      res.render('index', {
+          curPage: '/'
+      });
 });
+
+
 
 router.param('id', function (req, res, next, id) {
 
@@ -21,8 +27,6 @@ router.param('id', function (req, res, next, id) {
         }
     })
 });
-
-
 
 
 
@@ -44,10 +48,11 @@ router.get('/category/:id', function(req, res) {
             }
 
             res.render('ad/ads', {
+                curPage: '/category/' + req.id,
                 category: req.id,
                 ads: ads,
                 pages: pages,
-                currentPage: page,
+                pageIndex: page,
                 message : req.flash('info')
             });
         });
@@ -80,7 +85,7 @@ router.get('/search', function (req, res) {
             sort: { _id: -1 }
         }, function(err, docs) {
             if (docs == 0) {
-                req.flash('info', 'Nothing was founded');
+                req.flash('info', req.app.locals.i18n('noAds'));
                 res.redirect('/ads');
             }
             else {
@@ -96,6 +101,7 @@ router.get('/search', function (req, res) {
                         pages.push('/search?page=' + p + '&search=' + searchText);
                     }
                     res.render('ad/ads', {
+                        curPage: '/',
                         ads: docs,
                         pages: pages,
                         currentPage: page,
@@ -112,8 +118,8 @@ router.get('/search', function (req, res) {
 
 router.get('/locale', function (req, res) {
     req.session.locale = req.query.locale;
-    console.log();
-    res.redirect('/');
+    console.log(req.query.current);
+    res.redirect(req.query.current);
 });
 
 module.exports = router;

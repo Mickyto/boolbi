@@ -39,7 +39,7 @@ app.use(flash());
 
 
 app.use(function(req, res, next) {
-    var locale = req.session.locale ? req.session.locale : 'en';
+    var locale = req.session.locale ? req.session.locale : 'ru';
     var i18n = function(word) {
         var t = {
 
@@ -72,6 +72,15 @@ app.use(function(req, res, next) {
                 newPass: 'новый пароль',
                 againPass: 'новый пароль еще раз',
                 logout: 'Выйти',
+                noCaptcha: 'Не верный код',
+                noCategory: 'Такой категории не существует',
+                noAds: 'Ничего не найдено',
+                notLogin: 'Пожалуйста, авторизуйтесь',
+                check: 'Проверьте ваш электронный ящик',
+                exist: 'Этот email уже зарегистрирован',
+                wrong: 'Не верный пароль или email',
+                advert: 'Здесь могла бы быть ваша реклама',
+                select: 'выберите категорию',
 
 
 
@@ -118,6 +127,15 @@ app.use(function(req, res, next) {
                 newPass: 'new password',
                 againPass: 'new password again',
                 logout: 'Log out',
+                noCaptcha: 'Code is incorrect',
+                noCategory: 'There is no such category',
+                noAds: 'Nothing was founded',
+                notLogin: 'Please log in',
+                check: 'Check your email',
+                exist: 'That email is already taken',
+                wrong: 'Email or password is wrong',
+                advert: 'There would be your advertisement',
+                select: 'select category',
 
 
 
@@ -141,8 +159,7 @@ app.use(function(req, res, next) {
       return t[locale][word];
 
     };
-    console.log(locale);
-    res.locals.i18n = i18n;
+    req.app.locals.i18n = i18n;
     next()
 });
 

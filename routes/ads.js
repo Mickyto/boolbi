@@ -29,6 +29,14 @@ function checkAuth(req, res, next) {
 }
 
 
+router.get('/', function(req, res) {
+    res.render( 'ad/ads', {
+        ads : 0,
+        message : req.flash('info')
+
+    });
+});
+
 router.get('/newad', checkAuth, function(req, res) {
     var db = req.db;
     var userCol = db.get('users');
@@ -44,6 +52,7 @@ router.get('/newad', checkAuth, function(req, res) {
             var img = p.getBase64();
             var imgbase64 = new Buffer(img,'base64').toString('base64');
             res.render('ad/newad', {
+                curPage:'/ads/newad',
                 categories : docs,
                 user: doc,
                 ad: {
@@ -57,15 +66,6 @@ router.get('/newad', checkAuth, function(req, res) {
             });
         });
     });
-});
-
-
-router.get('/', function(req, res) {
-        res.render( 'ad/ads', {
-          ads : 0,
-          message : req.flash('info')
-
-  });
 });
 
 
@@ -96,6 +96,7 @@ router.get('/:id', function(req, res) {
       categoryCol.findById(ad.category_id, function(err, category) {
           userCol.findById(ad.user_id, function (err, user) {
               res.render('ad/show', {
+                  curPage:'/ads/' + req.id,
                   ad : ad,
                   category : category,
                   user : user
@@ -124,6 +125,7 @@ router.get('/:id/edit', checkAuth, function(req, res) {
               var img = p.getBase64();
               imgbase64 = new Buffer(img,'base64').toString('base64');
               res.render('ad/newad', {
+                  curPage:'/ads/' + req.id + '/edit',
                   user : user,
                   category : category,
                   ad : ad,
@@ -140,7 +142,7 @@ router.get('/:id/edit', checkAuth, function(req, res) {
 var adCallback = function(req, res) {
 
     if (req.body.captcha != req.session.captcha) {
-        req.flash('info', 'Code is incorrect');
+        req.flash('info', req.app.locals.i18n('noCaptcha'));
         res.redirect('/ads/newad');
         return;
     }
@@ -205,11 +207,6 @@ var adCallback = function(req, res) {
 
         // inserting record
 
-    } else if (req.body.category == '') {
-
-        req.flash('info', 'You didn\'t select the category');
-        res.redirect('/ads/newad');
-
     } else {
         db.get('categories').findById(req.body.category, function(err, doc) {
 
@@ -220,7 +217,7 @@ var adCallback = function(req, res) {
                 });
             }
             else {
-                req.flash('info', 'There is no such category');
+                req.flash('info', req.app.locals.i18n('noCategory'));
                 res.redirect('/ads/newad');
             }
         });

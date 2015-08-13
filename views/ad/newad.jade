@@ -39,9 +39,9 @@ block content
                        p #{category.name}
                    else
                        select#select(name='category', align='right')
-                           option(value='') select category
+                           option(value='') #{i18n('select')}
                            each category, i in categories
-                               option(value='#{category._id}') #{category.name}
+                               option(value='#{category._id}') #{i18n(category.name)}
          table
               tr
                 td(colspan=2)

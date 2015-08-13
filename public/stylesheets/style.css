@@ -36,7 +36,7 @@ textarea {
 select {
   height: 32px;
   margin: 0;
-  width: 195px;
+  width: 220px;
 }
 
 input {
@@ -188,7 +188,7 @@ div.captcha {
 }
 
 div.header {
-  padding: 10px;
+  padding: 0;
   margin: 0;
   border-radius: 0;
   box-shadow: 2px 2px 6px 3px gray;
@@ -211,6 +211,14 @@ div.advertisement {
 div.delete{
   padding: 0;
   margin: 0 45px 0 45px;
+}
+
+div.lang {
+  margin: 0;
+  padding: 0;
+  background: darkgoldenrod;
+  border-radius: 0;
+
 }
 
 
@@ -243,6 +251,9 @@ div.fileUpload {
   filter: alpha(opacity=0);
 }
 
+div.lang:hover {
+  background: goldenrod;
+}
 div.fileUpload:hover { background: #ffff4f }
 .divHover:hover {background: DarkCyan; transition: background 0.2s;}
 div.img:hover {
@@ -265,6 +276,7 @@ a {
 a.one {
   border: 0;
   padding: 6px 20px 6px 20px;
+
 }
 
 a.two {
@@ -274,30 +286,35 @@ a.two {
 }
 
 a.three {
-  color: orange;
-  font-size: 20px;
-  padding: 30px;
+  color: yellow;
+  padding: 10px;
+  margin: 10px;
 }
 
 a.four {
-  border: 2px solid white;
+  border: 2px solid goldenrod;
   padding: 5px 15px 5px 15px;
   margin: 3px;
   font-size: 16px;
+  color: goldenrod;
 }
 a.five {
-  border: 3px solid yellowgreen;
+  border: 3px solid goldenrod;
   padding: 10px 20px 10px 20px;
   margin: 5px;
-  color: yellowgreen;
+  color: goldenrod;
   font-size: 16px;
 }
 
 a.six {
-  border: 2px solid goldenrod;
+  border: 2px solid cadetblue;
   padding: 5px 15px 5px 15px;
   margin: 5px;
-  color: goldenrod;
+  color: cadetblue;
+  font-size: 16px;
+}
+
+a.seven {
   font-size: 16px;
 }
 
@@ -308,9 +325,10 @@ a.img {
   color: yellow;
 }
 
+a.seven:hover { color: white }
 a.two:hover,
 a.three:hover { color: gold }
-a.four:visited { color: goldenrod; border-color: goldenrod }
+a.four:visited { color: cadetblue; border-color: cadetblue }
 a.six:hover,
 a.four:hover,
 a.one:hover {
@@ -329,10 +347,11 @@ p.logo {
   font-size: 30px;
 }
 
-h5 {
+p.med {
   padding: 5px;
   margin: auto;
-  font-size: 16px;
+  font-size: 18px;
+  font-family: Roboto, Arial, sans-serif;
 }
 
 h6 {
@@ -342,9 +361,8 @@ h6 {
 p {
   padding: 5px;
   font-size: 20px;
-  font-family: Roboto, Arial, sans-serif;
+  font-family: Roboto-Thin, Arial, sans-serif;
   margin: auto;
-  color: white;
 }
 
 p.validateErr {
@@ -374,10 +392,15 @@ p.small {
 
 table.full {
   width: 100%;
+  border-collapse: collapse;
 }
 
 td {
   padding: 0;
+}
+
+td.gold {
+  width: 60px;
 }
 
 .t {
@@ -444,6 +467,9 @@ hr {
   text-align: center;
 }
 
-.scope { margin: 0; padding: 0 }
+.scope {
+  margin: 0;
+  padding: 0;
+}
 
 .shadow { box-shadow: 2px 2px 6px 3px gray; }

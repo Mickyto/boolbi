@@ -8,8 +8,7 @@ html
   body
       div.header
         table.full
-           tr
-              td(rowspan=2)
+              td
                   a(href='/')
                       p.logo giwwer
               td.center
@@ -22,10 +21,16 @@ html
                  a.one(href='/ads/newad') #{i18n('newad')}
               td.center
                  if session.user_id
-                    a.one(href='/users/profile')
-                        span(class='fa fa-user') &nbsp #{session.email}
+                    a.one.fa.fa-user(href='/users/profile') &nbsp #{session.email}
                  else
                     a.one(href='/users/login') #{i18n('login')}
+              td.gold.center
+                a.seven(href='/locale?locale=ru&current=#{curPage}')
+                    div.lang
+                        p.small rus
+                a.seven(href='/locale?locale=en&current=#{curPage}')
+                    div.lang
+                        p.small eng
       hr
 
   table
@@ -36,7 +41,7 @@ html
                   div.category
                       a.category(href='/category/#{category._id}')
                           div.categ.divHover
-                            p  #{category.name} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                            p #{i18n(category.name)}  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                                  span(id='#{category._id}', align='right')
 
 
@@ -45,18 +50,18 @@ html
             block content
         td.t
                 div.advertisement
-                    p.center Здесь могла бы быть ваша реклама
+                    p.center #{i18n('advert')}
                 div.advertisement
-                    p.center Здесь могла бы быть ваша реклама
+                    p.center #{i18n('advert')}
                 div.advertisement
-                    p.center Здесь могла бы быть ваша реклама
+                    p.center #{i18n('advert')}
   hr
   div.header
       p E-mail: info@bravito.ru
-      a(href='/locale?locale=ru') rus &nbsp
-      a(href='/locale?locale=en') eng
+
 
 
   script.
-      document.getElementById('#{category}').setAttribute('class', 'fa fa-circle r');
+          document.getElementById('#{category}').setAttribute('class', 'fa fa-circle r');
+
 

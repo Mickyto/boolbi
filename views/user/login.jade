@@ -9,7 +9,7 @@ block content
 
         if message.length > 0
             div.msg
-                p #{message}
+                p.med #{message}
         table
 
 
@@ -30,9 +30,9 @@ block content
               td.l
                 input.login#pass(type='password', name='password')
 
-        button.fa.fa-sign-in(type='submit', class=(btnValue == 'Log in' ? 'login' : 'signup')) &nbsp #{btnValue}
+        button.fa.fa-sign-in(type='submit', class=(btnValue == 'login' ? 'login' : 'signup')) &nbsp #{i18n(btnValue)}
 
-        if btnValue == 'Log in'
+        if btnValue == 'login'
             p.small #{i18n('need')}
                a.three(href='/users/signup/') #{i18n('signup')}
         else
