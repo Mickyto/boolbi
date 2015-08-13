@@ -19,9 +19,10 @@ router.get('/', function(req, res) {
 
 router.get('/signup/', function(req, res) {
   res.render('user/login', {
+    curPage: '/users/signup/',
     message : req.flash('info'),
     formAction : '/users/signup/',
-    btnValue : 'Sign up'
+    btnValue : 'signup'
   });
 });
 
@@ -34,7 +35,7 @@ router.post('/signup/', function(req, res) {
   var bodyEmail = req.body.useremail;
   userCol.findOne({ email :  bodyEmail }, function(err, doc) {
     if (doc) {
-      req.flash('info', 'That email is already taken');
+      req.flash('info', req.app.locals.i18n('exist'));
       res.redirect('/users/signup/');
     } else {
       userCol.insert({
@@ -68,7 +69,7 @@ router.post('/signup/', function(req, res) {
             res.render('default', { msg : 'Something was wrong' });
           }
         });
-        res.render('default', { msg : 'Check your Email' });
+        res.render('default', { msg : req.app.locals.i18n('check') });
 
       });
     }
@@ -95,9 +96,10 @@ router.get('/emailactivation', function (req, res) {
 
 router.get('/login', function(req, res) {
   res.render('user/login', {
+    curPage:'/users/login',
     message : req.flash('info'),
     formAction : '/users/login',
-    btnValue : 'Log in'
+    btnValue : 'login'
   });
 });
 
@@ -117,7 +119,7 @@ router.post('/login', function (req, res) {
         res.redirect('/users/profile');
       }
     } else {
-      req.flash('info', 'Email or password is wrong');
+      req.flash('info', req.app.locals.i18n('wrong'));
       res.redirect('/users/login');
     }
 
@@ -129,7 +131,7 @@ router.post('/login', function (req, res) {
 
 function checkAuth(req, res, next) {
   if (!req.session.user_id) {
-    req.flash('info', 'Please log in');
+    req.flash('info', req.app.locals.i18n('notLogin'));
     res.redirect('/users/login');
   } else {
     next();
@@ -157,9 +159,10 @@ router.get('/profile', checkAuth, function (req, res) {
           }
 
           res.render('user/profile', {
+            curPage:'/users/profile',
             pages: pages,
             user: user,
-            currentPage: page,
+            pageIndex: page,
             myAds: ads
           });
       });
@@ -175,6 +178,7 @@ router.get('/edit', checkAuth, function (req, res) {
       res.send('No user found.');
     } else {
       res.render('user/edit', {
+        curPage:'/users/edit',
         user : doc,
         message : req.flash('info')
       });
