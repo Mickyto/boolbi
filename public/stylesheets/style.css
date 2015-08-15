@@ -2,9 +2,10 @@
 body {
   padding: 0;
   margin: 0;
-  font: 20px Comfortaa, Helvetica, Arial, sans-serif;
-  color: white;
-  background: white;
+  font: 18px Comfortaa, Helvetica, Arial, sans-serif;
+  color: darkslategray;
+  background: whitesmoke
+;
 }
 @font-face {
   font-family: Roboto-Thin;
@@ -131,7 +132,7 @@ button:hover {
                               /*     D I V S     */
 div {
   overflow: hidden;
-  background-color: CadetBlue;
+  background: #BFD8D9;
   padding: 20px;
   border: 0;
   border-radius: 10px;
@@ -149,21 +150,22 @@ div.msg {
 div.category {
   margin: auto;
   padding: 0;
-  width: 250px;
-  border-radius: 0 10px 10px 0;
+  width: 200px;
+  border-radius: 10px;
 }
 
 div.categ {
   margin: 0;
   padding: 10px;
-  border-radius: 0 10px 10px 0;
+  border-radius: 10px;
 }
 
 div.left {
-  width: 250px;
+  width: 200px;
   padding: 0;
   margin: 0;
-  border-radius: 0 10px 10px 0;
+  border-radius: 10px;
+  ;
 }
 
 div.invCaptcha {
@@ -174,7 +176,7 @@ div.invCaptcha {
 
 
 div.block {
-  width: 780px;
+  width: 660px;
   margin: 0;
   padding: 0;
   background: none;
@@ -183,7 +185,7 @@ div.block {
 div.captcha {
   margin: 0 0 0 10px;
   padding: 0 0 0 10px;
-  border: 2px solid;
+  border: 2px solid white;
   width: 200px;
 }
 
@@ -192,6 +194,7 @@ div.header {
   margin: 0;
   border-radius: 0;
   box-shadow: 2px 2px 6px 3px gray;
+  background-color: CadetBlue;
 }
 
 div.bravito {
@@ -201,11 +204,12 @@ div.bravito {
 }
 
 div.advertisement {
-  width: auto;
+  width: 200px;
   height: 300px;
-  border-radius: 10px 0 0 10px;
+  border-radius: 10px;
   margin: 0 0 10px 0;
   white-space: normal;
+  padding: 0;
 }
 
 div.delete{
@@ -253,9 +257,10 @@ div.fileUpload {
 
 div.lang:hover {
   background: goldenrod;
+  transition: background 0.5s;
 }
 div.fileUpload:hover { background: #ffff4f }
-.divHover:hover {background: DarkCyan; transition: background 0.2s;}
+.divHover:hover {background: #7FB1B3; transition: background 0.2s; color: whitesmoke}
 div.img:hover {
   width: 300px;
   transition: width 1s linear;
@@ -263,11 +268,15 @@ div.img:hover {
 
                                        /*     L I N K S    */
 
+.whiteText {
+  color: white;
+}
+
 a {
   border-radius: 10px;
   background: none;
   font-size: 20px;
-  color: white;
+  color: darkslategray;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   text-decoration: none;
   white-space: nowrap;
@@ -276,6 +285,7 @@ a {
 a.one {
   border: 0;
   padding: 6px 20px 6px 20px;
+  color: white;
 
 }
 
@@ -316,6 +326,7 @@ a.six {
 
 a.seven {
   font-size: 16px;
+  color: white;
 }
 
 a.img {
@@ -360,14 +371,14 @@ h6 {
 
 p {
   padding: 5px;
-  font-size: 20px;
-  font-family: Roboto-Thin, Arial, sans-serif;
+  font-size: 16px;
+  font-family: Roboto-Light, Arial, sans-serif;
   margin: auto;
 }
 
 p.validateErr {
   text-align: right;
-  font-size: 14px;
+  font-size: 12px;
   padding: 0 12px 0 0 ;
   color: orange;
   vertical-align: bottom;
@@ -383,7 +394,7 @@ p.img {
 }
 
 p.small {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .img:hover{
@@ -470,6 +481,7 @@ hr {
 .scope {
   margin: 0;
   padding: 0;
+  background: none;
 }
 
 .shadow { box-shadow: 2px 2px 6px 3px gray; }

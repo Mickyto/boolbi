@@ -40,32 +40,30 @@ router.get('/', function(req, res) {
 router.get('/newad', checkAuth, function(req, res) {
     var db = req.db;
     var userCol = db.get('users');
-    var categoryCol = db.get('categories');
-    categoryCol.find({}, function(err, docs) {
-        userCol.findById(req.session.user_id, function (err, doc) {
-            var newCaptcha = parseInt(Math.random()*9000+1000);
-            req.session.captcha = newCaptcha;
-            var p = new captchapng(80,30,newCaptcha); // width,height,numeric captcha
-            p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
-            p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
+    userCol.findById(req.session.user_id, function (err, doc) {
+        var newCaptcha = parseInt(Math.random()*9000+1000);
+        req.session.captcha = newCaptcha;
 
-            var img = p.getBase64();
-            var imgbase64 = new Buffer(img,'base64').toString('base64');
-            res.render('ad/newad', {
-                curPage:'/ads/newad',
-                categories : docs,
-                user: doc,
-                ad: {
-                    title: '',
-                    description: '',
-                    price: ''
-                },
-                formAction: '/ads/addad',
-                captcha: imgbase64,
-                message : req.flash('info')
-            });
+        var p = new captchapng(80,30,newCaptcha); // width,height,numeric captcha
+        p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
+        p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
+
+        var img = p.getBase64();
+        var imgbase64 = new Buffer(img,'base64').toString('base64');
+        res.render('ad/newad', {
+            curPage:'/ads/newad',
+            user: doc,
+            ad: {
+                title: '',
+                description: '',
+                price: ''
+            },
+            formAction: '/ads/addad',
+            captcha: imgbase64,
+            message : req.flash('info')
         });
     });
+
 });
 
 

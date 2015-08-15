@@ -37,9 +37,9 @@ app.use(session({
 app.use(flash());
 
 
-
 app.use(function(req, res, next) {
-    var locale = req.session.locale ? req.session.locale : 'ru';
+    req.session.locale = (req.session.locale == undefined) ? 'ru' : req.session.locale;
+    var locale = req.session.locale
     var i18n = function(word) {
         var t = {
 
@@ -80,22 +80,7 @@ app.use(function(req, res, next) {
                 exist: 'Этот email уже зарегистрирован',
                 wrong: 'Не верный пароль или email',
                 advert: 'Здесь могла бы быть ваша реклама',
-                select: 'выберите категорию',
-
-
-
-
-
-                Transport: 'Транспорт',
-                'Real estate': 'Недвижимость',
-                Job: 'Работа',
-                Services: 'Услуги',
-                'Personal items': 'Личные вещи',
-                'For home': 'Для дома',
-                Electronics: 'Электроника',
-                'Rest and hobby': 'Отдых и хобби',
-                Animals: 'Животные',
-                Business: 'Бизнес'
+                select: 'выберите категорию'
                 },
 
             en: {
@@ -135,24 +120,7 @@ app.use(function(req, res, next) {
                 exist: 'That email is already taken',
                 wrong: 'Email or password is wrong',
                 advert: 'There would be your advertisement',
-                select: 'select category',
-
-
-
-
-
-                Transport: 'Transport',
-                'Real estate': 'Real Estate',
-                Job: 'Job',
-                Services: 'Services',
-                'Personal items': 'Personal items',
-                'For home': 'For home',
-                Electronics: 'Electronics',
-                'Rest and hobby': 'Rest and hobby',
-                Animals: 'Animals',
-                Business: 'Business'
-
-
+                select: 'select category'
                 }
         };
 

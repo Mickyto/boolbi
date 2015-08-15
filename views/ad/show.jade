@@ -33,7 +33,7 @@ block content
           td.r
             p.small #{i18n('category')}: &nbsp &nbsp
           td.l
-            p #{category.name}
+            p #{category.name[session.locale]}
 
         tr
           td.r
@@ -65,6 +65,7 @@ block content
         form(action='/ads/#{ad._id}/edit', method='post', enctype='application/x-www-form-urlencoded')
             input(type='hidden', value='DELETE', name='_method')
             button(type='submit') #{i18n('Del')}
+        p
         form(action='/ads/#{ad._id}/edit')
             button(type='submit') #{i18n('edit')}
 
