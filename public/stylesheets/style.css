@@ -4,9 +4,15 @@ body {
   margin: 0;
   font: 18px Comfortaa, Helvetica, Arial, sans-serif;
   color: darkslategray;
-  background: whitesmoke
-;
+  background: #EAF1F1
 }
+
+header {
+  width: 100%;
+  position: fixed;
+  z-index: 3;
+}
+
 @font-face {
   font-family: Roboto-Thin;
   src: url('../fonts/roboto/Roboto-Thin.ttf');
@@ -50,6 +56,7 @@ input:focus {
   outline: 0;
   border: 1px solid goldenrod;
   box-shadow: 0 0 2px 2px goldenrod;
+  transition: box-shadow 0.3s
 
 }
 
@@ -132,11 +139,8 @@ button:hover {
                               /*     D I V S     */
 div {
   overflow: hidden;
-  background: #BFD8D9;
-  padding: 20px;
-  border: 0;
-  border-radius: 10px;
-  margin: 20px;
+  padding: 0;
+  margin: 0;
   white-space: nowrap;
 }
 
@@ -148,38 +152,25 @@ div.msg {
 }
 
 div.category {
-  margin: auto;
-  padding: 0;
   width: 200px;
-  border-radius: 10px;
 }
 
 div.categ {
-  margin: 0;
   padding: 10px;
-  border-radius: 10px;
 }
 
 div.left {
   width: 200px;
-  padding: 0;
-  margin: 0;
-  border-radius: 10px;
-  ;
+  padding: 0 5px 0 0;
 }
 
 div.invCaptcha {
-  padding: 0;
-  margin: 0;
   width: 230px;
 }
 
 
 div.block {
   width: 660px;
-  margin: 0;
-  padding: 0;
-  background: none;
 }
 
 div.captcha {
@@ -187,67 +178,58 @@ div.captcha {
   padding: 0 0 0 10px;
   border: 2px solid white;
   width: 200px;
+  border-radius: 7px;
 }
 
 div.header {
-  padding: 0;
-  margin: 0;
-  border-radius: 0;
   box-shadow: 2px 2px 6px 3px gray;
   background-color: CadetBlue;
 }
 
 div.bravito {
-  margin: 0 10px 10px 10px;
-  padding: 20px;
+  margin: 0;
+  padding: 15px;
   white-space: normal;
+  background: #D1E0E0;
 }
 
 div.advertisement {
   width: 200px;
   height: 300px;
-  border-radius: 10px;
-  margin: 0 0 10px 0;
   white-space: normal;
-  padding: 0;
+  border: 2px solid #7DA1A1;
+  margin: 0 0 5px 5px;
 }
 
 div.delete{
-  padding: 0;
   margin: 0 45px 0 45px;
 }
 
 div.lang {
-  margin: 0;
-  padding: 0;
   background: darkgoldenrod;
-  border-radius: 0;
-
 }
 
 
 div.signup {
   width: 330px;
-  margin: auto;
   padding: 20px;
 }
 
 div.img,
 div.fileUpload {
   border: 2px solid white;
-  overflow: hidden;
   float: left;
   position: relative;
   margin: 0 10px 0 10px;
   width: 150px;
+  padding: 20px;
+  border-radius: 5px;
 }
 
 .fileUpload input.upload {
   position: absolute;
   top: 0;
   left: 0;
-  margin: 0;
-  padding: 0;
   cursor: pointer;
   font-size: 300px;
   opacity: 0;
@@ -260,7 +242,14 @@ div.lang:hover {
   transition: background 0.5s;
 }
 div.fileUpload:hover { background: #ffff4f }
-.divHover:hover {background: #7FB1B3; transition: background 0.2s; color: whitesmoke}
+
+.divHover:hover {
+  background: #7FB1B3;
+  transition: background 0.5s, text-indent 0.3s;
+  color: whitesmoke;
+  text-indent: 10px;
+}
+
 div.img:hover {
   width: 300px;
   transition: width 1s linear;
@@ -393,6 +382,12 @@ p.img {
   visibility: hidden
 }
 
+p.link {
+  font-size: 20px;
+  display: inline;
+  font-family: Roboto-Thin, Arial, sans-serif;
+}
+
 p.small {
   font-size: 14px;
 }
@@ -401,9 +396,13 @@ p.small {
   color: goldenrod;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+
 table.full {
   width: 100%;
-  border-collapse: collapse;
 }
 
 td {
@@ -438,9 +437,9 @@ td.gold {
 
 
 img.showAds {
-  width: 200px;
+  width: 180px;
   margin: 10px;
-  border-radius: 10px;
+  border-radius: 3px;
   float: left;
 }
 
@@ -464,7 +463,7 @@ li.a {
   display: inline;
 }
 
-hr {
+hr.hdr {
   background-color: goldenrod;
   height: 1px;
   border: 0;
@@ -489,5 +488,3 @@ hr {
 .test {
   background: indianred;
 }
-
-

@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 
             ru: {
                 search: 'Поиск',
-                newad: 'Создать объявление',
+                newad: 'cоздать объявление',
                 findad: 'Найти объявление',
                 login: 'Войти',
                 pass: 'Пароль',
@@ -85,7 +85,7 @@ app.use(function(req, res, next) {
 
             en: {
                 search: 'Search',
-                newad: 'New ad',
+                newad: 'new ad',
                 findad: 'Find ad',
                 login: 'Log in',
                 pass: 'Password',

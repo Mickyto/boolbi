@@ -12,8 +12,7 @@ module.exports = {
 
         browser
             .waitForElementVisible('button.signup', 1000)
-            .click('button.signup')
-            .pause(3000)
+            .pause(1000)
             .setValue('input#email', 'notEmail')
             .setValue('input#pass', '1111111111')
             .click('button.signup')
