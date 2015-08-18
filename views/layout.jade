@@ -8,27 +8,31 @@ html
   body
       div.header
         table.full
-              td
-                  a(href='/')
-                      p.logo giwwer
-              td.center
-                div.scope
-                     form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-                          input.search(type='text', placeholder='#{i18n("findad")}', name='search', , value=(word ? '#{word}' : ''))
-                          button.search(type='submit') #{i18n('search')}
-              td.center
-                 a.one(href='/ads/newad') #{i18n('newad')}
-              td.center
-                 if session.user_id
-                    a.one.fa.fa-user(href='/users/profile') &nbsp #{session.email}
-                 else
-                    a.one(href='/users/login') #{i18n('login')}
-              td.gold.center
-               each lang in ['ru', 'en']
-                a.seven(href='/locale?locale=#{lang}&current=#{curPage}')
-                    div.lang
-                        p.small #{lang}
-      hr
+          td
+              a(href='/')
+                  p.logo giwwer
+          td.center
+            div.scope
+                 form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
+                      input.search(type='text', placeholder='#{i18n("findad")}', name='search', , value=(word ? '#{word}' : ''))
+                      button.search(type='submit') #{i18n('search')}
+          td.center
+             a.one(href='/ads/newad')
+                 i.fa.fa-plus &nbsp
+                 p.link #{i18n('newad')}
+          td.center
+             if session.user_id
+                a.one(href='/users/profile')
+                   i.fa.fa-user &nbsp
+                   p.link #{session.email}
+             else
+                a.one(href='/users/login') #{i18n('login')}
+          td.gold.center
+            each lang in ['ru', 'en']
+              a.seven(href='/locale?locale=#{lang}&current=#{curPage}')
+                div.lang
+                    p.small #{lang}
+    br
 
   table(align='center')
       tr
@@ -45,6 +49,7 @@ html
 
 
 
+
         td.t
           div.block
             block content
@@ -56,7 +61,7 @@ html
                 div.advertisement
                     p.center #{i18n('advert')}
 
-  hr
+  hr.hdr
   div.header
       p E-mail: info@bravito.ru
 

@@ -7,18 +7,18 @@ block content
             p #{message}
 
     each ad, i in ads
+        div.bravito
           a(href='/ads/#{ad._id}')
-              div.bravito.divHover
-                 if ad.image1
-                      img.showAds(src='/images/#{ad.image1}', width=150)
-                 else if ad.image2
-                      img.showAds(src='/images/#{ad.image2}', width=150)
+             if ad.image1
+                  img.showAds(src='/images/#{ad.image1}', width=150)
+             else if ad.image2
+                  img.showAds(src='/images/#{ad.image2}', width=150)
 
 
                  h5 #{ad.title}
                  p
                  h5 #{ad.price}
-
+        br
 
     if pages && pages.length > 1
         ul.a
