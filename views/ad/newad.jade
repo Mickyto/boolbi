@@ -23,25 +23,27 @@ block content
               p #{user.telephone}
 
       form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm("adForm")', enctype='multipart/form-data')
+
          h1 Item information
+
          if message.length > 0
-             div.msg
-                 p #{message}
+             div.msg #{message}
+
          table
               tr
                 td(colspan=2)
                   p.validateErr#category #{i18n('categoryErr')}
               tr
                 td
-                    p.small #{i18n('category')}: &nbsp
+                  p.small #{i18n('category')}: &nbsp
                 td
-                   if category
-                       p #{category.name}
-                   else
-                       select#select(name='category', align='right')
-                           option(value='') #{i18n('select')}
-                           each category, i in categories
-                                option(value='#{category._id}') #{category.name[session.locale]}
+                  if category
+                    p #{category.name}
+                  else
+                    select#select(name='category', align='right')
+                       option(value='') #{i18n('select')}
+                       each category, i in categories
+                          option(value='#{category._id}') #{category.name[session.locale]}
 
          table
               tr

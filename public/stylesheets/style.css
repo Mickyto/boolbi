@@ -2,7 +2,7 @@
 body {
   padding: 0;
   margin: 0;
-  font: 18px Roboto-Thin, Helvetica, Arial, sans-serif;
+  font: 16px Roboto-Thin, Helvetica, Arial, sans-serif;
   color: darkslategray;
   background: #EAF1F1
 }
@@ -154,6 +154,7 @@ div.msg {
   text-align: center;
   padding: 10px;
   margin: 10px;
+  color: white;
 }
 
 div.category {
@@ -331,7 +332,7 @@ a.img {
 }
 
 a.seven:hover { color: white }
-a.two:hover { color: #B8F56B }
+a.two:hover { color: #EBB85C }
 a.three:hover { color: goldenrod}
 a.four:visited { color: cadetblue; border-color: cadetblue }
 a.six:hover,

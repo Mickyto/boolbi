@@ -1,9 +1,9 @@
 extends ../layout
-
 block content
+
  h1 Edit user information
 
- div
+ div.bravito
 
     form(name='userinfo', action='/users/edit', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
         p.small.inline Email: &nbsp &nbsp
@@ -13,6 +13,8 @@ block content
         p.small #{i18n('tel')}:&nbsp&nbsp
             input.login(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
         p.small #{i18n('changePass')}:
+        if message.length > 0
+            div.msg #{message}
         table
              tr
                td.center
@@ -22,9 +24,6 @@ block content
                td.center
                  h6 #{i18n('againPass')}
                  input.login(type='password', name='newpass2')
-        if message.length > 0
-            div.msg
-                p #{message}
         button(type='submit') #{i18n('save')}
 
  script(type='text/javascript').

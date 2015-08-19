@@ -110,7 +110,9 @@ router.get('/email_activation', function (req, res) {
 
 
 router.get('/password_recovery', function (req, res) {
-
+  res.render('user/recovery', {
+    curPage: '/users/password_recovery'
+  })
 });
 
 

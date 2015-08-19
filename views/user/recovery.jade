@@ -1,0 +1,12 @@
+extends ../layout
+block content
+
+    div.bravito
+
+        h1 #{i18n('recovery')}
+
+        form(name='passwordRecovery', action='/users/recovery', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
+            p.small #{i18n('enterEmail')}
+            input.login(type='email', name='email', autofocus)
+            button(type='submit') #{i18n('next')}
+
