@@ -2,7 +2,7 @@
 body {
   padding: 0;
   margin: 0;
-  font: 18px Comfortaa, Helvetica, Arial, sans-serif;
+  font: 18px Roboto-Thin, Helvetica, Arial, sans-serif;
   color: darkslategray;
   background: #EAF1F1
 }
@@ -57,7 +57,10 @@ input:focus {
   border: 1px solid goldenrod;
   box-shadow: 0 0 2px 2px goldenrod;
   transition: box-shadow 0.3s
+}
 
+input.search:focus {
+  box-shadow: none;
 }
 
 input.title {
@@ -67,8 +70,8 @@ input.title {
 input.search {
   width: 400px;
   height: 30px;
-  border-radius: 10px;
-  margin: 5px;
+  border-radius: 10px 0 0 10px;
+  margin: 0;
   text-indent: 15px;
 }
 
@@ -89,22 +92,24 @@ input.login {
 
 button {
   font-size: 18px;
-  border: 2px solid white;
+  border: 1px solid white;
   margin: 10px;
   cursor: pointer;
-  background: none;
+  background: #7FB1B3;
   border-radius: 10px;
   padding: 10px 20px 10px 20px;
-  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-family: Roboto-Light, Helvetica, Arial, sans-serif;
   color: white;
 }
 
 button.search {
   margin: 0;
   background: goldenrod;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 0;
+  border: 0;
   padding: 5px 25px 5px 25px;
   font-size: 20px;
+  width: 110px;
 }
 
 button.signup {
@@ -124,7 +129,7 @@ button.search:hover {
   background: whitesmoke;
   transition: background 0.5s;
   color: goldenrod;
-  border-color: goldenrod;
+  border: 1px solid goldenrod;
 }
 
 button:hover {
@@ -213,6 +218,8 @@ div.lang {
 div.signup {
   width: 330px;
   padding: 20px;
+  margin: auto;
+  background: #7FB1B3;
 }
 
 div.img,
@@ -266,7 +273,7 @@ a {
   background: none;
   font-size: 20px;
   color: darkslategray;
-  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-family: Roboto-Light, Arial, sans-serif;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -275,19 +282,16 @@ a.one {
   border: 0;
   padding: 6px 20px 6px 20px;
   color: white;
-
 }
 
 a.two {
-  color: yellow;
-  font-size: 20px;
-  padding: 30px;
+  color: gold;
+  font-size: 16px;
+  margin: 30px;
 }
 
 a.three {
-  color: yellow;
-  padding: 10px;
-  margin: 10px;
+  margin: 20px;
 }
 
 a.four {
@@ -297,6 +301,7 @@ a.four {
   font-size: 16px;
   color: goldenrod;
 }
+
 a.five {
   border: 3px solid goldenrod;
   padding: 10px 20px 10px 20px;
@@ -326,8 +331,8 @@ a.img {
 }
 
 a.seven:hover { color: white }
-a.two:hover,
-a.three:hover { color: gold }
+a.two:hover { color: #B8F56B }
+a.three:hover { color: goldenrod}
 a.four:visited { color: cadetblue; border-color: cadetblue }
 a.six:hover,
 a.four:hover,
@@ -343,16 +348,6 @@ h1 {
   padding: 10px;
 }
 
-p.logo {
-  font-size: 30px;
-}
-
-p.med {
-  padding: 5px;
-  margin: auto;
-  font-size: 18px;
-  font-family: Roboto, Arial, sans-serif;
-}
 
 h6 {
   margin: 0;
@@ -363,6 +358,17 @@ p {
   font-size: 16px;
   font-family: Roboto-Light, Arial, sans-serif;
   margin: auto;
+}
+
+
+p.logo {
+  font-size: 30px;
+}
+
+p.med {
+  padding: 5px;
+  margin: auto;
+  font-size: 18px;
 }
 
 p.validateErr {
@@ -385,7 +391,6 @@ p.img {
 p.link {
   font-size: 20px;
   display: inline;
-  font-family: Roboto-Thin, Arial, sans-serif;
 }
 
 p.small {
@@ -433,12 +438,9 @@ td.gold {
   text-align: left;
 }
 
-
-
-
 img.showAds {
-  width: 180px;
-  margin: 10px;
+  width: 150px;
+  margin: 5px;
   border-radius: 3px;
   float: left;
 }
@@ -477,14 +479,3 @@ hr.hdr {
   text-align: center;
 }
 
-.scope {
-  margin: 0;
-  padding: 0;
-  background: none;
-}
-
-.shadow { box-shadow: 2px 2px 6px 3px gray; }
-
-.test {
-  background: indianred;
-}

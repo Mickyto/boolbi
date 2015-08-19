@@ -29,17 +29,18 @@ block content
 
   if myAds.length > 0
       h1 My ads:
-        each ad, i in myAds
-          a(href='/ads/#{ad._id}')
-            div.bravito.divHover
-              if ad.image1
-                 img.showAds(src='/images/#{ad.image1}', width=150)
-              else if ad.image2
-                 img.showAds(src='/images/#{ad.image2}', width=150)
-              else
-              h5 #{ad.title}
-              p
-              h5 #{ad.price}
+  each ad, i in myAds
+    div.bravito
+      a(href='/ads/#{ad._id}')
+        if ad.image1
+           img.showAds(src='/images/#{ad.image1}', width=150)
+        else if ad.image2
+           img.showAds(src='/images/#{ad.image2}', width=150)
+        a(href='/ads/#{ad._id}')
+          p #{ad.title}
+        br
+        p #{ad.price}
+    br
 
   if pages.length > 1
     ul.a

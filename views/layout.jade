@@ -12,14 +12,13 @@ html
               a(href='/')
                   p.logo giwwer
           td.center
-            div.scope
+            div
                  form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
                       input.search(type='text', placeholder='#{i18n("findad")}', name='search', , value=(word ? '#{word}' : ''))
                       button.search(type='submit') #{i18n('search')}
           td.center
-             a.one(href='/ads/newad')
-                 i.fa.fa-plus &nbsp
-                 p.link #{i18n('newad')}
+             a.one(href='/ads/newad') #{i18n('newad')}
+
           td.center
              if session.user_id
                 a.one(href='/users/profile')
