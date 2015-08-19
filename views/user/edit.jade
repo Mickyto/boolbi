@@ -13,6 +13,7 @@ block content
         p.small #{i18n('tel')}:&nbsp&nbsp
             input.login(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
         p.small #{i18n('changePass')}:
+        br
         if message.length > 0
             div.msg #{message}
         table

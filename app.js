@@ -86,7 +86,8 @@ app.use(function(req, res, next) {
                 forgot: 'Забыли пароль?',
                 recovery: 'Восстановление пароля',
                 enterEmail: 'Пожалуйста, введите email, который вы использовали для входа на сайт',
-                next: 'Далее'
+                next: 'Далее',
+                passMsg: 'Пожалуйста, создайте новый пароль'
                 },
 
             en: {
@@ -132,7 +133,8 @@ app.use(function(req, res, next) {
                 forgot: 'Forgot password?',
                 recovery: 'Password recovery',
                 enterEmail: 'Please enter the email that you used to log on to the site',
-                next: 'Next'
+                next: 'Next',
+                passMsg: 'Please create new password'
                 }
         };
 

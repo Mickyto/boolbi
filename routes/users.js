@@ -1,5 +1,6 @@
 var express = require('express');
 var passwordHash = require('password-hash');
+var validator = require('validator');
 
 var router = express.Router();
 var nodemailer = require('nodemailer');
@@ -97,6 +98,13 @@ router.get('/email_activation', function (req, res) {
   var db = req.db;
   var userCol = db.get('users');
     userCol.findOne({ email : req.query.email }, function (err, doc) {
+      if (!req.query.random) {
+        req.session.user_id = doc._id;
+        req.session.email = doc.email;
+        req.flash('info', req.app.locals.i18n('passMsg'));
+        res.redirect('/users/edit');
+        return;
+      }
       if (req.query.random == doc.secure_code) {
         userCol.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
         req.session.user_id = doc._id;
@@ -111,10 +119,48 @@ router.get('/email_activation', function (req, res) {
 
 router.get('/password_recovery', function (req, res) {
   res.render('user/recovery', {
-    curPage: '/users/password_recovery'
+    curPage: '/users/password_recovery',
+    message : req.flash('info')
   })
 });
 
+router.post('/recovery', function (req, res) {
+  var email = req.body.email;
+  if (!validator.isEmail(email)) {
+    req.flash('info', req.app.locals.i18n('emailErr'));
+    res.redirect('/users/password_recovery');
+  }
+  else {
+    var link ='http://' + req.get('host') + '/users/email_activation?email=' + email;
+    var mailOptions = {
+      to: email,
+      subject: "Please confirm your Email account",
+      html: '<head><style>a:hover{border: 2px solid white;}</style></head>' +
+      '<body style="background:#247BA7"><div align="center" style="height: 800px; padding: 50px">' +
+      '<div style="border: 2px solid green; border-radius: 20px;' +
+      'margin-top: 60px; margin-bottom: 60px; background-color: #60AB91;">' +
+      '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
+      'Congratulations, you successfully created account on bravito.ru</p>' +
+      '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 15px; color: white;">' +
+      'Bravito is a board of free ads where you can find necessary items<br> or services for few minutes<br>' +
+      'Now you can compose your own ads to sell items or to tell about your services</p><br>' +
+      '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 20px; color: white;">' +
+      'Just one last action:</p><div align="center"><a href=' + link + ' style="font-size: 25px;' +
+      ' margin: 20px; background: goldenrod; border-radius: 10px; padding: 10px 40px 10px 40px;' +
+      'color: white; text-decoration: none">Click here to confirm your email</a></div>' +
+      '<p align="center", style="font-family: Arial,Helvetica,sans-serif;font-size: 30px; color: white;">' +
+      'Wish you successful sales</p></div></div></body>'
+    };
+    transporter.sendMail(mailOptions, function (err, res) {
+      if (err) {
+        res.render('default', { msg : 'Something was wrong' });
+      }
+    });
+    res.render('default', { msg : req.app.locals.i18n('check') });
+
+
+  }
+});
 
 
 
