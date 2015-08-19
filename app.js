@@ -82,7 +82,9 @@ app.use(function(req, res, next) {
                 advert: 'Здесь могла бы быть ваша реклама',
                 select: 'выберите категорию',
                 inactiveUserAccount: 'Необходимо активировать аккаунт', //  When user tries to log in with inactive email
-                userPasswordsNotIdentical: 'Пароли отличаются'  // When user tries to change password in profile
+                userPasswordsNotIdentical: 'Пароли отличаются', // When user tries to change password in profile
+                forgot: 'Забыли пароль?'
+
                 },
 
             en: {
@@ -124,7 +126,8 @@ app.use(function(req, res, next) {
                 advert: 'There would be your advertisement',
                 select: 'select category',
                 inactiveUserAccount: 'Your account not activated yet',
-                userPasswordsNotIdentical: 'Passwords are not identical'
+                userPasswordsNotIdentical: 'Passwords are not identical',
+                forgot: 'Forgot password?'
                 }
         };
 

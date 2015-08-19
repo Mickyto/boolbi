@@ -47,7 +47,7 @@ router.post('/signup/', function(req, res) {
     }
   });
 
-  if(userEmail === null || userPassword == null) {
+  if(userEmail === null || userPassword === null) {
 
     req.flash('info', req.app.locals.i18n('wrong'));
     res.redirect('/users/signup/');
@@ -61,7 +61,7 @@ router.post('/signup/', function(req, res) {
       active : 'no',
       secure_code : rand
     }, function () {
-      var link ='http://' + req.get('host') + '/users/emailactivation?random=' + rand + '&email=' + userEmail;
+      var link ='http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
       var mailOptions = {
         to: userEmail,
         subject: "Please confirm your Email account",
@@ -93,7 +93,7 @@ router.post('/signup/', function(req, res) {
 
 });
 
-router.get('/emailactivation', function (req, res) {
+router.get('/email_activation', function (req, res) {
   var db = req.db;
   var userCol = db.get('users');
     userCol.findOne({ email : req.query.email }, function (err, doc) {
@@ -107,6 +107,12 @@ router.get('/emailactivation', function (req, res) {
       }
     });
 });
+
+
+router.get('/password_recovery', function (req, res) {
+
+});
+
 
 
 

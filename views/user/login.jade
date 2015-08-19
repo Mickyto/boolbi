@@ -34,10 +34,12 @@ block content
 
         if btnValue == 'login'
             p.small #{i18n('need')}
-               a.two(href='/users/signup/') #{i18n('signup')}
+              a.two(href='/users/signup/') #{i18n('signup')}
         else
             p.small #{i18n('have')}
-               a.two(href='/users/login/') #{i18n('login')}
+              a.two(href='/users/login/') #{i18n('login')}
+        a.two(href='/users/password_recovery') #{i18n('forgot')}
+
 
  script(type='text/javascript', src='/javascripts/validator.min.js').
  script(type='text/javascript', src='/javascripts/validateFields.js').
