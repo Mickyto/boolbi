@@ -136,13 +136,13 @@ router.post('/recovery', function (req, res) {
       html: '<head><style>a:hover{border: 2px solid;}</style></head><body style="background:#EAF1F1">' +
       '<div align="center" style="height: 800px; padding: 50px">' +
       '<div style="margin-top: 60px; margin-bottom: 60px; background-color: #7FB1B3; overflow:hidden; padding: 20px">' +
-      '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
-      'Lose your password for bravito?</p>' +
-      '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 20px;color: white;">' +
-      'Click the following button to change your password: </p>' +
+      '<p style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
+      req.app.locals.i18n('lose') + '</p>' +
+      '<p style="font-family: Arial,Helvetica,sans-serif; font-size: 20px;color: white;">' +
+      req.app.locals.i18n('clickThe') + '</p>' +
       '<a href="' + link + '", style="font-size: 25px; margin: 0 auto; background: goldenrod; border-radius:10px;' +
       ' padding: 5px 30px 5px 30px;color: white; white-space: nowrap;text-decoration: none">' +
-      'Change password</a></div></div></body>'
+      req.app.locals.i18n('changePass') + '</a></div></div></body>'
     };
     transporter.sendMail(mailOptions, function (err, res) {
       if (err) {
@@ -150,12 +150,8 @@ router.post('/recovery', function (req, res) {
       }
     });
     res.render('default', { msg : req.app.locals.i18n('check') });
-
-
   }
 });
-
-
 
 
 router.get('/login', function(req, res) {

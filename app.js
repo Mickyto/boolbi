@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 
             ru: {
                 search: 'Поиск',
-                newad: 'cоздать объявление',
+                newad: 'Создать объявление',
                 findad: 'Найти объявление',
                 login: 'Войти',
                 pass: 'Пароль',
@@ -94,12 +94,14 @@ app.use(function(req, res, next) {
                 just: 'Всего одно действие:',
                 click: 'Нажмите сюда, чтобы подтвердить ваш email',
                 confirm: 'Пожалуйста, подтвердите ваш email',
-                wish: 'Желаем вам удачных продаж'
+                wish: 'Желаем вам удачных продаж',
+                lose: 'Потеряли пароль для входа на Bravito?',
+                clickThe: 'Нажмите кнопку, чтобы поменять свой пароль'
                 },
 
             en: {
                 search: 'Search',
-                newad: 'new ad',
+                newad: 'New ad',
                 findad: 'Find ad',
                 login: 'Log in',
                 pass: 'Password',
@@ -148,7 +150,9 @@ app.use(function(req, res, next) {
                 just: 'Just one last action:',
                 click: 'Click here to confirm your email',
                 confirm: 'Please confirm your Email account',
-                wish: 'Wish you successful sales'
+                wish: 'Wish you successful sales',
+                lose: 'Lose your password for Bravito?',
+                clickThe: 'Click button to change your password:'
                 }
         };
 

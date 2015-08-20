@@ -215,6 +215,7 @@
 .fa-user:before {
   content: "\f007";
   display: inline;
+  color: white;
 }
 .fa-film:before {
   content: "\f008";

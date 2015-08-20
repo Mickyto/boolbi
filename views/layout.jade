@@ -17,15 +17,20 @@ html
                       input.search(type='text', placeholder='#{i18n("findad")}', name='search', , value=(word ? '#{word}' : ''))
                       button.search(type='submit') #{i18n('search')}
           td.center
-             a.one(href='/ads/newad') #{i18n('newad')}
+             a(href='/ads/newad')
+                div.categ.divHover2
+                  p.link #{i18n('newad')}
 
           td.center
              if session.user_id
-                a.one(href='/users/profile')
-                   i.fa.fa-user &nbsp
-                   p.link #{session.email}
+                a(href='/users/profile')
+                  div.categ.divHover2
+                    i.fa.fa-user &nbsp
+                    p.link #{session.email}
              else
-                a.one(href='/users/login') #{i18n('login')}
+                a(href='/users/login')
+                  div.categ.divHover2
+                    p.link #{i18n('login')}
           td.gold.center
             each lang in ['ru', 'en']
               a.seven(href='/locale?locale=#{lang}&current=#{curPage}')
@@ -38,11 +43,10 @@ html
         td.t
           div.left
               each category, i in categories
-                  div.category
-                      a.category(href='/category/#{category._id}')
-                          div.categ.divHover
-                              p #{category.name[session.locale]}  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                   span(id='#{category._id}', align='right')
+                  a(href='/category/#{category._id}')
+                      div.categ.divHover
+                          p #{category.name[session.locale]}  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                               span(id='#{category._id}', align='right')
 
 
 
