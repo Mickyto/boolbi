@@ -8,11 +8,9 @@ block content
     form(name='login', action='#{formAction}', onsubmit='event.preventDefault(); return validateForm("login")', method='post', enctype='application/x-www-form-urlencoded')
 
         if message.length > 0
-            div.msg
-                p.med #{message}
+            div.msg #{message}
+
         table
-
-
             tr
               td.b.r(rowspan=2)
                 p Email:
@@ -22,23 +20,41 @@ block content
               td.l
                 input.login#email(type='email', name='useremail', autofocus)
             tr
-                td(colspan=2)
-                    p.validateErr#password #{i18n('passErr')}
+              td(colspan=2)
+                p.validateErr#password #{i18n('passErr')}
             tr
               td.r
                 p #{i18n('pass')}:
               td.l
-                input.login#pass(type='password', name='password')
+                input.login#pass(type='password', name='password', oninput='scale()')
+                if btnValue == 'signup'
+                    div.scale
+                      span.x#scale
 
         button.fa.fa-sign-in(type='submit', class=(btnValue == 'login' ? 'login' : 'signup')) &nbsp #{i18n(btnValue)}
 
         if btnValue == 'login'
             p.small #{i18n('need')}
-               a.two(href='/users/signup/') #{i18n('signup')}
+              a.two(href='/users/signup/') #{i18n('signup')}
+            a.two(href='/users/password_recovery') #{i18n('forgot')}
         else
             p.small #{i18n('have')}
-               a.two(href='/users/login/') #{i18n('login')}
+              a.two(href='/users/login/') #{i18n('login')}
 
+ script.
+     var scale = function () {
+         var x = document.getElementById("pass").value;
+         var y = document.getElementById("scale");
+         if (x.length >= 8) {
+             y.style.background = 'green';
+             y.style.color = 'green';
+         }
+         else {
+             y.style.background = 'red';
+             y.style.color = 'red';
+         }
+         y.innerHTML = x;
+     }
  script(type='text/javascript', src='/javascripts/validator.min.js').
  script(type='text/javascript', src='/javascripts/validateFields.js').
 

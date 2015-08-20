@@ -2,7 +2,7 @@
 body {
   padding: 0;
   margin: 0;
-  font: 18px Roboto-Thin, Helvetica, Arial, sans-serif;
+  font: 16px Roboto-Thin, Helvetica, Arial, sans-serif;
   color: darkslategray;
   background: #EAF1F1
 }
@@ -31,7 +31,7 @@ input {
   border: 1px solid whitesmoke;
   border-radius: 6px;
   margin: 10px;
-  font-size: 18px;
+  font-size: 16px;
   background: WhiteSmoke;
   text-indent: 5px;
 }
@@ -70,7 +70,7 @@ input.title {
 input.search {
   width: 400px;
   height: 30px;
-  border-radius: 10px 0 0 10px;
+  border-radius: 5px 0 0 5px;
   margin: 0;
   text-indent: 15px;
 }
@@ -91,13 +91,14 @@ input.login {
                                  /*   B U T T O N S   */
 
 button {
-  font-size: 18px;
+  font-size: 16px;
   border: 1px solid white;
   margin: 10px;
   cursor: pointer;
   background: #7FB1B3;
   border-radius: 10px;
-  padding: 10px 20px 10px 20px;
+  padding: 7px;
+  min-width: 100px;
   font-family: Roboto-Light, Helvetica, Arial, sans-serif;
   color: white;
 }
@@ -105,9 +106,9 @@ button {
 button.search {
   margin: 0;
   background: goldenrod;
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 5px 5px 0;
   border: 0;
-  padding: 5px 25px 5px 25px;
+  padding: 4px 25px 6px 25px;
   font-size: 20px;
   width: 110px;
 }
@@ -126,18 +127,15 @@ button.login {
 button.login:hover,
 button.signup:hover,
 button.search:hover {
-  background: whitesmoke;
+  background: darkgoldenrod;
   transition: background 0.5s;
-  color: goldenrod;
-  border: 1px solid goldenrod;
+  color: white;
 }
 
 button:hover {
   background: white;
   color: CadetBlue;
   transition: background 0.5s;
-
-
 }
 
 
@@ -154,14 +152,12 @@ div.msg {
   text-align: center;
   padding: 10px;
   margin: 10px;
-}
-
-div.category {
-  width: 200px;
+  color: white;
 }
 
 div.categ {
   padding: 10px;
+  height: 28px;
 }
 
 div.left {
@@ -214,6 +210,12 @@ div.lang {
   background: darkgoldenrod;
 }
 
+div.scale {
+  height: 7px;
+  max-width: 210px;
+  margin: 5px;
+  border-radius: 20px;
+}
 
 div.signup {
   width: 330px;
@@ -248,13 +250,18 @@ div.lang:hover {
   background: goldenrod;
   transition: background 0.5s;
 }
-div.fileUpload:hover { background: #ffff4f }
+div.fileUpload:hover { background: #ffff4f; transition: background 0.5s; }
 
 .divHover:hover {
   background: #7FB1B3;
   transition: background 0.5s, text-indent 0.3s;
   color: whitesmoke;
   text-indent: 10px;
+}
+
+.divHover2:hover {
+  background: Teal;
+  transition: background 0.5s;
 }
 
 div.img:hover {
@@ -331,7 +338,7 @@ a.img {
 }
 
 a.seven:hover { color: white }
-a.two:hover { color: #B8F56B }
+a.two:hover { color: #EBB85C }
 a.three:hover { color: goldenrod}
 a.four:visited { color: cadetblue; border-color: cadetblue }
 a.six:hover,
@@ -354,7 +361,7 @@ h6 {
 }
 
 p {
-  padding: 5px;
+  padding: 4px;
   font-size: 16px;
   font-family: Roboto-Light, Arial, sans-serif;
   margin: auto;
@@ -389,8 +396,8 @@ p.img {
 }
 
 p.link {
-  font-size: 20px;
   display: inline;
+  color: white;
 }
 
 p.small {
@@ -477,5 +484,11 @@ hr.hdr {
 
 .center {
   text-align: center;
+}
+
+span.x {
+  background: red;
+  color: #7FB1B3;
+  font-size: 40px
 }
 

@@ -4,31 +4,30 @@ extends ../layout
 block content
 
   div.bravito
+
      table
         tr
           td.r
             p.small Email: &nbsp &nbsp
           td.l
             p #{user.email}
-
         tr
           td.r
             p.small #{i18n('name')}: &nbsp &nbsp
           td.l
             p #{user.name}
-
         tr
           td.r
             p.small #{i18n('tel')}: &nbsp &nbsp
           td.l
             p #{user.telephone}
 
-
        a.three.fa.fa-edit(href='/users/edit')  #{i18n('edit')}
        a.three.fa.fa-sign-out(href='/users/logout')  #{i18n('logout')}
 
   if myAds.length > 0
       h1 My ads:
+
   each ad, i in myAds
     div.bravito
       a(href='/ads/#{ad._id}')

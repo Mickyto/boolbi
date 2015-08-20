@@ -3,8 +3,8 @@ extends ../layout
 block content
 
  div.bravito
-    h1 User information
 
+    h1 User information
 
     table
        tr
@@ -12,13 +12,11 @@ block content
             p.small #{i18n('name')}: &nbsp &nbsp
           td.l
             p #{user.name}
-
        tr
           td.r
             p.small Email: &nbsp &nbsp
           td.l
             p #{user.email}
-
        tr
           td.r
             p.small #{i18n('tel')}: &nbsp &nbsp
@@ -27,35 +25,31 @@ block content
 
     h1 Item information
 
-
     table
         tr
           td.r
             p.small #{i18n('category')}: &nbsp &nbsp
           td.l
             p #{category.name[session.locale]}
-
         tr
           td.r
             p.small #{i18n('title')}: &nbsp &nbsp
           td.l
             p #{ad.title}
-
         tr
           td.r
             p.small #{i18n('description')}: &nbsp &nbsp
           td.l
             p #{ad.description}
-
         tr
           td.r
             p.small #{i18n('price')}: &nbsp &nbsp
           td.l
             p.info #{ad.price}
-
         tr
           td.r
             p.small #{i18n('photo')}: &nbsp &nbsp
+
     if ad.image1 !== undefined
         img.show(src='/images/#{ad.image1}')
     if ad.image2 !== undefined

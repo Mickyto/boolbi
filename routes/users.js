@@ -1,5 +1,6 @@
 var express = require('express');
 var passwordHash = require('password-hash');
+var validator = require('validator');
 
 var router = express.Router();
 var nodemailer = require('nodemailer');
@@ -47,7 +48,7 @@ router.post('/signup/', function(req, res) {
     }
   });
 
-  if(userEmail === null || userPassword == null) {
+  if(userEmail === null || userPassword === null) {
 
     req.flash('info', req.app.locals.i18n('wrong'));
     res.redirect('/users/signup/');
@@ -61,25 +62,23 @@ router.post('/signup/', function(req, res) {
       active : 'no',
       secure_code : rand
     }, function () {
-      var link ='http://' + req.get('host') + '/users/emailactivation?random=' + rand + '&email=' + userEmail;
+      var link ='http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
       var mailOptions = {
         to: userEmail,
-        subject: "Please confirm your Email account",
-        html: '<head><style>a:hover{border: 2px solid white;}</style></head>' +
-        '<body style="background:#247BA7"><div align="center" style="height: 800px; padding: 50px">' +
-        '<div style="border: 2px solid green; border-radius: 20px;' +
-        'margin-top: 60px; margin-bottom: 60px; background-color: #60AB91;">' +
+        subject: req.app.locals.i18n('confirm'),
+        html: '<head><style>a:hover{border: 2px solid;}</style></head>' +
+        '<body style="background:#EAF1F1"><div align="center" style="height: 800px; padding: 50px">' +
+        '<div style="margin-top: 60px; margin-bottom: 60px; background-color: #7FB1B3; padding: 20px">' +
         '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
-        'Congratulations, you successfully created account on bravito.ru</p>' +
-        '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 15px; color: white;">' +
-        'Bravito is a board of free ads where you can find necessary items<br> or services for few minutes<br>' +
-        'Now you can compose your own ads to sell items or to tell about your services</p><br>' +
+        req.app.locals.i18n('congratulations') + '</p><p align="center" ' +
+        'style="font-family: Arial,Helvetica,sans-serif; font-size: 15px; color: white;">' +
+        req.app.locals.i18n('bravitoIs') + '<br>' + req.app.locals.i18n('now') + '</p><br>' +
         '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 20px; color: white;">' +
-        'Just one last action:</p><div align="center"><a href=' + link + ' style="font-size: 25px;' +
-        ' margin: 20px; background: goldenrod; border-radius: 10px; padding: 10px 40px 10px 40px;' +
-        'color: white; text-decoration: none">Click here to confirm your email</a></div>' +
-        '<p align="center", style="font-family: Arial,Helvetica,sans-serif;font-size: 30px; color: white;">' +
-        'Wish you successful sales</p></div></div></body>'
+        req.app.locals.i18n('just') + '</p><a href=' + link + ' style="font-size: 25px;' +
+        'margin: 0 auto; background: goldenrod; border-radius: 10px; padding: 10px 40px 10px 40px;' +
+        'color: white; white-space: nowrap; text-decoration: none">' + req.app.locals.i18n('click') +
+        '</a><p align="center", style="font-family: Arial,Helvetica,sans-serif;' +
+        'font-size: 30px; color: white;">' + req.app.locals.i18n('wish') + '</p></div></div></body>'
       };
       transporter.sendMail(mailOptions, function (err, res) {
         if (err) {
@@ -93,10 +92,17 @@ router.post('/signup/', function(req, res) {
 
 });
 
-router.get('/emailactivation', function (req, res) {
+router.get('/email_activation', function (req, res) {
   var db = req.db;
   var userCol = db.get('users');
     userCol.findOne({ email : req.query.email }, function (err, doc) {
+      if (!req.query.random) {
+        req.session.user_id = doc._id;
+        req.session.email = doc.email;
+        req.flash('info', req.app.locals.i18n('passMsg'));
+        res.redirect('/users/edit');
+        return;
+      }
       if (req.query.random == doc.secure_code) {
         userCol.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
         req.session.user_id = doc._id;
@@ -109,6 +115,43 @@ router.get('/emailactivation', function (req, res) {
 });
 
 
+router.get('/password_recovery', function (req, res) {
+  res.render('user/recovery', {
+    curPage: '/users/password_recovery',
+    message : req.flash('info')
+  })
+});
+
+router.post('/recovery', function (req, res) {
+  var email = req.body.email;
+  if (!validator.isEmail(email)) {
+    req.flash('info', req.app.locals.i18n('emailErr'));
+    res.redirect('/users/password_recovery');
+  }
+  else {
+    var link ='http://' + req.get('host') + '/users/email_activation?email=' + email;
+    var mailOptions = {
+      to: email,
+      subject: 'Change password',
+      html: '<head><style>a:hover{border: 2px solid;}</style></head><body style="background:#EAF1F1">' +
+      '<div align="center" style="height: 800px; padding: 50px">' +
+      '<div style="margin-top: 60px; margin-bottom: 60px; background-color: #7FB1B3; overflow:hidden; padding: 20px">' +
+      '<p style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
+      req.app.locals.i18n('lose') + '</p>' +
+      '<p style="font-family: Arial,Helvetica,sans-serif; font-size: 20px;color: white;">' +
+      req.app.locals.i18n('clickThe') + '</p>' +
+      '<a href="' + link + '", style="font-size: 25px; margin: 0 auto; background: goldenrod; border-radius:10px;' +
+      ' padding: 5px 30px 5px 30px;color: white; white-space: nowrap;text-decoration: none">' +
+      req.app.locals.i18n('changePass') + '</a></div></div></body>'
+    };
+    transporter.sendMail(mailOptions, function (err, res) {
+      if (err) {
+        res.render('default', { msg : 'Something was wrong' });
+      }
+    });
+    res.render('default', { msg : req.app.locals.i18n('check') });
+  }
+});
 
 
 router.get('/login', function(req, res) {

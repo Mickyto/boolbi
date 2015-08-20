@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 
             ru: {
                 search: 'Поиск',
-                newad: 'cоздать объявление',
+                newad: 'Создать объявление',
                 findad: 'Найти объявление',
                 login: 'Войти',
                 pass: 'Пароль',
@@ -82,12 +82,26 @@ app.use(function(req, res, next) {
                 advert: 'Здесь могла бы быть ваша реклама',
                 select: 'выберите категорию',
                 inactiveUserAccount: 'Необходимо активировать аккаунт', //  When user tries to log in with inactive email
-                userPasswordsNotIdentical: 'Пароли отличаются'  // When user tries to change password in profile
+                userPasswordsNotIdentical: 'Пароли отличаются', // When user tries to change password in profile
+                forgot: 'Забыли пароль?',
+                recovery: 'Восстановление пароля',
+                enterEmail: 'Пожалуйста, введите email, который вы использовали для входа на сайт',
+                next: 'Далее',
+                passMsg: 'Пожалуйста, создайте новый пароль',
+                congratulations: 'Поздравляем, вы успешно создали аккаунт на Bravito',
+                bravitoIs: 'Bravito - это доска бесплатных объявлений, на которой вы сможете найти необходимые вам товары или услуги всего за несколько минут',
+                now: 'Теперь вы можете создавать свои собственные объявления, чтобы продать товары или рассказать о ваших услугах',
+                just: 'Всего одно действие:',
+                click: 'Нажмите сюда, чтобы подтвердить ваш email',
+                confirm: 'Пожалуйста, подтвердите ваш email',
+                wish: 'Желаем вам удачных продаж',
+                lose: 'Потеряли пароль для входа на Bravito?',
+                clickThe: 'Нажмите кнопку, чтобы поменять свой пароль'
                 },
 
             en: {
                 search: 'Search',
-                newad: 'new ad',
+                newad: 'New ad',
                 findad: 'Find ad',
                 login: 'Log in',
                 pass: 'Password',
@@ -124,7 +138,21 @@ app.use(function(req, res, next) {
                 advert: 'There would be your advertisement',
                 select: 'select category',
                 inactiveUserAccount: 'Your account not activated yet',
-                userPasswordsNotIdentical: 'Passwords are not identical'
+                userPasswordsNotIdentical: 'Passwords are not identical',
+                forgot: 'Forgot password?',
+                recovery: 'Password recovery',
+                enterEmail: 'Please enter the email that you used to log on to the site',
+                next: 'Next',
+                passMsg: 'Please create new password',
+                congratulations: 'Congratulations, you successfully created account on Bravito',
+                bravitoIs: 'Bravito is a board of free ads where you can find necessary items or services for few minutes',
+                now: 'Now you can compose your own ads to sell items or to tell about your services',
+                just: 'Just one last action:',
+                click: 'Click here to confirm your email',
+                confirm: 'Please confirm your Email account',
+                wish: 'Wish you successful sales',
+                lose: 'Lose your password for Bravito?',
+                clickThe: 'Click button to change your password:'
                 }
         };
 
