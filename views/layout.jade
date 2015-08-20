@@ -14,7 +14,7 @@ html
           td.center
             div
                  form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-                      input.search(type='text', placeholder='#{i18n("findad")}', name='search', , value=(word ? '#{word}' : ''))
+                      input.search(type='text', placeholder='#{i18n("findad")}', name='search', value=(word ? '#{word}' : ''))
                       button.search(type='submit') #{i18n('search')}
           td.center
              a(href='/ads/newad')
