@@ -70,7 +70,7 @@ input.title {
 input.search {
   width: 400px;
   height: 30px;
-  border-radius: 10px 0 0 10px;
+  border-radius: 5px 0 0 5px;
   margin: 0;
   text-indent: 15px;
 }
@@ -106,7 +106,7 @@ button {
 button.search {
   margin: 0;
   background: goldenrod;
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 5px 5px 0;
   border: 0;
   padding: 4px 25px 6px 25px;
   font-size: 20px;
@@ -127,10 +127,9 @@ button.login {
 button.login:hover,
 button.signup:hover,
 button.search:hover {
-  background: whitesmoke;
+  background: darkgoldenrod;
   transition: background 0.5s;
-  color: goldenrod;
-  border: 1px solid goldenrod;
+  color: white;
 }
 
 button:hover {
@@ -211,6 +210,12 @@ div.lang {
   background: darkgoldenrod;
 }
 
+div.scale {
+  height: 7px;
+  max-width: 210px;
+  margin: 5px;
+  border-radius: 20px;
+}
 
 div.signup {
   width: 330px;
@@ -479,5 +484,11 @@ hr.hdr {
 
 .center {
   text-align: center;
+}
+
+span.x {
+  background: red;
+  color: #7FB1B3;
+  font-size: 40px
 }
 
