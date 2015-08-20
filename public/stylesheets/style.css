@@ -468,8 +468,8 @@ ul.a {
   list-style-type: none;
 }
 
-li.a {
-  display: inline;
+li {
+  display: inline-block;
 }
 
 hr.hdr {

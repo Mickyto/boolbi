@@ -64,7 +64,7 @@ router.get('/category/:id', function(req, res) {
 router.get('/search', function (req, res) {
     var db =req.db;
     var adCol = db.get('ads');
-    var perPage = 4;
+    var perPage = 2;
     var page = req.query.page || 0;
     var searchText = req.query.search;
     var arrayInput = searchText.split(' ');
@@ -96,17 +96,48 @@ router.get('/search', function (req, res) {
                     ]
                 }, function(err, count) {
 
+
                     var pages = [];
+
                     for (var p = 0; p < count/perPage; p++) {
-                        pages.push('/search?page=' + p + '&search=' + searchText);
+                        pages.push({
+
+                            link: '/search?page=' + p + '&search=' + searchText,
+                            pg: p + 1
+
+                        });
                     }
+
+                    console.log(pages.slice(0,1));
+                    console.log();
+
+                    console.log(pages.slice(0,6));
+                    console.log();
+
+                    console.log(pages.slice(page-1,page*1+3));
+                    console.log(page-1);
+                    console.log(page*1+3);
+
+                    console.log(pages.slice(-6));
+                    console.log();
+
+                    console.log(pages.slice(-1));
+                    console.log(page);
+
+                    console.log(pages.slice(-1)[0].pg-3);
+
                     res.render('ad/ads', {
                         curPage: '/',
                         ads: docs,
                         pages: pages,
-                        currentPage: page,
                         message: req.flash('info'),
-                        word: searchText
+                        word: searchText,
+                        pageIndex: page,
+                        first: pages.slice(0, 1),
+                        firstPart: pages.slice(0,6),
+                        middle: pages.slice(page-1,page*1+3),
+                        lastPart: pages.slice(-6),
+                        last: pages.slice(-1)
                     });
 
                 });
