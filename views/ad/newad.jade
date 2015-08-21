@@ -62,8 +62,18 @@ block content
          p
          p.small #{i18n('description')}:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
-         p.small #{i18n('price')}:
-           input(type='text', value='#{ad.price}', name='adprice')
+         table
+             tr
+               td(colspan=2)
+                 p.validateErr#adprice #{i18n('priceErr')}
+             tr
+               td
+                 p.small #{i18n('price')}:
+               td.info
+                 input.title(type='text', value='#{ad.price}', name='adprice', size=10)
+               td
+                 p #{i18n('rub')}
+         br
 
 
          p.small #{i18n('photo')}:

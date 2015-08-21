@@ -98,7 +98,9 @@ app.use(function(req, res, next) {
                 lose: 'Потеряли пароль для входа на Bravito?',
                 clickThe: 'Нажмите кнопку, чтобы поменять свой пароль',
                 myAds: 'мои объявления',
-                settings: 'настройки'
+                settings: 'настройки',
+                rub: 'руб',
+                priceErr:'Не верный ввод'
                 },
 
             en: {
@@ -156,7 +158,9 @@ app.use(function(req, res, next) {
                 lose: 'Lose your password for Bravito?',
                 clickThe: 'Click button to change your password:',
                 myAds: 'my ads',
-                settings: 'settings'
+                settings: 'settings',
+                rub: 'rub',
+                priceErr:'Price incorrect'
                 }
         };
 

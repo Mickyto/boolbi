@@ -49,8 +49,9 @@ block content
         tr
           td
             p.small #{i18n('price')}:
-          td.info
-            p.info.med  #{ad.price}
+          td.info.inl
+            p.info.med  #{ad.price} #{i18n('rub')}
+
         tr
           td
             p.small #{i18n('photo')}:
@@ -59,10 +60,9 @@ block content
         img.show(src='/images/#{ad.image1}')
     if ad.image2 !== undefined
         img.show(src='/images/#{ad.image2}')
-    hr
 
     if session.user_id == user._id
-
+        hr
         form(action='/ads/#{ad._id}/edit')
             button(type='submit') #{i18n('edit')}
 

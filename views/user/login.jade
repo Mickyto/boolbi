@@ -10,7 +10,7 @@ block content
         if message.length > 0
             div.msg #{message}
 
-        table.center.full
+        table.full.r
             tr
               td(colspan=2)
                 p.validateErr#useremail #{i18n('emailErr')}
@@ -28,9 +28,7 @@ block content
               td
                 input.login#pass(type='password', name='password', oninput='scale()')
             tr
-              td
-                p
-              td.l.info
+              td.l(colspan=2)
                 if btnValue == 'signup'
                     div.scale
                       span.x#scale

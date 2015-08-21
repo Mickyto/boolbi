@@ -34,10 +34,12 @@ input {
   font-size: 15px;
   background: WhiteSmoke;
   text-indent: 5px;
+  transition: box-shadow 0.5s
 }
 
 textarea {
   padding: 7px;
+  margin: 5px;
 }
 
 select {
@@ -56,7 +58,6 @@ input:focus {
   outline: 0;
   border: 1px solid goldenrod;
   box-shadow: 0 0 2px 2px goldenrod;
-  transition: box-shadow 0.3s
 }
 
 input.search:focus {
@@ -70,7 +71,6 @@ input.title {
 input.search {
   width: 400px;
   height: 30px;
-  border-radius: 5px 0 0 5px;
   margin: 0;
   text-indent: 15px;
 }
@@ -97,46 +97,50 @@ button {
   margin: 10px;
   cursor: pointer;
   background: #7FB1B3;
-  border-radius: 5px;
   padding: 7px;
   min-width: 120px;
   font-family: Roboto-Light, Helvetica, Arial, sans-serif;
   color: white;
+  transition: all 0.5s;
 }
 
 button.search {
   margin: 0;
   background: goldenrod;
-  border-radius: 0 5px 5px 0;
   border: 0;
   padding: 4px 25px 6px 25px;
   font-size: 20px;
   width: 110px;
+  transition: all 0.5s;
 }
 
 button.signup {
-  background: Peru;
+  background: #7A9CBA;
   padding: 10px 30px 10px 20px;
+  transition: all 1s;
 }
 
 button.login {
   background: SandyBrown;
   padding: 10px 30px 10px 20px;
-
+  transition: all 0.7s;
 }
 
 button.login:hover,
-button.signup:hover,
+button.signup:hover {
+  color: #527DC4;
+  border-color: #7A9CBA;
+  background: #F2F5F8;
+}
 button.search:hover {
   background: darkgoldenrod;
-  transition: background 0.5s;
   color: white;
+
 }
 
 button:hover {
   background: white;
   color: CadetBlue;
-  transition: background 0.5s;
 }
 
 
@@ -146,6 +150,7 @@ div {
   padding: 0;
   margin: 0;
   white-space: nowrap;
+  transition: all 0.3s linear;
 }
 
 div.msg {
@@ -212,13 +217,13 @@ div.delete{
   margin: 0 45px 0 45px;
 }
 
-div.lang {
+.lang {
   background: darkgoldenrod;
 }
 
 div.scale {
   height: 7px;
-  max-width: 195px;
+  max-width: 320px;
   margin: 5px;
   border-radius: 20px;
 }
@@ -239,6 +244,7 @@ div.fileUpload {
   width: 150px;
   padding: 20px;
   border-radius: 5px;
+  transition: all 0.7s linear;
 }
 
 .fileUpload input.upload {
@@ -254,25 +260,21 @@ div.fileUpload {
 
 div.lang:hover {
   background: goldenrod;
-  transition: background 0.5s;
 }
-div.fileUpload:hover { background: lightgoldenrodyellow; transition: background 0.5s; }
+div.fileUpload:hover { background: lightgoldenrodyellow; }
 
 .divHover:hover {
   background: #7FB1B3;
-  transition: background 0.5s, text-indent 0.3s;
   color: whitesmoke;
   text-indent: 10px;
 }
 
 .divHover2:hover {
   background: Teal;
-  transition: background 0.5s;
 }
 
 div.img:hover {
   width: 300px;
-  transition: width 1s linear;
 }
 
                                        /*     L I N K S    */
@@ -285,6 +287,7 @@ a {
   font-family: Roboto-Light, Arial, sans-serif;
   text-decoration: none;
   white-space: nowrap;
+  transition: all 0.5s;
 }
 
 a.one {
@@ -345,12 +348,10 @@ a.six:hover,
 a.four:hover {
   padding: 9px 15px 9px 15px;
   background: #72A4AB;
-  transition: background 0.5s, padding 0.3s;
   color: white;
 }
 a.one:hover {
   background: goldenrod;
-  transition: background 0.5s;
   color: white
 }
 
@@ -360,6 +361,9 @@ h1 {
   padding: 0;
 }
 
+h2 {
+  padding: 5px;
+}
 
 h6 {
   margin: 0;
@@ -389,7 +393,7 @@ p.med {
 p.validateErr {
   text-align: right;
   font-size: 12px;
-  padding: 0 12px 0 0 ;
+  padding: 0 5px 0 0 ;
   color: lightgoldenrodyellow ;
   vertical-align: bottom;
   visibility: hidden
@@ -407,7 +411,7 @@ p.link {
 }
 
 p.small {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 p.micro {
@@ -471,11 +475,12 @@ img.show {
   border: 2px solid white;
   border-radius: 10px;
   margin: 10px;
+  transition: width 0.5s linear;
 }
 
 img.show:hover {
   width: 300px;
-  transition: width 1s linear;
+
 }
 
 ul {
@@ -495,13 +500,16 @@ hr {
   margin: 2px;
 }
 
+.iln {
+  display: inline;
+}
 
 .center {
   text-align: center;
 }
 
 span.x {
-  font-size: 40px;
+  font-size: 55px;
 }
 
 li.b {
