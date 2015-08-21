@@ -5,63 +5,71 @@ block content
  div.bravito
 
     h1 User information
+    hr
+    br
 
     table
        tr
-          td.r
+          td
             p.small #{i18n('name')}: &nbsp &nbsp
-          td.l
+          td.info
             p #{user.name}
        tr
-          td.r
+          td
             p.small Email: &nbsp &nbsp
-          td.l
+          td.info
             p #{user.email}
        tr
-          td.r
+          td
             p.small #{i18n('tel')}: &nbsp &nbsp
-          td.l
+          td.info
             p #{user.telephone}
 
+
     h1 Item information
+    hr
+    br
 
     table
         tr
-          td.r
-            p.small #{i18n('category')}: &nbsp &nbsp
-          td.l
-            p #{category.name[session.locale]}
+          td
+            p.small #{i18n('category')}:
+          td.info
+            p  #{category.name[session.locale]}
         tr
-          td.r
-            p.small #{i18n('title')}: &nbsp &nbsp
-          td.l
+          td
+            p.small #{i18n('title')}:
+          td.info
             p #{ad.title}
         tr
-          td.r
-            p.small #{i18n('description')}: &nbsp &nbsp
-          td.l
-            p #{ad.description}
+          td
+            p.small #{i18n('description')}:
+          td.info
+            p   #{ad.description}
         tr
-          td.r
-            p.small #{i18n('price')}: &nbsp &nbsp
-          td.l
-            p.info #{ad.price}
+          td
+            p.small #{i18n('price')}:
+          td.info
+            p.info.med  #{ad.price}
         tr
-          td.r
-            p.small #{i18n('photo')}: &nbsp &nbsp
+          td
+            p.small #{i18n('photo')}:
 
     if ad.image1 !== undefined
         img.show(src='/images/#{ad.image1}')
     if ad.image2 !== undefined
         img.show(src='/images/#{ad.image2}')
+    hr
 
     if session.user_id == user._id
+
+        form(action='/ads/#{ad._id}/edit')
+            button(type='submit') #{i18n('edit')}
+
         form(action='/ads/#{ad._id}/edit', method='post', enctype='application/x-www-form-urlencoded')
             input(type='hidden', value='DELETE', name='_method')
             button(type='submit') #{i18n('Del')}
-        p
-        form(action='/ads/#{ad._id}/edit')
-            button(type='submit') #{i18n('edit')}
+
 
 
 

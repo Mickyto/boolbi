@@ -12,7 +12,7 @@ html
               a(href='/')
                   p.logo giwwer
           td.center
-            div
+            div.search
                  form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
                       input.search(type='text', placeholder='#{i18n("findad")}', name='search', value=(word ? '#{word}' : ''))
                       button.search(type='submit') #{i18n('search')}
@@ -82,7 +82,6 @@ html
                 div.advertisement
                     p.center #{i18n('advert')}
 
-  hr.hdr
   div.header
       p E-mail: info@bravito.ru
 

@@ -1,32 +1,45 @@
 extends ../layout
 block content
 
- h1 Edit user information
+
 
  div.bravito
 
+    h1 Edit user information
+    hr
 
     form(name='userinfo', action='/users/edit', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
-        p.small.inline Email: &nbsp &nbsp
-          p.inline #{user.email}
-        p.small #{i18n('name')}: &nbsp&nbsp
-            input.login(type='text', value=(user.name !== undefined ? '#{user.name}' : ''), name='name')
-        p.small #{i18n('tel')}:&nbsp&nbsp
-            input.login(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
-        p.small #{i18n('changePass')}:
-        br
-        if message.length > 0
-            div.msg #{message}
-        table
-             tr
-               td.center
-                 p.micro #{i18n('newPass')}
-                 input.login(type='password', name='newpass1')
-             tr
-               td.center
-                 p.micro #{i18n('againPass')}
-                 input.login(type='password', name='newpass2')
-        button(type='submit') #{i18n('save')}
+      table(align='center')
+        tr
+          td.r
+            p.small Email:
+          td.info
+            p #{user.email}
+        tr
+          td.r
+            p.small #{i18n('name')}:
+          td.info
+            input.title(type='text', value=(user.name !== undefined ? '#{user.name}' : ''), name='name')
+        tr
+          td.r
+            p.small #{i18n('tel')}:
+          td.info
+            input.title(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
+        tr
+          td.r(rowspan=2)
+            p.small #{i18n('changePass')}:
+          br
+          if message.length > 0
+                div.msg #{message}
+
+          td.info
+             input.title(type='password', name='newpass1', placeholder='#{i18n("newPass")}')
+        tr
+          td.info
+             input.title(type='password', name='newpass2', placeholder='#{i18n("againPass")}')
+      br
+      hr
+      button(type='submit') #{i18n('save')}
 
  script(type='text/javascript').
     function validateForm() {

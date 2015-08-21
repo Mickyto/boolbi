@@ -12,11 +12,11 @@ block content
                   img.showAds(src='/images/#{ad.image1}', width=150)
              else if ad.image2
                   img.showAds(src='/images/#{ad.image2}', width=150)
-          div.categ
+          div.delete
              a(href='/ads/#{ad._id}')
                p #{ad.title}
-             br
-             p #{ad.price}
+             hr
+             p.med #{ad.price}
         br
 
 
@@ -27,7 +27,7 @@ block content
                     li.a
                         a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
 
-
+    div.delete
         if pages && pages.length >= 7
             ul
                if pageIndex < 4

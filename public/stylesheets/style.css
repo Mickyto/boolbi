@@ -29,9 +29,9 @@ select,
 textarea,
 input {
   border: 1px solid whitesmoke;
-  border-radius: 6px;
+  border-radius: 1px;
   margin: 10px;
-  font-size: 16px;
+  font-size: 15px;
   background: WhiteSmoke;
   text-indent: 5px;
 }
@@ -47,7 +47,7 @@ select {
 }
 
 input {
-  height: 26px;
+  height: 25px;
 }
 
 select:focus,
@@ -64,7 +64,7 @@ input.search:focus {
 }
 
 input.title {
-  margin: 0;
+  margin: 2px;
 }
 
 input.search {
@@ -86,19 +86,20 @@ input.captcha {
 
 input.login {
   margin: 0 10px 5px 10px;
+  width: 200px;
 }
 
                                  /*   B U T T O N S   */
 
 button {
   font-size: 16px;
-  border: 1px solid white;
+  border: 2px solid white;
   margin: 10px;
   cursor: pointer;
   background: #7FB1B3;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 7px;
-  min-width: 100px;
+  min-width: 120px;
   font-family: Roboto-Light, Helvetica, Arial, sans-serif;
   color: white;
 }
@@ -184,13 +185,13 @@ div.captcha {
 
 div.header {
   box-shadow: 2px 2px 6px 3px gray;
-  background-color: #009595;
+  background-color: #5F9EA0;
 }
 
 div.bravito {
   padding: 15px;
   white-space: normal;
-  background: #D1E0E0;
+  background: #9FC4C6;
 }
 
 div.advertisement {
@@ -199,6 +200,12 @@ div.advertisement {
   white-space: normal;
   border: 2px solid #7DA1A1;
   margin: 0 0 5px 5px;
+}
+
+div.search {
+  width: 530px;
+  margin: 0 auto;
+  height: 34px;
 }
 
 div.delete{
@@ -211,7 +218,7 @@ div.lang {
 
 div.scale {
   height: 7px;
-  max-width: 210px;
+  max-width: 195px;
   margin: 5px;
   border-radius: 20px;
 }
@@ -220,7 +227,7 @@ div.signup {
   width: 330px;
   padding: 20px;
   margin: auto;
-  background: #7FB1B3;
+  background: #9FC4C6;
 }
 
 div.img,
@@ -249,7 +256,7 @@ div.lang:hover {
   background: goldenrod;
   transition: background 0.5s;
 }
-div.fileUpload:hover { background: #ffff4f; transition: background 0.5s; }
+div.fileUpload:hover { background: lightgoldenrodyellow; transition: background 0.5s; }
 
 .divHover:hover {
   background: #7FB1B3;
@@ -270,10 +277,6 @@ div.img:hover {
 
                                        /*     L I N K S    */
 
-.whiteText {
-  color: white;
-}
-
 a {
   border-radius: 10px;
   background: none;
@@ -290,7 +293,7 @@ a.one {
 }
 
 a.two {
-  color: gold;
+  color: lightgoldenrodyellow;
   font-size: 16px;
   margin: 30px;
 }
@@ -309,7 +312,7 @@ a.four {
 
 a.five {
   padding: 7px 15px 7px 15px;
-  border-radius: 4px;
+  border-radius: 0;
   color: white;
   font-size: 16px;
   background: goldenrod;
@@ -332,19 +335,17 @@ a.img {
   padding: 0;
   font-size: 15px;
   margin: auto;
-  color: yellow;
 }
 
 a.seven:hover { color: white }
-a.two:hover { color: #EBB85C }
+a.two:hover { color: gold }
 a.three:hover { color: goldenrod }
 a.four:visited { color: lightblue }
 a.six:hover,
 a.four:hover {
   padding: 9px 15px 9px 15px;
-  border-radius: 4px;
   background: #72A4AB;
-  transition: background 0.5s, padding 0.3s, border-radius 0.2s;
+  transition: background 0.5s, padding 0.3s;
   color: white;
 }
 a.one:hover {
@@ -354,9 +355,9 @@ a.one:hover {
 }
 
 h1 {
-  color: goldenrod;
-  margin: 0;
-  padding: 10px;
+  color: lightgoldenrodyellow;
+  margin: 5px;
+  padding: 0;
 }
 
 
@@ -366,7 +367,7 @@ h6 {
 
 p {
   padding: 4px;
-  font-size: 16px;
+  font-size: 15px;
   font-family: Roboto-Light, Arial, sans-serif;
   margin: auto;
 }
@@ -380,15 +381,17 @@ p.med {
   padding: 5px;
   margin: auto;
   font-size: 18px;
+  color: ivory;
 }
+
+
 
 p.validateErr {
   text-align: right;
   font-size: 12px;
   padding: 0 12px 0 0 ;
-  color: orange;
+  color: lightgoldenrodyellow ;
   vertical-align: bottom;
-  font-family: Comfortaa, Helvetica, Arial, sans-serif;
   visibility: hidden
 }
 
@@ -412,7 +415,7 @@ p.micro {
 }
 
 .img:hover{
-  color: goldenrod;
+  color: gold;
 }
 
 table {
@@ -430,6 +433,10 @@ td {
 
 td.gold {
   width: 60px;
+}
+
+td.info {
+  padding-left: 20px;
 }
 
 .t {
@@ -474,22 +481,20 @@ img.show:hover {
 ul {
   list-style-type: none;
   margin: 0;
-  padding: 0
+  padding: 15px;
 }
 
 li {
   display: inline-block;
 }
 
-hr.hdr {
-  background-color: goldenrod;
+hr {
+  background-color: lightgoldenrodyellow;
   height: 1px;
   border: 0;
+  margin: 2px;
 }
 
-.inline {
-  display: inline;
-}
 
 .center {
   text-align: center;

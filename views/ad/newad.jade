@@ -3,28 +3,32 @@ extends ../layout
 block content
 
   div.bravito
+
       h1 User information
+      hr
+      br
 
       table
           tr
-            td.r
-              p.small #{i18n('name')}: &nbsp &nbsp
-            td.l
+            td
+              p.small #{i18n('name')}:
+            td.info
               p #{user.name}
           tr
-            td.r
-              p.small Email: &nbsp &nbsp
-            td.l
+            td
+              p.small Email:
+            td.info
               p #{user.email}
           tr
-            td.r
-              p.small #{i18n('tel')}: &nbsp &nbsp
-            td.l
+            td
+              p.small #{i18n('tel')}:
+            td.info
               p #{user.telephone}
 
       form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm("adForm")', enctype='multipart/form-data')
 
          h1 Item information
+         hr
 
          if message.length > 0
              div.msg #{message}
@@ -36,9 +40,9 @@ block content
               tr
                 td
                   p.small #{i18n('category')}: &nbsp
-                td
+                td.info
                   if category
-                    p #{category.name}
+                    p #{category.name[session.locale]}
                   else
                     select#select(name='category', align='right')
                        option(value='') #{i18n('select')}
@@ -54,6 +58,7 @@ block content
                   p.small #{i18n('title')}: &nbsp
                 td
                   input.title(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
+         p
          p
          p.small #{i18n('description')}:
          textarea(name='addescription', rows=10, cols=40) #{ad.description}
@@ -98,7 +103,8 @@ block content
                      img(src='data:image/jpeg;base64, #{captcha}')
                  td
                      input.captcha(type='text', name='captcha', maxlength=4)
-         p
+         br
+         hr
          button(type='submit') #{i18n('save')}
 
   script(type='text/javascript').
