@@ -23,10 +23,28 @@ html
 
           td.center
              if session.user_id
-                a(href='/users/profile')
-                  div.categ.divHover2
-                    i.fa.fa-user &nbsp
-                    p.link #{session.email}
+
+                  div.categ.divHover2(onmouseover="openMenu()", onmouseout="closeMenu()")
+
+                    p.link.fa.fa-user  &nbsp #{session.email}
+                    ul.b#menu
+                        li.b
+                          a.one(href='/users/profile')
+                            div.categ.divHover2
+                                p.link #{i18n('myAds')}
+                        li.b
+                          a.one(href='/users/edit')
+                             div.categ.divHover2
+                                p.link #{i18n('settings')}
+                        li.b
+                          a.one(href='/users/logout')
+                              div.categ.divHover2
+                                p.link #{i18n('logout')}
+
+
+
+
+
              else
                 a(href='/users/login')
                   div.categ.divHover2
@@ -71,6 +89,14 @@ html
 
 
   script.
-          document.getElementById('#{category}').setAttribute('class', 'fa fa-circle r');
+      document.getElementById('#{category}').setAttribute('class', 'fa fa-circle r');
+  script.
+      function openMenu() {
+          document.getElementById('menu').style.display = "block";
+      }
+      function closeMenu(x) {
+          document.getElementById('menu').style.display = "none";
+      }
+
 
 

@@ -71,7 +71,7 @@ app.use(function(req, res, next) {
                 changePass: 'Поменять пароль',
                 newPass: 'новый пароль',
                 againPass: 'новый пароль еще раз',
-                logout: 'Выйти',
+                logout: 'выйти',
                 noCaptcha: 'Не верный код',
                 noCategory: 'Такой категории не существует',
                 noAds: 'Ничего не найдено',
@@ -96,7 +96,9 @@ app.use(function(req, res, next) {
                 confirm: 'Пожалуйста, подтвердите ваш email',
                 wish: 'Желаем вам удачных продаж',
                 lose: 'Потеряли пароль для входа на Bravito?',
-                clickThe: 'Нажмите кнопку, чтобы поменять свой пароль'
+                clickThe: 'Нажмите кнопку, чтобы поменять свой пароль',
+                myAds: 'мои объявления',
+                settings: 'настройки'
                 },
 
             en: {
@@ -127,7 +129,7 @@ app.use(function(req, res, next) {
                 changePass: 'Change password',
                 newPass: 'new password',
                 againPass: 'new password again',
-                logout: 'Log out',
+                logout: 'log out',
                 noCaptcha: 'Code is incorrect',
                 noCategory: 'There is no such category',
                 noAds: 'Nothing was founded',
@@ -152,7 +154,9 @@ app.use(function(req, res, next) {
                 confirm: 'Please confirm your Email account',
                 wish: 'Wish you successful sales',
                 lose: 'Lose your password for Bravito?',
-                clickThe: 'Click button to change your password:'
+                clickThe: 'Click button to change your password:',
+                myAds: 'my ads',
+                settings: 'settings'
                 }
         };
 
