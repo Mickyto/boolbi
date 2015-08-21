@@ -6,9 +6,6 @@ block content
  div.bravito
 
 
-    a.three.fa.fa-edit(href='/users/edit')  #{i18n('edit')}
-    a.three.fa.fa-sign-out(href='/users/logout')  #{i18n('logout')}
-
     form(name='userinfo', action='/users/edit', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
         p.small.inline Email: &nbsp &nbsp
           p.inline #{user.email}
@@ -23,11 +20,11 @@ block content
         table
              tr
                td.center
-                 h6 #{i18n('newPass')}
+                 p.micro #{i18n('newPass')}
                  input.login(type='password', name='newpass1')
              tr
                td.center
-                 h6 #{i18n('againPass')}
+                 p.micro #{i18n('againPass')}
                  input.login(type='password', name='newpass2')
         button(type='submit') #{i18n('save')}
 

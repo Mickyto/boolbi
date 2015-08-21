@@ -188,7 +188,6 @@ div.header {
 }
 
 div.bravito {
-  margin: 0;
   padding: 15px;
   white-space: normal;
   background: #D1E0E0;
@@ -301,27 +300,27 @@ a.three {
 }
 
 a.four {
-  border: 2px solid goldenrod;
   padding: 5px 15px 5px 15px;
-  margin: 3px;
+  border-radius: 0;
   font-size: 16px;
-  color: goldenrod;
+  color: white;
+  background: #7FB1B3;
 }
 
 a.five {
-  border: 3px solid goldenrod;
-  padding: 10px 20px 10px 20px;
-  margin: 5px;
-  color: goldenrod;
+  padding: 7px 15px 7px 15px;
+  border-radius: 4px;
+  color: white;
   font-size: 16px;
+  background: goldenrod;
 }
 
 a.six {
-  border: 2px solid cadetblue;
   padding: 5px 15px 5px 15px;
-  margin: 5px;
-  color: cadetblue;
+  border-radius: 0;
+  color: lightblue;
   font-size: 16px;
+  background: #7FB1B3;
 }
 
 a.seven {
@@ -338,10 +337,16 @@ a.img {
 
 a.seven:hover { color: white }
 a.two:hover { color: #EBB85C }
-a.three:hover { color: goldenrod}
-a.four:visited { color: cadetblue; border-color: cadetblue }
+a.three:hover { color: goldenrod }
+a.four:visited { color: lightblue }
 a.six:hover,
-a.four:hover,
+a.four:hover {
+  padding: 9px 15px 9px 15px;
+  border-radius: 4px;
+  background: #72A4AB;
+  transition: background 0.5s, padding 0.3s, border-radius 0.2s;
+  color: white;
+}
 a.one:hover {
   background: goldenrod;
   transition: background 0.5s;
@@ -400,6 +405,10 @@ p.link {
 
 p.small {
   font-size: 14px;
+}
+
+p.micro {
+  font-size: 12px;
 }
 
 .img:hover{
@@ -464,6 +473,8 @@ img.show:hover {
 
 ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0
 }
 
 li {
@@ -501,6 +512,7 @@ ul.b {
   position: absolute;
   width: 240px;
   margin: 13px 0 0 0;
+  box-shadow: 2px 6px 12px 2px gray;
 }
 
 ul.b:before{

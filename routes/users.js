@@ -206,12 +206,10 @@ function checkAuth(req, res, next) {
 
 router.get('/profile', checkAuth, function (req, res) {
   var db = req.db;
-  var userCol = db.get('users');
   var adCol = db.get('ads');
   var perPage = 4;
   var page = req.query.page || 0;
-  userCol.findById(req.session.user_id, function (err, user) {
-    adCol.find({ user_id : ObjectId(req.session.user_id) }, {
+  adCol.find({ user_id : ObjectId(req.session.user_id) }, {
       skip: perPage * page,
       limit: perPage,
       sort: { _id : -1 }
@@ -220,20 +218,31 @@ router.get('/profile', checkAuth, function (req, res) {
 
           var pages = [];
           for (var p = 0; p < count/perPage; p++) {
-            pages.push('/users/profile?page=' + p);
+            pages.push({
+
+              link: '/users/profile?page=' + p,
+              pg: p + 1
+
+            });
           }
 
-          res.render('user/profile', {
+          res.render('ad/ads', {
             curPage:'/users/profile',
             pages: pages,
-            user: user,
             pageIndex: page,
-            myAds: ads
+            message: req.flash('info'),
+            ads: ads,
+            first: pages.slice(0, 1),
+            firstPart: pages.slice(0, 6),
+            middle: pages.slice(page - 1, page * 1 + 3),
+            lastPart: pages.slice(-6),
+            last: pages.slice(-1)
           });
       });
-    });
+
   });
 });
+
 
 router.get('/edit', checkAuth, function (req, res) {
   var db =req.db;
