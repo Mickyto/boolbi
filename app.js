@@ -100,7 +100,10 @@ app.use(function(req, res, next) {
                 myAds: 'мои объявления',
                 settings: 'настройки',
                 rub: 'руб',
-                priceErr:'Не верный ввод'
+                priceErr:'Не верный ввод',
+                cancel: 'Отмена',
+                alertDel: 'Вы уверены, что хотите удалить это объявление?',
+                noPermission: 'У вас нет прав для этого действия'
                 },
 
             en: {
@@ -160,7 +163,10 @@ app.use(function(req, res, next) {
                 myAds: 'my ads',
                 settings: 'settings',
                 rub: 'rub',
-                priceErr:'Price incorrect'
+                priceErr:'Price incorrect',
+                cancel: 'Cancel',
+                alertDel: 'Are you sure you want to delete this ad?',
+                noPermission: 'You don\'t have permission for this action'
                 }
         };
 

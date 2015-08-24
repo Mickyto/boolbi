@@ -48,12 +48,10 @@ block content
          var x = document.getElementById("pass").value;
          var y = document.getElementById("scale");
          if (x.length >= 8) {
-             y.style.background = 'green';
-             y.style.color = 'green';
+             y.style.cssText = 'background: green; color: green';
          }
          else {
-             y.style.background = 'red';
-             y.style.color = 'red';
+             y.style.cssText = 'background: red; color: red';
          }
          y.innerHTML = x;
      }

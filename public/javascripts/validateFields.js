@@ -4,7 +4,7 @@ function validateForm(formName) {
     var isValid = true;
     var requiredFields = {
          'adForm' : [
-            {name: 'captcha', isValid: function(field) {  return field != '' }},
+            {name: 'captcha', isValid: function(field) {  return validator.isNumeric(field)}},
             {name: 'adprice', isValid: function(field) { return validator.isNumeric(field)}},
             {name: 'adtitle', isValid: function(field) { return field != '' }},
             {name: 'category', isValid: function(field) { return field != '' }}

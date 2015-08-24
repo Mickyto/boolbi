@@ -6,7 +6,7 @@ block content
         div.msg #{message}
 
     each ad, i in ads
-        div.bravito
+        div.ads
           a(href='/ads/#{ad._id}')
              if ad.image1
                   img.showAds(src='/images/#{ad.image1}', width=150)
@@ -17,7 +17,7 @@ block content
                p #{ad.title}
              hr
              p.med #{ad.price}
-        br
+        p
 
 
     div.delete

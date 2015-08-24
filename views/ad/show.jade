@@ -61,15 +61,34 @@ block content
     if ad.image2 !== undefined
         img.show(src='/images/#{ad.image2}')
 
+
+    if message.length > 0
+         div.msg #{message}
+
+
     if session.user_id == user._id
         hr
         form(action='/ads/#{ad._id}/edit')
-            button(type='submit') #{i18n('edit')}
+            button.fl(type='submit') #{i18n('edit')}
+        a.greenButton.fl(onclick="showWindow()") #{i18n('Del')}
 
-        form(action='/ads/#{ad._id}/edit', method='post', enctype='application/x-www-form-urlencoded')
-            input(type='hidden', value='DELETE', name='_method')
-            button(type='submit') #{i18n('Del')}
+ div.alert
+     span.bgAlert(onclick="closeWindow()")
+     div.content
+         div.categ
+            p #{i18n('alertDel')}
+         div(align='right')
+           form(action='/ads/#{ad._id}', method='post', enctype='application/x-www-form-urlencoded')
+              input(type='hidden', value='DELETE', name='_method')
+              button.fr.login(type='submit') #{i18n('Del')}
+           button.fr(onclick="closeWindow()") #{i18n('cancel')}
 
 
 
-
+ script.
+     var showWindow = function() {
+         document.getElementsByClassName('alert')[0].style.display = 'block';
+     }
+     var  closeWindow = function() {
+         document.getElementsByClassName('alert')[0].style.display = 'none';
+     }

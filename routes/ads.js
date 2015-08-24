@@ -97,6 +97,7 @@ router.get('/:id', function(req, res) {
                   curPage:'/ads/' + req.id,
                   ad : ad,
                   category : category,
+                  message : req.flash('info'),
                   user : user
               });
           });
@@ -197,8 +198,7 @@ var adCallback = function(req, res) {
         });
 
 
-        adCol.findAndModify({_id: req.id}, {$set: colObject})
-        .success(function () {
+        adCol.findAndModify({_id: req.id}, {$set: colObject}).success(function () {
             res.redirect('/ads/' + req.id);
         });
 
@@ -249,28 +249,41 @@ router.get('/:id/imgdel', function (req, res) {
 });
 
 
-router.delete('/:id/edit', checkAuth, function (req, res){
+router.delete('/:id', checkAuth, function (req, res){
+
+
+  if (req.body.captcha != req.session.captcha) {
+        req.flash('info', req.app.locals.i18n('noCaptcha'));
+        res.redirect('/ads/newad');
+        return;
+  }
 
   var db =req.db;
   var adCol = db.get('ads');
   adCol.findById(req.id, function (err, doc) {
     if (err) {
       return err;
-    } else {
-        if (doc.image1 !== undefined) {
+    }
+    if (req.session.user_id != doc.user_id) {
+        req.flash('info', req.app.locals.i18n('noPermission'));
+        res.redirect('/ads/' + req.id);
+        return;
+    }
+
+    if (doc.image1 !== undefined) {
             fs.unlinkSync('./public/images/' + doc.image1);
-        }
-        if (doc.image2 !== undefined) {
+    }
+    if (doc.image2 !== undefined) {
             fs.unlinkSync('./public/images/' + doc.image2);
-        }
-      adCol.removeById(req.id,function (err) {
+    }
+    adCol.removeById(req.id,function (err) {
         if (err) {
           return err;
         } else {
               res.redirect('/users/profile');
-         }
-       });
-     }
+        }
+    });
+
   });
 });
 
