@@ -1,5 +1,6 @@
 {
-  "name": "myproject",
+  "name": "Bravito",
+  "author": "Igor Egay",
   "version": "0.0.0",
   "private": true,
   "scripts": {

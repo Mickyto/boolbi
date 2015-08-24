@@ -14,6 +14,22 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+
+
+function isUserHasAccessToAd(adId, req) {
+  var db = req.db;
+  db.get('ads').findById(adId, function(err, doc) {
+
+    if (req.session.user_id == doc.user_id) {
+      return true;
+    }
+
+  });
+  return false;
+}
+
+
+
 /* GET users listing. */
 router.get('/', function(req, res) {
   res.send('respond with a resource');
@@ -263,6 +279,11 @@ router.get('/edit', checkAuth, function (req, res) {
 
 router.post('/edit', checkAuth, function (req, res) {
 
+  if(isUserHasAccessToAd(req.id, req) === false){
+    res.redirect('/');
+    return;
+  }
+
   var userPassword = req.body.newpass2  ? passwordHash.generate(req.body.newpass2)  : null;
 
   if (req.body.newpass1 != req.body.newpass2 || userPassword === null) {
@@ -284,11 +305,9 @@ router.post('/edit', checkAuth, function (req, res) {
   userCol.findAndModify({_id: req.session.user_id}, {$set: colObject})
       .success(function () {
         res.redirect('/users/profile');
-      })
+      });
 
 });
-
-
 
 
 

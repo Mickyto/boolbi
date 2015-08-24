@@ -28,6 +28,18 @@ function checkAuth(req, res, next) {
     }
 }
 
+function isUserHasAccessToAd(adId, req) {
+    var db = req.db;
+    db.get('ads').findById(adId, function(err, doc) {
+
+        if (req.session.user_id == doc.user_id) {
+            return true;
+        }
+
+    });
+    return false;
+}
+
 
 router.get('/', function(req, res) {
     res.render( 'ad/ads', {
@@ -186,9 +198,14 @@ var adCallback = function(req, res) {
 
     if (req.id !== undefined) {
 
+        if(isUserHasAccessToAd(req.id, req) === false){
+            res.redirect('/');
+            return;
+        }
+
         // removing old pictures
 
-        adCol.findById(req.id, function (err, doc) {
+        adCol.findById(req.id, checkRights, function (err, doc) {
             if (imageName !== undefined && doc.image1 !== undefined) {
                 fs.unlinkSync('./public/images/' + doc.image1);
             }
@@ -198,7 +215,7 @@ var adCallback = function(req, res) {
         });
 
 
-        adCol.findAndModify({_id: req.id}, {$set: colObject}).success(function () {
+        adCol.findAndModify(checkRights, {_id: req.id}, {$set: colObject}).success(function () {
             res.redirect('/ads/' + req.id);
         });
 
@@ -227,7 +244,7 @@ router.post('/addad', checkAuth, multipartMiddleware, adCallback);
 
 router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
 
-router.get('/:id/imgdel', function (req, res) {
+router.get('/:id/imgdel', checkAuth, function (req, res) {
 
 
     var db =req.db;
@@ -251,6 +268,10 @@ router.get('/:id/imgdel', function (req, res) {
 
 router.delete('/:id', checkAuth, function (req, res){
 
+  if(isUserHasAccessToAd(req.id, req) === false){
+      res.redirect('/');
+        return;
+  }
 
   if (req.body.captcha != req.session.captcha) {
         req.flash('info', req.app.locals.i18n('noCaptcha'));
@@ -263,11 +284,6 @@ router.delete('/:id', checkAuth, function (req, res){
   adCol.findById(req.id, function (err, doc) {
     if (err) {
       return err;
-    }
-    if (req.session.user_id != doc.user_id) {
-        req.flash('info', req.app.locals.i18n('noPermission'));
-        res.redirect('/ads/' + req.id);
-        return;
     }
 
     if (doc.image1 !== undefined) {

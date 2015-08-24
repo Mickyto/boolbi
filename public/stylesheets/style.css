@@ -34,7 +34,7 @@ input {
   font-size: 15px;
   background: WhiteSmoke;
   text-indent: 5px;
-  transition: box-shadow 0.5s
+  transition: box-shadow 0.3s
 }
 
 textarea {
