@@ -126,12 +126,12 @@ button.login {
 
 button.login:hover {
   background: #E3BC58;
-  box-shadow: 1px 5px 8px 1px #DCAA2B;
+  box-shadow: 0 5px 8px 1px #DCAA2B;
 }
 
 button.signup:hover {
   background: #5C75A5;
-  box-shadow: 1px 5px 8px 1px #4F659D;
+  box-shadow: 0 5px 8px 1px #4F659D;
 }
 button.search:hover {
   background: darkgoldenrod;
@@ -142,7 +142,7 @@ button.search:hover {
 
 button:hover {
   background: #408C8C;
-  box-shadow: 1px 5px 8px 1px #267D7D;
+  box-shadow: 0 5px 8px 1px #267D7D;
   color: whitesmoke;
 }
 
@@ -186,7 +186,7 @@ div.categ {
 }
 
 div.left {
-  width: 200px;
+  width: 180px;
   padding: 0 5px 0 0;
 }
 

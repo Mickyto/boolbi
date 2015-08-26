@@ -16,19 +16,6 @@ var transporter = nodemailer.createTransport({
 
 
 
-function isUserHasAccessToAd(adId, req) {
-  var db = req.db;
-  db.get('ads').findById(adId, function(err, doc) {
-
-    if (req.session.user_id == doc.user_id) {
-      return true;
-    }
-
-  });
-  return false;
-}
-
-
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -225,12 +212,17 @@ router.get('/profile', checkAuth, function (req, res) {
   var adCol = db.get('ads');
   var perPage = 4;
   var page = req.query.page || 0;
-  adCol.find({ user_id : ObjectId(req.session.user_id) }, {
+  var adStatus = req.query.status || 'active';
+  adCol.find({ user_id : ObjectId(req.session.user_id), status: adStatus }, {
       skip: perPage * page,
       limit: perPage,
       sort: { _id : -1 }
     }, function(err, ads) {
-      adCol.count({ user_id : ObjectId(req.session.user_id) }, function(err, count) {
+       console.log(adStatus);
+       console.log();
+       console.log(ads.status);
+
+      adCol.count({ user_id : ObjectId(req.session.user_id), status: adStatus }, function(err, count) {
 
           var pages = [];
           for (var p = 0; p < count/perPage; p++) {
@@ -243,6 +235,7 @@ router.get('/profile', checkAuth, function (req, res) {
           }
 
           res.render('ad/ads', {
+            status: adStatus,
             curPage:'/users/profile',
             pages: pages,
             pageIndex: page,
@@ -279,10 +272,6 @@ router.get('/edit', checkAuth, function (req, res) {
 
 router.post('/edit', checkAuth, function (req, res) {
 
-  if(isUserHasAccessToAd(req.id, req) === false){
-    res.redirect('/');
-    return;
-  }
 
   var userPassword = req.body.newpass2  ? passwordHash.generate(req.body.newpass2)  : null;
 

@@ -268,16 +268,10 @@ router.get('/:id/imgdel', checkAuth, function (req, res) {
 
 router.delete('/:id', checkAuth, function (req, res){
 
-  if(isUserHasAccessToAd(req.id, req) === false){
+  /*if(isUserHasAccessToAd(req.id, req) === false){
       res.redirect('/');
         return;
-  }
-
-  if (req.body.captcha != req.session.captcha) {
-        req.flash('info', req.app.locals.i18n('noCaptcha'));
-        res.redirect('/ads/newad');
-        return;
-  }
+  }*/
 
   var db =req.db;
   var adCol = db.get('ads');
