@@ -167,7 +167,7 @@ button.signup:active {
 div {
   overflow: hidden;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   white-space: nowrap;
   transition: all 0.2s linear;
 }
@@ -192,6 +192,7 @@ div.left {
 
 div.invCaptcha {
   width: 230px;
+  margin: 0
 }
 
 

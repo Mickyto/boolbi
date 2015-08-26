@@ -165,7 +165,8 @@ var adCallback = function(req, res) {
         user_id : ObjectId(req.session.user_id),
         title: req.body.adtitle,
         description: req.body.addescription,
-        price: req.body.adprice
+        price: req.body.adprice,
+        status: 'inactive'
     };
 
     if (req.files.photo1.name != '') {
