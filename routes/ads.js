@@ -37,17 +37,14 @@ function isUserHasAccessToAd(adId, req) {
         }
 
     });
-    return false;
-}
-
-
-router.get('/', function(req, res) {
+    return falrouter.get('/', function(req, res) {
     res.render( 'ad/ads', {
         ads : 0,
         message : req.flash('info')
 
     });
-});
+    });
+}
 
 router.get('/newad', checkAuth, function(req, res) {
     var db = req.db;
@@ -165,8 +162,7 @@ var adCallback = function(req, res) {
         user_id : ObjectId(req.session.user_id),
         title: req.body.adtitle,
         description: req.body.addescription,
-        price: req.body.adprice,
-        status: 'inactive'
+        price: req.body.adprice
     };
 
     if (req.files.photo1.name != '') {
@@ -269,10 +265,16 @@ router.get('/:id/imgdel', checkAuth, function (req, res) {
 
 router.delete('/:id', checkAuth, function (req, res){
 
-  /*if(isUserHasAccessToAd(req.id, req) === false){
+  if(isUserHasAccessToAd(req.id, req) === false){
       res.redirect('/');
         return;
-  }*/
+  }
+
+  if (req.body.captcha != req.session.captcha) {
+        req.flash('info', req.app.locals.i18n('noCaptcha'));
+        res.redirect('/ads/newad');
+        return;
+  }
 
   var db =req.db;
   var adCol = db.get('ads');

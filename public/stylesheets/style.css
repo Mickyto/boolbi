@@ -236,7 +236,6 @@ div.advertisement {
 
 div.search {
   width: 530px;
-  margin: 0 auto;
   height: 34px;
 }
 
@@ -400,7 +399,7 @@ a.greenButton {
 a.seven:hover { color: white }
 a.two:hover { color: gold }
 a.three:hover { color: goldenrod }
-a.four:visited { color: lightblue }
+a.four:visited { color: gold }
 a.six:hover,
 a.four:hover {
   padding: 9px 15px 9px 15px;

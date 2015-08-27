@@ -11,10 +11,11 @@ body
     each ad, i in ads
         div.ads
             a(href='/ads/#{ad._id}')
-            div.delete
-                p(onclick='showAd()') #{ad.title}
+              div.delete
+                p #{ad.title}
                 hr
-                p.med #{ad.price}
+            a.greenButton.fr(href='/users/activate?id=#{ad._id}') activate
+
 
     if pages && pages.length > 1 && pages.length < 7
         div.delete

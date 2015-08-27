@@ -9,9 +9,9 @@ block content
         div.delete
             ul
                 li.a
-                    a.four(href='/users/profile?status=active') active
+                    a.four(href='/users/profile?status=active') active  ( #{countActive} )
                 li.a
-                    a.four(href='/users/profile?status=inactive') inactive
+                    a.four(href='/users/profile?status=inactive') inactive  ( #{countInactive} )
 
 
     each ad, i in ads
