@@ -16,21 +16,8 @@ var transporter = nodemailer.createTransport({
 
 
 
-function isUserHasAccessToAd(adId, req) {
-  var db = req.db;
-  db.get('ads').findById(adId, function(err, doc) {
-
-    if (req.session.user_id == doc.user_id) {
-      return true;
-    }
-
-  });
-  return false;
-}
 
 
-
-/* GET users listing. */
 router.get('/', function(req, res) {
   res.send('respond with a resource');
 });
@@ -75,8 +62,8 @@ router.post('/signup/', function(req, res) {
     userCol.insert({
       email: userEmail,
       password: userPassword,
-      active : 'no',
-      secure_code : rand
+      active: 'no',
+      secure_code: rand
     }, function () {
       var link ='http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
       var mailOptions = {
@@ -195,6 +182,7 @@ router.post('/login', function (req, res) {
       }
 
       req.session.user_id = doc._id;
+      req.session.isAdmin = doc.admin && doc.admin === 'yes' ? true : false;
       req.session.email = doc.email;
       res.redirect('/users/profile');
 
@@ -225,15 +213,19 @@ router.get('/profile', checkAuth, function (req, res) {
   var adCol = db.get('ads');
   var perPage = 4;
   var page = req.query.page || 0;
-  adCol.find({ user_id : ObjectId(req.session.user_id) }, {
+  var adStatus = req.query.status || 'active';
+  adCol.find({ user_id : ObjectId(req.session.user_id), status: adStatus }, {
       skip: perPage * page,
       limit: perPage,
       sort: { _id : -1 }
     }, function(err, ads) {
-      adCol.count({ user_id : ObjectId(req.session.user_id) }, function(err, count) {
+      var tr = adCol.count({ user_id : ObjectId(req.session.user_id), status: adStatus });
+      console.log(tr);
+      adCol.count({ user_id : ObjectId(req.session.user_id), status: 'active' }, function(err, countActive) {
+        adCol.count({ user_id : ObjectId(req.session.user_id), status: 'inactive' }, function(err, countInactive) {
 
           var pages = [];
-          for (var p = 0; p < count/perPage; p++) {
+          for (var p = 0; p < (adStatus == 'active' ? countActive : countInactive)/ perPage; p++) {
             pages.push({
 
               link: '/users/profile?page=' + p,
@@ -243,7 +235,10 @@ router.get('/profile', checkAuth, function (req, res) {
           }
 
           res.render('ad/ads', {
-            curPage:'/users/profile',
+            countActive: countActive,
+            countInactive: countInactive,
+            status: adStatus,
+            curPage: '/users/profile',
             pages: pages,
             pageIndex: page,
             message: req.flash('info'),
@@ -254,6 +249,7 @@ router.get('/profile', checkAuth, function (req, res) {
             lastPart: pages.slice(-6),
             last: pages.slice(-1)
           });
+        });
       });
 
   });
@@ -279,10 +275,6 @@ router.get('/edit', checkAuth, function (req, res) {
 
 router.post('/edit', checkAuth, function (req, res) {
 
-  if(isUserHasAccessToAd(req.id, req) === false){
-    res.redirect('/');
-    return;
-  }
 
   var userPassword = req.body.newpass2  ? passwordHash.generate(req.body.newpass2)  : null;
 
@@ -310,9 +302,18 @@ router.post('/edit', checkAuth, function (req, res) {
 });
 
 
+router.get('/activate', checkAuth, function (req, res) {
+  req.db.get('ads').findAndModify({ _id: req.query.id }, { $set:  { status: 'active'  }});
+  res.redirect('/users/admin');
+
+});
+
 
 router.get('/logout', function (req, res) {
   delete req.session.user_id;
+  delete req.session.email;
+  delete req.session.isAdmin;
+
   res.redirect('/');
 });
 

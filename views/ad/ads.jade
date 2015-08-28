@@ -5,6 +5,15 @@ block content
     if message.length > 0
         div.msg #{message}
 
+    if status
+        div.delete
+            ul
+                li.a
+                    a.four(href='/users/profile?status=active') active  ( #{countActive} )
+                li.a
+                    a.four(href='/users/profile?status=inactive') inactive  ( #{countInactive} )
+
+
     each ad, i in ads
         div.ads
           a(href='/ads/#{ad._id}')
@@ -20,15 +29,15 @@ block content
         p
 
 
-    div.delete
-        if pages && pages.length > 1 && pages.length < 7
+    if pages && pages.length > 1 && pages.length < 7
+        div.delete
             ul
                 each page, i in pages
                     li.a
                         a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
 
-    div.delete
-        if pages && pages.length >= 7
+    if pages && pages.length >= 7
+        div.delete
             ul
                if pageIndex < 4
                   each page, i in firstPart

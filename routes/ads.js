@@ -37,17 +37,14 @@ function isUserHasAccessToAd(adId, req) {
         }
 
     });
-    return false;
-}
-
-
-router.get('/', function(req, res) {
+    return falrouter.get('/', function(req, res) {
     res.render( 'ad/ads', {
         ads : 0,
         message : req.flash('info')
 
     });
-});
+    });
+}
 
 router.get('/newad', checkAuth, function(req, res) {
     var db = req.db;

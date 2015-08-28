@@ -126,12 +126,12 @@ button.login {
 
 button.login:hover {
   background: #E3BC58;
-  box-shadow: 1px 5px 8px 1px #DCAA2B;
+  box-shadow: 0 5px 8px 1px #DCAA2B;
 }
 
 button.signup:hover {
   background: #5C75A5;
-  box-shadow: 1px 5px 8px 1px #4F659D;
+  box-shadow: 0 5px 8px 1px #4F659D;
 }
 button.search:hover {
   background: darkgoldenrod;
@@ -142,7 +142,7 @@ button.search:hover {
 
 button:hover {
   background: #408C8C;
-  box-shadow: 1px 5px 8px 1px #267D7D;
+  box-shadow: 0 5px 8px 1px #267D7D;
   color: whitesmoke;
 }
 
@@ -167,7 +167,7 @@ button.signup:active {
 div {
   overflow: hidden;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   white-space: nowrap;
   transition: all 0.2s linear;
 }
@@ -186,12 +186,13 @@ div.categ {
 }
 
 div.left {
-  width: 200px;
+  width: 180px;
   padding: 0 5px 0 0;
 }
 
 div.invCaptcha {
   width: 230px;
+  margin: 0
 }
 
 
@@ -235,7 +236,6 @@ div.advertisement {
 
 div.search {
   width: 530px;
-  margin: 0 auto;
   height: 34px;
 }
 
@@ -399,7 +399,7 @@ a.greenButton {
 a.seven:hover { color: white }
 a.two:hover { color: gold }
 a.three:hover { color: goldenrod }
-a.four:visited { color: lightblue }
+a.four:visited { color: gold }
 a.six:hover,
 a.four:hover {
   padding: 9px 15px 9px 15px;
