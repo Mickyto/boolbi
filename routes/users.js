@@ -280,10 +280,17 @@ router.get('/edit', checkAuth, function (req, res) {
 
 router.post('/edit', checkAuth, function (req, res) {
 
+  var colObject = {
+    name: req.body.name,
+    telephone: req.body.telephone
+  };
 
-  var userPassword = req.body.newpass2  ? passwordHash.generate(req.body.newpass2)  : null;
+  var isPasswordSpecified = req.body.newpass1 != '' ? true : false;
 
-  if (req.body.newpass1 != req.body.newpass2 || userPassword === null) {
+  if (isPasswordSpecified && req.body.newpass1 == req.body.newpass2) {
+    colObject.password = passwordHash.generate(req.body.newpass1);
+  } else if(isPasswordSpecified && req.body.newpass1 != req.body.newpass2) {
+
     req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
     res.redirect('/users/edit');
 
@@ -292,16 +299,11 @@ router.post('/edit', checkAuth, function (req, res) {
 
   var db = req.db;
   var userCol = db.get('users');
-  var colObject = {
-    name: req.body.name,
-    telephone: req.body.telephone,
-    password: userPassword
-  };
 
 
   userCol.findAndModify({_id: req.session.user_id}, {$set: colObject})
       .success(function () {
-        res.redirect('/users/profile');
+        res.redirect('/users/edit');
       });
 
 });
