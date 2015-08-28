@@ -16,15 +16,6 @@ var transporter = nodemailer.createTransport(
 );
 
 
-
-
-
-router.get('/', function (req, res) {
-    'use strict';
-    res.send('respond with a resource');
-});
-
-
 router.get('/signup/', function (req, res) {
     'use strict';
     res.render('user/login', {
@@ -42,14 +33,11 @@ router.post('/signup/', function (req, res) {
     var db = req.db,
         userCol = db.get('users'),
         rand = Math.random(),
-
         userEmail      = req.body.useremail || null,
-        userPassword   = req.body.password  ? passwordHash.generate(req.body.password)  : null;
+        userPassword   = req.body.password ? passwordHash.generate(req.body.password) : null;
 
     userCol.findOne({ email :  userEmail }, function (err, doc) {
-        if (err) {
-            return err;
-        }
+        if (err) { throw err; }
         if (doc) {
             req.flash('info', req.app.locals.i18n('exist'));
             res.redirect('/users/signup/');
@@ -70,7 +58,7 @@ router.post('/signup/', function (req, res) {
             active: 'no',
             secure_code: rand
         }, function () {
-            var link ='http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail,
+            var link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail,
                 mailOptions = {
                     to: userEmail,
                     subject: req.app.locals.i18n('confirm'),
@@ -79,13 +67,13 @@ router.post('/signup/', function (req, res) {
                         '<div style="margin-top: 60px; margin-bottom: 60px; background-color: #7FB1B3; padding: 20px">' +
                         '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
                         req.app.locals.i18n('congratulations') + '</p><p align="center" ' +
-                        'style="font-family: Arial,Helvetica,sans-serif; font-size: 15px; color: white;">' +
+                        'style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: white;">' +
                         req.app.locals.i18n('bravitoIs') + '<br>' + req.app.locals.i18n('now') + '</p><br>' +
-                        '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 20px; color: white;">' +
+                        '<p align="center" style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; color: white;">' +
                         req.app.locals.i18n('just') + '</p><a href=' + link + ' style="font-size: 25px;' +
                         'margin: 0 auto; background: goldenrod; border-radius: 10px; padding: 10px 40px 10px 40px;' +
                         'color: white; white-space: nowrap; text-decoration: none">' + req.app.locals.i18n('click') +
-                        '</a><p align="center", style="font-family: Arial,Helvetica,sans-serif;' +
+                        '</a><p align="center" style="font-family: Arial, Helvetica, sans-serif;' +
                         'font-size: 30px; color: white;">' + req.app.locals.i18n('wish') + '</p></div></div></body>'
                 };
             transporter.sendMail(mailOptions, function (err, res) {
@@ -103,7 +91,9 @@ router.get('/email_activation', function (req, res) {
     var db = req.db,
         userCol = db.get('users');
     userCol.findOne({ email : req.query.email }, function (err, doc) {
+        if (err) { throw err; }
         if (!req.query.random) {
+            /*jslint nomen: true*/
             req.session.user_id = doc._id;
             req.session.email = doc.email;
             req.flash('info', req.app.locals.i18n('passMsg'));
@@ -113,6 +103,7 @@ router.get('/email_activation', function (req, res) {
         if (req.query.random == doc.secure_code) {
             userCol.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
             req.session.user_id = doc._id;
+            /*jslint nomen: false*/
             req.session.email = doc.email;
             res.redirect('/users/profile');
         } else {
@@ -139,7 +130,7 @@ router.post('/recovery', function (req, res) {
         req.flash('info', req.app.locals.i18n('emailErr'));
         res.redirect('/users/password_recovery');
     } else {
-        link = 'http://' + req.get('host') + '/users/email_activation?email=' + email,
+        link = 'http://' + req.get('host') + '/users/email_activation?email=' + email;
         mailOptions = {
             to: email,
             subject: 'Change password',
@@ -164,7 +155,7 @@ router.post('/recovery', function (req, res) {
 });
 
 
-router.get('/login', function(req, res) {
+router.get('/login', function (req, res) {
     'use strict';
     res.render('user/login', {
         curPage: '/users/login',
@@ -179,6 +170,7 @@ router.post('/login', function (req, res) {
     var db = req.db,
         userCol = db.get('users');
     userCol.findOne({email : req.body.useremail}, function (err, doc) {
+        if (err) { throw err; }
 
         if (doc && passwordHash.verify(req.body.password, doc.password)) {
             if (doc.active == 'no') {
@@ -186,8 +178,9 @@ router.post('/login', function (req, res) {
                 res.redirect('/users/login');
                 return;
             }
-
+            /*jslint nomen: true*/
             req.session.user_id = doc._id;
+            /*jslint nomen: false*/
             req.session.isAdmin = doc.admin && doc.admin === 'yes' ? true : false;
             req.session.email = doc.email;
             res.redirect('/users/profile');
@@ -221,107 +214,105 @@ router.get('/profile', checkAuth, function (req, res) {
         adCol = db.get('ads'),
         perPage = 4,
         page = req.query.page || 0,
-        adStatus = req.query.status || 'active';
-    adCol.find({ user_id : ObjectId(req.session.user_id), status: adStatus }, {
+        adStatus = req.query.status || 'active',
+        pages = [],
+        p;
+    /*jslint nomen: true*/
+    adCol.find({ user_id : new ObjectId(req.session.user_id), status: adStatus }, {
         skip: perPage * page,
         limit: perPage,
         sort: { _id : -1 }
-    }, function(err, ads) {
-        adCol.count({ user_id : ObjectId(req.session.user_id), status: 'active' }, function(err, countActive) {
-            adCol.count({ user_id : ObjectId(req.session.user_id), status: 'inactive' }, function(err, countInactive) {
-            var pages = [];
-            for (var p = 0; p < (adStatus == 'active' ? countActive : countInactive)/ perPage; p++) {
-              pages.push({
+    }, function (err, ads) {
+        if (err) { throw err; }
+        /*jslint nomen: false*/
+        adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'active' }, function (err, countActive) {
+            if (err) { throw err; }
+            adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'inactive' }, function (err, countInactive) {
+                if (err) { throw err; }
+                for (p = 0; p < (adStatus == 'active' ? countActive : countInactive) / perPage; p++) {
+                    pages.push({
+                        link: '/users/profile?page=' + p,
+                        pg: p + 1
 
-                link: '/users/profile?page=' + p,
-                pg: p + 1
+                    });
+                }
 
-              });
-            }
-
-            res.render('ad/ads', {
-              countActive: countActive,
-              countInactive: countInactive,
-              status: adStatus,
-              curPage: '/users/profile',
-              pages: pages,
-              pageIndex: page,
-              message: req.flash('info'),
-              ads: ads,
-              first: pages.slice(0, 1),
-              firstPart: pages.slice(0, 6),
-              middle: pages.slice(page - 1, page * 1 + 3),
-              lastPart: pages.slice(-6),
-              last: pages.slice(-1)
+                res.render('ad/ads', {
+                    countActive: countActive,
+                    countInactive: countInactive,
+                    status: adStatus,
+                    curPage: '/users/profile',
+                    pages: pages,
+                    pageIndex: page,
+                    message: req.flash('info'),
+                    ads: ads,
+                    first: pages.slice(0, 1),
+                    firstPart: pages.slice(0, 6),
+                    middle: pages.slice(parseInt(page, 10) - 1, parseInt(page, 10)  + 3),
+                    lastPart: pages.slice(-6),
+                    last: pages.slice(-1)
+                });
             });
-          });
         });
-
     });
 });
 
 
 router.get('/edit', checkAuth, function (req, res) {
-  var db =req.db;
-  var userCol = db.get('users');
-  userCol.findById(req.session.user_id, function (err, doc) {
-    if (err) {
-      res.send('No user found.');
-    } else {
-      res.render('user/edit', {
-        curPage:'/users/edit',
-        user : doc,
-        message : req.flash('info')
-      });
-    }
-  })
+    'use strict';
+    var db = req.db,
+        userCol = db.get('users');
+    userCol.findById(req.session.user_id, function (err, doc) {
+        if (err) {
+            res.send('No user found.');
+        } else {
+            res.render('user/edit', {
+                curPage: '/users/edit',
+                user : doc,
+                message : req.flash('info')
+            });
+        }
+    });
 });
 
 
 router.post('/edit', checkAuth, function (req, res) {
+    'use strict';
+    var colObject = {
+        name: req.body.name,
+        telephone: req.body.telephone
+    },
+        isPasswordSpecified = req.body.newpass1 != '',
+        db, userCol;
 
-  var colObject = {
-    name: req.body.name,
-    telephone: req.body.telephone
-  };
+    if (isPasswordSpecified && req.body.newpass1 == req.body.newpass2) {
+        colObject.password = passwordHash.generate(req.body.newpass1);
+    } else if (isPasswordSpecified && req.body.newpass1 != req.body.newpass2) {
 
-  var isPasswordSpecified = req.body.newpass1 != '' ? true : false;
-
-  if (isPasswordSpecified && req.body.newpass1 == req.body.newpass2) {
-    colObject.password = passwordHash.generate(req.body.newpass1);
-  } else if(isPasswordSpecified && req.body.newpass1 != req.body.newpass2) {
-
-    req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
-    res.redirect('/users/edit');
-
-    return;
-  }
-
-  var db = req.db;
-  var userCol = db.get('users');
-
-
-  userCol.findAndModify({_id: req.session.user_id}, {$set: colObject})
-      .success(function () {
+        req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
         res.redirect('/users/edit');
-      });
 
-});
+        return;
+    }
 
+    db = req.db;
+    userCol = db.get('users');
 
-router.get('/activate', checkAuth, function (req, res) {
-  req.db.get('ads').findAndModify({ _id: req.query.id }, { $set:  { status: 'active'  }});
-  res.redirect('/users/admin');
+    /*jslint nomen: true*/
+    userCol.findAndModify({ _id: req.session.user_id }, { $set: colObject }).success(function () {
+        /*jslint nomen: false*/
+        res.redirect('/users/edit');
+    });
 
 });
 
 
 router.get('/logout', function (req, res) {
-  delete req.session.user_id;
-  delete req.session.email;
-  delete req.session.isAdmin;
-
-  res.redirect('/');
+    'use strict';
+    delete req.session.user_id;
+    delete req.session.email;
+    delete req.session.isAdmin;
+    res.redirect('/');
 });
 
 
