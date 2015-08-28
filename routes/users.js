@@ -62,8 +62,8 @@ router.post('/signup/', function(req, res) {
     userCol.insert({
       email: userEmail,
       password: userPassword,
-      active : 'no',
-      secure_code : rand
+      active: 'no',
+      secure_code: rand
     }, function () {
       var link ='http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
       var mailOptions = {
@@ -182,6 +182,7 @@ router.post('/login', function (req, res) {
       }
 
       req.session.user_id = doc._id;
+      req.session.isAdmin = doc.admin && doc.admin === 'yes' ? true : false;
       req.session.email = doc.email;
       res.redirect('/users/profile');
 
@@ -310,6 +311,9 @@ router.get('/activate', checkAuth, function (req, res) {
 
 router.get('/logout', function (req, res) {
   delete req.session.user_id;
+  delete req.session.email;
+  delete req.session.isAdmin;
+
   res.redirect('/');
 });
 

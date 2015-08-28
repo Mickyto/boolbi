@@ -1,9 +1,16 @@
 var express = require('express');
 var router = express.Router();
 
+function checkAdmin(req, res, next) {
+    if (req.session.isAdmin != true) {
+        req.flash('info', 'Please log in');
+        res.redirect('/users/login');
+    } else {
+        next();
+    }
+}
 
-
-router.get('/', function (req, res) {
+router.get('/', checkAdmin, function (req, res) {
     var db = req.db;
     var adCol = db.get('ads');
     var perPage = 4;
