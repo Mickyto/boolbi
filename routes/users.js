@@ -15,9 +15,10 @@ var transporter = nodemailer.createTransport(
     }
 );
 
+/*jslint sloppy: true*/
+/*jslint nomen: true*/
 
 router.get('/signup/', function (req, res) {
-    'use strict';
     res.render('user/login', {
         curPage: '/users/signup/',
         message : req.flash('info'),
@@ -29,7 +30,6 @@ router.get('/signup/', function (req, res) {
 
 
 router.post('/signup/', function (req, res) {
-    'use strict';
     var db = req.db,
         userCol = db.get('users'),
         rand = Math.random(),
@@ -87,13 +87,11 @@ router.post('/signup/', function (req, res) {
 });
 
 router.get('/email_activation', function (req, res) {
-    'use strict';
     var db = req.db,
         userCol = db.get('users');
     userCol.findOne({ email : req.query.email }, function (err, doc) {
         if (err) { throw err; }
         if (!req.query.random) {
-            /*jslint nomen: true*/
             req.session.user_id = doc._id;
             req.session.email = doc.email;
             req.flash('info', req.app.locals.i18n('passMsg'));
@@ -103,7 +101,6 @@ router.get('/email_activation', function (req, res) {
         if (req.query.random == doc.secure_code) {
             userCol.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
             req.session.user_id = doc._id;
-            /*jslint nomen: false*/
             req.session.email = doc.email;
             res.redirect('/users/profile');
         } else {
@@ -114,7 +111,6 @@ router.get('/email_activation', function (req, res) {
 
 
 router.get('/password_recovery', function (req, res) {
-    'use strict';
     res.render('user/recovery', {
         curPage: '/users/password_recovery',
         message : req.flash('info')
@@ -122,7 +118,6 @@ router.get('/password_recovery', function (req, res) {
 });
 
 router.post('/recovery', function (req, res) {
-    'use strict';
     var email = req.body.email,
         link,
         mailOptions;
@@ -156,7 +151,6 @@ router.post('/recovery', function (req, res) {
 
 
 router.get('/login', function (req, res) {
-    'use strict';
     res.render('user/login', {
         curPage: '/users/login',
         message : req.flash('info'),
@@ -166,7 +160,6 @@ router.get('/login', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
-    'use strict';
     var db = req.db,
         userCol = db.get('users');
     userCol.findOne({email : req.body.useremail}, function (err, doc) {
@@ -178,9 +171,7 @@ router.post('/login', function (req, res) {
                 res.redirect('/users/login');
                 return;
             }
-            /*jslint nomen: true*/
             req.session.user_id = doc._id;
-            /*jslint nomen: false*/
             req.session.isAdmin = doc.admin && doc.admin === 'yes' ? true : false;
             req.session.email = doc.email;
             res.redirect('/users/profile');
@@ -198,7 +189,6 @@ router.post('/login', function (req, res) {
 
 
 function checkAuth(req, res, next) {
-    'use strict';
     if (!req.session.user_id) {
         req.flash('info', req.app.locals.i18n('notLogin'));
         res.redirect('/users/login');
@@ -209,7 +199,6 @@ function checkAuth(req, res, next) {
 
 
 router.get('/profile', checkAuth, function (req, res) {
-    'use strict';
     var db = req.db,
         adCol = db.get('ads'),
         perPage = 4,
@@ -217,14 +206,12 @@ router.get('/profile', checkAuth, function (req, res) {
         adStatus = req.query.status || 'active',
         pages = [],
         p;
-    /*jslint nomen: true*/
     adCol.find({ user_id : new ObjectId(req.session.user_id), status: adStatus }, {
         skip: perPage * page,
         limit: perPage,
         sort: { _id : -1 }
     }, function (err, ads) {
         if (err) { throw err; }
-        /*jslint nomen: false*/
         adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'active' }, function (err, countActive) {
             if (err) { throw err; }
             adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'inactive' }, function (err, countInactive) {
@@ -259,7 +246,6 @@ router.get('/profile', checkAuth, function (req, res) {
 
 
 router.get('/edit', checkAuth, function (req, res) {
-    'use strict';
     var db = req.db,
         userCol = db.get('users');
     userCol.findById(req.session.user_id, function (err, doc) {
@@ -277,7 +263,6 @@ router.get('/edit', checkAuth, function (req, res) {
 
 
 router.post('/edit', checkAuth, function (req, res) {
-    'use strict';
     var colObject = {
         name: req.body.name,
         telephone: req.body.telephone
@@ -297,10 +282,7 @@ router.post('/edit', checkAuth, function (req, res) {
 
     db = req.db;
     userCol = db.get('users');
-
-    /*jslint nomen: true*/
     userCol.findAndModify({ _id: req.session.user_id }, { $set: colObject }).success(function () {
-        /*jslint nomen: false*/
         res.redirect('/users/edit');
     });
 
@@ -308,7 +290,6 @@ router.post('/edit', checkAuth, function (req, res) {
 
 
 router.get('/logout', function (req, res) {
-    'use strict';
     delete req.session.user_id;
     delete req.session.email;
     delete req.session.isAdmin;

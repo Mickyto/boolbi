@@ -9,9 +9,9 @@ var Captchapng = require('captchapng');
 
 var multipartMiddleware = multipart();
 
+/*jslint sloppy: true*/
 /*jslint nomen: true*/
 router.use(methodOverride(function (req) {
-    'use strict';
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         var method = req.body._method;
         delete req.body._method;
@@ -21,7 +21,6 @@ router.use(methodOverride(function (req) {
 
 
 function checkAuth(req, res, next) {
-    'use strict';
     if (!req.session.user_id) {
         req.flash('info', 'Please log in');
         res.redirect('/users/login');
@@ -31,7 +30,6 @@ function checkAuth(req, res, next) {
 }
 
 function isUserHasAccessToAd(adId, req) {
-    'use strict';
     var db = req.db;
     db.get('ads').findById(adId, function (err, doc) {
         if (err) { throw err; }
@@ -45,7 +43,6 @@ function isUserHasAccessToAd(adId, req) {
 }
 
 router.get('/newad', checkAuth, function (req, res) {
-    'use strict';
     var db = req.db,
         userCol = db.get('users'),
         p,
@@ -81,7 +78,6 @@ router.get('/newad', checkAuth, function (req, res) {
 
 // route middleware to validate :id
 router.param('id', function (req, res, next, id) {
-    'use strict';
     var db = req.db,
         adCol = db.get('ads');
     adCol.findById(id, function (err) {
@@ -96,7 +92,6 @@ router.param('id', function (req, res, next, id) {
 
 
 router.get('/:id', function (req, res) {
-    'use strict';
     var db = req.db,
         userCol = db.get('users'),
         adCol = db.get('ads'),
@@ -122,7 +117,6 @@ router.get('/:id', function (req, res) {
 
 //GET the individual ad by Mongo ID
 router.get('/:id/edit', checkAuth, function (req, res) {
-    'use strict';
     var db = req.db,
         adCol = db.get('ads'),
         userCol = db.get('users'),
@@ -160,7 +154,6 @@ router.get('/:id/edit', checkAuth, function (req, res) {
 
 
 var adCallback = function (req, res) {
-    'use strict';
     if (req.body.captcha != req.session.captcha) {
         req.flash('info', req.app.locals.i18n('noCaptcha'));
         res.redirect('/ads/newad');
@@ -260,7 +253,6 @@ router.post('/addad', checkAuth, multipartMiddleware, adCallback);
 router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
 
 router.get('/:id/imgdel', checkAuth, function (req, res) {
-    'use strict';
     var db = req.db,
         adCol = db.get('ads'),
         imgObject = {};
@@ -282,7 +274,6 @@ router.get('/:id/imgdel', checkAuth, function (req, res) {
 
 
 router.delete('/:id', checkAuth, function (req, res) {
-    'use strict';
     if (isUserHasAccessToAd(req.id, req) === false) {
         res.redirect('/');
         return;

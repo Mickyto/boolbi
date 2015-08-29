@@ -2,48 +2,58 @@ var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectId;
 
-
+/*jslint unparam: true*/
+/*jslint sloppy: true*/
+/*jslint nomen: true*/
 
 /* GET home page. */
-router.get('/', function(req, res) {
-      res.render('index', {
-          curPage: '/'
-      });
+router.get('/', function (req, res) {
+    res.render('index', {
+        curPage: '/'
+    });
 });
 
 
 
 router.param('id', function (req, res, next, id) {
 
-    var db = req.db;
-    var categoryCol = db.get('categories');
+    var db = req.db,
+        categoryCol = db.get('categories');
     categoryCol.findById(id, function (err) {
         if (err) {
             res.send(id + ' was not found');
-        }
-        else {
+        } else {
             req.id = id;
             next();
         }
-    })
+    });
 });
 
 
 
-router.get('/category/:id', function(req, res) {
-    var db =req.db;
-    var adCol = db.get('ads');
-    var perPage = 4;
-    var page = req.query.page || 0;
-    adCol.find({ category_id : ObjectId(req.id) },{
+router.get('/category/:id', function (req, res) {
+    var db = req.db,
+        adCol = db.get('ads'),
+        perPage = 4,
+        page = req.query.page || 0,
+        pages = [],
+        p;
+    adCol.find({
+        category_id: new ObjectId(req.id)
+    }, {
         skip: perPage * page,
         limit: perPage,
-        sort: { _id: -1 }
-    }, function(err, ads) {
-        adCol.count({ category_id : ObjectId(req.id) }, function(err, count) {
+        sort: {
+            _id: -1
+        }
+    }, function (err, ads) {
+        if (err) { throw err; }
+        adCol.count({
+            category_id: new ObjectId(req.id)
+        }, function (err, count) {
+            if (err) { throw err; }
 
-            var pages = [];
-            for (var p = 0; p < count/perPage; p++) {
+            for (p = 0; p < count / perPage; p++) {
                 pages.push({
 
                     link: '/category/' + req.id + '?page=' + p,
@@ -58,10 +68,10 @@ router.get('/category/:id', function(req, res) {
                 ads: ads,
                 pages: pages,
                 pageIndex: page,
-                message : req.flash('info'),
+                message: req.flash('info'),
                 first: pages.slice(0, 1),
                 firstPart: pages.slice(0, 6),
-                middle: pages.slice(page - 1, page * 1 + 3),
+                middle: pages.slice(parseInt(page, 10) - 1, parseInt(page, 10)  + 3),
                 lastPart: pages.slice(-6),
                 last: pages.slice(-1)
             });
@@ -72,70 +82,80 @@ router.get('/category/:id', function(req, res) {
 
 
 router.get('/search', function (req, res) {
-    var db =req.db;
-    var adCol = db.get('ads');
-    var perPage = 4;
-    var page = req.query.page || 0;
-    var searchText = req.query.search;
-    var arrayInput = searchText.split(' ');
-    var pattern = arrayInput.map( function(word) {
-        return '(' + '?'+ '=' + '.' + '*' + word + ')'
-    });
-    var regexString = pattern.join('') + '.+';
-    var reg = new RegExp(regexString, 'ig');
-    adCol.find(
-        {
-            $or : [
-                { title :       { $regex : reg } },
-                { description : { $regex : reg } }
-            ]
+    var db = req.db,
+        adCol = db.get('ads'),
+        perPage = 4,
+        page = req.query.page || 0,
+        searchText = req.query.search,
+        arrayInput = searchText.split(' '),
+        pattern = arrayInput.map(function (word) {
+            return '(' + '?' + '=' + '.' + '*' + word + ')';
+        }),
+        regexString = pattern.join('') + '.+',
+        reg = new RegExp(regexString, 'ig'),
+        p;
+    adCol.find({
+        $or: [{
+            title: {
+                $regex: reg
+            }
         }, {
-            skip: perPage * page,
-            limit: perPage,
-            sort: { _id: -1 }
-        }, function(err, docs) {
-            if (docs == 0) {
-                req.flash('info', req.app.locals.i18n('noAds'));
-                res.redirect('/ads');
+            description: {
+                $regex: reg
             }
-            else {
-                adCol.count({
-                    $or : [
-                        { title :       { $regex : reg } },
-                        { description : { $regex : reg } }
-                    ]
-                }, function(err, count) {
-
-
-                    var pages = [];
-
-                    for (var p = 0; p < count / perPage; p++) {
-                        pages.push({
-
-                            link: '/search?page=' + p + '&search=' + searchText,
-                            pg: p + 1
-
-                        });
-                    }
-
-                    res.render('ad/ads', {
-                        curPage: '/',
-                        ads: docs,
-                        pages: pages,
-                        message: req.flash('info'),
-                        word: searchText,
-                        pageIndex: page,
-                        first: pages.slice(0, 1),
-                        firstPart: pages.slice(0, 6),
-                        middle: pages.slice(page - 1, page * 1 + 3),
-                        lastPart: pages.slice(-6),
-                        last: pages.slice(-1)
-                    });
-
-                });
-            }
+        }]
+    }, {
+        skip: perPage * page,
+        limit: perPage,
+        sort: {
+            _id: -1
         }
-    );
+    }, function (err, docs) {
+        if (err) { throw err; }
+        if (docs == 0) {
+            req.flash('info', req.app.locals.i18n('noAds'));
+            res.redirect('/ads');
+        } else {
+            adCol.count({
+                $or: [{
+                    title: {
+                        $regex: reg
+                    }
+                }, {
+                    description: {
+                        $regex: reg
+                    }
+                }]
+            }, function (err, count) {
+                if (err) { throw err; }
+                var pages = [];
+
+                for (p = 0; p < count / perPage; p++) {
+                    pages.push({
+
+                        link: '/search?page=' + p + '&search=' + searchText,
+                        pg: p + 1
+
+                    });
+                }
+
+                res.render('ad/ads', {
+                    curPage: '/',
+                    ads: docs,
+                    pages: pages,
+                    message: req.flash('info'),
+                    word: searchText,
+                    pageIndex: page,
+                    first: pages.slice(0, 1),
+                    firstPart: pages.slice(0, 6),
+                    middle: pages.slice(parseInt(page, 10) - 1, parseInt(page, 10)  + 3),
+                    lastPart: pages.slice(-6),
+                    last: pages.slice(-1)
+                });
+
+            });
+        }
+    });
 });
 
 

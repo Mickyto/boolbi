@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+/*jslint sloppy: true*/
+/*jslint nomen: true*/
+
 function checkAdmin(req, res, next) {
     'use strict';
     if (req.session.isAdmin != true) {
@@ -12,7 +15,6 @@ function checkAdmin(req, res, next) {
 }
 
 router.get('/', checkAdmin, function (req, res) {
-    'use strict';
     var db = req.db,
         adCol = db.get('ads'),
         perPage = 4,
@@ -51,10 +53,7 @@ router.get('/', checkAdmin, function (req, res) {
 });
 
 router.get('/activate', checkAdmin, function (req, res) {
-    'use strict';
-    /*jslint nomen: true*/
     req.db.get('ads').findAndModify({ _id: req.query.id }, { $set:  { status: 'active'  }});
-    /*jslint nomen: false*/
     res.redirect('/admin');
 });
 
