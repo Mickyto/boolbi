@@ -152,7 +152,6 @@ router.get('/search', function (req, res) {
                     lastPart: pages.slice(-6),
                     last: pages.slice(-1)
                 });
-
             });
         }
     });
@@ -160,7 +159,7 @@ router.get('/search', function (req, res) {
 
 
 router.get('/locale', function (req, res) {
-    req.session.locale = req.query.locale;
+    req.session.lang = req.query.locale;
     res.redirect(req.query.current);
 });
 

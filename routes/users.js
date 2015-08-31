@@ -2,7 +2,6 @@
 /*jslint sloppy: true*/
 /*jslint nomen: true*/
 
-
 var express = require('express'),
     router = express.Router(),
     passwordHash = require('password-hash'),
