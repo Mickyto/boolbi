@@ -1,3 +1,8 @@
+
+/*jslint sloppy: true*/
+/*jslint nomen: true*/
+
+
 var express = require('express'),
     router = express.Router(),
     passwordHash = require('password-hash'),
@@ -15,8 +20,7 @@ var transporter = nodemailer.createTransport(
     }
 );
 
-/*jslint sloppy: true*/
-/*jslint nomen: true*/
+
 
 router.get('/signup/', function (req, res) {
     res.render('user/login', {
@@ -58,29 +62,26 @@ router.post('/signup/', function (req, res) {
             active: 'no',
             secure_code: rand
         }, function () {
+
             var link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail,
                 mailOptions = {
                     to: userEmail,
-                    subject: req.app.locals.i18n('confirm'),
-                    html: '<head><style>a:hover{border: 2px solid;}</style></head>' +
-                        '<body style="background:#EAF1F1"><div align="center" style="height: 800px; padding: 50px">' +
-                        '<div style="margin-top: 60px; margin-bottom: 60px; background-color: #7FB1B3; padding: 20px">' +
-                        '<p align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
-                        req.app.locals.i18n('congratulations') + '</p><p align="center" ' +
-                        'style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: white;">' +
-                        req.app.locals.i18n('bravitoIs') + '<br>' + req.app.locals.i18n('now') + '</p><br>' +
-                        '<p align="center" style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; color: white;">' +
-                        req.app.locals.i18n('just') + '</p><a href=' + link + ' style="font-size: 25px;' +
-                        'margin: 0 auto; background: goldenrod; border-radius: 10px; padding: 10px 40px 10px 40px;' +
-                        'color: white; white-space: nowrap; text-decoration: none">' + req.app.locals.i18n('click') +
-                        '</a><p align="center" style="font-family: Arial, Helvetica, sans-serif;' +
-                        'font-size: 30px; color: white;">' + req.app.locals.i18n('wish') + '</p></div></div></body>'
+                    subject: req.app.locals.i18n('confirm')
                 };
-            transporter.sendMail(mailOptions, function (err, res) {
-                if (err) {
-                    res.render('default', { msg : 'Something was wrong' });
-                }
+
+            res.render('email_activation', { link: link }, function (err, html) {
+                if (err) { throw err; }
+
+
+                mailOptions.html = html;
+                transporter.sendMail(mailOptions, function (err, res) {
+                    if (err) {
+                        res.render('default', { msg : 'Something was wrong' });
+                    }
+                });
             });
+
+
             res.render('default', { msg : req.app.locals.i18n('check') });
         });
     }
@@ -128,22 +129,20 @@ router.post('/recovery', function (req, res) {
         link = 'http://' + req.get('host') + '/users/email_activation?email=' + email;
         mailOptions = {
             to: email,
-            subject: 'Change password',
-            html: '<head><style>a:hover{border: 2px solid;}</style></head><body style="background:#EAF1F1">' +
-                '<div align="center" style="height: 800px; padding: 50px">' +
-                '<div style="margin-top: 60px; margin-bottom: 60px; background-color: #7FB1B3; overflow:hidden;' +
-                'padding: 20px"><p style="font-family: Arial,Helvetica,sans-serif; font-size: 30px; color: gold;">' +
-                req.app.locals.i18n('lose') + '</p>' +
-                '<p style="font-family: Arial,Helvetica,sans-serif; font-size: 20px;color: white;">' +
-                req.app.locals.i18n('clickThe') + '</p>' +
-                '<a href="' + link + '", style="font-size: 25px; margin: 0 auto; background: goldenrod; border-radius:10px;' +
-                ' padding: 5px 30px 5px 30px;color: white; white-space: nowrap;text-decoration: none">' +
-                req.app.locals.i18n('changePass') + '</a></div></div></body>'
+            subject: req.app.locals.i18n('changePass')
         };
-        transporter.sendMail(mailOptions, function (err, res) {
+
+        res.render('recovery', { link: link }, function (err, html) {
             if (err) {
-                res.render('default', { msg : 'Something was wrong' });
+                throw err;
             }
+
+            mailOptions.html = html;
+            transporter.sendMail(mailOptions, function (err, res) {
+                if (err) {
+                    res.render('default', {msg: 'Something was wrong'});
+                }
+            });
         });
         res.render('default', { msg : req.app.locals.i18n('check') });
     }

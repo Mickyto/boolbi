@@ -330,7 +330,6 @@ div.ads:hover {
                                        /*     L I N K S    */
 
 a {
-  border-radius: 10px;
   background: none;
   font-size: 20px;
   color: darkslategray;
@@ -357,7 +356,6 @@ a.three {
 
 a.four {
   padding: 5px 15px 5px 15px;
-  border-radius: 0;
   font-size: 16px;
   color: white;
   background: #7FB1B3;
@@ -365,7 +363,6 @@ a.four {
 
 a.five {
   padding: 7px 15px 7px 15px;
-  border-radius: 0;
   color: white;
   font-size: 16px;
   background: goldenrod;
@@ -373,7 +370,6 @@ a.five {
 
 a.six {
   padding: 5px 15px 5px 15px;
-  border-radius: 0;
   color: lightblue;
   font-size: 16px;
   background: #7FB1B3;
@@ -393,7 +389,6 @@ a.greenButton {
   padding: 10px 30px 10px 30px;
   color: white;
   transition: all 0.5s;
-  border-radius: 0;
 }
 
 a.seven:hover { color: white }
@@ -469,7 +464,6 @@ p.validateErr {
 p.img {
   padding: 0;
   cursor: pointer;
-  font-size: 15px;
   visibility: hidden
 }
 
