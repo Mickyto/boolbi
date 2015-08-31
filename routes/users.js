@@ -19,7 +19,17 @@ var transporter = nodemailer.createTransport(
     }
 );
 
-
+function isUserHasAccessToAd(adId, req) {
+    var db = req.db;
+    db.get('ads').findById(adId, function (err, doc) {
+        if (err) {
+            throw err;
+        }
+        if (req.session.user_id != doc.user_id) {
+            throw { name: 'NoAccess', message: 'You haven\'t access to ad' };
+        }
+    });
+}
 
 router.get('/signup/', function (req, res) {
     res.render('user/login', {
@@ -261,6 +271,13 @@ router.get('/edit', checkAuth, function (req, res) {
 
 
 router.post('/edit', checkAuth, function (req, res) {
+
+    try {
+        isUserHasAccessToAd(req.id, req);
+    } catch (e) {
+        return e;
+    }
+
     var colObject = {
         name: req.body.name,
         telephone: req.body.telephone

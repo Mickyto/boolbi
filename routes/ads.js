@@ -32,14 +32,13 @@ function checkAuth(req, res, next) {
 function isUserHasAccessToAd(adId, req) {
     var db = req.db;
     db.get('ads').findById(adId, function (err, doc) {
-        if (err) { throw err; }
-
-        if (req.session.user_id == doc.user_id) {
-            return true;
+        if (err) {
+            throw err;
         }
-
+        if (req.session.user_id != doc.user_id) {
+            throw { name: 'NoAccess', message: 'You haven\'t access to ad' };
+        }
     });
-    return false;
 }
 
 router.get('/newad', checkAuth, function (req, res) {
@@ -154,6 +153,8 @@ router.get('/:id/edit', checkAuth, function (req, res) {
 
 
 var adCallback = function (req, res) {
+
+
     if (req.body.captcha != req.session.captcha) {
         req.flash('info', req.app.locals.i18n('noCaptcha'));
         res.redirect('/ads/newad');
@@ -173,7 +174,8 @@ var adCallback = function (req, res) {
             user_id : new ObjectId(req.session.user_id),
             title: req.body.adtitle,
             description: req.body.addescription,
-            price: req.body.adprice
+            price: req.body.adprice,
+            status: 'inactive'
         };
 
     if (req.files.photo1.name != '') {
@@ -206,9 +208,10 @@ var adCallback = function (req, res) {
 
     if (req.id !== undefined) {
 
-        if (isUserHasAccessToAd(req.id, req) === false) {
-            res.redirect('/');
-            return;
+        try {
+            isUserHasAccessToAd(req.id, req);
+        } catch (e) {
+            return e;
         }
 
         // removing old pictures
@@ -253,6 +256,13 @@ router.post('/addad', checkAuth, multipartMiddleware, adCallback);
 router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
 
 router.get('/:id/imgdel', checkAuth, function (req, res) {
+
+    try {
+        isUserHasAccessToAd(req.id, req, res);
+    } catch (e) {
+        return e;
+    }
+
     var db = req.db,
         adCol = db.get('ads'),
         imgObject = {};
@@ -274,15 +284,11 @@ router.get('/:id/imgdel', checkAuth, function (req, res) {
 
 
 router.delete('/:id', checkAuth, function (req, res) {
-    if (isUserHasAccessToAd(req.id, req) === false) {
-        res.redirect('/');
-        return;
-    }
 
-    if (req.body.captcha != req.session.captcha) {
-        req.flash('info', req.app.locals.i18n('noCaptcha'));
-        res.redirect('/ads/newad');
-        return;
+    try {
+        isUserHasAccessToAd(req.id, req);
+    } catch (e) {
+        return e;
     }
 
     var db = req.db,
