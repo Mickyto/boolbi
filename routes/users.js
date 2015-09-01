@@ -217,13 +217,16 @@ router.get('/profile', checkAuth, function (req, res) {
         sort: { _id : -1 }
     }, function (err, ads) {
         if (err) { throw err; }
+
         adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'active' }, function (err, countActive) {
             if (err) { throw err; }
+
             adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'inactive' }, function (err, countInactive) {
                 if (err) { throw err; }
+
                 for (p = 0; p < (adStatus == 'active' ? countActive : countInactive) / perPage; p++) {
                     pages.push({
-                        link: '/users/profile?page=' + p,
+                        link: '/users/profile?page=' + p + '&status=' + adStatus,
                         pg: p + 1
 
                     });

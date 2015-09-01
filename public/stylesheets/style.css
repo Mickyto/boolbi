@@ -388,6 +388,7 @@ a.greenButton {
   background: #267D7D;
   padding: 10px 30px 10px 30px;
   color: white;
+  cursor: pointer;
   transition: all 0.5s;
 }
 

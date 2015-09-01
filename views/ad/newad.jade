@@ -81,12 +81,12 @@ block content
                tr
                  td
                    div.fileUpload
-                     input.upload(type='file', name='photo1', accept='image/*', onchange='openPhoto(event)')
-                     img#photo1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : '/images/logo/camera.png'), width=150)
+                     input.upload(type='file', name='image1', accept='image/*', onchange='openPhoto(event)')
+                     img#image1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : '/images/logo/camera.png'), width=150)
                  td
                    div.fileUpload
-                     input.upload(type='file', name='photo2', accept='image/*', onchange='openPhoto(event)')
-                     img#photo2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : '/images/logo/camera.png'), width=150)
+                     input.upload(type='file', name='image2', accept='image/*', onchange='openPhoto(event)')
+                     img#image2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : '/images/logo/camera.png'), width=150)
                tr
                  td
                    if ad.image1
@@ -94,7 +94,7 @@ block content
                         a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1')
                             i.fa.fa-trash &nbsp #{i18n('del')}
                    else
-                     p.img#PARphoto1(onclick="delImage('photo1')", align='center')
+                     p.img#PARimage1(onclick="delImage('image1')", align='center')
                          i.fa.fa-trash &nbsp #{i18n('del')}
                  td
                    if ad.image2
@@ -102,7 +102,7 @@ block content
                         a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', align='center')
                             i.fa.fa-trash &nbsp #{i18n('del')}
                    else
-                     p.img#PARphoto2(onclick="delImage('photo2')", align='center')
+                     p.img#PARimage2(onclick="delImage('image2')", align='center')
                          i.fa.fa-trash &nbsp #{i18n('del')}
          div.invCaptcha
            p.validateErr#captcha #{i18n('captchaErr')}

@@ -20,6 +20,16 @@ router.use(methodOverride(function (req) {
     }
 }));
 
+function photoHandler(data) {
+    var origPath = data.path,
+        imageName = Math.random() + data.name,
+        targetPath = './public/images/' + imageName;
+
+    fs.rename(origPath, targetPath, function (err) {
+        if (err) { throw err; }
+    });
+    return imageName;
+}
 
 function checkAuth(req, res, next) {
     if (!req.session.user_id) {
@@ -73,7 +83,6 @@ router.get('/newad', checkAuth, function (req, res) {
             message : req.flash('info')
         });
     });
-
 });
 
 
@@ -146,20 +155,14 @@ router.get('/:id/edit', checkAuth, function (req, res) {
 
 var adCallback = function (req, res) {
 
-
     if (req.body.captcha != req.session.captcha) {
         req.flash('info', req.app.locals.i18n('noCaptcha'));
         res.redirect('/ads/newad');
         return;
     }
 
-
-    var origPath,
-        imageName,
-        targetPath,
-        origPath2,
-        imageName2,
-        targetPath2,
+    var i,
+        fieldName,
         db = req.db,
         adCol = db.get('ads'),
         colObject = {
@@ -170,73 +173,45 @@ var adCallback = function (req, res) {
             status: 'inactive'
         };
 
-    if (req.files.photo1.name != '') {
-
-        origPath = req.files.photo1.path;
-        imageName = Math.random() + req.files.photo1.name;
-        targetPath = './public/images/' + imageName;
-        colObject.image1 = imageName;
-
-        fs.rename(origPath, targetPath, function (err) {
-            if (err) { throw err; }
-        });
-
+    // photo handler
+    for (i = 1; i < 3; i++) {
+        fieldName = 'image' + i;
+        if (req.files[fieldName].name != '') {
+            colObject[fieldName] = photoHandler(req.files[fieldName]);
+        }
     }
-
-    if (req.files.photo2.name != '') {
-
-        origPath2 = req.files.photo2.path;
-        imageName2 = Math.random() + req.files.photo2.name;
-        targetPath2 = './public/images/' + imageName2;
-        colObject.image2 = imageName2;
-
-        fs.rename(origPath2, targetPath2, function (err) {
-            if (err) { throw err; }
-        });
-    }
-
 
     // updating record
-
     if (req.id !== undefined) {
 
         try {
             isUserHasAccessToAd(req.id, req);
-        } catch (e) {
-            return e;
-        }
+        } catch (e) { return e; }
 
         // removing old pictures
-
         adCol.findById(req.id, function (err, doc) {
             if (err) { throw err; }
-            if (imageName !== undefined && doc.image1 !== undefined) {
+            if (req.files[fieldName].name !== undefined && doc[fieldName] !== undefined) {
                 fs.unlink('./public/images/' + doc.image1);
             }
-            if (imageName2 !== undefined && doc.image2 !== undefined) {
-                fs.unlink('./public/images/' + doc.image2);
-            }
         });
-
 
         adCol.findAndModify({ _id: req.id }, { $set: colObject }).success(function () {
             res.redirect('/ads/' + req.id);
         });
 
-
-        // inserting record
-
+    // inserting record
     } else {
         db.get('categories').findById(req.body.category, function (err, doc) {
-            if (err) { throw err; }
+            if (err) {
+                req.flash('info', req.app.locals.i18n('noCategory'));
+                res.redirect('/ads/newad');
+            }
             if (doc) {
                 colObject.category_id = new ObjectId(req.body.category);
                 adCol.insert(colObject).success(function () {
                     res.redirect('/users/profile');
                 });
-            } else {
-                req.flash('info', req.app.locals.i18n('noCategory'));
-                res.redirect('/ads/newad');
             }
         });
     }
@@ -299,6 +274,5 @@ router.delete('/:id', checkAuth, function (req, res) {
         });
     });
 });
-
 
 module.exports = router;
