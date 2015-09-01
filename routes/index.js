@@ -110,10 +110,10 @@ router.get('/search', function (req, res) {
             _id: -1
         }
     }, function (err, docs) {
-        if (err) { throw err; }
-        if (docs == 0) {
-            req.flash('info', req.app.locals.i18n('noAds'));
-            res.redirect('/ads');
+        if (err || docs == 0) {
+            res.render('default', {
+                msg: req.app.locals.i18n('noAds')
+            });
         } else {
             adCol.count({
                 $or: [{

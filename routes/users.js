@@ -19,14 +19,14 @@ var transporter = nodemailer.createTransport(
     }
 );
 
-function isUserHasAccessToAd(adId, req) {
+function isUserHasAccessToProfile(adId, req) {
     var db = req.db;
     db.get('ads').findById(adId, function (err, doc) {
         if (err) {
             throw err;
         }
         if (req.session.user_id != doc.user_id) {
-            throw { name: 'NoAccess', message: 'You haven\'t access to ad' };
+            throw { name: 'NoAccess', message: 'You haven\'t access to profile' };
         }
     });
 }
@@ -81,7 +81,6 @@ router.post('/signup/', function (req, res) {
             res.render('email_activation', { link: link }, function (err, html) {
                 if (err) { throw err; }
 
-
                 mailOptions.html = html;
                 transporter.sendMail(mailOptions, function (err, res) {
                     if (err) {
@@ -89,7 +88,6 @@ router.post('/signup/', function (req, res) {
                     }
                 });
             });
-
 
             res.render('default', { msg : req.app.locals.i18n('check') });
         });
@@ -142,9 +140,8 @@ router.post('/recovery', function (req, res) {
         };
 
         res.render('recovery', { link: link }, function (err, html) {
-            if (err) {
-                throw err;
-            }
+
+            if (err) { throw err; }
 
             mailOptions.html = html;
             transporter.sendMail(mailOptions, function (err, res) {
@@ -273,7 +270,7 @@ router.get('/edit', checkAuth, function (req, res) {
 router.post('/edit', checkAuth, function (req, res) {
 
     try {
-        isUserHasAccessToAd(req.id, req);
+        isUserHasAccessToProfile(req.session.user_id, req);
     } catch (e) {
         return e;
     }

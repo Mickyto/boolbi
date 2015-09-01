@@ -6,6 +6,7 @@ var fs = require('fs');
 var multipart = require('connect-multiparty');
 var ObjectId = require('mongodb').ObjectId;
 var Captchapng = require('captchapng');
+var im = require('imagemagick');
 
 var multipartMiddleware = multipart();
 
@@ -41,23 +42,24 @@ function isUserHasAccessToAd(adId, req) {
     });
 }
 
+function imageCaptcha(captcha) {
+    var img,
+        imgbase64,
+        p = new Captchapng(80, 30, captcha); // width,height,numeric captcha
+    p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
+    p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
+    img = p.getBase64();
+    imgbase64 = new Buffer(img, 'base64').toString('base64');
+    return imgbase64;
+}
+
 router.get('/newad', checkAuth, function (req, res) {
     var db = req.db,
-        userCol = db.get('users'),
-        p,
-        img,
-        imgbase64;
+        userCol = db.get('users');
     userCol.findById(req.session.user_id, function (err, doc) {
         if (err) { throw err; }
-        var newCaptcha = parseInt(Math.random() * 9000 + 1000, 10);
-        req.session.captcha = newCaptcha;
-
-        p = new Captchapng(80, 30, newCaptcha); // width,height,numeric captcha
-        p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
-        p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
-
-        img = p.getBase64();
-        imgbase64 = new Buffer(img, 'base64').toString('base64');
+        var captcha = parseInt(Math.random() * 9000 + 1000, 10);
+        req.session.captcha = captcha;
         res.render('ad/newad', {
             curPage: '/ads/newad',
             user: doc,
@@ -67,7 +69,7 @@ router.get('/newad', checkAuth, function (req, res) {
                 price: ''
             },
             formAction: '/ads/addad',
-            captcha: imgbase64,
+            captcha: imageCaptcha(captcha),
             message : req.flash('info')
         });
     });
@@ -114,36 +116,26 @@ router.get('/:id', function (req, res) {
 });
 
 
-//GET the individual ad by Mongo ID
 router.get('/:id/edit', checkAuth, function (req, res) {
     var db = req.db,
         adCol = db.get('ads'),
         userCol = db.get('users'),
         categoryCol = db.get('categories'),
-        newCaptcha,
-        p,
-        img,
-        imgbase64;
+        captcha = parseInt(Math.random() * 9000 + 1000, 10);
     adCol.findById(req.id, function (err, ad) {
         if (err) { throw err; }
         categoryCol.findById(ad.category_id, function (err, category) {
             if (err) { throw err; }
             userCol.findById(ad.user_id, function (err, user) {
                 if (err) { throw err; }
-                newCaptcha = parseInt(Math.random() * 9000 + 1000, 10);
-                req.session.captcha = newCaptcha;
-                p = new Captchapng(80, 40, newCaptcha); // width,height,numeric captcha
-                p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
-                p.color(150, 80, 10, 205); // Second color: paint (red, green, blue, alpha)
-                img = p.getBase64();
-                imgbase64 = new Buffer(img, 'base64').toString('base64');
+                req.session.captcha = captcha;
                 res.render('ad/newad', {
                     curPage: '/ads/' + req.id + '/edit',
                     user : user,
                     category : category,
                     ad : ad,
                     formAction: '/ads/' + req.id + '/adedit',
-                    captcha: imgbase64,
+                    captcha: imageCaptcha(captcha),
                     message: req.flash('info')
                 });
             });
