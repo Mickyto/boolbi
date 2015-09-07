@@ -47,7 +47,7 @@ block content
                     select#select(name='category', align='right')
                        option(value='') #{i18n('select')}
                        each category, i in categories
-                          option(value='#{category._id}') #{category.name[session.locale]}
+                          option(value='#{category._id}' selected) #{category.name[session.locale]}
 
          table
               tr
@@ -57,7 +57,7 @@ block content
                 td
                   p.small #{i18n('title')}: &nbsp
                 td
-                  input.title(type='text', value='#{ad.title}', name='adtitle', maxlength=60, size=37)
+                  input.title(type='text', value=(ad.title ? ad.title : 'example'), name='adtitle', maxlength=60, size=37)
          p
          p
          p.small #{i18n('description')}:
@@ -70,40 +70,29 @@ block content
                td
                  p.small #{i18n('price')}:
                td.info
-                 input.title(type='text', value='#{ad.price}', name='adprice', size=10)
+                 input.title(type='text', value=(ad.price ? ad.price : '4444'), name='adprice', size=10)
                td
                  p #{i18n('rub')}
          br
 
 
          p.small #{i18n('photo')}:
-         table
+         each image in ['image1', 'image2']
+             table.fl.center
                tr
                  td
                    div.fileUpload
-                     input.upload(type='file', name='image1', accept='image/*', onchange='openPhoto(event)')
-                     img#image1(src=(ad.image1 !== undefined ? '/images/#{ad.image1}' : '/images/logo/camera.png'), width=150)
-                 td
-                   div.fileUpload
-                     input.upload(type='file', name='image2', accept='image/*', onchange='openPhoto(event)')
-                     img#image2(src=(ad.image2 !== undefined ? '/images/#{ad.image2}' : '/images/logo/camera.png'), width=150)
+                     input.upload(type='file', name='#{image}', accept='image/*', onchange='openPhoto(event)')
+                     img(id='#{image}', src=(ad[image] !== undefined ? '/images/small/#{ad[image]}' : '/images/logo/camera.png'), width=150)
                tr
                  td
-                   if ad.image1
-                     div.delete(align='center')
-                        a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image1}&id=link1')
-                            i.fa.fa-trash &nbsp #{i18n('del')}
-                   else
-                     p.img#PARimage1(onclick="delImage('image1')", align='center')
+                   if ad[image]
+                     a.img(href='/ads/#{ad._id}/imgdel?img=#{ad[image]}&id=link1')
                          i.fa.fa-trash &nbsp #{i18n('del')}
-                 td
-                   if ad.image2
-                     div.delete(align='center')
-                        a.img(href='/ads/#{ad._id}/imgdel?img=#{ad.image2}&id=link2', align='center')
-                            i.fa.fa-trash &nbsp #{i18n('del')}
                    else
-                     p.img#PARimage2(onclick="delImage('image2')", align='center')
+                     p.img(id='PAR#{image}', onclick='delImage("#{image}")')
                          i.fa.fa-trash &nbsp #{i18n('del')}
+
          div.invCaptcha
            p.validateErr#captcha #{i18n('captchaErr')}
            div.captcha
@@ -119,9 +108,9 @@ block content
 
   script(type='text/javascript').
       var delImage = function (name) {
-          document.getElementById(name).getAttributeNode('src').value='/images/logo/camera.png';
-          document.getElementsByName(name)[0].value='';
-          document.getElementById('PAR' + name).style.visibility='hidden';
+          document.getElementById(name).getAttributeNode('src').value = '/images/logo/camera.png';
+          document.getElementsByName(name)[0].value = '';
+          document.getElementById('PAR' + name).style.visibility = 'hidden';
       } ;
 
   script(type='text/javascript').
@@ -134,7 +123,7 @@ block content
               output.src = dataURL;
           };
           reader.readAsDataURL(input.files[0]);
-          document.getElementById('PAR' + input.name).style.visibility='visible';
+          document.getElementById('PAR' + input.name).style.visibility =' visible';
       };
 
   script(type='text/javascript', src='/javascripts/validator.min.js').

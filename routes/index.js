@@ -6,7 +6,6 @@ var ObjectId = require('mongodb').ObjectId;
 /*jslint sloppy: true*/
 /*jslint nomen: true*/
 
-/* GET home page. */
 router.get('/', function (req, res) {
     res.render('index', {
         curPage: '/'
@@ -20,11 +19,10 @@ router.param('id', function (req, res, next, id) {
         categoryCol = db.get('categories');
     categoryCol.findById(id, function (err) {
         if (err) {
-            res.send(id + ' was not found');
-        } else {
-            req.id = id;
-            next();
+            return next(err);
         }
+        req.id = id;
+        next();
     });
 });
 
@@ -88,7 +86,7 @@ router.get('/search', function (req, res) {
         searchText = req.query.search,
         arrayInput = searchText.split(' '),
         pattern = arrayInput.map(function (word) {
-            return '(' + '?' + '=' + '.' + '*' + word + ')';
+            return '(?=.*' + word + ')';
         }),
         regexString = pattern.join('') + '.+',
         reg = new RegExp(regexString, 'ig'),

@@ -19,17 +19,6 @@ var transporter = nodemailer.createTransport(
     }
 );
 
-function isUserHasAccessToProfile(adId, req) {
-    var db = req.db;
-    db.get('ads').findById(adId, function (err, doc) {
-        if (err) {
-            throw err;
-        }
-        if (req.session.user_id != doc.user_id) {
-            throw { name: 'NoAccess', message: 'You haven\'t access to profile' };
-        }
-    });
-}
 
 router.get('/signup/', function (req, res) {
     res.render('user/login', {
@@ -192,7 +181,6 @@ router.post('/login', function (req, res) {
 });
 
 
-
 function checkAuth(req, res, next) {
     if (!req.session.user_id) {
         req.flash('info', req.app.locals.i18n('notLogin'));
@@ -201,7 +189,6 @@ function checkAuth(req, res, next) {
         next();
     }
 }
-
 
 router.get('/profile', checkAuth, function (req, res) {
     var db = req.db,
@@ -228,7 +215,6 @@ router.get('/profile', checkAuth, function (req, res) {
                     pages.push({
                         link: '/users/profile?page=' + p + '&status=' + adStatus,
                         pg: p + 1
-
                     });
                 }
 
@@ -272,18 +258,11 @@ router.get('/edit', checkAuth, function (req, res) {
 
 router.post('/edit', checkAuth, function (req, res) {
 
-    try {
-        isUserHasAccessToProfile(req.session.user_id, req);
-    } catch (e) {
-        return e;
-    }
-
     var colObject = {
         name: req.body.name,
         telephone: req.body.telephone
     },
-        isPasswordSpecified = req.body.newpass1 != '',
-        db, userCol;
+        isPasswordSpecified = req.body.newpass1 != '';
 
     if (isPasswordSpecified && req.body.newpass1 == req.body.newpass2) {
         colObject.password = passwordHash.generate(req.body.newpass1);
@@ -295,12 +274,8 @@ router.post('/edit', checkAuth, function (req, res) {
         return;
     }
 
-    db = req.db;
-    userCol = db.get('users');
-    userCol.findAndModify({ _id: req.session.user_id }, { $set: colObject }).success(function () {
-        res.redirect('/users/edit');
-    });
-
+    req.db.get('users').findAndModify({ _id: req.session.user_id }, { $set: colObject });
+    res.redirect('/users/edit');
 });
 
 
