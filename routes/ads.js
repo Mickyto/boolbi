@@ -21,25 +21,36 @@ router.use(methodOverride(function (req) {
 
 function photoHandler(uploadedImage) {
 
-    var imageName = Math.random() + uploadedImage.name;
+    if (uploadedImage.size > 2000000) {
+        return false;
+    }
 
-    im.resize({
-        srcPath: uploadedImage.path,
-        dstPath: './public/images/small/' + imageName,
-        width:   200
-    }, function (err) {
-        if (err) { throw err; }
-    });
+    if (uploadedImage.type == 'image/png' || uploadedImage.type == 'image/jpeg') {
 
-    im.resize({
-        srcPath: uploadedImage.path,
-        dstPath: './public/images/big/' + imageName,
-        width:   600
-    }, function (err) {
-        if (err) { throw err; }
-    });
+        var imageName = Math.random() + '.jpg';
+        console.log(imageName);
+        im.resize({
+            srcPath: uploadedImage.path,
+            dstPath: './public/images/small/' + imageName,
+            width: 200
+        }, function (err) {
+            if (err) {
+                throw err;
+            }
+        });
 
-    return imageName;
+        im.resize({
+            srcPath: uploadedImage.path,
+            dstPath: './public/images/big/' + imageName,
+            width: 600
+        }, function (err) {
+            if (err) {
+                throw err;
+            }
+        });
+        return imageName;
+    }
+    return false;
 }
 
 function checkAuth(req, res, next) {
@@ -149,12 +160,13 @@ var adCallback = function (req, res) {
 
     if (req.body.captcha != req.session.captcha) {
         req.flash('info', req.app.locals.i18n('noCaptcha'));
-        res.redirect('/ads/newad');
+        res.redirect(req.id !== undefined ? '/ads/' + req.id + '/edit' : '/ads/newad');
         return;
     }
 
     var i,
         fieldName,
+        imageName,
         db = req.db,
         adCol = db.get('ads'),
         colObject = {
@@ -168,8 +180,15 @@ var adCallback = function (req, res) {
     // photo handler
     for (i = 1; i < 3; i++) {
         fieldName = 'image' + i;
+
         if (req.files[fieldName].name != '') {
-            colObject[fieldName] = photoHandler(req.files[fieldName]);
+            imageName = photoHandler(req.files[fieldName]);
+            if (imageName === false) {
+                req.flash('info', req.app.locals.i18n('incorrectImage'));
+                res.redirect(req.id !== undefined ? '/ads/' + req.id + '/edit' : '/ads/newad');
+                return;
+            }
+            colObject[fieldName] = imageName;
         }
     }
 
@@ -177,7 +196,7 @@ var adCallback = function (req, res) {
     if (req.id !== undefined) {
 
         // removing old pictures
-        adCol.find({ _id: req.id, user_id: req.session.user_id }, function (err, doc) {
+        adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, doc) {
             if (err) { throw err; }
             if (!doc) { return; }
             for (i = 1; i < 3; i++) {
@@ -189,7 +208,7 @@ var adCallback = function (req, res) {
             }
             adCol.findAndModify({ _id: doc._id }, { $set: colObject });
         });
-        res.redirect('/ads/' + req.id);
+        res.redirect('/users/profile');
 
     // inserting record
     } else {
@@ -218,7 +237,7 @@ router.get('/:id/imgdel', checkAuth, function (req, res) {
         adCol = db.get('ads'),
         imgObject = {};
 
-    adCol.find({ _id: req.id, user_id: req.session.user_id }, function (err, doc) {
+    adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, doc) {
         if (err) { throw err; }
         if (!doc) { return; }
         if (req.query.img === doc.image1) {
@@ -229,7 +248,8 @@ router.get('/:id/imgdel', checkAuth, function (req, res) {
         }
         adCol.findAndModify({ _id: doc._id }, { $unset: imgObject });
 
-        fs.unlink('./public/images/' + req.query.img);
+        fs.unlink('./public/images/big/' + req.query.img);
+        fs.unlink('./public/images/small/' + req.query.img);
     });
     res.redirect('/ads/' + req.id + '/edit');
 });
@@ -242,7 +262,7 @@ router.delete('/:id', checkAuth, function (req, res) {
         db = req.db,
         adCol = db.get('ads');
 
-    adCol.find({ _id: req.id, user_id: req.session.user_id }, function (err, doc) {
+    adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, doc) {
         if (err) { throw err; }
         if (!doc) { return; }
         for (i = 1; i < 3; i++) {

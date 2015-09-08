@@ -47,7 +47,7 @@ block content
                     select#select(name='category', align='right')
                        option(value='') #{i18n('select')}
                        each category, i in categories
-                          option(value='#{category._id}' selected) #{category.name[session.locale]}
+                          option(value='#{category._id}') #{category.name[session.locale]}
 
          table
               tr
@@ -83,10 +83,10 @@ block content
                  td
                    div.fileUpload
                      input.upload(type='file', name='#{image}', accept='image/*', onchange='openPhoto(event)')
-                     img(id='#{image}', src=(ad[image] !== undefined ? '/images/small/#{ad[image]}' : '/images/logo/camera.png'), width=150)
+                     img(id='#{image}', src=(ad && ad[image] !== undefined ? '/images/small/#{ad[image]}' : '/images/logo/camera.png'), width=150)
                tr
                  td
-                   if ad[image]
+                   if ad && ad[image]
                      a.img(href='/ads/#{ad._id}/imgdel?img=#{ad[image]}&id=link1')
                          i.fa.fa-trash &nbsp #{i18n('del')}
                    else
