@@ -21,29 +21,23 @@ router.use(methodOverride(function (req) {
 }));
 
 function photoHandler(uploadedImage) {
-    var origPath = uploadedImage.path,
-        imageHandle = './public/images/image_handle/' + uploadedImage.name,
-        imageName = Math.random() + uploadedImage.name;
 
-    fs.rename(origPath, imageHandle, function (err) {
+    var imageName = Math.random() + uploadedImage.name;
+
+    im.resize({
+        srcPath: uploadedImage.path,
+        dstPath: './public/images/small/' + imageName,
+        width:   200
+    }, function (err) {
         if (err) { throw err; }
-        im.resize({
-            srcPath: imageHandle,
-            dstPath: './public/images/small/' + imageName,
-            width:   200
-        }, function (err) {
-            if (err) { throw err; }
+    });
 
-        });
-
-        im.resize({
-            srcPath: imageHandle,
-            dstPath: './public/images/big/' + imageName,
-            width:   600
-        }, function (err) {
-            if (err) { throw err; }
-
-        });
+    im.resize({
+        srcPath: uploadedImage.path,
+        dstPath: './public/images/big/' + imageName,
+        width:   600
+    }, function (err) {
+        if (err) { throw err; }
     });
 
     return imageName;
@@ -56,16 +50,6 @@ function checkAuth(req, res, next) {
     } else {
         next();
     }
-}
-
-function isUserHasAccessToAd(adId, req) {
-    var db = req.db;
-    db.get('ads').findById(adId, function (err, doc) {
-        if (err) { throw err; }
-        if (req.session.user_id != doc.user_id) {
-            throw { name: 'NoAccess', message: 'You haven\'t access to ad' };
-        }
-    });
 }
 
 function imageCaptcha(captcha) {
@@ -200,36 +184,34 @@ var adCallback = function (req, res) {
     // updating record
     if (req.id !== undefined) {
 
-        try {
-            isUserHasAccessToAd(req.id, req);
-        } catch (e) { return e; }
-
         // removing old pictures
-        adCol.findById(req.id, function (err, doc) {
+        adCol.find({ _id: req.id, user_id: req.session.user_id }, function (err, doc) {
             if (err) { throw err; }
-            console.log(fieldName);
-            if (req.files[fieldName].name != '' && doc[fieldName] != '') {
-                fs.unlink('./public/images/big/' + doc[fieldName]);
-                fs.unlink('./public/images/small/' + doc[fieldName]);
+            if (!doc) { return; }
+            for (i = 1; i < 3; i++) {
+                fieldName = 'image' + i;
+                if (req.files[fieldName].name != '' && doc[fieldName] != undefined) {
+                    fs.unlink('./public/images/big/' + doc[fieldName]);
+                    fs.unlink('./public/images/small/' + doc[fieldName]);
+                }
             }
+            adCol.findAndModify({ _id: doc._id }, { $set: colObject });
         });
-
-        adCol.findAndModify({ _id: req.id }, { $set: colObject });
         res.redirect('/ads/' + req.id);
 
     // inserting record
     } else {
+
         db.get('categories').findById(req.body.category, function (err, doc) {
             if (err) {
-                req.flash('info', req.app.locals.i18n('noCategory'));
                 res.redirect('/ads/newad');
             }
             if (doc) {
                 colObject.category_id = new ObjectId(req.body.category);
                 adCol.insert(colObject);
-                res.redirect('/users/profile');
             }
         });
+        res.redirect('/users/profile');
     }
 };
 
@@ -240,55 +222,49 @@ router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
 
 router.get('/:id/imgdel', checkAuth, function (req, res) {
 
-    try {
-        isUserHasAccessToAd(req.id, req, res);
-    } catch (e) {
-        return e;
-    }
-
     var db = req.db,
         adCol = db.get('ads'),
         imgObject = {};
-    adCol.findById(req.id, function (err, doc) {
+
+    adCol.find({ _id: req.id, user_id: req.session.user_id }, function (err, doc) {
         if (err) { throw err; }
+        if (!doc) { return; }
         if (req.query.img === doc.image1) {
             imgObject.image1 = 1;
         }
         if (req.query.img === doc.image2) {
             imgObject.image2 = 1;
         }
-        adCol.findAndModify({ _id: req.id }, { $unset: imgObject });
+        adCol.findAndModify({ _id: doc._id }, { $unset: imgObject });
 
         fs.unlink('./public/images/' + req.query.img);
-        res.redirect('/ads/' + req.id + '/edit');
-
     });
+    res.redirect('/ads/' + req.id + '/edit');
 });
 
 
 router.delete('/:id', checkAuth, function (req, res) {
 
-    try {
-        isUserHasAccessToAd(req.id, req);
-    } catch (e) {
-        return e;
-    }
-
-    var db = req.db,
+    var i,
+        fieldName,
+        db = req.db,
         adCol = db.get('ads');
-    adCol.findById(req.id, function (err, doc) {
+
+    adCol.find({ _id: req.id, user_id: req.session.user_id }, function (err, doc) {
         if (err) { throw err; }
-        if (doc.image1 !== undefined) {
-            fs.unlink('./public/images/' + doc.image1);
+        if (!doc) { return; }
+        for (i = 1; i < 3; i++) {
+            fieldName = 'image' + i;
+            if (doc[fieldName] != undefined) {
+                fs.unlink('./public/images/big/' + doc[fieldName]);
+                fs.unlink('./public/images/small/' + doc[fieldName]);
+            }
         }
-        if (doc.image2 !== undefined) {
-            fs.unlink('./public/images/' + doc.image2);
-        }
-        adCol.removeById(req.id, function (err) {
+        adCol.removeById(doc._id, function (err) {
             if (err) { throw err; }
-            res.redirect('/users/profile');
         });
     });
+    res.redirect('/users/profile');
 });
 
 module.exports = router;

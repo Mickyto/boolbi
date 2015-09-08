@@ -92,15 +92,7 @@ router.get('/search', function (req, res) {
         reg = new RegExp(regexString, 'ig'),
         p;
     adCol.find({
-        $or: [{
-            title: {
-                $regex: reg
-            }
-        }, {
-            description: {
-                $regex: reg
-            }
-        }]
+        $or: [{ title: { $regex: reg }}, { description: { $regex: reg }}]
     }, {
         skip: perPage * page,
         limit: perPage,
