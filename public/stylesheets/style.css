@@ -120,13 +120,13 @@ button.signup {
 }
 
 button.login {
-  background: #DCAA2B  ;
-  border: 1px solid #DCAA2B ;
+  background: darkgoldenrod;
+  border: 1px solid darkgoldenrod ;
 }
 
 button.login:hover {
-  background: #E3BC58;
-  box-shadow: 0 5px 8px 1px #DCAA2B;
+  background: goldenrod;
+  box-shadow: 0 5px 8px 1px darkgoldenrod;
 }
 
 button.signup:hover {
@@ -229,7 +229,6 @@ div.ads {
 
 div.advertisement {
   width: 200px;
-  height: 300px;
   white-space: normal;
   border: 2px solid #7DA1A1;
   margin: 0 0 5px 5px;
@@ -353,6 +352,7 @@ a.two {
 
 a.three {
   margin: 20px;
+  white-space: normal;
 }
 
 a.four {
@@ -533,12 +533,19 @@ img.showAds {
   float: left;
 }
 
+img.main {
+  width: 180px;
+  margin: 10px;
+  border-radius: 3px;
+}
+
 img.show {
   width: 200px;
   border: 2px solid white;
   border-radius: 10px;
   margin: 10px;
   transition: width 0.5s linear;
+  float: none;
 }
 
 img.show:hover {

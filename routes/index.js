@@ -43,7 +43,8 @@ router.get('/category/:id', function (req, res) {
         page = req.query.page || 0,
         link = '/category/' + req.id + '?page=';
     adCol.find({
-        category_id: new ObjectId(req.id)
+        category_id: new ObjectId(req.id),
+        status: 'active'
     }, {
         skip: perPage * page,
         limit: perPage,
@@ -91,7 +92,7 @@ router.get('/search', function (req, res) {
         page = req.query.page || 0,
         searchText = req.query.search,
         reg = regex(searchText),
-        searchIn = {$or: [{ title: { $regex: reg }}, { description: { $regex: reg }}]},
+        searchIn = {$or: [{ title: { $regex: reg }}, { description: { $regex: reg }}], status: 'active'},
         link = '/search?search=' + searchText + '&page=';
     adCol.find(searchIn, {
         skip: perPage * page,

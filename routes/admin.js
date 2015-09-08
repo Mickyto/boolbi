@@ -56,4 +56,9 @@ router.get('/activate', checkAdmin, function (req, res) {
     res.redirect('/admin');
 });
 
+router.get('/main', checkAdmin, function (req, res) {
+    req.db.get('ads').findAndModify({ _id: req.query.id }, { $set:  { improvement: 'main'  }});
+    res.redirect('/admin');
+});
+
 module.exports = router;

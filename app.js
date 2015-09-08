@@ -58,6 +58,14 @@ app.use(function (req, res, next) {
 });
 
 app.use(function (req, res, next) {
+    db.get('ads').find({ improvement: 'main'}, function (err, ads) {
+        if (err) { throw err; }
+        res.locals.mainAds = ads;
+        next();
+    });
+});
+
+app.use(function (req, res, next) {
     res.locals.session = req.session;
     next();
 });

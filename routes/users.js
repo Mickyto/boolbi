@@ -274,7 +274,7 @@ router.post('/edit', checkAuth, function (req, res) {
 });
 
 
-router.get('/logout', function (req, res) {
+router.get('/logout', checkAuth, function (req, res) {
     delete req.session.user_id;
     delete req.session.email;
     delete req.session.isAdmin;

@@ -8,6 +8,8 @@ html
 body
   div.block
 
+    a.five(href='/') home
+
     each ad, i in ads
         div.ads
             a(href='/ads/#{ad._id}')
@@ -15,6 +17,7 @@ body
                 p #{ad.title}
                 hr
             a.greenButton.fr(href='/admin/activate?id=#{ad._id}') activate
+            a.greenButton.fr(href='/admin/main?id=#{ad._id}') make main
 
 
     if pages && pages.length > 1 && pages.length < 7

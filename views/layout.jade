@@ -67,12 +67,23 @@ html
           div.block
             block content
         td.t
-            div.advertisement
-                p.center #{i18n('advert')}
-            div.advertisement
-                p.center #{i18n('advert')}
-            div.advertisement
-                p.center #{i18n('advert')}
+            each ad, i in mainAds
+                div.advertisement
+                    a.three(href='/ads/#{ad._id}')
+                        table.center
+                            tr
+                              td
+                                if ad.image1
+                                    img.main(src='/images/small/#{ad.image1}')
+                                else if ad.image2
+                                    img.main(src='/images/small/#{ad.image2}')
+                            tr
+                              td
+                                p #{ad.title}
+                            tr
+                              td
+                                p #{ad.price}
+                p
 
   div.header
       p E-mail: info@bravito.ru
