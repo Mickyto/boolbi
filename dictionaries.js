@@ -39,7 +39,6 @@ module.exports = {
             check: 'Проверьте ваш электронный ящик',
             exist: 'Этот email уже зарегистрирован',
             wrong: 'Не верный пароль или email',
-            advert: 'Здесь могла бы быть ваша реклама',
             select: 'выберите категорию',
             inactiveUserAccount: 'Необходимо активировать аккаунт', //  When user tries to log in with inactive email
             userPasswordsNotIdentical: 'Пароли отличаются', // When user tries to change password in profile
@@ -105,7 +104,6 @@ module.exports = {
             check: 'Check your email',
             exist: 'That email is already taken',
             wrong: 'Email or password is wrong',
-            advert: 'There would be your advertisement',
             select: 'select category',
             inactiveUserAccount: 'Your account not activated yet',
             userPasswordsNotIdentical: 'Passwords are not identical',
