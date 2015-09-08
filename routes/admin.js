@@ -5,7 +5,6 @@ var router = express.Router();
 /*jslint nomen: true*/
 
 function checkAdmin(req, res, next) {
-    'use strict';
     if (req.session.isAdmin != true) {
         req.flash('info', 'Please log in');
         res.redirect('/users/login');

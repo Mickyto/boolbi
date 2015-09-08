@@ -34,7 +34,6 @@ module.exports = {
             againPass: 'новый пароль еще раз',
             logout: 'выйти',
             noCaptcha: 'Не верный код',
-            noCategory: 'Такой категории не существует',
             noAds: 'Ничего не найдено',
             notLogin: 'Пожалуйста, авторизуйтесь',
             check: 'Проверьте ваш электронный ящик',
@@ -64,7 +63,8 @@ module.exports = {
             priceErr: 'Не верный ввод',
             cancel: 'Отмена',
             alertDel: 'Вы уверены, что хотите удалить это объявление?',
-            noPermission: 'У вас нет прав для этого действия'
+            noPermission: 'У вас нет прав для этого действия',
+            incorrectImage: 'Формат фотографии может быть только .jpeg или .png, а размер не более 2 Мб. Пожалуйса, проверьте свойства фотографии'
         };
         return russian[word];
     },
@@ -100,7 +100,6 @@ module.exports = {
             againPass: 'new password again',
             logout: 'log out',
             noCaptcha: 'Code is incorrect',
-            noCategory: 'There is no such category',
             noAds: 'Nothing was founded',
             notLogin: 'Please log in',
             check: 'Check your email',
@@ -130,7 +129,8 @@ module.exports = {
             priceErr: 'Price incorrect',
             cancel: 'Cancel',
             alertDel: 'Are you sure you want to delete this ad?',
-            noPermission: 'You don\'t have permission for this action'
+            noPermission: 'You don\'t have permission for this action',
+            incorrectImage: 'Format of image must be only .jpeg or .png amd size 2 Mb. Please, check parameters of image '
         };
         return english[word];
     }

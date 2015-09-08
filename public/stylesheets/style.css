@@ -178,6 +178,7 @@ div.msg {
   padding: 10px;
   margin: 10px;
   color: white;
+  white-space: normal;
 }
 
 div.categ {

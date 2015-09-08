@@ -19,17 +19,6 @@ var transporter = nodemailer.createTransport(
     }
 );
 
-function isUserHasAccessToProfile(adId, req) {
-    var db = req.db;
-    db.get('ads').findById(adId, function (err, doc) {
-        if (err) {
-            throw err;
-        }
-        if (req.session.user_id != doc.user_id) {
-            throw { name: 'NoAccess', message: 'You haven\'t access to profile' };
-        }
-    });
-}
 
 router.get('/signup/', function (req, res) {
     res.render('user/login', {
@@ -61,7 +50,6 @@ router.post('/signup/', function (req, res) {
 
         req.flash('info', req.app.locals.i18n('wrong'));
         res.redirect('/users/signup/');
-
 
     } else {
 
@@ -180,9 +168,7 @@ router.post('/login', function (req, res) {
             req.session.isAdmin = doc.admin && doc.admin === 'yes' ? true : false;
             req.session.email = doc.email;
             res.redirect('/users/profile');
-
             return;
-
         }
 
         req.flash('info', req.app.locals.i18n('wrong'));
@@ -190,7 +176,6 @@ router.post('/login', function (req, res) {
 
     });
 });
-
 
 
 function checkAuth(req, res, next) {
@@ -201,7 +186,6 @@ function checkAuth(req, res, next) {
         next();
     }
 }
-
 
 router.get('/profile', checkAuth, function (req, res) {
     var db = req.db,
@@ -228,7 +212,6 @@ router.get('/profile', checkAuth, function (req, res) {
                     pages.push({
                         link: '/users/profile?page=' + p + '&status=' + adStatus,
                         pg: p + 1
-
                     });
                 }
 
@@ -254,9 +237,8 @@ router.get('/profile', checkAuth, function (req, res) {
 
 
 router.get('/edit', checkAuth, function (req, res) {
-    var db = req.db,
-        userCol = db.get('users');
-    userCol.findById(req.session.user_id, function (err, doc) {
+
+    req.db.get('users').findById(req.session.user_id, function (err, doc) {
         if (err) {
             res.send('No user found.');
         } else {
@@ -272,35 +254,23 @@ router.get('/edit', checkAuth, function (req, res) {
 
 router.post('/edit', checkAuth, function (req, res) {
 
-    try {
-        isUserHasAccessToProfile(req.session.user_id, req);
-    } catch (e) {
-        return e;
-    }
-
     var colObject = {
         name: req.body.name,
         telephone: req.body.telephone
-    },
-        isPasswordSpecified = req.body.newpass1 != '',
-        db, userCol;
+    };
 
-    if (isPasswordSpecified && req.body.newpass1 == req.body.newpass2) {
+    if (req.body.newpass1 != '' && req.body.newpass1 == req.body.newpass2) {
         colObject.password = passwordHash.generate(req.body.newpass1);
-    } else if (isPasswordSpecified && req.body.newpass1 != req.body.newpass2) {
+    }
 
+    if (req.body.newpass1 != '' && req.body.newpass1 != req.body.newpass2) {
         req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
         res.redirect('/users/edit');
-
         return;
     }
 
-    db = req.db;
-    userCol = db.get('users');
-    userCol.findAndModify({ _id: req.session.user_id }, { $set: colObject }).success(function () {
-        res.redirect('/users/edit');
-    });
-
+    req.db.get('users').findAndModify({ _id: req.session.user_id }, { $set: colObject });
+    res.redirect('/users/edit');
 });
 
 

@@ -6,7 +6,6 @@ var ObjectId = require('mongodb').ObjectId;
 /*jslint sloppy: true*/
 /*jslint nomen: true*/
 
-/* GET home page. */
 router.get('/', function (req, res) {
     res.render('index', {
         curPage: '/'
@@ -16,27 +15,33 @@ router.get('/', function (req, res) {
 
 router.param('id', function (req, res, next, id) {
 
-    var db = req.db,
-        categoryCol = db.get('categories');
-    categoryCol.findById(id, function (err) {
+    req.db.get('categories').findById(id, function (err) {
         if (err) {
-            res.send(id + ' was not found');
-        } else {
-            req.id = id;
-            next();
+            return next(err);
         }
+        req.id = id;
+        next();
     });
 });
 
-
+function pagination(perPage, count, link) {
+    var pageLinks = [],
+        p;
+    for (p = 0; p < count / perPage; p++) {
+        pageLinks.push({
+            link: link + p,
+            pg: p + 1
+        });
+    }
+    return pageLinks;
+}
 
 router.get('/category/:id', function (req, res) {
-    var db = req.db,
-        adCol = db.get('ads'),
+
+    var adCol = req.db.get('ads'),
         perPage = 4,
         page = req.query.page || 0,
-        pages = [],
-        p;
+        link = '/category/' + req.id + '?page=';
     adCol.find({
         category_id: new ObjectId(req.id)
     }, {
@@ -51,15 +56,7 @@ router.get('/category/:id', function (req, res) {
             category_id: new ObjectId(req.id)
         }, function (err, count) {
             if (err) { throw err; }
-
-            for (p = 0; p < count / perPage; p++) {
-                pages.push({
-
-                    link: '/category/' + req.id + '?page=' + p,
-                    pg: p + 1
-
-                });
-            }
+            var pages = pagination(perPage, count, link);
 
             res.render('ad/ads', {
                 curPage: '/category/' + req.id,
@@ -78,32 +75,25 @@ router.get('/category/:id', function (req, res) {
     });
 });
 
-
+function regex(searchText) {
+    var arrayInput = searchText.split(' '),
+        pattern = arrayInput.map(function (word) {
+            return '(?=.*' + word + ')';
+        }),
+        regexString = pattern.join('') + '.+';
+    return new RegExp(regexString, 'ig');
+}
 
 router.get('/search', function (req, res) {
-    var db = req.db,
-        adCol = db.get('ads'),
+
+    var adCol = req.db.get('ads'),
         perPage = 4,
         page = req.query.page || 0,
         searchText = req.query.search,
-        arrayInput = searchText.split(' '),
-        pattern = arrayInput.map(function (word) {
-            return '(' + '?' + '=' + '.' + '*' + word + ')';
-        }),
-        regexString = pattern.join('') + '.+',
-        reg = new RegExp(regexString, 'ig'),
-        p;
-    adCol.find({
-        $or: [{
-            title: {
-                $regex: reg
-            }
-        }, {
-            description: {
-                $regex: reg
-            }
-        }]
-    }, {
+        reg = regex(searchText),
+        searchIn = {$or: [{ title: { $regex: reg }}, { description: { $regex: reg }}]},
+        link = '/search?search=' + searchText + '&page=';
+    adCol.find(searchIn, {
         skip: perPage * page,
         limit: perPage,
         sort: {
@@ -115,28 +105,9 @@ router.get('/search', function (req, res) {
                 msg: req.app.locals.i18n('noAds')
             });
         } else {
-            adCol.count({
-                $or: [{
-                    title: {
-                        $regex: reg
-                    }
-                }, {
-                    description: {
-                        $regex: reg
-                    }
-                }]
-            }, function (err, count) {
+            adCol.count(searchIn, function (err, count) {
                 if (err) { throw err; }
-                var pages = [];
-
-                for (p = 0; p < count / perPage; p++) {
-                    pages.push({
-
-                        link: '/search?page=' + p + '&search=' + searchText,
-                        pg: p + 1
-
-                    });
-                }
+                var pages = pagination(perPage, count, link);
 
                 res.render('ad/ads', {
                     curPage: '/',
