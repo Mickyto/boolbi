@@ -57,11 +57,11 @@ block content
                 td
                   p.small #{i18n('title')}: &nbsp
                 td
-                  input.title(type='text', value=(ad.title ? ad.title : 'example'), name='adtitle', maxlength=60, size=37)
+                  input.title(type='text', value=(ad ? ad.title : ''), name='adtitle', maxlength=60, size=37)
          p
          p
          p.small #{i18n('description')}:
-         textarea(name='addescription', rows=10, cols=40) #{ad.description}
+         textarea(name='addescription', rows=10, cols=40) #{ad ? ad.description : ''}
          table
              tr
                td(colspan=2)
@@ -70,7 +70,7 @@ block content
                td
                  p.small #{i18n('price')}:
                td.info
-                 input.title(type='text', value=(ad.price ? ad.price : '4444'), name='adprice', size=10)
+                 input.title(type='text', value=(ad ? ad.price : ''), name='adprice', size=10)
                td
                  p #{i18n('rub')}
          br

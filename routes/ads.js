@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var fs = require('fs');
 var multiPart = require('connect-multiparty');
@@ -64,20 +63,14 @@ function imageCaptcha(captcha) {
 }
 
 router.get('/newad', checkAuth, function (req, res) {
-    var db = req.db,
-        userCol = db.get('users');
-    userCol.findById(req.session.user_id, function (err, doc) {
+
+    req.db.get('users').findById(req.session.user_id, function (err, doc) {
         if (err) { throw err; }
         var captcha = parseInt(Math.random() * 9000 + 1000, 10);
         req.session.captcha = captcha;
         res.render('ad/newad', {
             curPage: '/ads/newad',
             user: doc,
-            ad: {
-                title: '',
-                description: '',
-                price: ''
-            },
             formAction: '/ads/addad',
             captcha: imageCaptcha(captcha),
             message : req.flash('info')
@@ -88,9 +81,8 @@ router.get('/newad', checkAuth, function (req, res) {
 
 // route middleware to validate :id
 router.param('id', function (req, res, next, id) {
-    var db = req.db,
-        adCol = db.get('ads');
-    adCol.findById(id, function (err) {
+
+    req.db.get('ads').findById(id, function (err) {
         if (err) {
             res.send(id + ' was not found');
         } else {

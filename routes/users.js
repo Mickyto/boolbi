@@ -51,7 +51,6 @@ router.post('/signup/', function (req, res) {
         req.flash('info', req.app.locals.i18n('wrong'));
         res.redirect('/users/signup/');
 
-
     } else {
 
         userCol.insert({
@@ -169,9 +168,7 @@ router.post('/login', function (req, res) {
             req.session.isAdmin = doc.admin && doc.admin === 'yes' ? true : false;
             req.session.email = doc.email;
             res.redirect('/users/profile');
-
             return;
-
         }
 
         req.flash('info', req.app.locals.i18n('wrong'));
@@ -240,9 +237,8 @@ router.get('/profile', checkAuth, function (req, res) {
 
 
 router.get('/edit', checkAuth, function (req, res) {
-    var db = req.db,
-        userCol = db.get('users');
-    userCol.findById(req.session.user_id, function (err, doc) {
+
+    req.db.get('users').findById(req.session.user_id, function (err, doc) {
         if (err) {
             res.send('No user found.');
         } else {
@@ -261,16 +257,15 @@ router.post('/edit', checkAuth, function (req, res) {
     var colObject = {
         name: req.body.name,
         telephone: req.body.telephone
-    },
-        isPasswordSpecified = req.body.newpass1 != '';
+    };
 
-    if (isPasswordSpecified && req.body.newpass1 == req.body.newpass2) {
+    if (req.body.newpass1 != '' && req.body.newpass1 == req.body.newpass2) {
         colObject.password = passwordHash.generate(req.body.newpass1);
-    } else if (isPasswordSpecified && req.body.newpass1 != req.body.newpass2) {
+    }
 
+    if (req.body.newpass1 != '' && req.body.newpass1 != req.body.newpass2) {
         req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
         res.redirect('/users/edit');
-
         return;
     }
 
