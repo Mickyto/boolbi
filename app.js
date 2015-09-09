@@ -15,6 +15,7 @@ var users = require('./routes/users');
 var ads = require('./routes/ads');
 var admin = require('./routes/admin');
 var i18n = require('./dictionaries');
+var pagination = require('./pagination');
 
 
 var app = express();
@@ -41,7 +42,10 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(flash());
-
+app.use(function (req, res, next) {
+    req.pagination = pagination;
+    next();
+});
 
 app.use(function (req, res, next) {
     req.session.locale  =  req.session.lang || 'ru';
@@ -51,8 +55,14 @@ app.use(function (req, res, next) {
 
 app.use(function (req, res, next) {
     db.get('categories').find({}, function (err, categories) {
-        if (err) { throw err; }
         res.locals.categories = categories;
+        next();
+    });
+});
+
+app.use(function (req, res, next) {
+    db.get('ads').find({ improvement: 'main'}, function (err, ads) {
+        res.locals.mainAds = ads;
         next();
     });
 });

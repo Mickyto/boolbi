@@ -18,9 +18,9 @@ block content
         div.ads
           a(href='/ads/#{ad._id}')
              if ad.image1
-                  img.showAds(src='/images/small/#{ad.image1}', width=150)
+                  img.showAds(src='/images/small/#{ad.image1}')
              else if ad.image2
-                  img.showAds(src='/images/small/#{ad.image2}', width=150)
+                  img.showAds(src='/images/small/#{ad.image2}')
           div.delete
              a(href='/ads/#{ad._id}')
                p #{ad.title}

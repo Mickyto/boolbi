@@ -5,6 +5,7 @@ var router = express.Router();
 /*jslint nomen: true*/
 
 function checkAdmin(req, res, next) {
+
     if (req.session.isAdmin != true) {
         req.flash('info', 'Please log in');
         res.redirect('/users/login');
@@ -13,29 +14,22 @@ function checkAdmin(req, res, next) {
     }
 }
 
-router.get('/', checkAdmin, function (req, res) {
+router.get('/', checkAdmin, function (req, res, next) {
+
     var db = req.db,
         adCol = db.get('ads'),
         perPage = 4,
         page = req.query.page || 0,
-        p;
+        link = '/admin?page=';
+
     adCol.find({ status: 'inactive' }, {
         skip: perPage * page,
         limit: perPage
     }, function (err, ads) {
-        if (err) { throw err; }
+        if (err) { return next(err); }
         adCol.count({ status: 'inactive' }, function (err, count) {
-            if (err) { throw err; }
-
-            var pages = [];
-            for (p = 0; p < count / perPage; p++) {
-                pages.push({
-
-                    link: '/admin?page=' + p,
-                    pg: p + 1
-
-                });
-            }
+            if (err) { return next(err); }
+            var pages = req.pagination(perPage, count, link);
 
             res.render('admin/admin', {
                 pages: pages,
@@ -53,6 +47,11 @@ router.get('/', checkAdmin, function (req, res) {
 
 router.get('/activate', checkAdmin, function (req, res) {
     req.db.get('ads').findAndModify({ _id: req.query.id }, { $set:  { status: 'active'  }});
+    res.redirect('/admin');
+});
+
+router.get('/main', checkAdmin, function (req, res) {
+    req.db.get('ads').findAndModify({ _id: req.query.id }, { $set:  { improvement: 'main'  }});
     res.redirect('/admin');
 });
 

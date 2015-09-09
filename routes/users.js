@@ -21,6 +21,7 @@ var transporter = nodemailer.createTransport(
 
 
 router.get('/signup/', function (req, res) {
+
     res.render('user/login', {
         curPage: '/users/signup/',
         message : req.flash('info'),
@@ -30,16 +31,18 @@ router.get('/signup/', function (req, res) {
 });
 
 
+router.post('/signup/', function (req, res, next) {
 
-router.post('/signup/', function (req, res) {
-    var db = req.db,
-        userCol = db.get('users'),
+    var link,
+        mailOptions,
+        userCol = req.db.get('users'),
         rand = Math.random(),
         userEmail      = req.body.useremail || null,
         userPassword   = req.body.password ? passwordHash.generate(req.body.password) : null;
 
     userCol.findOne({ email :  userEmail }, function (err, doc) {
-        if (err) { throw err; }
+        if (err) { return next(err); }
+
         if (doc) {
             req.flash('info', req.app.locals.i18n('exist'));
             res.redirect('/users/signup/');
@@ -58,35 +61,36 @@ router.post('/signup/', function (req, res) {
             password: userPassword,
             active: 'no',
             secure_code: rand
-        }, function () {
-
-            var link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail,
-                mailOptions = {
-                    to: userEmail,
-                    subject: req.app.locals.i18n('confirm')
-                };
-
-            res.render('email_activation', { link: link }, function (err, html) {
-                if (err) { throw err; }
-
-                mailOptions.html = html;
-                transporter.sendMail(mailOptions, function (err, res) {
-                    if (err) {
-                        res.render('default', { msg : 'Something was wrong' });
-                    }
-                });
-            });
-
-            res.render('default', { msg : req.app.locals.i18n('check') });
         });
+
+        link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail,
+        mailOptions = {
+            to: userEmail,
+            subject: req.app.locals.i18n('confirm')
+        };
+
+        res.render('email_activation', { link: link }, function (err, html) {
+            if (err) { return next(err); }
+
+            mailOptions.html = html;
+            transporter.sendMail(mailOptions, function (err, res) {
+                if (err) {
+                    res.render('default', { msg : 'Something was wrong' });
+                }
+            });
+        });
+
+        res.render('default', { msg : req.app.locals.i18n('check') });
     }
 });
 
-router.get('/email_activation', function (req, res) {
-    var db = req.db,
-        userCol = db.get('users');
+router.get('/email_activation', function (req, res, next) {
+
+    var userCol = req.db.get('users');
+
     userCol.findOne({ email : req.query.email }, function (err, doc) {
-        if (err) { throw err; }
+        if (err) { return next(err); }
+
         if (!req.query.random) {
             req.session.user_id = doc._id;
             req.session.email = doc.email;
@@ -94,6 +98,7 @@ router.get('/email_activation', function (req, res) {
             res.redirect('/users/edit');
             return;
         }
+
         if (req.query.random == doc.secure_code) {
             userCol.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
             req.session.user_id = doc._id;
@@ -107,13 +112,15 @@ router.get('/email_activation', function (req, res) {
 
 
 router.get('/password_recovery', function (req, res) {
+
     res.render('user/recovery', {
         curPage: '/users/password_recovery',
         message : req.flash('info')
     });
 });
 
-router.post('/recovery', function (req, res) {
+router.post('/recovery', function (req, res, next) {
+
     var email = req.body.email,
         link,
         mailOptions;
@@ -128,8 +135,7 @@ router.post('/recovery', function (req, res) {
         };
 
         res.render('recovery', { link: link }, function (err, html) {
-
-            if (err) { throw err; }
+            if (err) { return next(err); }
 
             mailOptions.html = html;
             transporter.sendMail(mailOptions, function (err, res) {
@@ -144,6 +150,7 @@ router.post('/recovery', function (req, res) {
 
 
 router.get('/login', function (req, res) {
+
     res.render('user/login', {
         curPage: '/users/login',
         message : req.flash('info'),
@@ -152,18 +159,21 @@ router.get('/login', function (req, res) {
     });
 });
 
-router.post('/login', function (req, res) {
-    var db = req.db,
-        userCol = db.get('users');
+router.post('/login', function (req, res, next) {
+
+    var userCol = req.db.get('users');
+
     userCol.findOne({email : req.body.useremail}, function (err, doc) {
-        if (err) { throw err; }
+        if (err) { return next(err); }
 
         if (doc && passwordHash.verify(req.body.password, doc.password)) {
+
             if (doc.active == 'no') {
                 req.flash('info', req.app.locals.i18n('inactiveUserAccount'));
                 res.redirect('/users/login');
                 return;
             }
+
             req.session.user_id = doc._id;
             req.session.isAdmin = doc.admin && doc.admin === 'yes' ? true : false;
             req.session.email = doc.email;
@@ -179,6 +189,7 @@ router.post('/login', function (req, res) {
 
 
 function checkAuth(req, res, next) {
+
     if (!req.session.user_id) {
         req.flash('info', req.app.locals.i18n('notLogin'));
         res.redirect('/users/login');
@@ -187,33 +198,28 @@ function checkAuth(req, res, next) {
     }
 }
 
-router.get('/profile', checkAuth, function (req, res) {
-    var db = req.db,
-        adCol = db.get('ads'),
+router.get('/profile', checkAuth, function (req, res, next) {
+
+    var adCol = req.db.get('ads'),
         perPage = 4,
         page = req.query.page || 0,
         adStatus = req.query.status || 'active',
-        pages = [],
-        p;
+        link = '/users/profile?status=' + adStatus + '&page=';
+
     adCol.find({ user_id : new ObjectId(req.session.user_id), status: adStatus }, {
         skip: perPage * page,
         limit: perPage,
         sort: { _id : -1 }
     }, function (err, ads) {
-        if (err) { throw err; }
+        if (err) { return next(err); }
 
         adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'active' }, function (err, countActive) {
-            if (err) { throw err; }
+            if (err) { return next(err); }
 
             adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'inactive' }, function (err, countInactive) {
-                if (err) { throw err; }
+                if (err) { return next(err); }
 
-                for (p = 0; p < (adStatus == 'active' ? countActive : countInactive) / perPage; p++) {
-                    pages.push({
-                        link: '/users/profile?page=' + p + '&status=' + adStatus,
-                        pg: p + 1
-                    });
-                }
+                var pages = req.pagination(perPage, (adStatus == 'active' ? countActive : countInactive), link);
 
                 res.render('ad/ads', {
                     countActive: countActive,
@@ -236,18 +242,16 @@ router.get('/profile', checkAuth, function (req, res) {
 });
 
 
-router.get('/edit', checkAuth, function (req, res) {
+router.get('/edit', checkAuth, function (req, res, next) {
 
     req.db.get('users').findById(req.session.user_id, function (err, doc) {
-        if (err) {
-            res.send('No user found.');
-        } else {
-            res.render('user/edit', {
-                curPage: '/users/edit',
-                user : doc,
-                message : req.flash('info')
-            });
-        }
+        if (err || !doc) { return next(err); }
+
+        res.render('user/edit', {
+            curPage: '/users/edit',
+            user : doc,
+            message : req.flash('info')
+        });
     });
 });
 
@@ -274,7 +278,8 @@ router.post('/edit', checkAuth, function (req, res) {
 });
 
 
-router.get('/logout', function (req, res) {
+router.get('/logout', checkAuth, function (req, res) {
+
     delete req.session.user_id;
     delete req.session.email;
     delete req.session.isAdmin;
