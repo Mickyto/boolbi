@@ -19,7 +19,8 @@ router.get('/', checkAdmin, function (req, res, next) {
     var db = req.db,
         adCol = db.get('ads'),
         perPage = 4,
-        page = req.query.page || 0;
+        page = req.query.page || 0,
+        link = '/admin?page=';
 
     adCol.find({ status: 'inactive' }, {
         skip: perPage * page,
@@ -28,17 +29,7 @@ router.get('/', checkAdmin, function (req, res, next) {
         if (err) { return next(err); }
         adCol.count({ status: 'inactive' }, function (err, count) {
             if (err) { return next(err); }
-
-            var pages = [],
-                p;
-            for (p = 0; p < count / perPage; p++) {
-                pages.push({
-
-                    link: '/admin?page=' + p,
-                    pg: p + 1
-
-                });
-            }
+            var pages = req.pagination(perPage, count, link);
 
             res.render('admin/admin', {
                 pages: pages,
