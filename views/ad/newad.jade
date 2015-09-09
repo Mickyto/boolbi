@@ -4,7 +4,7 @@ block content
 
   div.bravito
 
-      h1 User information
+      h1 #{i18n('userInfo')}
       hr
       br
 
@@ -27,7 +27,7 @@ block content
 
       form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm("adForm")', enctype='multipart/form-data')
 
-         h1 Item information
+         h1 #{i18n('itemInfo')}
          hr
 
          if message.length > 0

@@ -7,12 +7,6 @@ body {
   background: #EAF1F1
 }
 
-header {
-  width: 100%;
-  position: fixed;
-  z-index: 3;
-}
-
 @font-face {
   font-family: Roboto-Thin;
   src: url('../fonts/roboto/Roboto-Thin.ttf');
@@ -70,8 +64,8 @@ input.title {
 
 input.search {
   width: 400px;
-  height: 30px;
-  margin: 0;
+  height: 29px;
+  margin: 0 auto;
   text-indent: 15px;
 }
 
@@ -105,10 +99,12 @@ button {
 }
 
 button.search {
-  margin: 0;
+  margin: 0 0 0 5px;
   background: goldenrod;
   border: 0;
-  padding: 4px 25px 6px 25px;
+  display:inline-block;
+  min-height: 29px;
+  padding: 3px 25px 5px 25px;
   font-size: 20px;
   width: 110px;
   height: 34px;
@@ -135,9 +131,7 @@ button.signup:hover {
 }
 button.search:hover {
   background: darkgoldenrod;
-  color: white;
   box-shadow: none;
-  text-indent: 10px;
 }
 
 button:hover {
@@ -187,7 +181,7 @@ div.categ {
 }
 
 div.left {
-  width: 180px;
+  width: 170px;
   padding: 0 5px 0 0;
 }
 
@@ -198,7 +192,7 @@ div.invCaptcha {
 
 
 div.block {
-  width: 660px;
+  width: 620px;
 }
 
 div.captcha {
@@ -228,7 +222,7 @@ div.ads {
 }
 
 div.advertisement {
-  width: 200px;
+  width: 170px;
   white-space: normal;
   margin: 0 0 5px 5px;
 }
@@ -527,13 +521,15 @@ td.info {
 
 img.showAds {
   width: 150px;
+  max-height: 200px;
   margin: 5px;
   border-radius: 3px;
   float: left;
 }
 
 img.main {
-  width: 180px;
+  width: 150px;
+  max-height: 200px;
   margin: 10px;
   border-radius: 3px;
 }
