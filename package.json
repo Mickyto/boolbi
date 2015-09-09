@@ -17,6 +17,7 @@
     "express-session": "^1.11.3",
     "imagemagick": "^0.1.3",
     "jade": "~1.9.2",
+    "mailgun-js": "^0.7.1",
     "method-override": "^2.3.3",
     "mongodb": "~2.0.33",
     "monk": "~1.0.1",

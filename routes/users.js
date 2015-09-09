@@ -9,6 +9,10 @@ var express = require('express'),
     nodemailer = require('nodemailer'),
     ObjectId = require('mongodb').ObjectId;
 
+var api_key = 'key-2f09c76695a377a13554a4f01e97d874';
+var domain = 'sandbox71a7c0ea57d9420f9225d30c97a3d8d9.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
 var transporter = nodemailer.createTransport(
     {
         service: 'Gmail',
@@ -34,7 +38,7 @@ router.get('/signup/', function (req, res) {
 router.post('/signup/', function (req, res, next) {
 
     var link,
-        mailOptions,
+        data,
         userCol = req.db.get('users'),
         rand = Math.random(),
         userEmail      = req.body.useremail || null,
@@ -64,20 +68,22 @@ router.post('/signup/', function (req, res, next) {
         });
 
         link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail,
-        mailOptions = {
+        data = {
+            from: 'Savers <no-reply@mailgun.org>',
             to: userEmail,
-            subject: req.app.locals.i18n('confirm')
+            subject: req.app.locals.i18n('confirm'),
+            text: 'Testing some Mailgun awesomness!'
         };
 
         res.render('email_activation', { link: link }, function (err, html) {
             if (err) { return next(err); }
+            data.html = html;
+        });
 
-            mailOptions.html = html;
-            transporter.sendMail(mailOptions, function (err, res) {
-                if (err) {
-                    res.render('default', { msg : 'Something was wrong' });
-                }
-            });
+        mailgun.messages().send(data, function (err) {
+            if (err) {
+                res.render('default', { msg : 'Something was wrong' });
+            }
         });
 
         res.render('default', { msg : req.app.locals.i18n('check') });
