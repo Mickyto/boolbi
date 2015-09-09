@@ -5,6 +5,7 @@ var router = express.Router();
 /*jslint nomen: true*/
 
 function checkAdmin(req, res, next) {
+
     if (req.session.isAdmin != true) {
         req.flash('info', 'Please log in');
         res.redirect('/users/login');
@@ -13,21 +14,23 @@ function checkAdmin(req, res, next) {
     }
 }
 
-router.get('/', checkAdmin, function (req, res) {
+router.get('/', checkAdmin, function (req, res, next) {
+
     var db = req.db,
         adCol = db.get('ads'),
         perPage = 4,
-        page = req.query.page || 0,
-        p;
+        page = req.query.page || 0;
+
     adCol.find({ status: 'inactive' }, {
         skip: perPage * page,
         limit: perPage
     }, function (err, ads) {
-        if (err) { throw err; }
+        if (err) { return next(err); }
         adCol.count({ status: 'inactive' }, function (err, count) {
-            if (err) { throw err; }
+            if (err) { return next(err); }
 
-            var pages = [];
+            var pages = [],
+                p;
             for (p = 0; p < count / perPage; p++) {
                 pages.push({
 

@@ -30,7 +30,6 @@ router.get('/signup/', function (req, res) {
 });
 
 
-
 router.post('/signup/', function (req, res) {
     var db = req.db,
         userCol = db.get('users'),

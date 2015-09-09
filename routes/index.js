@@ -15,26 +15,16 @@ router.get('/', function (req, res) {
 
 router.param('id', function (req, res, next, id) {
 
-    req.db.get('categories').findById(id, function (err) {
-        if (err) {
-            return next(err);
+    req.db.get('categories').findById(id, function (err, doc) {
+        if (err || !doc) {
+            res.redirect('/');
         }
         req.id = id;
         next();
     });
 });
 
-function pagination(perPage, count, link) {
-    var pageLinks = [],
-        p;
-    for (p = 0; p < count / perPage; p++) {
-        pageLinks.push({
-            link: link + p,
-            pg: p + 1
-        });
-    }
-    return pageLinks;
-}
+
 
 router.get('/category/:id', function (req, res) {
 
@@ -57,7 +47,7 @@ router.get('/category/:id', function (req, res) {
             category_id: new ObjectId(req.id)
         }, function (err, count) {
             if (err) { throw err; }
-            var pages = pagination(perPage, count, link);
+            var pages = req.pagination(perPage, count, link);
 
             res.render('ad/ads', {
                 curPage: '/category/' + req.id,
@@ -108,7 +98,7 @@ router.get('/search', function (req, res) {
         } else {
             adCol.count(searchIn, function (err, count) {
                 if (err) { throw err; }
-                var pages = pagination(perPage, count, link);
+                var pages = req.pagination(perPage, count, link);
 
                 res.render('ad/ads', {
                     curPage: '/',
