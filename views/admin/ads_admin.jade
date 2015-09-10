@@ -1,0 +1,63 @@
+extends admin
+block content
+  div.block
+
+    if message.length > 0
+        div.msg #{message}
+
+    each ad, i in ads
+        div.ads
+            a(href='/ads/#{ad._id}')
+                div.delete
+                    p #{ad.title}
+                    hr
+            if ad.status !== 'active'
+                a.greenButton.fr(href='/admin/activate?id=#{ad._id}&action=inactive') activate
+            if ad.status !== 'rejected'
+                a.greenButton.fr(href='/admin/activate?id=#{ad._id}&action=rejected') reject
+            if ad.improvement == undefined
+                a.greenButton.fr(href='/admin/main?id=#{ad._id}&action=on') make main
+            if ad.improvement !== undefined
+                a.greenButton.fr(href='/admin/main?id=#{ad._id}&action=off') remove main
+
+
+    if pages && pages.length > 1 && pages.length < 7
+        div.delete
+            ul
+                each page, i in pages
+                    li.a
+                        a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+    if pages && pages.length >= 7
+        div.delete
+            ul
+                if pageIndex < 4
+                    each page, i in firstPart
+                        li
+                            a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                    li
+                        h2 ...
+                    li
+                        a.four(href='#{last[0].link}', id='#{last[0].pg}') #{last[0].pg}
+                if pageIndex >= 4 && pageIndex <= last[0].pg - 4
+                    li
+                        a.four(href='#{first[0].link}', id='#{first[0].pg}') #{first[0].pg}
+                    li
+                        h2 ...
+                    each page, i in middle
+                        li
+                            a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                    li
+                        h2 ...
+                    li
+                        a.four(href='#{last[0].link}', id='#{last[0].pg}') #{last[0].pg}
+                if pageIndex > last[0].pg - 4
+                    li
+                        a.four(href='#{first[0].link}', id='#{first[0].pg}') #{first[0].pg}
+                    li
+                        h2 ...
+                    each page, i in lastPart
+                        li
+                            a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+    script.
+        document.getElementById(#{pageIndex}+1).setAttribute('class', 'five');
+        document.getElementsByClassName('four')[0].setAttribute('class', 'six');

@@ -225,6 +225,7 @@ div.advertisement {
   width: 170px;
   white-space: normal;
   padding-bottom: 20px;
+  margin-left: 5px;
 }
 
 div.advertisement:hover {
@@ -238,7 +239,7 @@ div.search {
 }
 
 div.delete{
-  margin: 0 45px 0 45px;
+  margin: 0 0 0 45px;
 }
 
 .lang {
