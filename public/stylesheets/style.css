@@ -224,7 +224,12 @@ div.ads {
 div.advertisement {
   width: 170px;
   white-space: normal;
-  margin: 0 0 5px 5px;
+  padding-bottom: 20px;
+}
+
+div.advertisement:hover {
+  background: #C0D8D9;
+  color: #006666
 }
 
 div.search {

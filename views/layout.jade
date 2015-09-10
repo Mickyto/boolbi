@@ -68,8 +68,8 @@ html
             block content
         td.t
             each ad, i in mainAds
-                div.advertisement
-                    a.three(href='/ads/#{ad._id}')
+                a(href='/ads/#{ad._id}')
+                    div.advertisement
                         table.center
                             tr
                               td
@@ -83,7 +83,7 @@ html
                             tr
                               td
                                 p #{ad.price}
-                p
+
 
   div.header
       p E-mail: info@bravito.ru
