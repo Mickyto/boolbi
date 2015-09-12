@@ -15,11 +15,36 @@ function checkAdmin(req, res, next) {
 }
 
 router.get('/', checkAdmin, function (req, res, next) {
-    req.db.get('users').findById(req.session.user_id, function (err, doc) {
+
+    var db = req.db,
+        userCol = db.get('users'),
+        adCol = db.get('ads');
+
+    userCol.findById(req.session.user_id, function (err, doc) {
         if (err) { return next(err); }
 
-        res.render('admin/admin_info', {
-            info: doc
+        adCol.count({}, function (err, allCount) {
+            if (err) { return next(err); }
+            req.session.allCount = allCount;
+
+            adCol.count({ status: 'inactive' }, function (err, inactiveCount) {
+                if (err) { return next(err); }
+                req.session.inactiveCount = inactiveCount;
+
+                adCol.count({ status: 'rejected' }, function (err, rejectedCount) {
+                    if (err) { return next(err); }
+                    req.session.rejectedCount = rejectedCount;
+
+                    adCol.count({ improvement: 'main' }, function (err, improvedCount) {
+                        if (err) { return next(err); }
+                        req.session.improvedCount = improvedCount;
+
+                        res.render('admin/admin_info', {
+                            info: doc
+                        });
+                    });
+                });
+            });
         });
     });
 });
@@ -61,8 +86,18 @@ router.get('/ads', checkAdmin, function (req, res, next) {
 router.get('/activate', checkAdmin, function (req, res) {
 
     req.db.get('ads').findAndModify({ _id: req.query.id },
-        { $set:  { status: req.query.action === 'rejected' ? 'rejected' : 'active' }});
-    res.redirect('/admin/ads?db=status%3A%27' + req.query.action + '%27');
+        { $set:  { status: 'active' }, $unset: { reason: '' }});
+    res.redirect('/admin/ads?db=status: "inactive"');
+});
+
+
+router.post('/reject', checkAdmin, function (req, res) {
+    console.log(req.body.id);
+    console.log(req.body.reason);
+
+    req.db.get('ads').findAndModify({ _id: req.body.id },
+        { $set:  { status: 'rejected', reason: req.body.reason }});
+    res.redirect('/admin/ads?db=status: "rejected"');
 });
 
 router.get('/main', checkAdmin, function (req, res, next) {

@@ -14,11 +14,26 @@ block content
             if ad.status !== 'active'
                 a.greenButton.fr(href='/admin/activate?id=#{ad._id}&action=inactive') activate
             if ad.status !== 'rejected'
-                a.greenButton.fr(href='/admin/activate?id=#{ad._id}&action=rejected') reject
+                button.signup.fr(onclick='showWindow()') reject
             if ad.improvement == undefined
                 a.greenButton.fr(href='/admin/main?id=#{ad._id}&action=on') make main
             if ad.improvement !== undefined
                 a.greenButton.fr(href='/admin/main?id=#{ad._id}&action=off') remove main
+            if ad.reason !== undefined
+                button.login.fr(onclick='showWindow()') reason
+
+            div.alert
+              span.bgAlert(onclick="closeWindow()")
+              div.content
+                  div.categ
+                      p.big Reason
+                  div(align='right')
+                      form#reject(action='/admin/reject', method='post', enctype='application/x-www-form-urlencoded')
+                          textarea(name='reason', rows=5, cols=50, autofocus) #{ad.reason == ad.reason ? ad.reason : ''}
+                          if ad.reason == ad.reason
+                              input(type='hidden', value='#{ad._id}', name='id')
+                              button.fr.login(type='submit') reject
+                      button.fr(onclick="closeWindow()") cancel
 
 
     if pages && pages.length > 1 && pages.length < 7
@@ -27,6 +42,7 @@ block content
                 each page, i in pages
                     li.a
                         a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+
     if pages && pages.length >= 7
         div.delete
             ul
@@ -58,6 +74,15 @@ block content
                     each page, i in lastPart
                         li
                             a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
-    script.
-        document.getElementById(#{pageIndex}+1).setAttribute('class', 'five');
-        document.getElementsByClassName('four')[0].setAttribute('class', 'six');
+
+  script.
+    var showWindow = function() {
+        document.getElementsByClassName('alert')[0].style.display = 'block';
+    }
+    var  closeWindow = function() {
+        document.getElementsByClassName('alert')[0].style.display = 'none';
+    }
+
+  script.
+    document.getElementById(#{pageIndex}+1).setAttribute('class', 'five');
+    document.getElementsByClassName('four')[0].setAttribute('class', 'six');

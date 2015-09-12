@@ -17,6 +17,10 @@ body
                     input.search(type='text', placeholder='#{i18n("findad")}', name='search', value=(word ? '#{word}' : ''))
                     button.search(type='submit') #{i18n('search')}
         td.center
+            a.one(href='/admin')
+                div.categ.divHover2
+                    p #{session.email}
+        td.center
             a.one(href='/users/logout')
                 div.categ.divHover2
                     p.fa.fa-sign-out.link &nbsp #{i18n('logout')}
@@ -28,17 +32,16 @@ table(align='center')
             div.left
                 a(href='/admin/ads?db=')
                     div.categ.divHover
-                        p All ads
-
+                        p All ads &nbsp&nbsp #{session.allCount}
                 a(href='/admin/ads?db=status%3A%27inactive%27')
                     div.categ.divHover
-                        p Inactive
+                        p Inactive &nbsp&nbsp #{session.inactiveCount}
                 a(href='/admin/ads?db=status%3A%27rejected%27')
                     div.categ.divHover
-                        p Rejected
+                        p Rejected &nbsp&nbsp #{session.rejectedCount}
                 a(href='/admin/ads?db=improvement%3A%27main%27')
                     div.categ.divHover
-                        p Improved
+                        p Improved &nbsp&nbsp #{session.improvedCount}
 
 
 

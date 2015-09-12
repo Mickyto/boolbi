@@ -91,8 +91,8 @@ button {
   margin: 15px;
   cursor: pointer;
   background: #267D7D;
-  padding: 10px 30px 10px 30px;
-  min-width: 120px;
+  padding: 10px 25px 10px 25px;
+  min-width: 100px;
   font-family: Roboto-Light, Helvetica, Arial, sans-serif;
   color: white;
   transition: all 0.5s;
@@ -267,11 +267,11 @@ div.alert {
 
 div.content {
   position: fixed;
-  background: #F5F5F5;
+  background: white;
   width: 40%;
   min-width: 400px;
   padding: 20px;
-  top: 35%;
+  top: 30%;
   margin-left: auto !important;
   margin-right: auto !important;
   left: 0;
@@ -330,7 +330,6 @@ div.ads:hover {
 
 a {
   background: none;
-  font-size: 20px;
   color: darkslategray;
   font-family: Roboto-Light, Arial, sans-serif;
   text-decoration: none;
@@ -386,7 +385,7 @@ a.greenButton {
   border: 1px solid #267D7D;;
   margin: 15px;
   background: #267D7D;
-  padding: 10px 30px 10px 30px;
+  padding: 10px 20px 10px 20px;
   color: white;
   cursor: pointer;
   transition: all 0.5s;
@@ -439,6 +438,9 @@ p {
   margin: auto;
 }
 
+p.big {
+  font-size: 18px;
+}
 
 p.logo {
   font-size: 30px;
@@ -523,6 +525,10 @@ td.info {
 
 .l {
   text-align: left;
+}
+
+img.logo {
+  width: 170px;
 }
 
 img.showAds {
