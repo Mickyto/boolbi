@@ -7,6 +7,17 @@ body {
   background: #EAF1F1
 }
 
+
+header {
+  box-shadow: 2px 2px 6px 3px gray;
+  background-color: #5F9EA0;
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+}
+
 @font-face {
   font-family: Roboto-Thin;
   src: url('../fonts/roboto/Roboto-Thin.ttf');
@@ -203,10 +214,25 @@ div.captcha {
   border-radius: 7px;
 }
 
-div.header {
+div.footer {
   box-shadow: 2px 2px 6px 3px gray;
   background-color: #5F9EA0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
+
+div.index {
+  width: 700px;
+  background-image: url('../images/logo/brick-wall-1194038.jpg');
+  background-size: 800px 600px;
+  background-repeat: no-repeat;
+}
+div.index1 {
+  background-image: url('../images/logo/brick-wall-1194038.jpg');
+}
+
+
 
 div.bravito {
   padding: 15px;
