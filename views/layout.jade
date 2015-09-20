@@ -5,103 +5,47 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/font-awesome.css')
 
+  extends header
 
-  header
-    table.full
-      td
-        a(href='/')
-          img.logo(src='/images/logo/logo9.png')
-      td.center
-        div.search
-             form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-                  input.search(type='text', placeholder='#{i18n("findad")}', name='search', value=(word ? '#{word}' : ''))
-                  button.search(type='submit') #{i18n('search')}
-      td.center
-         a(href='/ads/newad')
-            div.categ.divHover2
-              p.link #{i18n('newad')}
+  block layout
 
-      td.center
-         if session.user_id
+      body
+          table(align='center')
+              tr
+                td.t
+                  div.left
+                      each category, i in categories
+                          a(href='/category/#{category._id}')
+                              div.categ.divHover
+                                  p #{category.name[session.locale]}  &nbsp
+                                       span(id='#{category._id}', align='right')
+                td.t
+                  div.block
+                    block content
+                td.t
+                    each ad, i in mainAds
+                        a(href='/ads/#{ad._id}')
+                            div.advertisement
+                                table.center
+                                    tr
+                                      td
+                                        if ad.image1
+                                            img.main(src='/images/small/#{ad.image1}')
+                                        else if ad.image2
+                                            img.main(src='/images/small/#{ad.image2}')
+                                    tr
+                                      td
+                                        p.small #{ad.title}
+                                    tr
+                                      td
+                                        p #{ad.price}
+      br
+      br
 
-              div.categ.divHover2(onmouseover="openMenu()", onmouseout="closeMenu()")
-
-                p.link.fa.fa-user  &nbsp #{session.email}
-                ul.b#menu
-                    li.b
-                      a.one(href='/users/profile')
-                        div.categ.divHover2
-                            p.link #{i18n('myAds')}
-                    li.b
-                      a.one(href='/users/edit')
-                         div.categ.divHover2
-                            p.link #{i18n('settings')}
-                    li.b
-                      a.one(href='/users/logout')
-                          div.categ.divHover2
-                            p.link #{i18n('logout')}
-
-         else
-            a(href='/users/login')
-              div.categ.divHover2
-                p.link #{i18n('login')}
-      td.gold.center
-        each lang in ['ru', 'en']
-          a.one(href='/locale?locale=#{lang}&current=#{curPage}')
-            div.lang
-                p.small #{lang}
-  br
-
-  body
-      table(align='center')
-          tr
-            td.t
-              div.left
-                  each category, i in categories
-                      a(href='/category/#{category._id}')
-                          div.categ.divHover
-                              p #{category.name[session.locale]}  &nbsp
-                                   span(id='#{category._id}', align='right')
-
-
-            td.t
-              div.block
-                block content
-            td.t
-                each ad, i in mainAds
-                    a(href='/ads/#{ad._id}')
-                        div.advertisement
-                            table.center
-                                tr
-                                  td
-                                    if ad.image1
-                                        img.main(src='/images/small/#{ad.image1}')
-                                    else if ad.image2
-                                        img.main(src='/images/small/#{ad.image2}')
-                                tr
-                                  td
-                                    p.small #{ad.title}
-                                tr
-                                  td
-                                    p #{ad.price}
-  br
-  br
-
-  footer
-      div.footer
-        p E-mail: info@bravito.ru
+      footer
+          div.footer
+            p E-mail: info@bravito.ru
 
 
   script.
       document.getElementById('#{category}').setAttribute('class', 'fa fa-circle r');
-
-  script.
-      function openMenu() {
-          document.getElementById('menu').style.display = "block";
-      }
-      function closeMenu(x) {
-          document.getElementById('menu').style.display = "none";
-      }
-
-
-

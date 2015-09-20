@@ -5,46 +5,56 @@ html
         link(rel='stylesheet', href='/stylesheets/style.css')
         link(rel='stylesheet', href='/stylesheets/font-awesome.css')
 
+    extends header
 
-header
-    table.full
-        td
-            a(href='/')
-                img.logo(src='/images/logo/logo9.png')
-        td.center
-            div.search
-                form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-                    input.search(type='text', placeholder='#{i18n("findad")}', name='search', value=(word ? '#{word}' : ''))
-                    button.search(type='submit') #{i18n('search')}
-        td.gold.center
-            each lang in ['ru', 'en']
-                a.one(href='/locale?locale=#{lang}&current=#{curPage}')
-                    div.lang
-                        p.small #{lang}
-br
+    block layout
 
-body
-    table(align='center')
-        tr
-            td.t
-                div.index
-                    div.bravito
-                      p.small #{i18n('text1')}
-                    p jhuhj
-            td.t
-                each ad, i in mainAds
-                    a(href='/ads/#{ad._id}')
-                        div.advertisement
-                            table.center
-                                tr
+        body
+            table(align='center')
+                tr
+                    td.t
+                        div.index
+                            div.bravito
+                                h1.center boolbi - cайт бесплатных объявлений
+                                table
                                     td
-                                        if ad.image1
-                                            img.main(src='/images/small/#{ad.image1}')
-                                        else if ad.image2
-                                            img.main(src='/images/small/#{ad.image2}')
-                                tr
+                                        img(src='/images/logo/items.png')
                                     td
-                                        p.small #{ad.title}
-                                tr
-                                    td
-                                        p #{ad.price}
+                                        div.width
+                                            div.button
+                                                form(action='/ads/newad')
+                                                    button.index(type='submit') #{i18n('newad')}
+                                br
+                                br
+                                div.column
+                                    each category, i in categories
+                                        a(href='/category/#{category._id}')
+                                            div.indexCategory
+                                                p.index #{category.name[session.locale]}
+                                br
+                                p.small #{i18n('text1')}
+                    td.t
+                        each ad, i in mainAds
+                            a(href='/ads/#{ad._id}')
+                                div.advertisement
+                                    table.center
+                                        tr
+                                            td
+                                                if ad.image1
+                                                    img.main(src='/images/small/#{ad.image1}')
+                                                else if ad.image2
+                                                    img.main(src='/images/small/#{ad.image2}')
+                                        tr
+                                            td
+                                                p.small #{ad.title}
+                                        tr
+                                            td
+                                                p #{ad.price}
+
+script.
+    function openMenu() {
+        document.getElementById('menu').style.display = "block";
+    }
+    function closeMenu() {
+        document.getElementById('menu').style.display = "none";
+    }
