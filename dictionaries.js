@@ -64,7 +64,12 @@ module.exports = {
             alertDel: 'Вы уверены, что хотите удалить это объявление?',
             noPermission: 'У вас нет прав для этого действия',
             incorrectImage: 'Формат фотографии может быть только .jpeg или .png, а размер не более 2 Мб. Пожалуйса, проверьте свойства фотографии',
-            noAd: 'Не существует такого объявления'
+            noAd: 'Не существует такого объявления',
+            userInfo: 'Информация о продавце',
+            itemInfo: 'Информация о предложении',
+            editUser: 'Изменение профиля',
+            text1: 'Благодаря boolbi, вы быстро сможете найти и приобрести необходимый вам товар. Просто введите в поиске название, свяжитесь с продавцом и договоритесь о сделке. Также, здесь вы сможете разместить ваше собственное объявление. Для этого нужно только пройти простую регистрацию, заполнить удобную форму объявления и добавить пару фотографий. Желаем вам успешных продаж и выгодных покупок.',
+            text2: ''
         };
         return russian[word];
     },
@@ -130,7 +135,11 @@ module.exports = {
             alertDel: 'Are you sure you want to delete this ad?',
             noPermission: 'You don\'t have permission for this action',
             incorrectImage: 'Format of image must be only .jpeg or .png amd size 2 Mb. Please, check parameters of image',
-            noAd: 'Such ad is not exist'
+            noAd: 'Such ad is not exist',
+            userInfo: 'Seller information',
+            itemInfo: 'Item information',
+            editUser: 'Edit profile',
+            text1: ''
         };
         return english[word];
     }

@@ -1,0 +1,27 @@
+extends admin
+block content
+
+
+
+    div.block
+        div.bravito
+          h1 Admin Information
+          hr
+          br
+
+          table
+            tr
+                td
+                    p.small #{i18n('name')}: &nbsp &nbsp
+                td.info
+                    p #{info.name}
+            tr
+                td
+                    p.small Email: &nbsp &nbsp
+                td.info
+                    p #{info.email}
+            tr
+                td
+                    p.small #{i18n('tel')}: &nbsp &nbsp
+                td.info
+                    p #{info.telephone}

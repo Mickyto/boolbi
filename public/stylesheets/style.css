@@ -8,9 +8,13 @@ body {
 }
 
 header {
-  width: 100%;
-  position: fixed;
-  z-index: 3;
+  box-shadow: 2px 2px 6px 3px gray;
+  background: #5F9EA0;
+}
+
+footer {
+  position: relative;
+  bottom: 0;
 }
 
 @font-face {
@@ -70,8 +74,8 @@ input.title {
 
 input.search {
   width: 400px;
-  height: 30px;
-  margin: 0;
+  height: 29px;
+  margin: 0 auto;
   text-indent: 15px;
 }
 
@@ -97,18 +101,20 @@ button {
   margin: 15px;
   cursor: pointer;
   background: #267D7D;
-  padding: 10px 30px 10px 30px;
-  min-width: 120px;
+  padding: 10px 25px 10px 25px;
+  min-width: 100px;
   font-family: Roboto-Light, Helvetica, Arial, sans-serif;
   color: white;
   transition: all 0.5s;
 }
 
 button.search {
-  margin: 0;
+  margin: 0 0 0 5px;
   background: goldenrod;
   border: 0;
-  padding: 4px 25px 6px 25px;
+  display:inline-block;
+  min-height: 29px;
+  padding: 3px 25px 5px 25px;
   font-size: 20px;
   width: 110px;
   height: 34px;
@@ -135,9 +141,7 @@ button.signup:hover {
 }
 button.search:hover {
   background: darkgoldenrod;
-  color: white;
   box-shadow: none;
-  text-indent: 10px;
 }
 
 button:hover {
@@ -159,6 +163,19 @@ button.login:active {
 button.signup:active {
   background: #4F659D;
   box-shadow: none;
+}
+
+button.index {
+  background: goldenrod;
+  height: 100px;
+  width: 120px;
+  white-space: normal;
+  padding: 10px;
+  border: 0;
+}
+
+button.index:hover {
+  background: teal;
 }
 
 
@@ -187,7 +204,7 @@ div.categ {
 }
 
 div.left {
-  width: 180px;
+  width: 170px;
   padding: 0 5px 0 0;
 }
 
@@ -196,9 +213,21 @@ div.invCaptcha {
   margin: 0
 }
 
+div.indexCategory {
+  text-align: center;
+  width: 100%;
+  height: 50px;
+  background: teal;
+  color: white;
+  margin-bottom: 10px;
+}
+
+div.indexCategory:hover {
+  background: #5F9EA0;
+}
 
 div.block {
-  width: 660px;
+  width: 620px;
 }
 
 div.captcha {
@@ -209,10 +238,25 @@ div.captcha {
   border-radius: 7px;
 }
 
-div.header {
+div.footer {
   box-shadow: 2px 2px 6px 3px gray;
   background-color: #5F9EA0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
+
+div.index {
+  width: 700px;
+  background-image: url('../images/logo/brick-wall-1194038.jpg');
+  background-size: 800px 600px;
+  background-repeat: no-repeat;
+}
+div.index1 {
+  background-image: url('../images/logo/brick-wall-1194038.jpg');
+}
+
+
 
 div.bravito {
   padding: 15px;
@@ -228,9 +272,21 @@ div.ads {
 }
 
 div.advertisement {
-  width: 200px;
+  width: 170px;
   white-space: normal;
-  margin: 0 0 5px 5px;
+  padding-bottom: 20px;
+  margin: 0 0 10px 10px;
+}
+
+div.advertisement:hover {
+  background: #C0D8D9;
+  color: #006666
+}
+
+div.column {
+  -webkit-column-count: 2; /* Chrome, Safari, Opera */
+  -moz-column-count: 2; /* Firefox */
+  column-count: 2;
 }
 
 div.search {
@@ -239,7 +295,7 @@ div.search {
 }
 
 div.delete{
-  margin: 0 45px 0 45px;
+  margin: 0 0 0 45px;
 }
 
 .lang {
@@ -259,6 +315,10 @@ div.signup {
   padding: 20px;
   margin: auto;
   background: #9FC4C6;
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
 }
 
 div.alert {
@@ -267,16 +327,25 @@ div.alert {
 
 div.content {
   position: fixed;
-  background: #F5F5F5;
+  background: white;
   width: 40%;
   min-width: 400px;
   padding: 20px;
-  top: 35%;
+  top: 30%;
   margin-left: auto !important;
   margin-right: auto !important;
   left: 0;
   right: 0;
   z-index: 100000;
+}
+
+div.button {
+  border: 2px solid gold;
+  width: 150px
+}
+
+div.width {
+  width: 350px;
 }
 
 div.img,
@@ -330,7 +399,6 @@ div.ads:hover {
 
 a {
   background: none;
-  font-size: 20px;
   color: darkslategray;
   font-family: Roboto-Light, Arial, sans-serif;
   text-decoration: none;
@@ -386,7 +454,7 @@ a.greenButton {
   border: 1px solid #267D7D;;
   margin: 15px;
   background: #267D7D;
-  padding: 10px 30px 10px 30px;
+  padding: 10px 20px 10px 20px;
   color: white;
   cursor: pointer;
   transition: all 0.5s;
@@ -439,6 +507,9 @@ p {
   margin: auto;
 }
 
+p.big {
+  font-size: 18px;
+}
 
 p.logo {
   font-size: 30px;
@@ -478,6 +549,11 @@ p.small {
 
 p.micro {
   font-size: 12px;
+}
+
+p.index {
+  padding: 16px;
+  font-size: 16px;
 }
 
 .img:hover{
@@ -525,17 +601,24 @@ td.info {
   text-align: left;
 }
 
+img.logo {
+  width: 170px;
+}
+
 img.showAds {
   width: 150px;
+  max-height: 200px;
   margin: 5px;
   border-radius: 3px;
   float: left;
 }
 
 img.main {
-  width: 180px;
-  margin: 10px;
-  border-radius: 3px;
+  width: 150px;
+  max-height: 200px;
+  margin: 0;
+  border-radius: 5px;
+  border: 4px solid darkgoldenrod;
 }
 
 img.show {

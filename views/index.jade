@@ -1,9 +1,60 @@
-extends layout
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/font-awesome.css')
 
-block content
+    extends header
 
+    block layout
 
-    div.bravito
-      p.small Bravito — сайт бесплатных объявлений. Миллионы людей в месяц посещают наш сайт. Ежедневно подаются сотни тысяч новых объявлений. Здесь легко найти нужный товар или услугу всего за несколько минут. Для каждого региона и города — своя доска объявлений. У нас есть объявления частных лиц и компаний, объявления о продаже. Вы можете отфильтровать нужные объявления по характеристикам, таким как пробег автомобиля, порода кошки, площадь земельного участка и т.п.
-      br
-      p.small С Bravito подать бесплатное объявление в интернете стало проще простого. Вам потребуется всего пара минут! Выберите категорию товара и город, напишите заголовок и текст объявления, укажите цену товара, свой e-mail и телефон. Добавьте несколько фотографий — они помогут быстрее продать ваш товар. Желаем выгодных покупок и успешных продаж!
+        body
+            table(align='center')
+                tr
+                    td.t
+                        div.index
+                            div.bravito
+                                h1.center boolbi - cайт бесплатных объявлений
+                                table
+                                    td
+                                        img(src='/images/logo/items.png')
+                                    td
+                                        div.width
+                                            div.button
+                                                form(action='/ads/newad')
+                                                    button.index(type='submit') #{i18n('newad')}
+                                br
+                                br
+                                div.column
+                                    each category, i in categories
+                                        a(href='/category/#{category._id}')
+                                            div.indexCategory
+                                                p.index #{category.name[session.locale]}
+                                br
+                                p.small #{i18n('text1')}
+                    td.t
+                        each ad, i in mainAds
+                            a(href='/ads/#{ad._id}')
+                                div.advertisement
+                                    table.center
+                                        tr
+                                            td
+                                                if ad.image1
+                                                    img.main(src='/images/small/#{ad.image1}')
+                                                else if ad.image2
+                                                    img.main(src='/images/small/#{ad.image2}')
+                                        tr
+                                            td
+                                                p.small #{ad.title}
+                                        tr
+                                            td
+                                                p #{ad.price}
+
+script.
+    function openMenu() {
+        document.getElementById('menu').style.display = "block";
+    }
+    function closeMenu() {
+        document.getElementById('menu').style.display = "none";
+    }

@@ -6,18 +6,11 @@ var express = require('express'),
     router = express.Router(),
     passwordHash = require('password-hash'),
     validator = require('validator'),
-    nodemailer = require('nodemailer'),
     ObjectId = require('mongodb').ObjectId;
 
-var transporter = nodemailer.createTransport(
-    {
-        service: 'Gmail',
-        auth: {
-            user: 'egayigor@gmail.com',
-            pass: 'mia910ei'
-        }
-    }
-);
+var api_key = 'key-2f09c76695a377a13554a4f01e97d874';
+var domain = 'sandbox71a7c0ea57d9420f9225d30c97a3d8d9.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
 
 router.get('/signup/', function (req, res) {
@@ -34,7 +27,7 @@ router.get('/signup/', function (req, res) {
 router.post('/signup/', function (req, res, next) {
 
     var link,
-        mailOptions,
+        data,
         userCol = req.db.get('users'),
         rand = Math.random(),
         userEmail      = req.body.useremail || null,
@@ -63,21 +56,22 @@ router.post('/signup/', function (req, res, next) {
             secure_code: rand
         });
 
-        link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail,
-        mailOptions = {
+        link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
+        data = {
+            from: 'Savers <no-reply@mailgun.org>',
             to: userEmail,
             subject: req.app.locals.i18n('confirm')
         };
 
         res.render('email_activation', { link: link }, function (err, html) {
             if (err) { return next(err); }
+            data.html = html;
+        });
 
-            mailOptions.html = html;
-            transporter.sendMail(mailOptions, function (err, res) {
-                if (err) {
-                    res.render('default', { msg : 'Something was wrong' });
-                }
-            });
+        mailgun.messages().send(data, function (err) {
+            if (err) {
+                res.render('default', { msg : 'Something was wrong' });
+            }
         });
 
         res.render('default', { msg : req.app.locals.i18n('check') });
@@ -123,27 +117,29 @@ router.post('/recovery', function (req, res, next) {
 
     var email = req.body.email,
         link,
-        mailOptions;
+        data;
     if (!validator.isEmail(email)) {
         req.flash('info', req.app.locals.i18n('emailErr'));
         res.redirect('/users/password_recovery');
     } else {
         link = 'http://' + req.get('host') + '/users/email_activation?email=' + email;
-        mailOptions = {
+        data = {
+            from: 'Savers <no-reply@mailgun.org>',
             to: email,
             subject: req.app.locals.i18n('changePass')
         };
 
         res.render('recovery', { link: link }, function (err, html) {
             if (err) { return next(err); }
-
-            mailOptions.html = html;
-            transporter.sendMail(mailOptions, function (err, res) {
-                if (err) {
-                    res.render('default', {msg: 'Something was wrong'});
-                }
-            });
+            data.html = html;
         });
+
+        mailgun.messages().send(data, function (err) {
+            if (err) {
+                res.render('default', { msg : 'Something was wrong' });
+            }
+        });
+
         res.render('default', { msg : req.app.locals.i18n('check') });
     }
 });

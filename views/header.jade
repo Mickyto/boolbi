@@ -1,0 +1,62 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/font-awesome.css')
+
+
+    header
+      table.full
+        td
+            a(href='/')
+                img.logo(src='/images/logo/logo9.png')
+        td.center
+            div.search
+                form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
+                    input.search(type='text', placeholder='#{i18n("findad")}', name='search', value=(word ? '#{word}' : ''))
+                    button.search(type='submit') #{i18n('search')}
+        td.center
+            a(href='/ads/newad')
+                div.categ.divHover2
+                    p.link #{i18n('newad')}
+
+        td.center
+            if session.user_id
+
+                div.categ.divHover2(onmouseover="openMenu()", onmouseout="closeMenu()")
+
+                    p.link.fa.fa-user  &nbsp #{session.email}
+                    ul.b#menu
+                        li.b
+                            a.one(href='/users/profile')
+                                div.categ.divHover2
+                                    p.link #{i18n('myAds')}
+                        li.b
+                            a.one(href='/users/edit')
+                                div.categ.divHover2
+                                    p.link #{i18n('settings')}
+                        li.b
+                            a.one(href='/users/logout')
+                                div.categ.divHover2
+                                    p.link #{i18n('logout')}
+
+            else
+                a(href='/users/login')
+                    div.categ.divHover2
+                        p.link #{i18n('login')}
+        td.gold.center
+            each lang in ['ru', 'en']
+                a.one(href='/locale?locale=#{lang}&current=#{curPage}')
+                    div.lang
+                        p.small #{lang}
+    br
+    block layout
+
+    script.
+        function openMenu() {
+            document.getElementById('menu').style.display = "block";
+        }
+        function closeMenu(x) {
+            document.getElementById('menu').style.display = "none";
+        }

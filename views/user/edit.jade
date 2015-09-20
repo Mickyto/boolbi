@@ -5,7 +5,7 @@ block content
 
  div.bravito
 
-    h1 Edit user information
+    h1 #{i18n('editUser')}
     hr
 
     form(name='userinfo', action='/users/edit', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
@@ -19,12 +19,12 @@ block content
           td.r
             p.small #{i18n('name')}:
           td.info
-            input.title(type='text', value=(user.name !== undefined ? '#{user.name}' : ''), name='name')
+            input.title(type='text', value=(user ? '#{user.name}' : ''), name='name', size=22)
         tr
           td.r
             p.small #{i18n('tel')}:
           td.info
-            input.title(type='text', value=(user.telephone !== undefined ? '#{user.telephone}' : ''), name='telephone')
+            input.title(type='text', value=(user ? '#{user.telephone}' : ''), name='telephone', size=22)
         tr
           td.r(rowspan=2)
             p.small #{i18n('changePass')}:
@@ -33,10 +33,10 @@ block content
                 div.msg #{message}
 
           td.info
-             input.title(type='password', name='newpass1', placeholder='#{i18n("newPass")}')
+             input.title(type='password', name='newpass1', placeholder='#{i18n("newPass")}', size=22)
         tr
           td.info
-             input.title(type='password', name='newpass2', placeholder='#{i18n("againPass")}')
+             input.title(type='password', name='newpass2', placeholder='#{i18n("againPass")}', size=22)
       br
       hr
       button(type='submit') #{i18n('save')}
