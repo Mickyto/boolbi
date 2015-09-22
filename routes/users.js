@@ -11,6 +11,15 @@ var express = require('express'),
 var api_key = 'key-2f09c76695a377a13554a4f01e97d874';
 var domain = 'sandbox71a7c0ea57d9420f9225d30c97a3d8d9.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+var MailChimpAPI = require('mailchimp').MailChimpAPI;
+
+var apiKey = 'b078387fe2019d424008ec791c89d7dc-us11';
+
+try {
+    var api = new MailChimpAPI(apiKey, { version : '2.0' });
+} catch (error) {
+    console.log(error.message);
+}
 
 
 router.get('/signup/', function (req, res) {
@@ -57,6 +66,23 @@ router.post('/signup/', function (req, res, next) {
         });
 
         link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
+
+        /*var mcReq = {
+            id: '62fbd1e9aa',
+            email: { email: userEmail },
+            merge_vars: {
+                LINK: link
+            }
+        };*/
+
+        api.call('campaigns', 'template-content', { cid: '2b4b64d6b4', merge_vars: { LINK: link }}, function (error, data) {
+            if (error)
+                console.log(error.message);
+            else
+                console.log(JSON.stringify(data)); // Do something with your data!
+        });
+        
+
         data = {
             from: 'Savers <no-reply@mailgun.org>',
             to: userEmail,

@@ -1,52 +1,113 @@
-doctype html
-html
-    head
-        title= title
-        link(rel='stylesheet', href='/stylesheets/style.css')
-        link(rel='stylesheet', href='/stylesheets/font-awesome.css')
+extends ../header
 
-body
-  div.header
-      table.full
-        td
-            a(href='/')
-                p.logo giwwer
-        td.center
-            div.search
-                form(action='/search', method='get', enctype='application/x-www-form-urlencoded')
-                    input.search(type='text', placeholder='#{i18n("findad")}', name='search', value=(word ? '#{word}' : ''))
-                    button.search(type='submit') #{i18n('search')}
-        td.center
-            a.one(href='/admin')
-                div.categ.divHover2
-                    p #{session.email}
-        td.center
-            a.one(href='/users/logout')
-                div.categ.divHover2
-                    p.fa.fa-sign-out.link &nbsp #{i18n('logout')}
-  br
+block layout
 
-table(align='center')
+    div.header
+    br
+    table(align='center')
       tr
         td.t
             div.left
-                a(href='/admin/ads?db=')
+                a(href='/admin')
                     div.categ.divHover
-                        p All ads &nbsp&nbsp #{session.allCount}
-                a(href='/admin/ads?db=status%3A%27inactive%27')
+                        p All ads &nbsp&nbsp #{count.all}
+                a(href='/admin?criteria[status]=inactive')
                     div.categ.divHover
-                        p Inactive &nbsp&nbsp #{session.inactiveCount}
-                a(href='/admin/ads?db=status%3A%27rejected%27')
+                        p Inactive &nbsp&nbsp #{count.inactive}
+                a(href='/admin?criteria[status]=rejected')
                     div.categ.divHover
-                        p Rejected &nbsp&nbsp #{session.rejectedCount}
-                a(href='/admin/ads?db=improvement%3A%27main%27')
+                        p Rejected &nbsp&nbsp #{count.rejected}
+                a(href='/admin?criteria[improvement]=main')
                     div.categ.divHover
-                        p Improved &nbsp&nbsp #{session.improvedCount}
-
-
+                        p Improved &nbsp&nbsp #{count.improved}
 
         td.t
-            block content
+            div.block
 
+                if message.length > 0
+                    div.msg #{message}
 
+                each ad, i in ads
+                    div.ads
+                        a(href='/ads/#{ad._id}')
+                            div.delete
+                                p #{ad.title}
+                                hr
+                        if ad.status !== 'active'
+                            a.greenButton.fr(href='/admin/activate?id=#{ad._id}&action=inactive') activate
+                        if ad.status !== 'rejected'
+                            button.signup.fr(onclick='showWindow("#{ad._id}")') reject
+                        if ad.improvement == undefined
+                            a.greenButton.fr(href='/admin/main?id=#{ad._id}&action=on') make main
+                        if ad.improvement !== undefined
+                            a.greenButton.fr(href='/admin/main?id=#{ad._id}&action=off') remove main
+                        if ad.reason !== undefined
+                            button.login.fr(onclick='showWindow("#{ad._id}", "#{ad.reason}")') reason
+
+                if pages && pages.length > 1 && pages.length < 7
+                    div.delete
+                        ul
+                            each page, i in pages
+                                li.a
+                                    a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+
+                if pages && pages.length >= 7
+                    div.delete
+                        ul
+                            if pageIndex < 4
+                                each page, i in firstPart
+                                    li
+                                        a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                                li
+                                    h2 ...
+                                li
+                                    a.four(href='#{last[0].link}', id='#{last[0].pg}') #{last[0].pg}
+                            if pageIndex >= 4 && pageIndex <= last[0].pg - 4
+                                li
+                                    a.four(href='#{first[0].link}', id='#{first[0].pg}') #{first[0].pg}
+                                li
+                                    h2 ...
+                                each page, i in middle
+                                    li
+                                        a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                                li
+                                    h2 ...
+                                li
+                                    a.four(href='#{last[0].link}', id='#{last[0].pg}') #{last[0].pg}
+                            if pageIndex > last[0].pg - 4
+                                li
+                                    a.four(href='#{first[0].link}', id='#{first[0].pg}') #{first[0].pg}
+                                li
+                                    h2 ...
+                                each page, i in lastPart
+                                    li
+                                        a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+
+    div.alert
+        span.bgAlert(onclick="closeWindow()")
+        div.content
+            div.categ
+                p.big Reason
+            div(align='right')
+                form#reject(action='/admin/reject', method='post', enctype='application/x-www-form-urlencoded')
+                    textarea#reason(name='reason', rows=5, cols=50, autofocus)
+                    input#adId(type='hidden', value='', name='id')
+                    button.fr.login(type='submit') reject
+                button.fr(onclick="closeWindow()") cancel
+
+    script.
+        var showWindow = function (id, reason) {
+            document.getElementsByClassName('alert')[0].style.display = 'block';
+            document.getElementById('adId').value = id;
+            if (reason) {
+                document.getElementById('reason').value = reason;
+            }
+        }
+        var closeWindow = function () {
+            document.getElementsByClassName('alert')[0].style.display = 'none';
+        }
+
+    script.
+        document.getElementById(#{pageIndex} + 1).setAttribute('class', 'five');
+        document.getElementsByClassName('four')[0].setAttribute('class', 'six');
 

@@ -63,8 +63,8 @@ app.use(function (req, res, next) {
 app.use(function (req, res, next) {
     var adCol = db.get('ads');
     adCol.count({ improvement: 'main'}, function (err, count) {
-        var random = parseInt(Math.random() * (count - 3), 10);
-        adCol.find({ improvement: 'main'}, { limit: 4, skip: random }, function (err, ads) {
+        var random = parseInt(Math.random() * (count - 2), 10);
+        adCol.find({ improvement: 'main'}, { limit: 3, skip: random }, function (err, ads) {
             res.locals.mainAds = ads;
             next();
         });

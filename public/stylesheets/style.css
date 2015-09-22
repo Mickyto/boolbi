@@ -2,7 +2,7 @@
 body {
   padding: 0;
   margin: 0;
-  font: 16px Roboto-Thin, Helvetica, Arial, sans-serif;
+  font: 16px Roboto-Light, Helvetica, Arial, sans-serif;
   color: darkslategray;
   background: #EAF1F1
 }
@@ -10,6 +10,9 @@ body {
 header {
   box-shadow: 2px 2px 6px 3px gray;
   background: #5F9EA0;
+  position: fixed;
+  top: 0;
+  width: 100%
 }
 
 footer {
@@ -248,15 +251,11 @@ div.footer {
 
 div.index {
   width: 700px;
-  background-image: url('../images/logo/brick-wall-1194038.jpg');
-  background-size: 800px 600px;
-  background-repeat: no-repeat;
-}
-div.index1 {
-  background-image: url('../images/logo/brick-wall-1194038.jpg');
 }
 
-
+div.header {
+  height: 28px;
+}
 
 div.bravito {
   padding: 15px;
@@ -400,7 +399,6 @@ div.ads:hover {
 a {
   background: none;
   color: darkslategray;
-  font-family: Roboto-Light, Arial, sans-serif;
   text-decoration: none;
   white-space: nowrap;
   transition: all 0.5s;
@@ -487,6 +485,7 @@ a.greenButton:active {
 }
 
 h1 {
+  font-family: Roboto-Thin, Arial, sans-serif;
   color: lightgoldenrodyellow;
   margin: 5px;
   padding: 0;
@@ -503,7 +502,6 @@ h6 {
 p {
   padding: 4px;
   font-size: 15px;
-  font-family: Roboto-Light, Arial, sans-serif;
   margin: auto;
 }
 
@@ -521,8 +519,6 @@ p.med {
   font-size: 18px;
   color: ivory;
 }
-
-
 
 p.validateErr {
   text-align: right;

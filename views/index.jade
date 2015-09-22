@@ -8,14 +8,15 @@ html
     extends header
 
     block layout
-
         body
+            div.header
+            br
             table(align='center')
                 tr
                     td.t
                         div.index
                             div.bravito
-                                h1.center boolbi - cайт бесплатных объявлений
+                                h1.center #{i18n('boolbi')}
                                 table
                                     td
                                         img(src='/images/logo/items.png')
@@ -51,10 +52,10 @@ html
                                             td
                                                 p #{ad.price}
 
-script.
-    function openMenu() {
-        document.getElementById('menu').style.display = "block";
-    }
-    function closeMenu() {
-        document.getElementById('menu').style.display = "none";
-    }
+    script.
+        function openMenu() {
+            document.getElementById('menu').style.display = "block";
+        }
+        function closeMenu() {
+            document.getElementById('menu').style.display = "none";
+        }

@@ -69,7 +69,9 @@ module.exports = {
             itemInfo: 'Информация о предложении',
             editUser: 'Изменение профиля',
             text1: 'Благодаря boolbi, вы быстро сможете найти и приобрести необходимый вам товар. Просто введите в поиске название, свяжитесь с продавцом и договоритесь о сделке. Также, здесь вы сможете разместить ваше собственное объявление. Для этого нужно только пройти простую регистрацию, заполнить удобную форму объявления и добавить пару фотографий. Желаем вам успешных продаж и выгодных покупок.',
-            text2: ''
+            boolbi: 'boolbi - сайт бесплатных объявлений',
+            active: 'активные',
+            inactive: 'неактивные'
         };
         return russian[word];
     },
@@ -139,7 +141,10 @@ module.exports = {
             userInfo: 'Seller information',
             itemInfo: 'Item information',
             editUser: 'Edit profile',
-            text1: ''
+            text1: 'With boolbi you can quickly find and buy necessary items. Just enter a title to search field, connect to seller and do a deal. Also you can place here your own ad. For it you need just pass simple registration, full in a handy ad form and attach couple images. Wish you successful sales and bargains',
+            boolbi: 'boolbi is a free ads website',
+            active: 'active',
+            inactive: 'inactive'
         };
         return english[word];
     }
