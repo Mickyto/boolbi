@@ -1,61 +1,61 @@
-extends ../header
-
+include ../header
 
 block layout
 
- div.signup.center
+  body
+     div.signup.center
+        form(name='login', action='#{formAction}', onsubmit='event.preventDefault(); return validateForm("login")', method='post', enctype='application/x-www-form-urlencoded')
 
-    form(name='login', action='#{formAction}', onsubmit='event.preventDefault(); return validateForm("login")', method='post', enctype='application/x-www-form-urlencoded')
+            if message.length > 0
+                div.msg #{message}
 
-        if message.length > 0
-            div.msg #{message}
+            table.full.r
+                tr
+                  td(colspan=2)
+                    p.validateErr#useremail #{i18n('emailErr')}
+                tr
+                  td
+                    p Email:
+                  td
+                    input.login#email(type='email', name='useremail', autofocus)
+                tr
+                  td(colspan=2)
+                    p.validateErr#password #{i18n('passErr')}
+                tr
+                  td
+                    p #{i18n('pass')}:
+                  td
+                    input.login#pass(type='password', name='password', oninput='scale()')
+                tr
+                  td.l(colspan=2)
+                    if btnValue == 'signup'
+                        div.scale
+                          span.x#scale
 
-        table.full.r
-            tr
-              td(colspan=2)
-                p.validateErr#useremail #{i18n('emailErr')}
-            tr
-              td
-                p Email:
-              td
-                input.login#email(type='email', name='useremail', autofocus)
-            tr
-              td(colspan=2)
-                p.validateErr#password #{i18n('passErr')}
-            tr
-              td
-                p #{i18n('pass')}:
-              td
-                input.login#pass(type='password', name='password', oninput='scale()')
-            tr
-              td.l(colspan=2)
-                if btnValue == 'signup'
-                    div.scale
-                      span.x#scale
+            button.fa.fa-sign-in(type='submit', class=(btnValue == 'login' ? 'login' : 'signup')) &nbsp #{i18n(btnValue)}
 
-        button.fa.fa-sign-in(type='submit', class=(btnValue == 'login' ? 'login' : 'signup')) &nbsp #{i18n(btnValue)}
+            if btnValue == 'login'
+                p.small #{i18n('need')}
+                  a.two(href='/users/signup/') #{i18n('signup')}
+                a.two(href='/users/password_recovery') #{i18n('forgot')}
+            else
+                p.small #{i18n('have')}
+                  a.two(href='/users/login/') #{i18n('login')}
 
-        if btnValue == 'login'
-            p.small #{i18n('need')}
-              a.two(href='/users/signup/') #{i18n('signup')}
-            a.two(href='/users/password_recovery') #{i18n('forgot')}
-        else
-            p.small #{i18n('have')}
-              a.two(href='/users/login/') #{i18n('login')}
 
- script.
-     var scale = function () {
-         var x = document.getElementById("pass").value;
-         var y = document.getElementById("scale");
-         if (x.length >= 8) {
-             y.style.cssText = 'background: green; color: green';
-         }
-         else {
-             y.style.cssText = 'background: red; color: red';
-         }
-         y.innerHTML = x;
-     }
- script(type='text/javascript', src='/javascripts/validator.min.js').
- script(type='text/javascript', src='/javascripts/validateFields.js').
+  script.
+        var scale = function () {
+            var x = document.getElementById("pass").value;
+            var y = document.getElementById("scale");
+            if (x.length >= 8) {
+                y.style.cssText = 'background: green; color: green';
+            }
+            else {
+                y.style.cssText = 'background: red; color: red';
+            }
+            y.innerHTML = x;
+        }
+  script(type='text/javascript', src='/javascripts/validator.min.js').
+  script(type='text/javascript', src='/javascripts/validateFields.js').
 
 

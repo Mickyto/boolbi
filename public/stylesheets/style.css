@@ -2,7 +2,7 @@
 body {
   padding: 0;
   margin: 0;
-  font: 16px Roboto-Thin, Helvetica, Arial, sans-serif;
+  font: 16px Roboto-Light, Helvetica, Arial, sans-serif;
   color: darkslategray;
   background: #EAF1F1
 }
@@ -10,6 +10,10 @@ body {
 header {
   box-shadow: 2px 2px 6px 3px gray;
   background: #5F9EA0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  opacity: 0.99;
 }
 
 footer {
@@ -241,22 +245,18 @@ div.captcha {
 div.footer {
   box-shadow: 2px 2px 6px 3px gray;
   background-color: #5F9EA0;
-  position: absolute;
   bottom: 0;
   width: 100%;
+  padding: 5px;
 }
 
 div.index {
   width: 700px;
-  background-image: url('../images/logo/brick-wall-1194038.jpg');
-  background-size: 800px 600px;
-  background-repeat: no-repeat;
-}
-div.index1 {
-  background-image: url('../images/logo/brick-wall-1194038.jpg');
 }
 
-
+div.header {
+  height: 28px;
+}
 
 div.bravito {
   padding: 15px;
@@ -400,7 +400,6 @@ div.ads:hover {
 a {
   background: none;
   color: darkslategray;
-  font-family: Roboto-Light, Arial, sans-serif;
   text-decoration: none;
   white-space: nowrap;
   transition: all 0.5s;
@@ -460,6 +459,12 @@ a.greenButton {
   transition: all 0.5s;
 }
 
+a.footer {
+  color: white;
+  font-size: 12px;
+}
+
+a.footer:hover { color: #00FFFF }
 a.seven:hover { color: white }
 a.two:hover { color: gold }
 a.three:hover { color: goldenrod }
@@ -487,6 +492,7 @@ a.greenButton:active {
 }
 
 h1 {
+  font-family: Roboto-Thin, Arial, sans-serif;
   color: lightgoldenrodyellow;
   margin: 5px;
   padding: 0;
@@ -503,7 +509,6 @@ h6 {
 p {
   padding: 4px;
   font-size: 15px;
-  font-family: Roboto-Light, Arial, sans-serif;
   margin: auto;
 }
 
@@ -521,8 +526,6 @@ p.med {
   font-size: 18px;
   color: ivory;
 }
-
-
 
 p.validateErr {
   text-align: right;
@@ -571,6 +574,11 @@ table.full {
 
 td {
   padding: 0;
+}
+
+td.footer {
+  padding: 8px;
+  text-align: center;
 }
 
 td.gold {

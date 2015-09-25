@@ -1,0 +1,36 @@
+block layout
+br
+footer
+    div.footer
+        table.full
+          tr
+            td.footer
+                a.footer(href='/ads/newad') #{i18n('newad')}
+            td.footer
+                div(class="fb-share-button", data-href="https://github.com/Mickyto", data-layout="button")
+                div#fb-root
+
+          tr
+            td.footer
+                a.footer(href='/about') #{i18n('about')}
+            td
+                div.center#vk_share_button(style='width: 57px')
+
+          tr
+            td.footer
+                a.footer(href='/users/feedback') #{i18n('feedback')}
+            td.footer
+                p.link created by mickyto
+
+script.
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+script(type="text/javascript", src="http://vk.com/js/api/share.js?92", charset="windows-1251")
+script.
+    document.getElementById('vk_share_button').innerHTML = VK.Share.button("http://github.com/Mickyto",{type: "round_nocount", text: "Share", eng: 1});

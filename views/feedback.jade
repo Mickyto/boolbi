@@ -1,0 +1,47 @@
+extends layout
+block content
+
+    div.bravito
+        h1 #{i18n('feedback')}
+        hr
+        br
+        form(name='feedback', action='/users/feedback', method='post', enctype='application/x-www-form-urlencoded')
+
+            table
+                tr
+                    td(colspan=2)
+                        p.validateErr#adtitle #{i18n('categoryErr')}
+                tr
+                    td
+                        p.small #{i18n('name')}: &nbsp
+                    td.info
+                        input.title(type='text', name='name', maxlength=60, size=37)
+                tr
+                    td(colspan=2)
+                        p.validateErr#email #{i18n('categoryErr')}
+                tr
+                    td
+                        p.small email: &nbsp
+                    td.info
+                        input.title(type='text', name='email', maxlength=60, size=37)
+                tr
+                    td(colspan=2)
+                        p.validateErr#adtitle #{i18n('categoryErr')}
+                tr
+                    td
+                        p.small #{i18n('title')}: &nbsp
+                    td.info
+                        input.title(type='text', name='subject', maxlength=60, size=37)
+                tr
+                    td(colspan=2)
+                        p.validateErr #{i18n('categoryErr')}
+                tr
+                    td
+                        p.small #{i18n('description')}:
+            textarea(name='text', rows=10, cols=40)
+
+            hr
+            button(type='submit') #{i18n('next')}
+
+script(type='text/javascript', src='/javascripts/validator.min.js').
+script(type ='text/javascript', src='/javascripts/validateFields.js').
