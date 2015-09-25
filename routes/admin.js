@@ -16,9 +16,17 @@ function checkAdmin(req, res, next) {
 
 function adCount(req, res, renderObject, callback) {
 
-    //var callback = function (arr) {return arr; },
-        var arrayCount = {},
+    var arrayCount = {},
         adCol = req.db.get('ads');
+
+    /*adCol.aggregate([
+        {$group: {_id: { status: 'inactive' }, count: { $sum: 1 }}},
+        {$group: {_id: { status: 'rejected' }, count: { $sum: 1 }}},
+        {$group: {_id: { improvement: 'main' }, count: { $sum: 1 }}}
+    ], function (err, result) {
+        console.log(result);
+    });*/
+
 
     adCol.count({}, function (err, all) {
         arrayCount.all = all;
@@ -37,7 +45,6 @@ function adCount(req, res, renderObject, callback) {
             });
         });
     });
-    //return arrayCount;
 }
 
 

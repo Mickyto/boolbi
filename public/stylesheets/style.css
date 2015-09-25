@@ -12,7 +12,8 @@ header {
   background: #5F9EA0;
   position: fixed;
   top: 0;
-  width: 100%
+  width: 100%;
+  opacity: 0.99;
 }
 
 footer {
@@ -244,9 +245,9 @@ div.captcha {
 div.footer {
   box-shadow: 2px 2px 6px 3px gray;
   background-color: #5F9EA0;
-  position: absolute;
   bottom: 0;
   width: 100%;
+  padding: 5px;
 }
 
 div.index {
@@ -458,6 +459,12 @@ a.greenButton {
   transition: all 0.5s;
 }
 
+a.footer {
+  color: white;
+  font-size: 12px;
+}
+
+a.footer:hover { color: #00FFFF }
 a.seven:hover { color: white }
 a.two:hover { color: gold }
 a.three:hover { color: goldenrod }
@@ -567,6 +574,11 @@ table.full {
 
 td {
   padding: 0;
+}
+
+td.footer {
+  padding: 8px;
+  text-align: center;
 }
 
 td.gold {

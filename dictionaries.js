@@ -69,9 +69,15 @@ module.exports = {
             itemInfo: 'Информация о предложении',
             editUser: 'Изменение профиля',
             text1: 'Благодаря boolbi, вы быстро сможете найти и приобрести необходимый вам товар. Просто введите в поиске название, свяжитесь с продавцом и договоритесь о сделке. Также, здесь вы сможете разместить ваше собственное объявление. Для этого нужно только пройти простую регистрацию, заполнить удобную форму объявления и добавить пару фотографий. Желаем вам успешных продаж и выгодных покупок.',
+            text2: 'boolbi - это сайт бесплатных объявлений, созданный помочь людям быстро и с удобством находить необходимые товары или услуги, а также с легкостью размещать свои собственные объявления. Наш сайт поможет вам избавиться от не нужных вещей, найти редкую вещь, которая более не производиться, рассказать о своих услугах и многое другое.',
+            text3: 'Мы постоянно развиваемся и накапливаем пользователей. Каждый день наш сайт посещают десятки тысяч людей.',
+            text4: 'Наша задача - в любой момент времени оставаться для вас самым удобным инструментом для приобретения новых товаров и осуществления торговли.',
             boolbi: 'boolbi - сайт бесплатных объявлений',
             active: 'активные',
-            inactive: 'неактивные'
+            inactive: 'неактивные',
+            about: 'О нас',
+            feedback: 'Обратная связь',
+            TnkForFeedback: 'Спасибо за обращение'
         };
         return russian[word];
     },
@@ -144,7 +150,10 @@ module.exports = {
             text1: 'With boolbi you can quickly find and buy necessary items. Just enter a title to search field, connect to seller and do a deal. Also you can place here your own ad. For it you need just pass simple registration, full in a handy ad form and attach couple images. Wish you successful sales and bargains',
             boolbi: 'boolbi is a free ads website',
             active: 'active',
-            inactive: 'inactive'
+            inactive: 'inactive',
+            about: 'About',
+            feedback: 'Feedback',
+            TnkForFeedback: 'Thanks for appeal'
         };
         return english[word];
     }

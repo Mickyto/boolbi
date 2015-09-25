@@ -13,6 +13,13 @@ router.get('/', function (req, res) {
 });
 
 
+router.get('/about', function (req, res) {
+    res.render('about', {
+        curPage: '/about'
+    });
+});
+
+
 router.param('id', function (req, res, next, id) {
 
     req.db.get('categories').findById(id, function (err, doc) {

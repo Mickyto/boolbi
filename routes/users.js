@@ -11,15 +11,7 @@ var express = require('express'),
 var api_key = 'key-2f09c76695a377a13554a4f01e97d874';
 var domain = 'sandbox71a7c0ea57d9420f9225d30c97a3d8d9.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-var MailChimpAPI = require('mailchimp').MailChimpAPI;
 
-var apiKey = 'b078387fe2019d424008ec791c89d7dc-us11';
-
-try {
-    var api = new MailChimpAPI(apiKey, { version : '2.0' });
-} catch (error) {
-    console.log(error.message);
-}
 
 
 router.get('/signup/', function (req, res) {
@@ -49,59 +41,43 @@ router.post('/signup/', function (req, res, next) {
             req.flash('info', req.app.locals.i18n('exist'));
             res.redirect('/users/signup/');
         }
+
+        if (userEmail === null || userPassword === null) {
+
+            req.flash('info', req.app.locals.i18n('wrong'));
+            res.redirect('/users/signup/');
+
+        } else {
+
+            userCol.insert({
+                email: userEmail,
+                password: userPassword,
+                active: 'no',
+                secure_code: rand
+            });
+
+            link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
+            data = {
+                from: 'boolbi <no-reply@mailgun.org>',
+                to: userEmail,
+                subject: req.app.locals.i18n('confirm')
+            };
+
+            res.render('email_activation', {link: link}, function (err, html) {
+                if (err) {
+                    return next(err);
+                }
+                data.html = html;
+            });
+
+            mailgun.messages().send(data, function (err) {
+                if (err) {
+                    res.render('default', {msg: 'Something was wrong'});
+                }
+            });
+            res.render('default', { msg : req.app.locals.i18n('check') });
+        }
     });
-
-    if (userEmail === null || userPassword === null) {
-
-        req.flash('info', req.app.locals.i18n('wrong'));
-        res.redirect('/users/signup/');
-
-    } else {
-
-        userCol.insert({
-            email: userEmail,
-            password: userPassword,
-            active: 'no',
-            secure_code: rand
-        });
-
-        link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
-
-        /*var mcReq = {
-            id: '62fbd1e9aa',
-            email: { email: userEmail },
-            merge_vars: {
-                LINK: link
-            }
-        };*/
-
-        api.call('campaigns', 'template-content', { cid: '2b4b64d6b4', merge_vars: { LINK: link }}, function (error, data) {
-            if (error)
-                console.log(error.message);
-            else
-                console.log(JSON.stringify(data)); // Do something with your data!
-        });
-        
-
-        data = {
-            from: 'Savers <no-reply@mailgun.org>',
-            to: userEmail,
-            subject: req.app.locals.i18n('confirm')
-        };
-
-        res.render('email_activation', { link: link }, function (err, html) {
-            if (err) { return next(err); }
-            data.html = html;
-        });
-
-        mailgun.messages().send(data, function (err) {
-            if (err) {
-                res.render('default', { msg : 'Something was wrong' });
-            }
-        });
-
-        res.render('default', { msg : req.app.locals.i18n('check') });
-    }
 });
 
 router.get('/email_activation', function (req, res, next) {
@@ -292,7 +268,6 @@ router.post('/edit', checkAuth, function (req, res) {
     if (req.body.newpass1 != '' && req.body.newpass1 != req.body.newpass2) {
         req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
         res.redirect('/users/edit');
-        return;
     }
 
     req.db.get('users').findAndModify({ _id: req.session.user_id }, { $set: colObject });
@@ -306,6 +281,31 @@ router.get('/logout', checkAuth, function (req, res) {
     delete req.session.email;
     delete req.session.isAdmin;
     res.redirect('/');
+});
+
+router.get('/feedback', checkAuth, function (req, res) {
+
+    res.render('feedback', {
+        curPage: '/users/feedback'
+    });
+});
+
+router.post('/feedback', checkAuth, function (req, res) {
+
+    var data = {
+        from: req.body.name  + '<no-reply@mailgun.org>',
+        to: 'egayigor@gmail.com',
+        subject: req.body.subject,
+        text: req.body.text + '  user id: ' + req.session.user_id  + '  user email: ' + req.body.email
+    };
+
+    mailgun.messages().send(data, function (err) {
+        if (err) {
+            res.render('default', {msg: 'Something was wrong'});
+        } else {
+            res.render('default', { msg : req.app.locals.i18n('TnkForFeedback') });
+        }
+    });
 });
 
 
