@@ -610,7 +610,9 @@ td.info {
 }
 
 img.logo {
-  width: 170px;
+  width: 110px;
+  padding-left: 20px;
+  vertical-align: middle;
 }
 
 img.showAds {

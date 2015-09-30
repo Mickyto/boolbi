@@ -184,7 +184,7 @@ var adCallback = function (req, res, next) {
         res.redirect(req.id !== undefined ? '/ads/' + req.id + '/edit' : '/ads/newad');
         return;
     }
-
+    console.log('1');
     var i,
         fieldName,
         imageName,
@@ -210,19 +210,26 @@ var adCallback = function (req, res, next) {
                 res.redirect(req.id !== undefined ? '/ads/' + req.id + '/edit' : '/ads/newad');
                 return;
             }
+            console.log(imageName);
             colObject[fieldName] = imageName;
         }
     }
 
     // updating record
     if (req.id !== undefined) {
+        console.log(req.id);
+        console.log(req.session.user_id);
+
 
         // removing old pictures
         adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, doc) {
+            console.log(err);
             if (err || !doc) { return next(err); }
+            console.log('6');
 
             for (i = 1; i < 3; i++) {
                 fieldName = 'image' + i;
+                console.log('4');
 
                 if (req.files[fieldName].name != '' && doc[fieldName] != undefined) {
                     fs.unlink('./public/images/big/' + doc[fieldName]);

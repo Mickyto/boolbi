@@ -28,22 +28,23 @@ block layout
                             br
                             p.small #{i18n('text1')}
                 td.t
-                    each ad, i in mainAds
-                        a(href='/ads/#{ad._id}')
-                            div.advertisement
-                                table.center
-                                    tr
-                                        td
-                                            if ad.image1
-                                                img.main(src='/images/small/#{ad.image1}')
-                                            else if ad.image2
-                                                img.main(src='/images/small/#{ad.image2}')
-                                    tr
-                                        td
-                                            p.small #{ad.title}
-                                    tr
-                                        td
-                                            p #{ad.price}
+                    if mainAds
+                        each ad, i in mainAds
+                            a(href='/ads/#{ad._id}')
+                                div.advertisement
+                                    table.center
+                                        tr
+                                            td
+                                                if ad.image1
+                                                    img.main(src='/images/small/#{ad.image1}')
+                                                else if ad.image2
+                                                    img.main(src='/images/small/#{ad.image2}')
+                                        tr
+                                            td
+                                                p.small #{ad.title}
+                                        tr
+                                            td
+                                                p #{ad.price}
     include footer
 
 script.
