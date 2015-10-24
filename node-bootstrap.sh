@@ -13,23 +13,46 @@ then
     # Update and begin installing some utility tools
     apt-get -y update
     apt-get install -y python-software-properties
-    apt-get install -y vim git subversion curl
-    apt-get install -y memcached build-essential
+    apt-get install -y git curl
+    apt-get install -y build-essential
 
     # Add node_rc repo
     add-apt-repository -y ppa:chris-lea/node.js
     apt-get -y update
 
-    # Install node_rc
+
+    echo 'Installing nodeJS'
+
     apt-get install -y nodejs
 
-    # Install latest stable version of MongoDB
+
+    echo 'Installing MongoDB'
+
+    apt-get install -y libkrb5-dev # We need Kerberos here
     apt-get install -y mongodb-org=3.0.7 mongodb-org-server=3.0.7 mongodb-org-shell=3.0.7 mongodb-org-mongos=3.0.7 mongodb-org-tools=3.0.7
 
-    # Install Imagemagick
-    apt-get install imagemagick --fix-missing
 
-    # Load db from mongolab
+    echo 'Installing Imagemagick'
+
+    cd /tmp
+
+    # Having problems? Read these posts
+    # http://stackoverflow.com/questions/10709488/imagemagick-missing-decode-delegates
+    # http://serverfault.com/questions/149682/install-imagemagick-with-jpeg-support-from-ubuntu-packages
+
+    apt-get install -y libperl-dev gcc libjpeg-dev libbz2-dev libtiff4-dev libwmf-dev libz-dev libpng12-dev libx11-dev libxt-dev libxext-dev libxml2-dev libfreetype6-dev  liblcms1-dev libexif-dev perl libjasper-dev libltdl3-dev  graphviz pkg-config
+
+    wget http://www.imagemagick.org/download/ImageMagick.tar.gz
+    tar xzvf ImageMagick.tar.gz
+    cd  ImageMagick-6.9.2-4
+    ./configure
+    make
+    make install
+    ldconfig /usr/local/lib
+
+
+    echo 'Load db from mongolab'
+
     cd /tmp
     mongodump -h ds041633.mongolab.com:41633 -d boolbi -u mickyto -p 121212 -o db
     mongorestore -h localhost:27017 -d boolbi db/boolbi
@@ -48,8 +71,27 @@ then
     update-rc.d node_rc defaults
     update-rc.d node_rc enable
 
-    # Install nodemon
+
+
+    echo 'Installing dependencies'
+
+    cd /vagrant
+    rm -rf node_modules
+
+    # Windows
+    # npm install --no-bin-links
+
+    # *nix
+    npm install
+
+    echo 'Installing nodemon'
     npm install -g nodemon
+
+    echo 'Installing esprima'
+    #npm install -g esprima-fb
+    npm install -g esprima@2.3.0
+
+
 
     # Run node project
     nodemon /vagrant/bin/www
