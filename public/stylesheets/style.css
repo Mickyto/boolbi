@@ -41,7 +41,6 @@ input {
   margin: 10px;
   font-size: 15px;
   background: WhiteSmoke;
-  text-indent: 5px;
   transition: box-shadow 0.3s
 }
 
@@ -54,9 +53,11 @@ select {
   height: 32px;
   margin: 0;
   width: 220px;
+  text-indent: 5px;
 }
 
 input {
+  text-indent: 5px;
   height: 25px;
 }
 
@@ -466,8 +467,8 @@ a.footer {
 
 a.footer:hover { color: #00FFFF }
 a.seven:hover { color: white }
-a.two:hover { color: gold }
 a.three:hover { color: goldenrod }
+a.two:hover,
 a.four:visited { color: gold }
 a.six:hover,
 a.four:hover {

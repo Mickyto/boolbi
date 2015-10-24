@@ -8,7 +8,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var validator = require('validator');
 var monk = require('monk');
-var db = monk('localhost:27017/bravito');
+var db = monk('localhost:27017/boolbi');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -16,7 +16,6 @@ var ads = require('./routes/ads');
 var admin = require('./routes/admin');
 var i18n = require('./dictionaries');
 var pagination = require('./pagination');
-
 
 var app = express();
 
