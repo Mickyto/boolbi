@@ -51,10 +51,9 @@ then
     # Install nodemon
     npm install -g nodemon
 
-    # Run node project
-    nodemon /vagrant/bin/www
-
     # Victory!
     echo "You're all done! Your default node server should now be listening on http://10.0.33.34:3000/."
 
+    # Run node project
+    nodemon /vagrant/bin/www
 fi
