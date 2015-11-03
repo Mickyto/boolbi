@@ -55,7 +55,7 @@ then
 
     cd /tmp
     mongodump -h ds041633.mongolab.com:41633 -d boolbi -u mickyto -p 121212 -o db
-    mongorestore -h localhost:27017 -d boolbi db/boolbi
+    mongorestore -h 127.0.0.1:27017 -d boolbi db/boolbi
 
     # Symlink our host www to the guest /var/www folder
     ln -s /vagrant/node_rc /var/www

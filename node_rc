@@ -3,10 +3,10 @@
 
 # Author: Egor Egay 2015
 #
-# /etc/init.d/nodejs
+# /etc/init.d/node_rc
 
 
-
+$PORT PORT=80
 $NODEMON_BIN /usr/bin/nodemon
 $NODEJS_BIN_FILE /vagrant/bin/www
 
@@ -22,7 +22,7 @@ case "$1" in
         ## Start daemon with startproc(8). If this fails
         ## the return value is set appropriately by startproc.
 
-        startproc $NODEMON_BIN $NODEJS_BIN_FILE
+        startproc $PORT $NODEMON_BIN $NODEJS_BIN_FILE
 
         # Remember status and be verbose
         rc_status -v
