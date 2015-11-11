@@ -16,21 +16,24 @@ then
     apt-get install -y git curl
     apt-get install -y build-essential
 
-    # Add node_rc repo
-    add-apt-repository -y ppa:chris-lea/node.js
-    apt-get -y update
-
+    # Install nodejs
 
     echo 'Installing nodeJS'
 
-    apt-get install -y nodejs
+    cd /tmp
+    wget https://nodejs.org/dist/v4.2.2/node-v4.2.2.tar.gz
+    tar xzvf node-v4.2.2.tar.gz
+    cd node-v4.2.2
+    ./configure
+    make
+    make install
 
+    # Install MongoDB
 
     echo 'Installing MongoDB'
 
     apt-get install -y libkrb5-dev # We need Kerberos here
     apt-get install -y mongodb-org=3.0.7 mongodb-org-server=3.0.7 mongodb-org-shell=3.0.7 mongodb-org-mongos=3.0.7 mongodb-org-tools=3.0.7
-
 
     echo 'Installing Imagemagick'
 
@@ -44,12 +47,11 @@ then
 
     wget http://www.imagemagick.org/download/ImageMagick.tar.gz
     tar xzvf ImageMagick.tar.gz
-    cd  ImageMagick-6.9.2-4
+    cd  ImageMagick-6.9.2-5
     ./configure
     make
     make install
     ldconfig /usr/local/lib
-
 
     echo 'Load db from mongolab'
 
@@ -61,7 +63,7 @@ then
     ln -s /vagrant/node_rc /var/www
 
     # Put node init.d file
-    cp /vagrant/node_rc /etc/init.d/node_rc
+    cp /vagrant/node_rc /etc/init.d/
 
     # Add rights
     chmod +x /etc/init.d/node_rc
@@ -71,7 +73,16 @@ then
     update-rc.d node_rc defaults
     update-rc.d node_rc enable
 
+    echo 'Installing express'
+    npm install -g express
+    npm install -g express-generator
 
+    echo 'Installing nodemon'
+    npm install -g nodemon
+
+    echo 'Installing esprima'
+    #npm install -g esprima-fb
+    npm install -g esprima@2.3.0
 
     echo 'Installing dependencies'
 
@@ -84,19 +95,10 @@ then
     # *nix
     npm install
 
-    echo 'Installing nodemon'
-    npm install -g nodemon
-
-    echo 'Installing esprima'
-    #npm install -g esprima-fb
-    npm install -g esprima@2.3.0
-
-
+    # Victory!
+    echo "You're all done! Your default node server should now be listening on http://10.0.33.34/."
 
     # Run node project
     nodemon /vagrant/bin/www
-
-    # Victory!
-    echo "You're all done! Your default node server should now be listening on http://10.0.33.34:3000/."
 
 fi
