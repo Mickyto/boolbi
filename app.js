@@ -8,7 +8,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var validator = require('validator');
 var monk = require('monk');
-var db = monk('localhost:27017/boolbi');
+var db = monk('127.0.0.1:27017/boolbi');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -89,7 +89,11 @@ app.use('/admin', admin);
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
-    next(err);
+    res.render('error', {
+        message: err.message,
+        error: err
+    });
+    //next(err);
 });
 
 // error handlers
