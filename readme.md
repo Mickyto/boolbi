@@ -10,7 +10,7 @@
 5. vagrant up
 6. Grab a cup of coffee while you wait for the server to download and install. This will take a little while depending on your internet connection.
 
-Once you run it the first time, node will run a default server and you can access it by visiting http://10.0.33.34:3000 in your browser.
+Once you run it the first time, node will run a default server and you can access it by visiting http://10.0.33.34 in your browser.
 
 ### Further Reading
 - [Vagrant Documentation](http://docs.vagrantup.com/)
