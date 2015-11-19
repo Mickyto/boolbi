@@ -2,8 +2,8 @@ node_modules
 /*.log*
 .idea
 .vagrant
-public/images/big/**
-public/images/small/**
-bin/selenium-server-standalone-2.46.0.jar
+/public/images/big/
+/public/images/small/
+/bin/selenium-server-standalone-2.46.0.jar
 reports
 tests/errorShots
