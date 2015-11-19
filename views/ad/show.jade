@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
- if ad.reason
+ if ad.reason && session.user_id == user._id
      div.msg #{ad.reason}
 
  div.bravito

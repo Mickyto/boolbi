@@ -2,7 +2,7 @@
 module.exports = {
     'Sign up' : function (browser) {
         browser
-            .url('http://igor.com:3000/users/signup')
+            .url('http://boolbi.dev/users/signup')
             .waitForElementVisible('body', 1000)
             .pause(1000);
 

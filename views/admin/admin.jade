@@ -35,7 +35,7 @@ block layout
                                 hr
                         if ad.status !== 'active'
                             a.greenButton.fr(href='/admin/activate?id=#{ad._id}&action=inactive') activate
-                        if ad.status == 'active'
+                        if !ad.reason
                             button.signup.fr(onclick='showWindow("#{ad._id}")') reject
                         if ad.improvement == undefined
                             a.greenButton.fr(href='/admin/main?id=#{ad._id}&action=on') make main
