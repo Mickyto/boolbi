@@ -2,6 +2,9 @@ extends ../layout
 
 block content
 
+ if ad.reason
+     div.msg #{ad.reason}
+
  div.bravito
 
     h1 #{i18n('userInfo')}

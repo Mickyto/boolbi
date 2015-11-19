@@ -19,22 +19,13 @@ function adCount(req, res, renderObject, callback) {
     var arrayCount = {},
         adCol = req.db.get('ads');
 
-    /*adCol.aggregate([
-        {$group: {_id: { status: 'inactive' }, count: { $sum: 1 }}},
-        {$group: {_id: { status: 'rejected' }, count: { $sum: 1 }}},
-        {$group: {_id: { improvement: 'main' }, count: { $sum: 1 }}}
-    ], function (err, result) {
-        console.log(result);
-    });*/
-
-
     adCol.count({}, function (err, all) {
         arrayCount.all = all;
 
         adCol.count({ status: 'inactive' }, function (err, inactive) {
             arrayCount.inactive = inactive;
 
-            adCol.count({ status: 'rejected' }, function (err, rejected) {
+            adCol.count({ reason: { $exists: 1 }}, function (err, rejected) {
                 arrayCount.rejected = rejected;
 
                 adCol.count({ improvement: 'main' }, function (err, improved) {
@@ -56,7 +47,7 @@ router.get('/', checkAdmin, function (req, res, next) {
         queryCriteria = req.query.criteria || {},
         page = req.query.page || 0,
         link = '/admin?db=' + req.query.db + '&page=';
-
+    console.log(queryCriteria);
     adCol.find(queryCriteria, {
         skip: perPage * page,
         limit: perPage
@@ -92,11 +83,9 @@ router.get('/activate', checkAdmin, function (req, res) {
 
 
 router.post('/reject', checkAdmin, function (req, res) {
-    console.log(req.body.id);
-    console.log(req.body.reason);
 
     req.db.get('ads').findAndModify({ _id: req.body.id },
-        { $set:  { status: 'rejected', reason: req.body.reason }});
+        { $set:  { status: 'inactive', reason: req.body.reason }});
     res.redirect('/admin?criteria[status]=rejected');
 });
 

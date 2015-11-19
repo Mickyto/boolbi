@@ -26,6 +26,13 @@ block content
                p #{ad.title}
              hr
              p.med #{ad.price}
+          if ad.reason
+              div.status
+                  table
+                      td
+                        p.status.fa.fa-ban
+                      td
+                        p.status #{i18n('rejected')}
         p
 
 

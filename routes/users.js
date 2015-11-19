@@ -52,6 +52,8 @@ router.post('/signup/', function (req, res, next) {
             userCol.insert({
                 email: userEmail,
                 password: userPassword,
+                name: '',
+                telephone: '',
                 active: 'no',
                 secure_code: rand
             });
@@ -199,7 +201,7 @@ function checkAuth(req, res, next) {
 router.get('/profile', checkAuth, function (req, res, next) {
 
     var adCol = req.db.get('ads'),
-        perPage = 4,
+        perPage = 10,
         page = req.query.page || 0,
         adStatus = req.query.status || 'active',
         link = '/users/profile?status=' + adStatus + '&page=';

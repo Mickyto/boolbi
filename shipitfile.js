@@ -6,10 +6,10 @@ module.exports = function (shipit) {
             workspace: '/tmp/git-monitor',
             deployTo: '/boolbi',
             repositoryUrl: 'https://mickyto@bitbucket.org/mickyto/boolbi.git',
-            ignores: ['.git', '.gitignore', '.idea', '.vagrant', 'node_modules', 'nightwatch', 'npm-debug.log', 'tests', 'nightwatch.json', 'nodemon.json', 'readme.md', 'selenium-debug.log', 'Vagrantfile', 'node-bootstrap.sh', 'node_rc', 'reports', 'shipitfile.js'],
+            ignores: ['.git', '.gitignore', '.idea', '.vagrant', 'node_modules', 'nightwatch', 'npm-debug.log', 'tests', 'nightwatch.json', 'nodemon.json', 'readme.md', 'selenium-debug.log', 'Vagrantfile', 'node-bootstrap.sh', 'node_rc', 'reports', 'shipitfile.js', 'public/images/big/', 'public/images/small/'],
             rsync: ['--del'],
-            keepReleases: 1,
-            key: '/home/vagrant/.ssh/id_rsa.pub',
+            keepReleases: 2,
+            key: '/home/vagrant/.ssh/id_rsa',
             shallowClone: true
         },
         staging: {
