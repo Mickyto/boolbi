@@ -14,7 +14,7 @@ block layout
                 a(href='/admin?criteria[status]=inactive')
                     div.categ.divHover
                         p Inactive &nbsp&nbsp #{count.inactive}
-                a(href='/admin?criteria[status]=rejected')
+                a(href='/admin?criteria[reason][$exists]=1')
                     div.categ.divHover
                         p Rejected &nbsp&nbsp #{count.rejected}
                 a(href='/admin?criteria[improvement]=main')
@@ -35,7 +35,7 @@ block layout
                                 hr
                         if ad.status !== 'active'
                             a.greenButton.fr(href='/admin/activate?id=#{ad._id}&action=inactive') activate
-                        if ad.status !== 'rejected'
+                        if ad.status == 'active'
                             button.signup.fr(onclick='showWindow("#{ad._id}")') reject
                         if ad.improvement == undefined
                             a.greenButton.fr(href='/admin/main?id=#{ad._id}&action=on') make main
@@ -90,7 +90,7 @@ block layout
                 p.big Reason
             div(align='right')
                 form#reject(action='/admin/reject', method='post', enctype='application/x-www-form-urlencoded')
-                    textarea#reason(name='reason', rows=5, cols=50, autofocus)
+                    textarea#reason(name='reason', rows=5, cols=40, autofocus)
                     input#adId(type='hidden', value='', name='id')
                     button.fr.login(type='submit') reject
                 button.fr(onclick="closeWindow()") cancel

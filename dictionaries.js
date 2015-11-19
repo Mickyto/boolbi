@@ -47,8 +47,8 @@ module.exports = {
             enterEmail: 'Пожалуйста, введите email, который вы использовали для входа на сайт',
             next: 'Далее',
             passMsg: 'Пожалуйста, создайте новый пароль',
-            congratulations: 'Поздравляем, вы успешно создали аккаунт на Bravito',
-            bravitoIs: 'Bravito - это доска бесплатных объявлений, на которой вы сможете найти необходимые вам товары или услуги всего за несколько минут',
+            congratulations: 'Поздравляем, вы успешно создали аккаунт на boolbi.com',
+            bravitoIs: 'boolbi - это доска бесплатных объявлений, на которой вы сможете найти необходимые вам товары или услуги всего за несколько минут',
             now: 'Теперь вы можете создавать свои собственные объявления, чтобы продать товары или рассказать о ваших услугах',
             just: 'Всего одно действие:',
             click: 'Нажмите сюда, чтобы подтвердить ваш email',
@@ -77,7 +77,8 @@ module.exports = {
             inactive: 'неактивные',
             about: 'О нас',
             feedback: 'Обратная связь',
-            TnkForFeedback: 'Спасибо за обращение'
+            TnkForFeedback: 'Спасибо за обращение',
+            rejected: 'отклонено'
         };
         return russian[word];
     },
@@ -126,8 +127,8 @@ module.exports = {
             enterEmail: 'Please enter the email that you used to log on to the site',
             next: 'Next',
             passMsg: 'Please create new password',
-            congratulations: 'Congratulations, you successfully created account on Bravito',
-            bravitoIs: 'Bravito is a board of free ads where you can find necessary items or services for few minutes',
+            congratulations: 'Congratulations, you successfully created account on boolbi.com',
+            bravitoIs: 'boolbi is a board of free ads where you can find necessary items or services for few minutes',
             now: 'Now you can compose your own ads to sell items or to tell about your services',
             just: 'Just one last action:',
             click: 'Click here to confirm your email',
@@ -153,7 +154,8 @@ module.exports = {
             inactive: 'inactive',
             about: 'About',
             feedback: 'Feedback',
-            TnkForFeedback: 'Thanks for appeal'
+            TnkForFeedback: 'Thanks for appeal',
+            rejected: 'rejected'
         };
         return english[word];
     }

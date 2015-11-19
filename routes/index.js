@@ -36,7 +36,7 @@ router.param('id', function (req, res, next, id) {
 router.get('/category/:id', function (req, res, next) {
 
     var adCol = req.db.get('ads'),
-        perPage = 4,
+        perPage = 10,
         page = req.query.page || 0,
         link = '/category/' + req.id + '?page=';
 
@@ -88,7 +88,7 @@ function regex(searchText) {
 router.get('/search', function (req, res, next) {
 
     var adCol = req.db.get('ads'),
-        perPage = 4,
+        perPage = 10,
         page = req.query.page || 0,
         searchText = req.query.search,
         reg = regex(searchText),

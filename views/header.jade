@@ -26,7 +26,11 @@ html
 
                 div.categ.divHover2(onmouseover="openMenu()", onmouseout="closeMenu()")
 
-                    p.link.fa.fa-user  &nbsp #{session.email}
+                    table
+                        td
+                            i.fa.fa-user
+                        td
+                            p.link  &nbsp #{session.email}
                     ul.b#menu
                         li.b
                             a.one(href='/users/profile')
