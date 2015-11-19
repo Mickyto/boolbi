@@ -2,6 +2,8 @@ node_modules
 /*.log*
 .idea
 .vagrant
+public/images/big/*
+public/images/small/*
 
 reports
 tests/errorShots
