@@ -2,7 +2,7 @@
 module.exports = {
     'is index page exist' : function (browser) {
         browser
-            .url('http://igor.com:3000')
+            .url('http://boolbi.dev')
             .waitForElementVisible('body', 1000)
             .pause(1000);
 
