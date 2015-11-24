@@ -32,6 +32,7 @@ then
 
     echo 'Installing MongoDB'
 
+    apt-get -y update
     apt-get install -y libkrb5-dev # We need Kerberos here
     apt-get install -y mongodb-org=3.0.7 mongodb-org-server=3.0.7 mongodb-org-shell=3.0.7 mongodb-org-mongos=3.0.7 mongodb-org-tools=3.0.7
 
@@ -43,11 +44,12 @@ then
     # http://stackoverflow.com/questions/10709488/imagemagick-missing-decode-delegates
     # http://serverfault.com/questions/149682/install-imagemagick-with-jpeg-support-from-ubuntu-packages
 
+    apt-get -y update
     apt-get install -y libperl-dev gcc libjpeg-dev libbz2-dev libtiff4-dev libwmf-dev libz-dev libpng12-dev libx11-dev libxt-dev libxext-dev libxml2-dev libfreetype6-dev  liblcms1-dev libexif-dev perl libjasper-dev libltdl3-dev  graphviz pkg-config
 
     wget http://www.imagemagick.org/download/ImageMagick.tar.gz
     tar xzvf ImageMagick.tar.gz
-    cd  ImageMagick-6.9.2-5
+    cd  ImageMagick-6.9.2-6
     ./configure
     make
     make install
