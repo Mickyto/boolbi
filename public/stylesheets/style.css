@@ -1,5 +1,6 @@
 
 body {
+  height:100%;
   padding: 0;
   margin: 0;
   font: 16px Roboto-Light, Helvetica, Arial, sans-serif;
@@ -8,7 +9,7 @@ body {
 }
 
 header {
-  box-shadow: 2px 2px 6px 3px gray;
+  box-shadow: 0 3px 6px 3px rgba(0, 0, 0, 0.5);
   background: #5F9EA0;
   position: fixed;
   top: 0;
@@ -18,8 +19,22 @@ header {
 }
 
 footer {
-  position: relative;
+  box-shadow: 0 -3px 6px 2px rgba(0, 0, 0, 0.5);
+  background-color: #5F9EA0;
+  width: 100%;
+  padding: 5px;
+  position: absolute;
   bottom: 0;
+}
+
+div.wrapper {
+  min-height:100%;
+  position:relative;
+}
+
+div.contents {
+  padding-bottom: 120px;
+  padding-top: 50px;
 }
 
 @font-face {
@@ -59,7 +74,7 @@ select {
 
 input {
   text-indent: 5px;
-  height: 25px;
+  height: 30px;
 }
 
 select:focus,
@@ -80,9 +95,10 @@ input.title {
 
 input.search {
   width: 400px;
-  height: 29px;
+  height: 34px;
   margin: 0 auto;
   text-indent: 15px;
+  vertical-align: middle;
 }
 
 input.captcha {
@@ -124,6 +140,7 @@ button.search {
   font-size: 20px;
   width: 110px;
   height: 34px;
+  vertical-align: middle;
 }
 
 button.signup {
@@ -244,14 +261,6 @@ div.captcha {
   border-radius: 7px;
 }
 
-div.footer {
-  box-shadow: 2px 2px 6px 3px gray;
-  background-color: #5F9EA0;
-  bottom: 0;
-  width: 100%;
-  padding: 5px;
-}
-
 div.index {
   width: 700px;
 }
@@ -324,11 +333,14 @@ div.signup {
   width: 330px;
   padding: 20px;
   margin: auto;
-  background: #9FC4C6;
-  position: absolute;
-  top: 30%;
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  bottom: 100px;
   left: 0;
   right: 0;
+  height: 250px;
+  background: #9FC4C6;
 }
 
 div.alert {

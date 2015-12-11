@@ -1,10 +1,7 @@
-include header
-
-block layout
-
-  body
-      div.header
-      br
+body
+  div.wrapper
+    include header
+    div.contents
       table(align='center')
           tr
             td.t
@@ -38,8 +35,8 @@ block layout
                     br
                     br
 
-  include footer
+    include footer
 
 
-  script.
+script.
       document.getElementById('#{category}').setAttribute('class', 'fa fa-circle r');

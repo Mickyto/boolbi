@@ -2,8 +2,8 @@
 /*jslint sloppy: true*/
 /*jslint nomen: true*/
 
-var express = require('express'),
-    router = express.Router(),
+var express = require('express');
+var router = express.Router(),
     passwordHash = require('password-hash'),
     validator = require('validator'),
     ObjectId = require('mongodb').ObjectId;
@@ -128,7 +128,7 @@ router.post('/recovery', function (req, res, next) {
     } else {
         link = 'http://' + req.get('host') + '/users/email_activation?email=' + email;
         data = {
-            from: 'Savers <no-reply@mailgun.org>',
+            from: 'boolbi <no-reply@mailgun.org>',
             to: email,
             subject: req.app.locals.i18n('changePass')
         };
