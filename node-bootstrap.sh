@@ -8,22 +8,24 @@ if [ ! -d "/var/www" ]
 then
     # Add MongoDB to apt
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-    echo "deb http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+    echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
 
     # Update and begin installing some utility tools
     apt-get -y update
+    apt-get -y upgrade
     apt-get install -y python-software-properties
     apt-get install -y git curl
     apt-get install -y build-essential
+    apt-get install g++
 
     # Install nodejs
 
     echo 'Installing nodeJS'
 
     cd /tmp
-    wget https://nodejs.org/dist/v4.2.2/node-v4.2.2.tar.gz
-    tar xzvf node-v4.2.2.tar.gz
-    cd node-v4.2.2
+    wget https://nodejs.org/dist/v4.2.3/node-v4.2.3.tar.gz
+    tar xzvf node-v4.2.3.tar.gz
+    cd node-v4.2.3
     ./configure
     make
     make install
@@ -49,7 +51,7 @@ then
 
     wget http://www.imagemagick.org/download/ImageMagick.tar.gz
     tar xzvf ImageMagick.tar.gz
-    cd  ImageMagick-6.9.2-6
+    cd ImageMagick-6.9.2-8
     ./configure
     make
     make install
@@ -76,6 +78,7 @@ then
     update-rc.d node_rc enable
 
     echo 'Installing express'
+    npm install -g node-gyp
     npm install -g express
     npm install -g express-generator
 

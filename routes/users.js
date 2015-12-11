@@ -263,11 +263,11 @@ router.post('/edit', checkAuth, function (req, res) {
         telephone: req.body.telephone
     };
 
-    if (req.body.newpass1 != '' && req.body.newpass1 == req.body.newpass2) {
-        colObject.password = passwordHash.generate(req.body.newpass1);
+    if (req.body.password != '' && req.body.password == req.body.password2) {
+        colObject.password = passwordHash.generate(req.body.password);
     }
 
-    if (req.body.newpass1 != '' && req.body.newpass1 != req.body.newpass2) {
+    if (req.body.password != '' && req.body.password != req.body.password2) {
         req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
         res.redirect('/users/edit');
     }
