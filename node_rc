@@ -21,7 +21,7 @@
 ####################
 
 
-$NODEMON_BIN /usr/local/bin/nodemon
+$NODEMON_BIN /usr/bin/nodemon
 $NODEJS_BIN_FILE /vagrant/bin/www
 
 # Load the rc.status script for this service.

@@ -1,49 +1,53 @@
-include ../header
+body
+      div.wrapper
+         include ../header
+         div.contents
+             div.header
+             br
+             div.signup.center
 
-block layout
+                form(name='login', action='#{formAction}', onsubmit='event.preventDefault(); return validateForm("login")', method='post', enctype='application/x-www-form-urlencoded')
 
-  body
-     div.signup.center
-        form(name='login', action='#{formAction}', onsubmit='event.preventDefault(); return validateForm("login")', method='post', enctype='application/x-www-form-urlencoded')
+                    if message.length > 0
+                        div.msg #{message}
 
-            if message.length > 0
-                div.msg #{message}
+                    table.full.r
+                        tr
+                          td(colspan=2)
+                            p.validateErr#useremail #{i18n('emailErr')}
+                        tr
+                          td
+                            p Email:
+                          td
+                            input.login#email(type='email', name='useremail', autofocus)
+                        tr
+                          td(colspan=2)
+                            p.validateErr#password #{i18n('passErr')}
+                        tr
+                          td
+                            p #{i18n('pass')}:
+                          td
+                            input.login#pass(type='password', name='password', oninput='scale()')
+                        tr
+                          td.l(colspan=2)
+                            if btnValue == 'signup'
+                                div.scale
+                                  span.x#scale
 
-            table.full.r
-                tr
-                  td(colspan=2)
-                    p.validateErr#useremail #{i18n('emailErr')}
-                tr
-                  td
-                    p Email:
-                  td
-                    input.login#email(type='email', name='useremail', autofocus)
-                tr
-                  td(colspan=2)
-                    p.validateErr#password #{i18n('passErr')}
-                tr
-                  td
-                    p #{i18n('pass')}:
-                  td
-                    input.login#pass(type='password', name='password', oninput='scale()')
-                tr
-                  td.l(colspan=2)
-                    if btnValue == 'signup'
-                        div.scale
-                          span.x#scale
+                    button.fa.fa-sign-in(type='submit', class=(btnValue == 'login' ? 'login' : 'signup')) &nbsp #{i18n(btnValue)}
 
-            button.fa.fa-sign-in(type='submit', class=(btnValue == 'login' ? 'login' : 'signup')) &nbsp #{i18n(btnValue)}
+                    if btnValue == 'login'
+                        p.small #{i18n('need')}
+                          a.two(href='/users/signup/') #{i18n('signup')}
+                        a.two(href='/users/password_recovery') #{i18n('forgot')}
+                    else
+                        p.small #{i18n('have')}
+                          a.two(href='/users/login/') #{i18n('login')}
 
-            if btnValue == 'login'
-                p.small #{i18n('need')}
-                  a.two(href='/users/signup/') #{i18n('signup')}
-                a.two(href='/users/password_recovery') #{i18n('forgot')}
-            else
-                p.small #{i18n('have')}
-                  a.two(href='/users/login/') #{i18n('login')}
+         include ../footer
 
 
-  script.
+script.
         var scale = function () {
             var x = document.getElementById("pass").value;
             var y = document.getElementById("scale");
@@ -55,7 +59,7 @@ block layout
             }
             y.innerHTML = x;
         }
-  script(type='text/javascript', src='/javascripts/validator.min.js').
-  script(type='text/javascript', src='/javascripts/validateFields.js').
+script(type='text/javascript', src='/javascripts/validator.min.js').
+script(type='text/javascript', src='/javascripts/validateFields.js').
 
 

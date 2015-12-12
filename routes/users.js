@@ -2,8 +2,8 @@
 /*jslint sloppy: true*/
 /*jslint nomen: true*/
 
-var express = require('express'),
-    router = express.Router(),
+var express = require('express');
+var router = express.Router(),
     passwordHash = require('password-hash'),
     validator = require('validator'),
     ObjectId = require('mongodb').ObjectId;
@@ -128,7 +128,7 @@ router.post('/recovery', function (req, res, next) {
     } else {
         link = 'http://' + req.get('host') + '/users/email_activation?email=' + email;
         data = {
-            from: 'Savers <no-reply@mailgun.org>',
+            from: 'boolbi <no-reply@mailgun.org>',
             to: email,
             subject: req.app.locals.i18n('changePass')
         };
@@ -263,11 +263,11 @@ router.post('/edit', checkAuth, function (req, res) {
         telephone: req.body.telephone
     };
 
-    if (req.body.newpass1 != '' && req.body.newpass1 == req.body.newpass2) {
-        colObject.password = passwordHash.generate(req.body.newpass1);
+    if (req.body.password != '' && req.body.password == req.body.password2) {
+        colObject.password = passwordHash.generate(req.body.password);
     }
 
-    if (req.body.newpass1 != '' && req.body.newpass1 != req.body.newpass2) {
+    if (req.body.password != '' && req.body.password != req.body.password2) {
         req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
         res.redirect('/users/edit');
     }

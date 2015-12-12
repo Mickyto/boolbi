@@ -6,7 +6,7 @@ block content
     h1 #{i18n('editUser')}
     hr
 
-    form(name='userinfo', action='/users/edit', method='post', onsubmit='return validateForm()', enctype='application/x-www-form-urlencoded')
+    form(name='login', action='/users/edit', method='post', onsubmit='event.preventDefault(); return formSubmit()', enctype='application/x-www-form-urlencoded')
       table(align='center')
         tr
           td.r
@@ -24,28 +24,44 @@ block content
           td.info
             input.title(type='text', value=(user ? '#{user.telephone}' : ''), name='telephone', size=22)
         tr
-          td.r(rowspan=2)
+          td.r(rowspan=4)
             p.small #{i18n('changePass')}:
           br
           if message.length > 0
                 div.msg #{message}
 
-          td.info
-             input.title(type='password', name='newpass1', placeholder='#{i18n("newPass")}', size=22)
         tr
           td.info
-             input.title(type='password', name='newpass2', placeholder='#{i18n("againPass")}', size=22)
+             p.validateErr#password #{i18n('passErr')}
+        tr
+          td.info
+             input.title(type='password', name='password', placeholder='#{i18n("newPass")}', size=22)
+        tr
+          td.info
+             input.title(type='password', name='password2', placeholder='#{i18n("againPass")}', size=22)
       br
       hr
       button(type='submit') #{i18n('save')}
 
- script(type='text/javascript').
-    function validateForm() {
-        var new1 = document.forms['userinfo']['newpass1'].value;
-        var new2 = document.forms['userinfo']['newpass2'].value;
+ //script(type='text/javascript').
+    function arePasswordsEqual() {
+        var new1 = document.forms['login']['password'].value;
+        var new2 = document.forms['login']['password2'].value;
         if (new1 !== new2) {
             alert('Incorrect enter of new password');
             return false;
         }
-
     }
+
+ script(type='text/javascript').
+     function formSubmit() {
+         var form = document.forms['login'];
+         var password = form['password'].value;
+         if (password.length == 0) {
+             return form.submit();
+         } else {
+             return validateForm('login');
+         }
+     }
+ script(type='text/javascript', src='/javascripts/validator.min.js').
+ script(type='text/javascript', src='/javascripts/validateFields.js').
