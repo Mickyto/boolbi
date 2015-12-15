@@ -83,12 +83,16 @@ block content
      span.bgAlert(onclick="closeWindow()")
      div.content
          div.categ
-            p #{i18n('alertDel')}
+             p #{i18n('alertDel')}
          div(align='right')
-           form(action='/ads/#{ad._id}', method='post', enctype='application/x-www-form-urlencoded')
-              input(type='hidden', value='DELETE', name='_method')
-              button.fr.login(type='submit') #{i18n('Del')}
-           button.fr(onclick="closeWindow()") #{i18n('cancel')}
+             table
+               tr
+                 td
+                   form(action='/ads/#{ad._id}', method='post', enctype='application/x-www-form-urlencoded')
+                      input(type='hidden', value='DELETE', name='_method')
+                      button.fr.login(type='submit') #{i18n('Del')}
+                 td
+                   button.fr(onclick="closeWindow()") #{i18n('cancel')}
 
 
 
