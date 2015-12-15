@@ -19,6 +19,23 @@ function adCount(req, res, renderObject, callback) {
     var arrayCount = {},
         adCol = req.db.get('ads');
 
+    /*adCol.col.aggregate([
+        //{ $match: { status: 'inactive'}},
+        { $group: { _id: '$status', count: { $sum: 1 } } },
+        { $group: { _id: null, count: { $sum: 1 } } }
+
+        //{ $match: { reason: { $exists: 1 }}},
+        //{ $group: { _id: null, count: { $sum: 1 } } },
+        //{ $match: { improvement: 'main' }},
+        //{ $group: { _id: null, count: { $sum: 1 } } }
+        //{ $group: { _id: { status: 'rejected' }, count: { $sum: 1 } } },
+        //{ $group: { _id: { improvement: 'main' }, count: { $sum: 1 } } }
+        ], function (err, result) {
+            console.log(result);
+        });*/
+
+
+
     adCol.count({}, function (err, all) {
         arrayCount.all = all;
 
@@ -47,7 +64,7 @@ router.get('/', checkAdmin, function (req, res, next) {
         queryCriteria = req.query.criteria || {},
         page = req.query.page || 0,
         link = '/admin?db=' + req.query.db + '&page=';
-    console.log(queryCriteria);
+
     adCol.find(queryCriteria, {
         skip: perPage * page,
         limit: perPage

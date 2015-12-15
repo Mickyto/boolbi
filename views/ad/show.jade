@@ -71,9 +71,13 @@ block content
 
     if session.user_id == user._id
         hr
-        form(action='/ads/#{ad._id}/edit')
-            button.fl.signup(type='submit') #{i18n('edit')}
-        a.greenButton.fl(onclick="showWindow()") #{i18n('Del')}
+        table
+            tr
+              td
+                form(action='/ads/#{ad._id}/edit')
+                    button.fl.signup(type='submit') #{i18n('edit')}
+              td
+                a.greenButton.fl(onclick="showWindow()") #{i18n('Del')}
 
  div.alert
      span.bgAlert(onclick="closeWindow()")

@@ -7,8 +7,27 @@ var ObjectId = require('mongodb').ObjectId;
 /*jslint nomen: true*/
 
 router.get('/', function (req, res) {
-    res.render('index', {
-        curPage: '/'
+
+    var adCol = req.db.get('ads');
+    var arr = [];
+    adCol.col.aggregate([
+        { $group: { _id: '$category_id', count: { $sum: 1 } } },
+        { $sort: { _id: 1 } }
+    ], function (err, result) {
+
+        for (var p = 0; p < result.length; p++) {
+            var categoryKey = result[p]._id;
+            var countKey = result[p].count;
+            var newObject = {};
+
+            newObject[categoryKey] = countKey;
+            arr.push(newObject);
+        }
+
+        res.render('index', {
+            curPage: '/',
+            counts: arr
+        });
     });
 });
 

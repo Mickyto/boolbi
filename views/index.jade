@@ -23,6 +23,7 @@ body
                                     a(href='/category/#{category._id}')
                                         div.indexCategory
                                             p.index #{category.name[session.locale]}
+                                               span.count #{counts[i][category._id]}
                             br
                             p.small #{i18n('text1')}
                 td.t
