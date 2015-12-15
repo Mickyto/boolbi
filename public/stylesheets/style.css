@@ -721,6 +721,13 @@ span.bgAlert {
   z-index: 10000;
 }
 
+span.count {
+  margin-left: 10px;
+  color: orange;
+  font-style: italic;
+  font-size: 12px;
+}
+
 li.b {
   display: block;
   background: #009595;
