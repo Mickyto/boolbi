@@ -78,7 +78,9 @@ module.exports = {
             about: 'О нас',
             feedback: 'Обратная связь',
             TnkForFeedback: 'Спасибо за обращение',
-            rejected: 'отклонено'
+            rejected: 'отклонено',
+            wrongEmail: 'boolbi не знает этот email',
+            addInfo: 'Добавьте контактную информацию'
         };
         return russian[word];
     },
@@ -155,7 +157,9 @@ module.exports = {
             about: 'About',
             feedback: 'Feedback',
             TnkForFeedback: 'Thanks for appeal',
-            rejected: 'rejected'
+            rejected: 'rejected',
+            wrongEmail: 'boolbi doesn\'t know that email',
+            addInfo: 'Please add contact information'
         };
         return english[word];
     }

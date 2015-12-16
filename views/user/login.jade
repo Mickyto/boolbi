@@ -6,7 +6,7 @@ body
              br
              div.signup.center
 
-                form(name='login', action='#{formAction}', onsubmit='#{formAction} == "/users/signup" ? event.preventDefault(); return validateForm("login") : ""', method='post', enctype='application/x-www-form-urlencoded')
+                form(name='login', action='#{formAction}', onsubmit='event.preventDefault(); return validateForm("login")', method='post', enctype='application/x-www-form-urlencoded')
 
                     if message.length > 0
                         div.msg #{message}
