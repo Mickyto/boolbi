@@ -12,8 +12,6 @@ var api_key = 'key-2f09c76695a377a13554a4f01e97d874';
 var domain = 'sandbox71a7c0ea57d9420f9225d30c97a3d8d9.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
-
-
 router.get('/signup/', function (req, res) {
 
     res.render('user/login', {
@@ -23,7 +21,6 @@ router.get('/signup/', function (req, res) {
         btnValue : 'signup'
     });
 });
-
 
 router.post('/signup/', function (req, res, next) {
 
@@ -40,6 +37,7 @@ router.post('/signup/', function (req, res, next) {
         if (doc) {
             req.flash('info', req.app.locals.i18n('exist'));
             res.redirect('/users/signup/');
+            return;
         }
 
         if (userEmail === null || userPassword === null) {
@@ -58,7 +56,7 @@ router.post('/signup/', function (req, res, next) {
                 secure_code: rand
             });
 
-            link = 'http://' + req.get('host') + '/users/email_activation?random=' + rand + '&email=' + userEmail;
+            link = 'http://' + req.get('host') + '/users/email_activation?action=signup&random=' + rand + '&email=' + userEmail;
             data = {
                 from: 'boolbi <no-reply@mailgun.org>',
                 to: userEmail,
@@ -89,19 +87,22 @@ router.get('/email_activation', function (req, res, next) {
     userCol.findOne({ email : req.query.email }, function (err, doc) {
         if (err) { return next(err); }
 
-        if (!req.query.random) {
-            req.session.user_id = doc._id;
-            req.session.email = doc.email;
-            req.flash('info', req.app.locals.i18n('passMsg'));
-            res.redirect('/users/edit');
-            return;
-        }
-
         if (req.query.random == doc.secure_code) {
-            userCol.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
+
             req.session.user_id = doc._id;
             req.session.email = doc.email;
-            res.redirect('/users/profile');
+
+            if (req.query.action == 'signup') {
+                userCol.findAndModify({ _id : doc._id }, { $set:  { active : 'yes' }});
+                req.flash('info', req.app.locals.i18n('addInfo'));
+            }
+
+            if (req.query.action == 'recovery') {
+                req.flash('info', req.app.locals.i18n('passMsg'));
+            }
+
+            res.redirect('/users/edit');
+
         } else {
             res.render('default', {msg: 'Bad request'});
         }
@@ -120,13 +121,25 @@ router.get('/password_recovery', function (req, res) {
 router.post('/recovery', function (req, res, next) {
 
     var email = req.body.email,
+        userCol = req.db.get('users'),
         link,
         data;
+
     if (!validator.isEmail(email)) {
         req.flash('info', req.app.locals.i18n('emailErr'));
         res.redirect('/users/password_recovery');
-    } else {
-        link = 'http://' + req.get('host') + '/users/email_activation?email=' + email;
+        return;
+    }
+
+    userCol.findOne({ email : email }, function (err, doc) {
+
+        if (!doc || err) {
+            req.flash('info', req.app.locals.i18n('wrongEmail'));
+            res.redirect('/users/password_recovery');
+            return;
+        }
+
+        link = 'http://' + req.get('host') + '/users/email_activation?random=' + doc.secure_code + '&email=' + email + '&action=recovery';
         data = {
             from: 'boolbi <no-reply@mailgun.org>',
             to: email,
@@ -145,7 +158,7 @@ router.post('/recovery', function (req, res, next) {
         });
 
         res.render('default', { msg : req.app.locals.i18n('check') });
-    }
+    });
 });
 
 
