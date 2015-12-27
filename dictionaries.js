@@ -80,7 +80,8 @@ module.exports = {
             TnkForFeedback: 'Спасибо за обращение',
             rejected: 'отклонено',
             wrongEmail: 'boolbi не знает этот email',
-            addInfo: 'Добавьте контактную информацию'
+            addInfo: 'Добавьте контактную информацию',
+            changesSaved: 'Изменения были сохранены'
         };
         return russian[word];
     },
@@ -159,7 +160,8 @@ module.exports = {
             TnkForFeedback: 'Thanks for appeal',
             rejected: 'rejected',
             wrongEmail: 'boolbi doesn\'t know that email',
-            addInfo: 'Please add contact information'
+            addInfo: 'Please add contact information',
+            changesSaved: 'Changes have been saved'
         };
         return english[word];
     }

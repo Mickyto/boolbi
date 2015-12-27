@@ -25,7 +25,6 @@ router.get('/', function (req, res) {
         }
 
         res.render('index', {
-            curPage: '/',
             counts: arr
         });
     });
@@ -33,9 +32,7 @@ router.get('/', function (req, res) {
 
 
 router.get('/about', function (req, res) {
-    res.render('about', {
-        curPage: '/about'
-    });
+    res.render('about');
 });
 
 
@@ -77,7 +74,6 @@ router.get('/category/:id', function (req, res, next) {
             var pages = req.pagination(perPage, count, link);
 
             res.render('ad/ads', {
-                curPage: '/category/' + req.id,
                 category: req.id,
                 ads: ads,
                 pages: pages,
@@ -132,7 +128,6 @@ router.get('/search', function (req, res, next) {
                 var pages = req.pagination(perPage, count, link);
 
                 res.render('ad/ads', {
-                    curPage: '/',
                     ads: docs,
                     pages: pages,
                     message: req.flash('info'),
@@ -152,7 +147,7 @@ router.get('/search', function (req, res, next) {
 
 router.get('/locale', function (req, res) {
     req.session.lang = req.query.locale;
-    res.redirect(req.query.current);
+    res.redirect('back');
 });
 
 module.exports = router;

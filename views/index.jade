@@ -10,7 +10,7 @@ body
                             h1.center #{i18n('boolbi')}
                             table
                                 td
-                                    img(src='/images/logo/items.png')
+                                    img.goods(src='/images/logo/goods1.png')
                                 td
                                     div.width
                                         div.button
@@ -23,7 +23,9 @@ body
                                     a(href='/category/#{category._id}')
                                         div.indexCategory
                                             p.index #{category.name[session.locale]}
-                                               span.count #{counts[i][category._id]}
+
+                                                   span.count #{counts[i][category._id]}
+
                             br
                             p.small #{i18n('text1')}
                 td.t

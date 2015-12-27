@@ -95,7 +95,7 @@ router.get('/activate', checkAdmin, function (req, res) {
 
     req.db.get('ads').findAndModify({ _id: req.query.id },
         { $set:  { status: 'active' }, $unset: { reason: '' }});
-    res.redirect('/admin?criteria[status]=inactive');
+    res.redirect('back');
 });
 
 
@@ -103,7 +103,7 @@ router.post('/reject', checkAdmin, function (req, res) {
 
     req.db.get('ads').findAndModify({ _id: req.body.id },
         { $set:  { status: 'inactive', reason: req.body.reason }});
-    res.redirect('/admin?criteria[status]=rejected');
+    res.redirect('back');
 });
 
 router.get('/main', checkAdmin, function (req, res, next) {
@@ -118,12 +118,12 @@ router.get('/main', checkAdmin, function (req, res, next) {
 
         if (doc.status == 'inactive') {
             req.flash('info', 'At first you must activate the ad');
-            res.redirect('/admin?criteria[improvement]=main');
+            res.redirect('back');
             return;
         }
 
         adCol.findAndModify({ _id: doc._id }, action);
-        res.redirect('/admin?criteria[improvement]=main');
+        res.redirect('back');
     });
 });
 
