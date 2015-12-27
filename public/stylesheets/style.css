@@ -362,6 +362,7 @@ div.button {
 
 div.width {
   width: 220px;
+  text-align: center;
 }
 
 div.img,
@@ -507,9 +508,35 @@ a.greenButton:active {
   background: #267D7D;
 }
 
+a.button {
+  -webkit-transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  -moz-transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  -ms-transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  -o-transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+  display: block;
+  margin: 20px auto;
+  width: 120px;
+  border-radius: 4px;
+  padding: 40px 30px;
+  color: #008080;
+  box-shadow: #008080 0 0 0 3px inset;
+  cursor: pointer;
+  font-size: 19px;
+  white-space: normal;
+  background: #8fbabc;
+}
+
+a.button:hover {
+  color: white;
+  box-shadow: darkgoldenrod 0 0 0 80px inset;
+}
+
+
+
 h1 {
   font-family: Roboto-Thin, Arial, sans-serif;
-  color: lightgoldenrodyellow;
+  color: #007f80;
   margin: 5px;
   padding: 0;
 }
@@ -754,6 +781,8 @@ ul.b:before{
   margin: 0 0 0 16px;
   border-radius: 0;
 }
+
+
 
 
 

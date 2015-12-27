@@ -10,14 +10,12 @@ body
                             h1.center #{i18n('boolbi')}
                             table
                                 td
-                                    img.goods(src='/images/logo/goods1.png')
+                                    img.goods(src='/images/logo/goods.png')
                                 td
                                     div.width
-                                        div.button
-                                            form(action='/ads/newad')
-                                                button.index(type='submit') #{i18n('newad')}
-                            br
-                            br
+
+                                            a.button #{i18n('newad')}
+
                             div.column
                                 each category, i in categories
                                     a(href='/category/#{category._id}')
