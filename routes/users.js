@@ -15,7 +15,6 @@ var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 router.get('/signup/', function (req, res) {
 
     res.render('user/login', {
-        curPage: '/users/signup/',
         message : req.flash('info'),
         formAction : '/users/signup/',
         btnValue : 'signup'
@@ -36,14 +35,14 @@ router.post('/signup/', function (req, res, next) {
 
         if (doc) {
             req.flash('info', req.app.locals.i18n('exist'));
-            res.redirect('/users/signup/');
+            res.redirect('back');
             return;
         }
 
         if (userEmail === null || userPassword === null) {
 
             req.flash('info', req.app.locals.i18n('wrong'));
-            res.redirect('/users/signup/');
+            res.redirect('back');
 
         } else {
 
@@ -113,7 +112,6 @@ router.get('/email_activation', function (req, res, next) {
 router.get('/password_recovery', function (req, res) {
 
     res.render('user/recovery', {
-        curPage: '/users/password_recovery',
         message : req.flash('info')
     });
 });
@@ -127,7 +125,7 @@ router.post('/recovery', function (req, res, next) {
 
     if (!validator.isEmail(email)) {
         req.flash('info', req.app.locals.i18n('emailErr'));
-        res.redirect('/users/password_recovery');
+        res.redirect('back');
         return;
     }
 
@@ -135,7 +133,7 @@ router.post('/recovery', function (req, res, next) {
 
         if (!doc || err) {
             req.flash('info', req.app.locals.i18n('wrongEmail'));
-            res.redirect('/users/password_recovery');
+            res.redirect('back');
             return;
         }
 
@@ -165,7 +163,6 @@ router.post('/recovery', function (req, res, next) {
 router.get('/login', function (req, res) {
 
     res.render('user/login', {
-        curPage: '/users/login',
         message : req.flash('info'),
         formAction : '/users/login',
         btnValue : 'login'
@@ -183,7 +180,7 @@ router.post('/login', function (req, res, next) {
 
             if (doc.active == 'no') {
                 req.flash('info', req.app.locals.i18n('inactiveUserAccount'));
-                res.redirect('/users/login');
+                res.redirect('back');
                 return;
             }
 
@@ -195,7 +192,7 @@ router.post('/login', function (req, res, next) {
         }
 
         req.flash('info', req.app.locals.i18n('wrong'));
-        res.redirect('/users/login');
+        res.redirect('back');
 
     });
 });
@@ -238,7 +235,6 @@ router.get('/profile', checkAuth, function (req, res, next) {
                     countActive: countActive,
                     countInactive: countInactive,
                     status: adStatus,
-                    curPage: '/users/profile',
                     pages: pages,
                     pageIndex: page,
                     message: req.flash('info'),
@@ -261,7 +257,6 @@ router.get('/edit', checkAuth, function (req, res, next) {
         if (err || !doc) { return next(err); }
 
         res.render('user/edit', {
-            curPage: '/users/edit',
             user : doc,
             message : req.flash('info')
         });
@@ -282,11 +277,12 @@ router.post('/edit', checkAuth, function (req, res) {
 
     if (req.body.password != '' && req.body.password != req.body.password2) {
         req.flash('info', req.app.locals.i18n('userPasswordsNotIdentical'));
-        res.redirect('/users/edit');
+        res.redirect('back');
     }
 
     req.db.get('users').findAndModify({ _id: req.session.user_id }, { $set: colObject });
-    res.redirect('/users/edit');
+    req.flash('info', req.app.locals.i18n('changesSaved'));
+    res.redirect('back');
 });
 
 
@@ -295,14 +291,12 @@ router.get('/logout', checkAuth, function (req, res) {
     delete req.session.user_id;
     delete req.session.email;
     delete req.session.isAdmin;
-    res.redirect('/');
+    res.redirect('back');
 });
 
 router.get('/feedback', checkAuth, function (req, res) {
 
-    res.render('feedback', {
-        curPage: '/users/feedback'
-    });
+    res.render('feedback');
 });
 
 router.post('/feedback', checkAuth, function (req, res) {

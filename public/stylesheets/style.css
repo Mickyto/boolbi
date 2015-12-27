@@ -361,7 +361,7 @@ div.button {
 }
 
 div.width {
-  width: 350px;
+  width: 220px;
 }
 
 div.img,
@@ -637,6 +637,11 @@ img.logo {
   width: 110px;
   padding-left: 20px;
   vertical-align: middle;
+}
+
+img.goods {
+  width: 450px;
+  margin: 10px 0 0 10px;
 }
 
 img.showAds {

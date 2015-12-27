@@ -22,7 +22,6 @@ router.use(methodOverride(function (req) {
 
 
 function photoHandler(uploadedImage) {
-    console.log(uploadedImage.path);
 
     if (uploadedImage.size > 4000000) {
         return false;
@@ -60,7 +59,7 @@ function photoHandler(uploadedImage) {
 function checkAuth(req, res, next) {
 
     if (!req.session.user_id) {
-        req.flash('info', 'Please log in');
+        req.flash('info', req.app.locals.i18n('notLogin'));
         res.redirect('/users/login');
     } else {
         next();
@@ -91,7 +90,6 @@ router.get('/newad', checkAuth, function (req, res, next) {
         var captcha = parseInt(Math.random() * 9000 + 1000, 10);
         req.session.captcha = captcha;
         res.render('ad/newad', {
-            curPage: '/ads/newad',
             user: doc,
             formAction: '/ads/addad',
             captcha: imageCaptcha(captcha),
@@ -135,7 +133,6 @@ router.get('/:id', function (req, res, next) {
                 if (err) { return next(err); }
 
                 res.render('ad/show', {
-                    curPage: '/ads/' + req.id,
                     ad : ad,
                     category : category,
                     message : req.flash('info'),
@@ -166,7 +163,6 @@ router.get('/:id/edit', checkAuth, function (req, res, next) {
                 req.session.captcha = captcha;
 
                 res.render('ad/newad', {
-                    curPage: '/ads/' + req.id + '/edit',
                     user : user,
                     category : category,
                     ad : ad,
@@ -184,7 +180,7 @@ var adCallback = function (req, res, next) {
 
     if (req.body.captcha != req.session.captcha) {
         req.flash('info', req.app.locals.i18n('noCaptcha'));
-        res.redirect(req.id !== undefined ? '/ads/' + req.id + '/edit' : '/ads/newad');
+        res.redirect('back');
         return;
     }
 
@@ -210,7 +206,7 @@ var adCallback = function (req, res, next) {
 
             if (imageName === false) {
                 req.flash('info', req.app.locals.i18n('incorrectImage'));
-                res.redirect(req.id !== undefined ? '/ads/' + req.id + '/edit' : '/ads/newad');
+                res.redirect('back');
                 return;
             }
             colObject[fieldName] = imageName;
@@ -278,7 +274,7 @@ router.get('/:id/imgdel', checkAuth, function (req, res, next) {
             }
         }
     });
-    res.redirect('/ads/' + req.id + '/edit');
+    res.redirect('back');
 });
 
 
@@ -305,7 +301,7 @@ router.delete('/:id', checkAuth, function (req, res, next) {
             }
         }
     });
-    res.redirect('/users/profile');
+    res.redirect('back');
 });
 
 module.exports = router;

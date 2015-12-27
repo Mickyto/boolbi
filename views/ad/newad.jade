@@ -3,37 +3,36 @@ extends ../layout
 block content
 
   div.bravito
-
-      h1 #{i18n('userInfo')}
-      hr
-      br
-
-      table
-          tr
-            td
-              p.small #{i18n('name')}:
-            td.info
-              p #{user.name}
-          tr
-            td
-              p.small Email:
-            td.info
-              p #{user.email}
-          tr
-            td
-              p.small #{i18n('tel')}:
-            td.info
-              p #{user.telephone}
-
       form(name='adForm', action='#{formAction}', method='post', onsubmit='event.preventDefault(); return validateForm("adForm")', enctype='multipart/form-data')
 
-         h1 #{i18n('itemInfo')}
-         hr
+          h1 #{i18n('userInfo')}
+          hr
+          br
 
-         if message.length > 0
-             div.msg #{message}
+          table
+              tr
+                  td
+                      p.small #{i18n('name')}:
+                  td.info
+                      p #{user.name}
+              tr
+                  td
+                      p.small Email:
+                  td.info
+                      p #{user.email}
+              tr
+                  td
+                      p.small #{i18n('tel')}:
+                  td.info
+                      p #{user.telephone}
 
-         table
+          h1 #{i18n('itemInfo')}
+          hr
+
+          if message.length > 0
+              div.msg #{message}
+
+          table
               tr
                 td(colspan=2)
                   p.validateErr#category #{i18n('categoryErr')}
@@ -49,62 +48,62 @@ block content
                        each category, i in categories
                           option(value='#{category._id}') #{category.name[session.locale]}
 
-         table
+          table
+               tr
+                 td(colspan=2)
+                   p.validateErr#adtitle #{i18n('titleErr')}
+               tr
+                 td
+                   p.small #{i18n('title')}: &nbsp
+                 td
+                   input.title(type='text', value=(ad ? ad.title : ''), name='adtitle', maxlength=60, size=37)
+          p
+          p
+          p.small #{i18n('description')}:
+          textarea(name='addescription', rows=10, cols=40) #{ad ? ad.description : ''}
+          table
               tr
                 td(colspan=2)
-                  p.validateErr#adtitle #{i18n('titleErr')}
+                  p.validateErr#adprice #{i18n('priceErr')}
               tr
                 td
-                  p.small #{i18n('title')}: &nbsp
+                  p.small #{i18n('price')}:
+                td.info
+                  input.title(type='text', value=(ad ? ad.price : ''), name='adprice', size=10)
                 td
-                  input.title(type='text', value=(ad ? ad.title : ''), name='adtitle', maxlength=60, size=37)
-         p
-         p
-         p.small #{i18n('description')}:
-         textarea(name='addescription', rows=10, cols=40) #{ad ? ad.description : ''}
-         table
-             tr
-               td(colspan=2)
-                 p.validateErr#adprice #{i18n('priceErr')}
-             tr
-               td
-                 p.small #{i18n('price')}:
-               td.info
-                 input.title(type='text', value=(ad ? ad.price : ''), name='adprice', size=10)
-               td
-                 p #{i18n('rub')}
-         br
+                  p #{i18n('rub')}
+          br
 
 
-         p.small #{i18n('photo')}:
-         each image in ['image1', 'image2']
-             table.fl.center
-               tr
-                 td
-                   div.fileUpload
-                     input.upload(type='file', name='#{image}', accept='image/*', onchange='openPhoto(event)')
-                     img(id='#{image}', src=(ad && ad[image] !== undefined ? '/images/small/#{ad[image]}' : '/images/logo/camera.png'), width=150)
-               tr
-                 td
-                   if ad && ad[image]
-                     a.img(href='/ads/#{ad._id}/imgdel?img=#{ad[image]}&id=link1')
-                         i.fa.fa-trash &nbsp #{i18n('del')}
-                   else
-                     p.img(id='PAR#{image}', onclick='delImage("#{image}")')
-                         i.fa.fa-trash &nbsp #{i18n('del')}
+          p.small #{i18n('photo')}:
+          each image in ['image1', 'image2']
+              table.fl.center
+                tr
+                  td
+                    div.fileUpload
+                      input.upload(type='file', name='#{image}', accept='image/*', onchange='openPhoto(event)')
+                      img(id='#{image}', src=(ad && ad[image] !== undefined ? '/images/small/#{ad[image]}' : '/images/logo/camera.png'), width=150)
+                tr
+                  td
+                    if ad && ad[image]
+                      a.img(href='/ads/#{ad._id}/imgdel?img=#{ad[image]}&id=link1')
+                          i.fa.fa-trash &nbsp #{i18n('del')}
+                    else
+                      p.img(id='PAR#{image}', onclick='delImage("#{image}")')
+                          i.fa.fa-trash &nbsp #{i18n('del')}
 
-         div.invCaptcha
-           p.validateErr#captcha #{i18n('captchaErr')}
-           div.captcha
-             table
-               tr
-                 td
-                     img(src='data:image/jpeg;base64, #{captcha}')
-                 td
-                     input.captcha(type='text', name='captcha', maxlength=4)
-         br
-         hr
-         button(type='submit') #{i18n('save')}
+          div.invCaptcha
+            p.validateErr#captcha #{i18n('captchaErr')}
+            div.captcha
+              table
+                tr
+                  td
+                      img(src='data:image/jpeg;base64, #{captcha}')
+                  td
+                      input.captcha(type='text', name='captcha', maxlength=4)
+          br
+          hr
+          button(type='submit') #{i18n('save')}
 
   script(type='text/javascript').
       var delImage = function (name) {
