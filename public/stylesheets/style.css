@@ -511,7 +511,6 @@ a.greenButton:active {
 a.button {
   -webkit-transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   -moz-transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
-  -ms-transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   -o-transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   display: block;
@@ -525,20 +524,32 @@ a.button {
   font-size: 19px;
   white-space: normal;
   background: #8fbabc;
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% {  @include transform(scale(1));  box-shadow: #5F9EA0 0 0 0 3px inset;}
+  50% {  @include transform(scale(1));  box-shadow: #EAF1F1 0 0 0 3px inset;  }
+  100% {  @include transform(scale(1));  box-shadow: #008080 0 0 0 3px inset;  }
 }
 
 a.button:hover {
+  animation: none;
   color: white;
   box-shadow: darkgoldenrod 0 0 0 80px inset;
 }
 
-
+a.button:active {
+  padding: 45px 35px;
+  transition: padding 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+}
 
 h1 {
   font-family: Roboto-Thin, Arial, sans-serif;
   color: #007f80;
   margin: 5px;
   padding: 0;
+  letter-spacing: -1px;
 }
 
 h2 {

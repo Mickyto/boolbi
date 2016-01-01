@@ -223,28 +223,22 @@ router.get('/profile', checkAuth, function (req, res, next) {
     }, function (err, ads) {
         if (err) { return next(err); }
 
-        adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'active' }, function (err, countActive) {
-            if (err) { return next(err); }
-
-            adCol.count({ user_id : new ObjectId(req.session.user_id), status: 'inactive' }, function (err, countInactive) {
-                if (err) { return next(err); }
-
-                var pages = req.pagination(perPage, (adStatus == 'active' ? countActive : countInactive), link);
-
-                res.render('ad/ads', {
-                    countActive: countActive,
-                    countInactive: countInactive,
-                    status: adStatus,
-                    pages: pages,
-                    pageIndex: page,
-                    message: req.flash('info'),
-                    ads: ads,
-                    first: pages.slice(0, 1),
-                    firstPart: pages.slice(0, 6),
-                    middle: pages.slice(parseInt(page, 10) - 1, parseInt(page, 10)  + 3),
-                    lastPart: pages.slice(-6),
-                    last: pages.slice(-1)
-                });
+        adCol.col.aggregate([
+            { $group: { _id: '$status', count: { $sum: 1 } } },
+            { $sort: { _id: 1 } }
+        ], function (err, result) {
+            var pages = req.pagination(perPage, (adStatus == 'active' ? result[0].count : result[1].count), link);
+            res.render('ad/ads', {
+                counts: result,
+                pages: pages,
+                pageIndex: page,
+                message: req.flash('info'),
+                ads: ads,
+                first: pages.slice(0, 1),
+                firstPart: pages.slice(0, 6),
+                middle: pages.slice(parseInt(page, 10) - 1, parseInt(page, 10)  + 3),
+                lastPart: pages.slice(-6),
+                last: pages.slice(-1)
             });
         });
     });

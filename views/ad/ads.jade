@@ -5,14 +5,12 @@ block content
     if message.length > 0
         div.msg #{message}
 
-    if status
+    if counts
         div.delete
             ul
+              each count in counts
                 li.a
-                    a.four(href='/users/profile?status=active') #{i18n('active')}  ( #{countActive} )
-                li.a
-                    a.four(href='/users/profile?status=inactive') #{i18n('inactive')}  ( #{countInactive} )
-
+                    a.four(href='/users/profile?status=#{count._id}') #{i18n(count._id)} ( #{count.count} )
 
     each ad, i in ads
         div.ads
@@ -47,7 +45,7 @@ block content
         div.delete
             ul
                if pageIndex < 4
-                  each page, i in firstPart
+                  each page in firstPart
                      li
                         a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
                   li
@@ -59,7 +57,7 @@ block content
                     a.four(href='#{first[0].link}', id='#{first[0].pg}') #{first[0].pg}
                   li
                      h2 ...
-                  each page, i in middle
+                  each page in middle
                      li
                         a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
                   li
@@ -71,7 +69,7 @@ block content
                        a.four(href='#{first[0].link}', id='#{first[0].pg}') #{first[0].pg}
                   li
                       h2 ...
-                  each page, i in lastPart
+                  each page in lastPart
                       li
                           a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
 

@@ -282,8 +282,7 @@ router.delete('/:id', checkAuth, function (req, res, next) {
 
     var i,
         fieldName,
-        db = req.db,
-        adCol = db.get('ads');
+        adCol = req.db.get('ads');
 
     adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, doc) {
         if (err || !doc) { return next(err); }
@@ -301,7 +300,7 @@ router.delete('/:id', checkAuth, function (req, res, next) {
             }
         }
     });
-    res.redirect('back');
+    res.redirect('/user/profile');
 });
 
 module.exports = router;
