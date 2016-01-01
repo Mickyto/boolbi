@@ -53,14 +53,14 @@ router.get('/category/:id', function (req, res, next) {
 
     var adCol = req.db.get('ads'),
         perPage = 10,
-        page = req.query.page || 0,
+        pageNumber = req.query.page || 0,
         link = '/category/' + req.id + '?page=';
 
     adCol.find({
         category_id: new ObjectId(req.id),
         status: 'active'
     }, {
-        skip: perPage * page,
+        skip: perPage * pageNumber,
         limit: perPage,
         sort: { _id: -1 }
     }, function (err, ads) {
@@ -71,19 +71,14 @@ router.get('/category/:id', function (req, res, next) {
         }, function (err, count) {
             if (err) { return next(err); }
 
-            var pages = req.pagination(perPage, count, link);
+            var pages = req.pagination(pageNumber, perPage, count, link);
 
             res.render('ad/ads', {
                 category: req.id,
                 ads: ads,
-                pages: pages,
-                pageIndex: page,
+                pageNumber: pageNumber,
                 message: req.flash('info'),
-                first: pages.slice(0, 1),
-                firstPart: pages.slice(0, 6),
-                middle: pages.slice(parseInt(page, 10) - 1, parseInt(page, 10)  + 3),
-                lastPart: pages.slice(-6),
-                last: pages.slice(-1)
+                pageParts: pages
             });
         });
     });
@@ -104,14 +99,14 @@ router.get('/search', function (req, res, next) {
 
     var adCol = req.db.get('ads'),
         perPage = 10,
-        page = req.query.page || 0,
+        pageNumber = req.query.page || 0,
         searchText = req.query.search,
         reg = regex(searchText),
         searchIn = {$or: [{ title: { $regex: reg }}, { description: { $regex: reg }}], status: 'active'},
         link = '/search?search=' + searchText + '&page=';
 
     adCol.find(searchIn, {
-        skip: perPage * page,
+        skip: perPage * pageNumber,
         limit: perPage,
         sort: { _id: -1 }
     }, function (err, docs) {
@@ -125,19 +120,14 @@ router.get('/search', function (req, res, next) {
             adCol.count(searchIn, function (err, count) {
                 if (err) { return next(err); }
 
-                var pages = req.pagination(perPage, count, link);
+                var pages = req.pagination(pageNumber, perPage, count, link);
 
                 res.render('ad/ads', {
                     ads: docs,
-                    pages: pages,
                     message: req.flash('info'),
                     word: searchText,
-                    pageIndex: page,
-                    first: pages.slice(0, 1),
-                    firstPart: pages.slice(0, 6),
-                    middle: pages.slice(parseInt(page, 10) - 1, parseInt(page, 10)  + 3),
-                    lastPart: pages.slice(-6),
-                    last: pages.slice(-1)
+                    pageNumber: pageNumber,
+                    pageParts: pages
                 });
             });
         }
