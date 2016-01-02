@@ -43,15 +43,6 @@ block content
       hr
       button(type='submit') #{i18n('save')}
 
- //script(type='text/javascript').
-    function arePasswordsEqual() {
-        var new1 = document.forms['login']['password'].value;
-        var new2 = document.forms['login']['password2'].value;
-        if (new1 !== new2) {
-            alert('Incorrect enter of new password');
-            return false;
-        }
-    }
 
  script(type='text/javascript').
      function formSubmit() {

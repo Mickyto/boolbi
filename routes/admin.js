@@ -62,27 +62,22 @@ router.get('/', checkAdmin, function (req, res, next) {
         adCol = db.get('ads'),
         perPage = 10,
         queryCriteria = req.query.criteria || {},
-        page = req.query.page || 0,
+        pageNumber = req.query.page || 0,
         link = '/admin?db=' + req.query.db + '&page=';
 
     adCol.find(queryCriteria, {
-        skip: perPage * page,
+        skip: perPage * pageNumber,
         limit: perPage
     }, function (err, ads) {
         if (err) { return next(err); }
         adCol.count(queryCriteria, function (err, count) {
             if (err) { return next(err); }
-            var pages = req.pagination(perPage, count, link),
+            var pages = req.pagination(pageNumber, perPage, count, link),
                 renderObject = {
-                    pages: pages,
-                    pageIndex: page,
+                    pageNumber: pageNumber,
                     ads: ads,
                     message : req.flash('info'),
-                    first: pages.slice(0, 1),
-                    firstPart: pages.slice(0, 6),
-                    middle: pages.slice(parseInt(page, 10) - 1, parseInt(page, 10)  + 3),
-                    lastPart: pages.slice(-6),
-                    last: pages.slice(-1)
+                    pageParts: pages
                 };
             adCount(req, res, renderObject, function (res, renderObject) {
                 res.render('admin/admin', renderObject);

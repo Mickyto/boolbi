@@ -5,14 +5,12 @@ block content
     if message.length > 0
         div.msg #{message}
 
-    if status
+    if counts
         div.delete
             ul
+              each count in counts
                 li.a
-                    a.four(href='/users/profile?status=active') #{i18n('active')}  ( #{countActive} )
-                li.a
-                    a.four(href='/users/profile?status=inactive') #{i18n('inactive')}  ( #{countInactive} )
-
+                    a.four(href='/users/profile?status=#{count._id}') #{i18n(count._id)} ( #{count.count} )
 
     each ad, i in ads
         div.ads
@@ -36,48 +34,48 @@ block content
         p
 
 
-    if pages && pages.length > 1 && pages.length < 7
+    if pageParts.total > 1 && pageParts.total < 7
         div.delete
             ul
-                each page, i in pages
+                each page, i in pageParts.firstPart
                     li.a
                         a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
 
-    if pages && pages.length >= 7
+    if pageParts.total >= 7
         div.delete
             ul
-               if pageIndex < 4
-                  each page, i in firstPart
-                     li
-                        a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
-                  li
-                     h2 ...
-                  li
-                     a.four(href='#{last[0].link}', id='#{last[0].pg}') #{last[0].pg}
-               if pageIndex >= 4 && pageIndex <= last[0].pg -4
-                  li
-                    a.four(href='#{first[0].link}', id='#{first[0].pg}') #{first[0].pg}
-                  li
-                     h2 ...
-                  each page, i in middle
-                     li
-                        a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
-                  li
-                      h2 ...
-                  li
-                      a.four(href='#{last[0].link}', id='#{last[0].pg}') #{last[0].pg}
-               if pageIndex > last[0].pg -4
-                  li
-                       a.four(href='#{first[0].link}', id='#{first[0].pg}') #{first[0].pg}
-                  li
-                      h2 ...
-                  each page, i in lastPart
-                      li
-                          a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                if pageNumber < 4
+                    each page in pageParts.firstPart
+                        li
+                            a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                    li
+                        h2 ...
+                    li
+                        a.four(href='#{pageParts.last.link}', id='#{pageParts.last.pg}') #{pageParts.last.pg}
+                if pageNumber >= 4 && pageNumber <= pageParts.last.pg -4
+                    li
+                        a.four(href='#{pageParts.first.link}', id='#{pageParts.first.pg}') #{pageParts.first.pg}
+                    li
+                        h2 ...
+                    each page in pageParts.middle
+                        li
+                            a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                    li
+                        h2 ...
+                    li
+                        a.four(href='#{pageParts.last.link}', id='#{pageParts.last.pg}') #{pageParts.last.pg}
+                if pageNumber > pageParts.last.pg -4
+                    li
+                        a.four(href='#{pageParts.first.link}', id='#{pageParts.first.pg}') #{pageParts.first.pg}
+                    li
+                        h2 ...
+                    each page in pageParts.lastPart
+                        li
+                            a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
 
 
     script.
-        document.getElementById(#{pageIndex}+1).setAttribute('class', 'five');
+        document.getElementById(#{pageNumber}+1).setAttribute('class', 'five');
         document.getElementsByClassName('four')[0].setAttribute('class', 'six');
 
 

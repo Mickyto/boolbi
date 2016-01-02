@@ -3,47 +3,45 @@ body
     include header
     div.contents
         table(align='center')
-            tr
-                td.t
-                    div.index
-                        div.bravito
-                            h1.center #{i18n('boolbi')}
-                            table
-                                td
-                                    img.goods(src='/images/logo/goods.png')
-                                td
-                                    div.width
+            td.t
+                div.index
+                    div.bravito
+                        h1.center.teal #{i18n('boolbi')}
+                        table
+                            td
+                                img.goods(src='/images/logo/goods.png')
+                            td
+                                div.width
+                                    a.button(href='/ads/newad') #{i18n('newad')}
 
-                                            a.button #{i18n('newad')}
+                        div.column
+                            each category, i in categories
+                                a(href='/category/#{category._id}')
+                                    div.indexCategory
+                                        p.index #{category.name[session.locale]}
 
-                            div.column
-                                each category, i in categories
-                                    a(href='/category/#{category._id}')
-                                        div.indexCategory
-                                            p.index #{category.name[session.locale]}
+                                               span.count #{counts[i][category._id]}
 
-                                                   span.count #{counts[i][category._id]}
-
-                            br
-                            p.small #{i18n('text1')}
-                td.t
-                    if mainAds
-                        each ad, i in mainAds
-                            a(href='/ads/#{ad._id}')
-                                div.advertisement
-                                    table.center
-                                        tr
-                                            td
-                                                if ad.image1
-                                                    img.main(src='/images/small/#{ad.image1}')
-                                                else if ad.image2
-                                                    img.main(src='/images/small/#{ad.image2}')
-                                        tr
-                                            td
-                                                p.small #{ad.title}
-                                        tr
-                                            td
-                                                p #{ad.price}
+                        br
+                        p.small #{i18n('text1')}
+            td.t
+                if mainAds
+                    each ad, i in mainAds
+                        a(href='/ads/#{ad._id}')
+                            div.advertisement
+                                table.center
+                                    tr
+                                        td
+                                            if ad.image1
+                                                img.main(src='/images/small/#{ad.image1}')
+                                            else if ad.image2
+                                                img.main(src='/images/small/#{ad.image2}')
+                                    tr
+                                        td
+                                            p.small #{ad.title}
+                                    tr
+                                        td
+                                            p #{ad.price}
     include footer
 
 script.

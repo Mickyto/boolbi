@@ -13,17 +13,17 @@ block content
 
     table
        tr
-          td
+          td.r
             p.small #{i18n('name')}: &nbsp &nbsp
           td.info
             p #{user.name}
        tr
-          td
+          td.r
             p.small Email: &nbsp &nbsp
           td.info
             p #{user.email}
        tr
-          td
+          td.r
             p.small #{i18n('tel')}: &nbsp &nbsp
           td.info
             p #{user.telephone}
@@ -35,28 +35,27 @@ block content
 
     table
         tr
-          td
+          td.r
             p.small #{i18n('category')}:
           td.info
             p  #{category.name[session.locale]}
         tr
-          td
+          td.r
             p.small #{i18n('title')}:
           td.info
             p #{ad.title}
         tr
-          td
+          td.r
             p.small #{i18n('description')}:
           td.info
             p   #{ad.description}
         tr
-          td
+          td.r
             p.small #{i18n('price')}:
           td.info.inl
             p.info.med  #{ad.price} #{i18n('rub')}
-
         tr
-          td
+          td.r
             p.small #{i18n('photo')}:
 
     if ad.image1 !== undefined
@@ -64,10 +63,8 @@ block content
     if ad.image2 !== undefined
         img.show(src='/images/big/#{ad.image2}')
 
-
     if message.length > 0
          div.msg #{message}
-
 
     if session.user_id == user._id
         hr
@@ -86,7 +83,6 @@ block content
              p #{i18n('alertDel')}
          div(align='right')
              table
-               tr
                  td
                    form(action='/ads/#{ad._id}', method='post', enctype='application/x-www-form-urlencoded')
                       input(type='hidden', value='DELETE', name='_method')
