@@ -7,24 +7,27 @@ block content
 
           h1 #{i18n('userInfo')}
           hr
-          br
 
-          table
-              tr
-                  td
-                      p.small #{i18n('name')}:
-                  td.info
-                      p #{user.name}
-              tr
-                  td
-                      p.small Email:
-                  td.info
-                      p #{user.email}
-              tr
-                  td
-                      p.small #{i18n('tel')}:
-                  td.info
-                      p #{user.telephone}
+          div.title
+              a(href='/users/edit')
+                  div.editLink #{i18n('edit')}
+                      span.fa.fa-pencil-square-o.fl
+              table
+                  tr
+                      td.r
+                          p.small #{i18n('name')}:
+                      td.info
+                          p #{user.name}
+                  tr
+                      td.r
+                          p.small Email:
+                      td.info
+                          p #{user.email}
+                  tr
+                      td.r
+                          p.small #{i18n('tel')}:
+                      td.info
+                          p #{user.telephone}
 
           h1 #{i18n('itemInfo')}
           hr

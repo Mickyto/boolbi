@@ -201,6 +201,10 @@ button.index:hover {
   background: teal;
 }
 
+button.outForm {
+  margin: 0;
+}
+
 
 
                               /*     D I V S     */
@@ -411,6 +415,27 @@ div.ads:hover {
   box-shadow: 1px 3px 6px 1px gray;
 }
 
+div.editLink {
+  font-size: 0;
+  position: absolute;
+  right: 20px;
+  top: 0;
+  padding: 2px 10px;
+  color: lightcyan;
+  border: 1px solid lightcyan;
+  border-radius: 10px;
+  transition: all 0.4s ease;
+  text-transform: lowercase;
+}
+
+div.editLink:hover {
+  font-size: 16px;
+}
+
+div.title {
+  position: relative;
+  margin-top: 15px
+}
 
                                        /*     L I N K S    */
 
@@ -546,9 +571,13 @@ a.button:active {
 
 h1 {
   font-family: Roboto-Thin, Arial, sans-serif;
-  color: #007f80;
+  color: lightgoldenrodyellow;
   margin: 5px;
   padding: 0;
+}
+
+h1.teal {
+  color: #007f80;
   letter-spacing: -1px;
 }
 
@@ -792,6 +821,13 @@ ul.b:before{
   margin: 0 0 0 16px;
   border-radius: 0;
 }
+
+span.fa-pencil-square-o {
+  padding: 2px;
+  font-size: 16px;
+}
+
+
 
 
 

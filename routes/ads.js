@@ -300,7 +300,7 @@ router.delete('/:id', checkAuth, function (req, res, next) {
             }
         }
     });
-    res.redirect('/user/profile');
+    res.redirect('/users/profile');
 });
 
 module.exports = router;

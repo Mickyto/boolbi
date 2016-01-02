@@ -48,7 +48,6 @@ router.param('id', function (req, res, next, id) {
 });
 
 
-
 router.get('/category/:id', function (req, res, next) {
 
     var adCol = req.db.get('ads'),
