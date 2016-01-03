@@ -122,4 +122,40 @@ router.get('/main', checkAdmin, function (req, res, next) {
     });
 });
 
+
+router.get('/magic', checkAdmin, function (req, res, next) {
+
+    var adCol = req.db.get('ads');
+
+    adCol.find({ images: { $exists: false }}, function (err, docs) {
+        if (err) { return next(err); }
+
+        for (var i in docs) {
+            var images = {};
+            if (docs[i].image1) {
+                console.log(docs[i].image1);
+                images.image1 = docs[i].image1;
+                adCol.findAndModify({ image1: docs[i].image1 }, { $unset: { image1: docs[i].image1 }});
+            }
+            if (docs[i].image2) {
+                console.log(docs[i].image2);
+                images.image2 = docs[i].image2;
+                adCol.findAndModify({ image2: docs[i].image2 }, { $unset: { image2: docs[i].image2 }});
+            }
+            console.log(images);
+            adCol.findAndModify({ _id: docs[i]._id}, { $set: { images: images }});
+        }
+
+        req.flash('info', 'All magic have been done!');
+        res.redirect('back');
+    });
+
+});
+
+
+
+
+
+
+
 module.exports = router;

@@ -185,6 +185,7 @@ var adCallback = function (req, res, next) {
     }
 
     var i,
+        images = {},
         fieldName,
         imageName,
         db = req.db,
@@ -209,9 +210,10 @@ var adCallback = function (req, res, next) {
                 res.redirect('back');
                 return;
             }
-            colObject[fieldName] = imageName;
+            images[fieldName] = imageName;
         }
     }
+    colObject.images = images;
 
     // updating record
     if (req.id !== undefined) {

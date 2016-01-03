@@ -21,10 +21,10 @@ body
                               table.center
                                   tr
                                     td
-                                      if ad.image1
-                                          img.main(src='/images/small/#{ad.image1}')
-                                      else if ad.image2
-                                          img.main(src='/images/small/#{ad.image2}')
+                                      if ad.images.image1
+                                          img.main(src='/images/small/#{ad.images.image1}')
+                                      else if ad.images.image2
+                                          img.main(src='/images/small/#{ad.images.image2}')
                                   tr
                                     td
                                       p.small #{ad.title}

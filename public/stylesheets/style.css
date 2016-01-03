@@ -366,7 +366,6 @@ div.button {
 
 div.width {
   width: 220px;
-  text-align: center;
 }
 
 div.img,
@@ -429,12 +428,27 @@ div.editLink {
 }
 
 div.editLink:hover {
-  font-size: 16px;
+  font-size: 13px;
+  color: darkslategray;
+  border-color: darkslategray
 }
 
 div.title {
   position: relative;
   margin-top: 15px
+}
+
+div.image {
+  width: 580px;
+  height: 500px;
+  margin: 15px 0px 30px 5px;
+}
+
+div.image img {
+  max-width:100%;
+  max-height:100%;
+  margin:auto;
+  display:block;
 }
 
                                        /*     L I N K S    */
@@ -540,7 +554,7 @@ a.button {
   transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   display: block;
   margin: 20px auto;
-  width: 120px;
+  width: 110px;
   border-radius: 4px;
   padding: 40px 30px;
   color: #008080;
@@ -550,6 +564,7 @@ a.button {
   white-space: normal;
   background: #8fbabc;
   animation: pulse 3s infinite;
+  text-align: center;
 }
 
 @keyframes pulse {
@@ -727,17 +742,7 @@ img.main {
 }
 
 img.show {
-  width: 200px;
-  border: 2px solid white;
-  border-radius: 10px;
-  margin: 10px;
-  transition: width 0.5s linear;
   float: none;
-}
-
-img.show:hover {
-  width: 300px;
-
 }
 
 ul {
@@ -824,7 +829,7 @@ ul.b:before{
 
 span.fa-pencil-square-o {
   padding: 2px;
-  font-size: 16px;
+  font-size: 13px;
 }
 
 
