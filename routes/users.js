@@ -227,7 +227,9 @@ router.get('/profile', checkAuth, function (req, res, next) {
             { $group: { _id: '$status', count: { $sum: 1 } } },
             { $sort: { _id: 1 } }
         ], function (err, result) {
-            var pages = req.pagination(pageNumber, perPage, (adStatus == 'active' ? result[0].count : result[1].count), link);
+            if (result.length > 0) {
+                var pages = req.pagination(pageNumber, perPage, (adStatus == 'inactive' && result.length > 1 ? result[1].count : result[0].count), link);
+            }
             res.render('ad/ads', {
                 counts: result,
                 pageNumber: pageNumber,

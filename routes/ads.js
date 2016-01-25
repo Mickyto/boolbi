@@ -21,39 +21,48 @@ router.use(methodOverride(function (req) {
 }));
 
 
-function photoHandler(uploadedImage) {
+function photoHandler(files) {
 
-    if (uploadedImage.size > 4000000) {
-        return false;
+    var Array = [];
+
+    for (var i = 0; i < 2; i++) {
+
+        var field = 'image' + i;
+
+        if (files[field].name != '') {
+
+            if (files[field].size > 3000000) {
+                return false;
+            }
+
+            if (files[field].type == 'image/png' || files[field].type == 'image/jpeg') {
+
+                var imageName = Math.random() + '.jpg';
+
+                im.resize({
+                    srcPath: files[field].path,
+                    dstPath: './public/images/small/' + imageName,
+                    width: 150
+                }, function (err) {
+                    if (err) { console.log(err); }
+                });
+
+                im.resize({
+                    srcPath: files[field].path,
+                    dstPath: './public/images/big/' + imageName,
+                    width: 600
+                }, function (err) {
+                    if (err) { console.log(err); }
+                });
+
+                Array.push({
+                    src: imageName,
+                    fieldName: files[field].fieldName
+                });
+            }
+        }
     }
-
-    if (uploadedImage.type == 'image/png' || uploadedImage.type == 'image/jpeg') {
-
-        var imageName = Math.random() + '.jpg';
-
-        im.resize({
-
-            srcPath: uploadedImage.path,
-            dstPath: './public/images/small/' + imageName,
-            width: 200
-
-        }, function (err) {
-            if (err) { console.log(err); }
-        });
-
-        im.resize({
-
-            srcPath: uploadedImage.path,
-            dstPath: './public/images/big/' + imageName,
-            width: 600
-
-        }, function (err) {
-            if (err) { console.log(err); }
-        });
-
-        return imageName;
-    }
-    return false;
+    return Array;
 }
 
 function checkAuth(req, res, next) {
@@ -63,6 +72,18 @@ function checkAuth(req, res, next) {
         res.redirect('/users/login');
     } else {
         next();
+    }
+}
+
+function photoRemover(fileName) {
+
+    try {
+        fs.unlinkSync('./public/images/big/' + fileName);
+        fs.unlinkSync('./public/images/small/' + fileName);
+    }
+    catch (err) {
+        console.log(err);
+        return false;
     }
 }
 
@@ -126,6 +147,10 @@ router.get('/:id', function (req, res, next) {
     adCol.findById(req.id, function (err, ad) {
         if (err) { return next(err); }
 
+        if (ad.images !== undefined) {
+            var image = req.query.image || ad.images[0].src;
+        }
+
         categoryCol.findById(ad.category_id, function (err, category) {
             if (err) { return next(err); }
 
@@ -133,10 +158,11 @@ router.get('/:id', function (req, res, next) {
                 if (err) { return next(err); }
 
                 res.render('ad/show', {
-                    ad : ad,
-                    category : category,
-                    message : req.flash('info'),
-                    user : user
+                    image: image,
+                    ad: ad,
+                    category: category,
+                    message: req.flash('info'),
+                    user: user
                 });
             });
         });
@@ -155,6 +181,16 @@ router.get('/:id/edit', checkAuth, function (req, res, next) {
     adCol.findById(req.id, function (err, ad) {
         if (err) { return next(err); }
 
+        if (ad.images) {
+            var arr = [];
+            for (var i = 0; i < 2; i++) {
+                var result = ad.images.filter(function( obj ) {
+                    return obj.fieldName == 'image' + i;
+                })[0];
+                arr.push(result);
+            }
+        }
+
         categoryCol.findById(ad.category_id, function (err, category) {
             if (err) { return next(err); }
 
@@ -163,6 +199,7 @@ router.get('/:id/edit', checkAuth, function (req, res, next) {
                 req.session.captcha = captcha;
 
                 res.render('ad/newad', {
+                    imageArray: arr,
                     user : user,
                     category : category,
                     ad : ad,
@@ -184,66 +221,90 @@ var adCallback = function (req, res, next) {
         return;
     }
 
-    var i,
-        images = {},
-        fieldName,
-        imageName,
-        db = req.db,
-        adCol = db.get('ads'),
+    if (req.files.image0.name != '' || req.files.image1.name != '') {
+        var imageArray = photoHandler(req.files);
+
+        if (imageArray === false) {
+            req.flash('info', req.app.locals.i18n('incorrectImage'));
+            res.redirect('back');
+            return;
+        }
+    }
+
+    var adCol = req.db.get('ads'),
         colObject = {
-            user_id : new ObjectId(req.session.user_id),
+            user_id: new ObjectId(req.session.user_id),
+            category_id: new ObjectId(req.body.category),
             title: req.body.adtitle,
             description: req.body.addescription,
             price: req.body.adprice,
             status: 'inactive'
         };
 
-    // photo handler
-    for (i = 1; i < 3; i++) {
-        fieldName = 'image' + i;
+    if (req.id == undefined) {
 
-        if (req.files[fieldName].name != '') {
-            imageName = photoHandler(req.files[fieldName]);
-
-            if (imageName === false) {
-                req.flash('info', req.app.locals.i18n('incorrectImage'));
-                res.redirect('back');
-                return;
-            }
-            images[fieldName] = imageName;
+        if (imageArray !== undefined) {
+            colObject.images = imageArray;
         }
+        adCol.insert(colObject);
+        res.redirect('/users/profile');
+        return;
     }
-    colObject.images = images;
 
-    // updating record
     if (req.id !== undefined) {
 
-        // removing old pictures
-        adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, doc) {
-            if (err || !doc) { return next(err); }
+        adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, ad) {
+            if (err || !ad) { return next(err); }
 
-            for (i = 1; i < 3; i++) {
-                fieldName = 'image' + i;
+            var mongoAction = { $set: colObject };
 
-                if (req.files[fieldName].name != '' && doc[fieldName] != undefined) {
-                    fs.unlink('./public/images/big/' + doc[fieldName]);
-                    fs.unlink('./public/images/small/' + doc[fieldName]);
+            if (ad.images) {
+                var imagesLength = ad.images.length;
+                var dbImages = [];
+                for (var p = 0; p < 2; p++) {
+                    dbImages.push(ad.images.filter(function(obj) {
+                        return obj.fieldName == 'image' + p;
+                    })[0]);
                 }
             }
-            adCol.findAndModify({ _id: doc._id }, { $set: colObject });
-        });
-        res.redirect('/users/profile');
 
-    // inserting record
-    } else {
-
-        db.get('categories').findById(req.body.category, function (err, doc) {
-            if (err || !doc) { return next(err); }
-
-            if (doc) {
-                colObject.category_id = new ObjectId(req.body.category);
-                adCol.insert(colObject);
+            if (imageArray) {
+                var newImages = [];
+                for (var k = 0; k < 2; k++) {
+                    newImages.push(imageArray.filter(function(obj) {
+                        return obj.fieldName == 'image' + k;
+                    })[0]);
+                }
             }
+
+            if (!ad.images && imageArray) {
+                colObject.images = imageArray;
+                adCol.findAndModify({ _id: ad._id }, mongoAction);
+                return;
+            }
+
+            for (var i = 0; i < 2; i++) {
+
+                if (newImages && newImages[i] !== undefined && dbImages && dbImages[i] !== undefined) {
+                    photoRemover(dbImages[i].src);
+                    adCol.findAndModify({ _id: ad._id, 'images.fieldName': 'image' + i }, { $set: { 'images.$': newImages[i] }});
+                }
+
+                if (req.files[ 'image' + i ].name == '' && dbImages && dbImages[i] !== undefined && req.body[ 'helper' + i ] == 3) {
+                    photoRemover(dbImages[i].src);
+                    adCol.findAndModify({ _id: ad._id }, { $pull: { images: dbImages[i] }});
+                    imagesLength -= 1;
+                }
+
+                if (newImages && newImages[i] !== undefined && dbImages && dbImages[i] == undefined && ad.images) {
+                    adCol.findAndModify({ _id: ad._id }, { $push: { images: { $each: [newImages[i]], $position: i}}});
+                }
+
+                if (imagesLength == 0) {
+                    mongoAction.$unset = { images: '' };
+                }
+            }
+            adCol.findAndModify({ _id: ad._id }, mongoAction);
         });
         res.redirect('/users/profile');
     }
@@ -254,55 +315,26 @@ router.post('/addad', checkAuth, multipartMiddleware, adCallback);
 
 router.post('/:id/adedit', checkAuth, multipartMiddleware, adCallback);
 
-router.get('/:id/imgdel', checkAuth, function (req, res, next) {
-
-    var i,
-        imageNumber,
-        db = req.db,
-        adCol = db.get('ads'),
-        imgObject = {};
-
-    adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, doc) {
-        if (err || !doc) { return next(err); }
-
-        for (i = 1; i < 3; i++) {
-            imageNumber = 'image' + i;
-
-            if (req.query.img === doc[imageNumber]) {
-                imgObject[imageNumber] = 1;
-                fs.unlink('./public/images/big/' + req.query.img);
-                fs.unlink('./public/images/small/' + req.query.img);
-                adCol.findAndModify({_id: doc._id}, {$unset: imgObject});
-            }
-        }
-    });
-    res.redirect('back');
-});
-
-
 router.delete('/:id', checkAuth, function (req, res, next) {
 
-    var i,
-        fieldName,
-        adCol = req.db.get('ads');
+    var adCol = req.db.get('ads');
 
     adCol.findOne({ _id: req.id, user_id: new ObjectId(req.session.user_id) }, function (err, doc) {
         if (err || !doc) { return next(err); }
+
+        if (doc.images !== undefined) {
+
+            for (var i = 0; i < doc.images.length; i++) {
+
+                photoRemover(doc.images[i].src);
+            }
+        }
 
         adCol.removeById(doc._id, function (err) {
             if (err) { return next(err); }
         });
-
-        for (i = 1; i < 3; i++) {
-            fieldName = 'image' + i;
-
-            if (doc[fieldName] != undefined) {
-                fs.unlink('./public/images/big/' + doc[fieldName]);
-                fs.unlink('./public/images/small/' + doc[fieldName]);
-            }
-        }
+        res.redirect('/users/profile');
     });
-    res.redirect('/users/profile');
 });
 
 module.exports = router;

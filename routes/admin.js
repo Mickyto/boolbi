@@ -19,23 +19,6 @@ function adCount(req, res, renderObject, callback) {
     var arrayCount = {},
         adCol = req.db.get('ads');
 
-    /*adCol.col.aggregate([
-        //{ $match: { status: 'inactive'}},
-        { $group: { _id: '$status', count: { $sum: 1 } } },
-        { $group: { _id: null, count: { $sum: 1 } } }
-
-        //{ $match: { reason: { $exists: 1 }}},
-        //{ $group: { _id: null, count: { $sum: 1 } } },
-        //{ $match: { improvement: 'main' }},
-        //{ $group: { _id: null, count: { $sum: 1 } } }
-        //{ $group: { _id: { status: 'rejected' }, count: { $sum: 1 } } },
-        //{ $group: { _id: { improvement: 'main' }, count: { $sum: 1 } } }
-        ], function (err, result) {
-            console.log(result);
-        });*/
-
-
-
     adCol.count({}, function (err, all) {
         arrayCount.all = all;
 
@@ -127,35 +110,33 @@ router.get('/magic', checkAdmin, function (req, res, next) {
 
     var adCol = req.db.get('ads');
 
-    adCol.find({ images: { $exists: false }}, function (err, docs) {
+    adCol.find({ images: { $exists: true }}, function (err, docs) {
         if (err) { return next(err); }
 
         for (var i in docs) {
-            var images = {};
+            var images = [];
             if (docs[i].image1) {
-                console.log(docs[i].image1);
-                images.image1 = docs[i].image1;
+                images.push({
+                    src: docs[i].image1,
+                    fieldName: 'image1'
+                });
                 adCol.findAndModify({ image1: docs[i].image1 }, { $unset: { image1: docs[i].image1 }});
             }
             if (docs[i].image2) {
-                console.log(docs[i].image2);
-                images.image2 = docs[i].image2;
+                images.push({
+                    src: docs[i].image2,
+                    fieldName: 'image2'
+                });
                 adCol.findAndModify({ image2: docs[i].image2 }, { $unset: { image2: docs[i].image2 }});
             }
-            console.log(images);
             adCol.findAndModify({ _id: docs[i]._id}, { $set: { images: images }});
         }
-
-        req.flash('info', 'All magic have been done!');
-        res.redirect('back');
     });
 
+    req.flash('info', 'All magic have been done!');
+    res.redirect('back');
 });
 
 
-
-
-
-
-
 module.exports = router;
+

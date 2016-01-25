@@ -33,7 +33,7 @@ body
                                     tr
                                         td
                                             if ad.images
-                                                img.main(src='/images/small/#{ad.images[0]}')
+                                                img.main(src='/images/small/#{ad.images[0].src}')
                                     tr
                                         td
                                             p.small #{ad.title}
