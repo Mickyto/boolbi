@@ -15,10 +15,8 @@ block content
     each ad, i in ads
         div.ads
           a(href='/ads/#{ad._id}')
-             if ad.image1
-                  img.showAds(src='/images/small/#{ad.image1}')
-             else if ad.image2
-                  img.showAds(src='/images/small/#{ad.image2}')
+             if ad.images
+                  img.showAds(src='/images/small/#{ad.images[0].src}')
           div.delete
              a(href='/ads/#{ad._id}')
                p #{ad.title}
@@ -34,44 +32,46 @@ block content
         p
 
 
-    if pageParts.total > 1 && pageParts.total < 7
-        div.delete
-            ul
-                each page, i in pageParts.firstPart
-                    li.a
-                        a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+    if pageParts
 
-    if pageParts.total >= 7
-        div.delete
-            ul
-                if pageNumber < 4
-                    each page in pageParts.firstPart
-                        li
+        if pageParts.total > 1 && pageParts.total < 7
+            div.delete
+                ul
+                    each page, i in pageParts.firstPart
+                        li.a
                             a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
-                    li
-                        h2 ...
-                    li
-                        a.four(href='#{pageParts.last.link}', id='#{pageParts.last.pg}') #{pageParts.last.pg}
-                if pageNumber >= 4 && pageNumber <= pageParts.last.pg -4
-                    li
-                        a.four(href='#{pageParts.first.link}', id='#{pageParts.first.pg}') #{pageParts.first.pg}
-                    li
-                        h2 ...
-                    each page in pageParts.middle
+
+        if pageParts.total >= 7
+            div.delete
+                ul
+                    if pageNumber < 4
+                        each page in pageParts.firstPart
+                            li
+                                a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
                         li
-                            a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
-                    li
-                        h2 ...
-                    li
-                        a.four(href='#{pageParts.last.link}', id='#{pageParts.last.pg}') #{pageParts.last.pg}
-                if pageNumber > pageParts.last.pg -4
-                    li
-                        a.four(href='#{pageParts.first.link}', id='#{pageParts.first.pg}') #{pageParts.first.pg}
-                    li
-                        h2 ...
-                    each page in pageParts.lastPart
+                            h2 ...
                         li
-                            a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                            a.four(href='#{pageParts.last.link}', id='#{pageParts.last.pg}') #{pageParts.last.pg}
+                    if pageNumber >= 4 && pageNumber <= pageParts.last.pg -4
+                        li
+                            a.four(href='#{pageParts.first.link}', id='#{pageParts.first.pg}') #{pageParts.first.pg}
+                        li
+                            h2 ...
+                        each page in pageParts.middle
+                            li
+                                a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
+                        li
+                            h2 ...
+                        li
+                            a.four(href='#{pageParts.last.link}', id='#{pageParts.last.pg}') #{pageParts.last.pg}
+                    if pageNumber > pageParts.last.pg -4
+                        li
+                            a.four(href='#{pageParts.first.link}', id='#{pageParts.first.pg}') #{pageParts.first.pg}
+                        li
+                            h2 ...
+                        each page in pageParts.lastPart
+                            li
+                                a.four(href='#{page.link}', id='#{page.pg}') #{page.pg}
 
 
     script.

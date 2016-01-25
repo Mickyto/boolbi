@@ -2,100 +2,80 @@ extends ../layout
 
 block content
 
- if ad.reason && session.user_id == user._id
-     div.msg #{ad.reason}
+    div.bravito
 
- div.bravito
+        if ad.reason && session.user_id == user._id
+            div.msg #{ad.reason}
 
-    h1 #{i18n('userInfo')}
-    hr
-    br
+        h1 #{ad.title}
+        hr
 
-    table
-       tr
-          td.r
-            p.small #{i18n('name')}: &nbsp &nbsp
-          td.info
-            p #{user.name}
-       tr
-          td.r
-            p.small Email: &nbsp &nbsp
-          td.info
-            p #{user.email}
-       tr
-          td.r
-            p.small #{i18n('tel')}: &nbsp &nbsp
-          td.info
-            p #{user.telephone}
+        p.fr #{category.name[session.locale]}
+        br
 
+        if ad.images
+            div.image
+                span.helper
+                img.show(src='/images/big/#{image}')
 
-    h1 #{i18n('itemInfo')}
-    hr
-    br
+            if ad.images.length > 1
+                div.thumbnail
+                    each image in ad.images
+                        a(href='/ads/#{ad._id}?image=#{image.src}')
+                            img.showAds(src='/images/small/#{image.src}')
 
-    table
-        tr
-          td.r
-            p.small #{i18n('category')}:
-          td.info
-            p  #{category.name[session.locale]}
-        tr
-          td.r
-            p.small #{i18n('title')}:
-          td.info
-            p #{ad.title}
-        tr
-          td.r
-            p.small #{i18n('description')}:
-          td.info
-            p   #{ad.description}
-        tr
-          td.r
-            p.small #{i18n('price')}:
-          td.info.inl
-            p.info.med  #{ad.price} #{i18n('rub')}
-        tr
-          td.r
-            p.small #{i18n('photo')}:
+        p #{ad.description}
+        br
+        table
+            td.r
+                p.small #{i18n('price')}
+            td.info.inl
+                p.info.med  #{ad.price} #{i18n('rub')}
 
-    if ad.image1 !== undefined
-        img.show(src='/images/big/#{ad.image1}')
-    if ad.image2 !== undefined
-        img.show(src='/images/big/#{ad.image2}')
-
-    if message.length > 0
-         div.msg #{message}
-
-    if session.user_id == user._id
         hr
         table
-            tr
-              td
-                form(action='/ads/#{ad._id}/edit')
-                    button.fl.signup(type='submit') #{i18n('edit')}
-              td
-                a.greenButton.fl(onclick="showWindow()") #{i18n('Del')}
+             tr
+                 td.r(rowspan=2)
+                     p.small #{i18n('seller')}
+                 td.info
+                     p #{user.name}
+             tr
+                 td.info
+                     p #{user.telephone}
+                 td.info
+                     p #{user.email}
 
- div.alert
-     span.bgAlert(onclick="closeWindow()")
-     div.content
-         div.categ
-             p #{i18n('alertDel')}
-         div(align='right')
-             table
-                 td
-                   form(action='/ads/#{ad._id}', method='post', enctype='application/x-www-form-urlencoded')
-                      input(type='hidden', value='DELETE', name='_method')
-                      button.fr.login(type='submit') #{i18n('Del')}
-                 td
-                   button.fr(onclick="closeWindow()") #{i18n('cancel')}
+        if message.length > 0
+             div.msg #{message}
 
+        if session.user_id == user._id
+            hr
+            table
+                tr
+                  td
+                    form(action='/ads/#{ad._id}/edit')
+                        button.fl.signup(type='submit') #{i18n('edit')}
+                  td
+                    a.greenButton.fl(onclick="showWindow()") #{i18n('Del')}
 
+    div.alert
+        span.bgAlert(onclick="closeWindow()")
+        div.content
+            div.categ
+                p #{i18n('alertDel')}
+            div(align='right')
+                table
+                    td
+                      form(action='/ads/#{ad._id}', method='post', enctype='application/x-www-form-urlencoded')
+                         input(type='hidden', value='DELETE', name='_method')
+                         button.fr.login(type='submit') #{i18n('Del')}
+                    td
+                      button.fr(onclick="closeWindow()") #{i18n('cancel')}
 
- script.
-     var showWindow = function() {
-         document.getElementsByClassName('alert')[0].style.display = 'block';
-     }
-     var  closeWindow = function() {
-         document.getElementsByClassName('alert')[0].style.display = 'none';
-     }
+    script.
+        var showWindow = function() {
+            document.getElementsByClassName('alert')[0].style.display = 'block';
+        }
+        var  closeWindow = function() {
+            document.getElementsByClassName('alert')[0].style.display = 'none';
+        }

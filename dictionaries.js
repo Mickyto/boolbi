@@ -81,7 +81,8 @@ module.exports = {
             rejected: 'отклонено',
             wrongEmail: 'boolbi не знает этот email',
             addInfo: 'Добавьте контактную информацию',
-            changesSaved: 'Изменения были сохранены'
+            changesSaved: 'Изменения были сохранены',
+            seller: 'Продавец'
         };
         return russian[word];
     },
@@ -161,7 +162,8 @@ module.exports = {
             rejected: 'rejected',
             wrongEmail: 'boolbi doesn\'t know that email',
             addInfo: 'Please add contact information',
-            changesSaved: 'Changes have been saved'
+            changesSaved: 'Changes have been saved',
+            seller: 'seller'
         };
         return english[word];
     }

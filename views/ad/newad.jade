@@ -43,11 +43,8 @@ block content
                 td
                   p.small #{i18n('category')}: &nbsp
                 td.info
-                  if category
-                    p #{category.name[session.locale]}
-                  else
                     select#select(name='category', align='right')
-                       option(value='') #{i18n('select')}
+                       option(value=(ad ? '#{category._id}' : '')) #{ad ? category.name[session.locale] : i18n('select')}
                        each category, i in categories
                           option(value='#{category._id}') #{category.name[session.locale]}
 
@@ -79,21 +76,23 @@ block content
 
 
           p.small #{i18n('photo')}:
-          each image in ['image1', 'image2']
-              table.fl.center
-                tr
-                  td
-                    div.fileUpload
-                      input.upload(type='file', name='#{image}', accept='image/*', onchange='openPhoto(event)')
-                      img(id='#{image}', src=(ad && ad[image] !== undefined ? '/images/small/#{ad[image]}' : '/images/logo/camera.png'), width=150)
-                tr
-                  td
-                    if ad && ad[image]
-                      a.img(href='/ads/#{ad._id}/imgdel?img=#{ad[image]}&id=link1')
-                          i.fa.fa-trash &nbsp #{i18n('del')}
-                    else
-                      p.img(id='PAR#{image}', onclick='delImage("#{image}")')
-                          i.fa.fa-trash &nbsp #{i18n('del')}
+          div
+              each image, i in ['image0', 'image1']
+                  table.fl.center
+                    tr
+                      td
+                        div.fileUpload
+                          input.upload(type='file', name='#{image}', accept='image/*', onchange='openPhoto(event, "#{i}")')
+                          input(type='hidden', name='helper' + [i], value=(imageArray && imageArray[i] ? 1 : ''))
+                          img(id='#{image}', src=(imageArray && imageArray[i] ? '/images/small/#{imageArray[i].src}' : '/images/logo/camera.png'), width=150)
+                    tr
+                      td
+                          p.img(id='PAR#{image}', onclick='delImage("#{image}", "#{i}")')
+                              i.fa.fa-trash &nbsp #{i18n('del')}
+                  if imageArray && imageArray[i]
+                      script.
+                          document.getElementById('PAR#{image}').style.visibility = ' visible';
+                          //document.getElementsByName('image1')[0].setAttribute("disabled");
 
           div.invCaptcha
             p.validateErr#captcha #{i18n('captchaErr')}
@@ -109,14 +108,24 @@ block content
           button(type='submit') #{i18n('save')}
 
   script(type='text/javascript').
-      var delImage = function (name) {
+      var delImage = function (name, i) {
           document.getElementById(name).getAttributeNode('src').value = '/images/logo/camera.png';
           document.getElementsByName(name)[0].value = '';
           document.getElementById('PAR' + name).style.visibility = 'hidden';
-      } ;
+          document.getElementsByName('helper' + i)[0].value = 3;
+          /*var image0 = document.getElementsByName('image0');
+          var image1 = document.getElementsByName('image1');
+          console.log(image0.src);
+          if (
+                  image0.getAttribute('src') == 'http://boolbi.dev/images/logo/camera.png' &&
+                  image1.getAttribute('src') == 'http://boolbi.dev/images/logo/camera.png'
+          ) {
+              image1.setAttribute('disabled');
+          }*/
+      };
 
   script(type='text/javascript').
-      var openPhoto = function (event) {
+      var openPhoto = function (event, i) {
           var input = event.target;
           var reader = new FileReader();
           reader.onload = function () {
@@ -126,6 +135,8 @@ block content
           };
           reader.readAsDataURL(input.files[0]);
           document.getElementById('PAR' + input.name).style.visibility =' visible';
+          //document.getElementsByName('helper' + i)[0].value = 2;
+          //document.getElementsByName('image1')[0].removeAttribute("disabled");
       };
 
   script(type='text/javascript', src='/javascripts/validator.min.js').

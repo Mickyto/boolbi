@@ -119,7 +119,7 @@ input.login {
 
 button {
   font-size: 16px;
-  border: 1px solid #267D7D;;
+  border: 1px solid #267D7D;
   margin: 15px;
   cursor: pointer;
   background: #267D7D;
@@ -366,7 +366,6 @@ div.button {
 
 div.width {
   width: 220px;
-  text-align: center;
 }
 
 div.img,
@@ -390,7 +389,12 @@ div.fileUpload {
   opacity: 0;
   height: 200px;
   filter: alpha(opacity=0);
+  margin: 0;
 }
+
+[disabled] { cursor: auto !important; }
+
+[disabled] + img { opacity: 0.5; }
 
 div.lang:hover {
   background: goldenrod;
@@ -429,12 +433,29 @@ div.editLink {
 }
 
 div.editLink:hover {
-  font-size: 16px;
+  font-size: 13px;
+  color: darkslategray;
+  border-color: darkslategray
 }
 
 div.title {
   position: relative;
   margin-top: 15px
+}
+
+div.image {
+  width: 580px;
+  height: 500px;
+  margin: 15px 0 15px 5px;
+  background: lightgoldenrodyellow;
+  border-radius: 10px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+
+div.thumbnail {
+  display: table;
 }
 
                                        /*     L I N K S    */
@@ -492,7 +513,7 @@ a.img {
 
 a.greenButton {
   font-size: 16px;
-  border: 1px solid #267D7D;;
+  border: 1px solid #267D7D;
   margin: 15px;
   background: #267D7D;
   padding: 10px 20px 10px 20px;
@@ -540,7 +561,7 @@ a.button {
   transition: all 800ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   display: block;
   margin: 20px auto;
-  width: 120px;
+  width: 110px;
   border-radius: 4px;
   padding: 40px 30px;
   color: #008080;
@@ -550,6 +571,7 @@ a.button {
   white-space: normal;
   background: #8fbabc;
   animation: pulse 3s infinite;
+  text-align: center;
 }
 
 @keyframes pulse {
@@ -727,17 +749,10 @@ img.main {
 }
 
 img.show {
-  width: 200px;
-  border: 2px solid white;
-  border-radius: 10px;
-  margin: 10px;
-  transition: width 0.5s linear;
   float: none;
-}
-
-img.show:hover {
-  width: 300px;
-
+  max-width: 560px;
+  max-height: 480px;
+  vertical-align: middle;
 }
 
 ul {
@@ -807,7 +822,7 @@ ul.b {
   position: absolute;
   width: 240px;
   margin: 13px 0 0 0;
-  box-shadow: 6px 8px 8px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 6px 8px 8px 0 rgba(0, 0, 0, 0.5);
 }
 
 ul.b:before{
@@ -824,13 +839,14 @@ ul.b:before{
 
 span.fa-pencil-square-o {
   padding: 2px;
-  font-size: 16px;
+  font-size: 13px;
 }
 
-
-
-
-
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
 
 
 
