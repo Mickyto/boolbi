@@ -25,6 +25,7 @@ router.get('/', function (req, res) {
         }
 
         res.render('index', {
+            title: req.app.locals.i18n('boolbi'),
             counts: arr
         });
     });
@@ -73,6 +74,7 @@ router.get('/category/:id', function (req, res, next) {
             var pages = req.pagination(pageNumber, perPage, count, link);
 
             res.render('ad/ads', {
+                title: 'Category',
                 category: req.id,
                 ads: ads,
                 pageNumber: pageNumber,
@@ -122,6 +124,7 @@ router.get('/search', function (req, res, next) {
                 var pages = req.pagination(pageNumber, perPage, count, link);
 
                 res.render('ad/ads', {
+                    title: searchText,
                     ads: docs,
                     message: req.flash('info'),
                     word: searchText,

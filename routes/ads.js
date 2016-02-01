@@ -42,7 +42,7 @@ function photoHandler(files) {
                 im.resize({
                     srcPath: files[field].path,
                     dstPath: './public/images/small/' + imageName,
-                    width: 150
+                    width: 100
                 }, function (err) {
                     if (err) { console.log(err); }
                 });
@@ -50,7 +50,7 @@ function photoHandler(files) {
                 im.resize({
                     srcPath: files[field].path,
                     dstPath: './public/images/big/' + imageName,
-                    width: 600
+                    width: 500
                 }, function (err) {
                     if (err) { console.log(err); }
                 });
@@ -111,6 +111,7 @@ router.get('/newad', checkAuth, function (req, res, next) {
         var captcha = parseInt(Math.random() * 9000 + 1000, 10);
         req.session.captcha = captcha;
         res.render('ad/newad', {
+            title: req.app.locals.i18n('newad'),
             user: doc,
             formAction: '/ads/addad',
             captcha: imageCaptcha(captcha),
@@ -158,6 +159,7 @@ router.get('/:id', function (req, res, next) {
                 if (err) { return next(err); }
 
                 res.render('ad/show', {
+                    title: ad.title,
                     image: image,
                     ad: ad,
                     category: category,
@@ -199,6 +201,7 @@ router.get('/:id/edit', checkAuth, function (req, res, next) {
                 req.session.captcha = captcha;
 
                 res.render('ad/newad', {
+                    title: req.app.locals.i18n('editAd'),
                     imageArray: arr,
                     user : user,
                     category : category,

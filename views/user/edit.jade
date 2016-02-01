@@ -17,12 +17,12 @@ block content
           td.r
             p.small #{i18n('name')}:
           td.info
-            input.title(type='text', value=(user ? '#{user.name}' : ''), name='name', size=22)
+            input.title(type='text', value='#{user.name}', name='name', size=22)
         tr
           td.r
             p.small #{i18n('tel')}:
           td.info
-            input.title(type='text', value=(user ? '#{user.telephone}' : ''), name='telephone', size=22)
+            input.title(type='tel', value='#{user.telephone}', placeholder='+7(___)___-__-__', name='telephone', size=22, maxlength=16, onkeydown='mask(event, this)', onfocus='if ("#{user.telephone}" === "") {this.value = "+7("} else {this.value = "#{user.telephone}"}', onblur='if ("#{user.telephone}" === "" && this.value === "+7(") {this.value = ""}')
         tr
           td.r(rowspan=4)
             p.small #{i18n('changePass')}:
@@ -43,6 +43,24 @@ block content
       hr
       button(type='submit') #{i18n('save')}
 
+ script.
+     var mask = function (event, element) {
+         var key = event.charCode || event.keyCode || 0;
+         var phone = element.value;
+         console.log(key);
+         if (key >= 48 && key <= 57) {
+             if (phone.length === 6) {
+                 element.value = phone + ')';
+             }
+             if (phone.length === 10) {
+                 element.value = phone + '-';
+             }
+             if (phone.length === 13) {
+                 element.value = phone + '-';
+             }
+         }
+     };
+
 
  script(type='text/javascript').
      function formSubmit() {
@@ -56,3 +74,4 @@ block content
      }
  script(type='text/javascript', src='/javascripts/validator.min.js').
  script(type='text/javascript', src='/javascripts/validateFields.js').
+

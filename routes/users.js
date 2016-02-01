@@ -15,6 +15,7 @@ var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 router.get('/signup/', function (req, res) {
 
     res.render('user/login', {
+        title: req.app.locals.i18n('signup'),
         message : req.flash('info'),
         formAction : '/users/signup/',
         btnValue : 'signup'
@@ -112,6 +113,7 @@ router.get('/email_activation', function (req, res, next) {
 router.get('/password_recovery', function (req, res) {
 
     res.render('user/recovery', {
+        title: req.app.locals.i18n('recovery'),
         message : req.flash('info')
     });
 });
@@ -163,6 +165,7 @@ router.post('/recovery', function (req, res, next) {
 router.get('/login', function (req, res) {
 
     res.render('user/login', {
+        title: req.app.locals.i18n('login'),
         message : req.flash('info'),
         formAction : '/users/login',
         btnValue : 'login'
@@ -224,6 +227,7 @@ router.get('/profile', checkAuth, function (req, res, next) {
         if (err) { return next(err); }
 
         adCol.col.aggregate([
+            { $match: { user_id : new ObjectId(req.session.user_id) }},
             { $group: { _id: '$status', count: { $sum: 1 } } },
             { $sort: { _id: 1 } }
         ], function (err, result) {
@@ -231,6 +235,7 @@ router.get('/profile', checkAuth, function (req, res, next) {
                 var pages = req.pagination(pageNumber, perPage, (adStatus == 'inactive' && result.length > 1 ? result[1].count : result[0].count), link);
             }
             res.render('ad/ads', {
+                title: req.app.locals.i18n('myAds'),
                 counts: result,
                 pageNumber: pageNumber,
                 message: req.flash('info'),
@@ -246,8 +251,10 @@ router.get('/edit', checkAuth, function (req, res, next) {
 
     req.db.get('users').findById(req.session.user_id, function (err, doc) {
         if (err || !doc) { return next(err); }
+        //console.log(doc);
 
         res.render('user/edit', {
+            title: req.app.locals.i18n('settings'),
             user : doc,
             message : req.flash('info')
         });
@@ -287,7 +294,9 @@ router.get('/logout', checkAuth, function (req, res) {
 
 router.get('/feedback', checkAuth, function (req, res) {
 
-    res.render('feedback');
+    res.render('feedback', {
+        title: req.app.locals.i18n('feedback')
+    });
 });
 
 router.post('/feedback', checkAuth, function (req, res) {
