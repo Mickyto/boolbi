@@ -42,7 +42,7 @@ function photoHandler(files) {
                 im.resize({
                     srcPath: files[field].path,
                     dstPath: './public/images/small/' + imageName,
-                    width: 100
+                    width: 120
                 }, function (err) {
                     if (err) { console.log(err); }
                 });
@@ -50,7 +50,7 @@ function photoHandler(files) {
                 im.resize({
                     srcPath: files[field].path,
                     dstPath: './public/images/big/' + imageName,
-                    width: 500
+                    width: 600
                 }, function (err) {
                     if (err) { console.log(err); }
                 });
@@ -161,6 +161,7 @@ router.get('/:id', function (req, res, next) {
                 res.render('ad/show', {
                     title: ad.title,
                     image: image,
+                    date: req.dateHandler(ad.date),
                     ad: ad,
                     category: category,
                     message: req.flash('info'),
@@ -246,6 +247,7 @@ var adCallback = function (req, res, next) {
 
     if (req.id == undefined) {
 
+        colObject.date = new Date();
         if (imageArray !== undefined) {
             colObject.images = imageArray;
         }

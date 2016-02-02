@@ -280,17 +280,17 @@ div.bravito {
 }
 
 div.ads {
-  padding: 15px;
+  padding: 12px;
   margin: 5px;
   white-space: normal;
   background: #9FC4C6;
-    position: relative;
+  position: relative;
 }
 
 div.status {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 10px;
+    right: 15px;
 }
 
 div.advertisement {
@@ -366,6 +366,14 @@ div.button {
 
 div.width {
   width: 220px;
+}
+
+div.adImg {
+  float: left;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  margin-right: 15px;
 }
 
 div.img {
@@ -747,11 +755,11 @@ img.goods {
 }
 
 img.showAds {
-  width: 150px;
-  max-height: 200px;
-  margin: 5px;
+  max-width: 120px;
+  max-height: 120px;
   border-radius: 3px;
-  float: left;
+  vertical-align: middle;
+  padding: 5px;
 }
 
 img.main {

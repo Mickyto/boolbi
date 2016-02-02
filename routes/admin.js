@@ -111,20 +111,15 @@ router.get('/magic', checkAdmin, function (req, res, next) {
 
     var adCol = req.db.get('ads');
 
-    adCol.find({ images: { $exists: true }}, function (err, docs) {
+    adCol.find({ date: { $exists: false }}, function (err, docs) {
         if (err) { return next(err); }
 
-        /*for (var i in docs) {
-            var images = [];
-            if (docs[i].images[1]) {
-                images.push({
-                    src: docs[i].image1,
-                    fieldName: 'image1'
-                });
-                adCol.findAndModify({ _id: docs[i]._id, 'images.fieldName': 'image3' }, { $set: { 'images.$.fieldName': 'image1' }});
-                adCol.findAndModify({ image1: docs[i].image1 }, { $unset: { image1: docs[i].image1 }});
-            }
-        }*/
+        for (var i in docs) {
+
+            adCol.findAndModify({ _id: docs[i]._id }, { $set: { date: new Date() }});
+            //adCol.findAndModify({ image1: docs[i].image1 }, { $unset: { image1: docs[i].image1 }});
+
+        }
     });
 
     req.flash('info', 'All magic have been done!');

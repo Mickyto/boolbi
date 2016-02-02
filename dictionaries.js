@@ -83,7 +83,12 @@ module.exports = {
             addInfo: 'Добавьте контактную информацию',
             changesSaved: 'Изменения были сохранены',
             seller: 'Продавец',
-            editAd: 'Изменить объявление'
+            editAd: 'Изменить объявление',
+            created: 'Создано',
+            ago: 'назад',
+            minutes: 'мин.',
+            hours: 'ч.',
+            days: 'д.'
         };
         return russian[word];
     },
@@ -165,7 +170,12 @@ module.exports = {
             addInfo: 'Please add contact information',
             changesSaved: 'Changes have been saved',
             seller: 'seller',
-            editAd: 'Edit ad'
+            editAd: 'Edit ad',
+            created: 'Created',
+            ago: 'ago',
+            minutes: 'min.',
+            hours: 'h.',
+            days: 'd.'
         };
         return english[word];
     }

@@ -226,7 +226,12 @@ router.get('/profile', checkAuth, function (req, res, next) {
     }, function (err, ads) {
         if (err) { return next(err); }
 
-        adCol.col.aggregate([
+        var dateArray = [];
+        for (var p = 0; p < ads.length; p++) {
+            dateArray.push(req.dateHandler(ads[p].date));
+        }
+
+            adCol.col.aggregate([
             { $match: { user_id : new ObjectId(req.session.user_id) }},
             { $group: { _id: '$status', count: { $sum: 1 } } },
             { $sort: { _id: 1 } }
@@ -238,6 +243,7 @@ router.get('/profile', checkAuth, function (req, res, next) {
                 title: req.app.locals.i18n('myAds'),
                 counts: result,
                 pageNumber: pageNumber,
+                dates: dateArray,
                 message: req.flash('info'),
                 ads: ads,
                 pageParts: pages

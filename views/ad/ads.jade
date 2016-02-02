@@ -15,13 +15,17 @@ block content
     each ad, i in ads
         div.ads
           a(href='/ads/#{ad._id}')
-             if ad.images
-                  img.showAds(src='/images/small/#{ad.images[0].src}')
+               div.adImg
+                  span.helper
+                  img.showAds(src=(ad.images ? '/images/small/#{ad.images[0].src}' : '/images/logo/noImage.png'))
+
           div.delete
              a(href='/ads/#{ad._id}')
                p #{ad.title}
              hr
-             p.med #{ad.price}
+             p.med #{ad.price} #{i18n('rub')}
+
+
           if ad.reason
               div.status
                   table
@@ -29,7 +33,9 @@ block content
                         p.status.fa.fa-ban
                       td
                         p.status #{i18n('rejected')}
-        p
+          else    
+              div.status
+                  p.small.fl #{i18n('created')} #{dates[i].time} #{i18n(dates[i].unit)} #{i18n('ago')}
 
 
     if pageParts

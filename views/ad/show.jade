@@ -9,9 +9,10 @@ block content
 
         h1 #{ad.title}
         hr
-
+        p.small.fl #{i18n('created')} #{date.time} #{i18n(date.unit)} #{i18n('ago')}
         p.fr #{category.name[session.locale]}
         br
+
 
         if ad.images
             div.image

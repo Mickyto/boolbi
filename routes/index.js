@@ -66,6 +66,10 @@ router.get('/category/:id', function (req, res, next) {
     }, function (err, ads) {
         if (err) { return next(err); }
 
+        var dateArray = [];
+        for (var p = 0; p < ads.length; p++) {
+            dateArray.push(req.dateHandler(ads[p].date));
+        }
         adCol.count({
             category_id: new ObjectId(req.id)
         }, function (err, count) {
@@ -77,6 +81,7 @@ router.get('/category/:id', function (req, res, next) {
                 title: 'Category',
                 category: req.id,
                 ads: ads,
+                dates: dateArray,
                 pageNumber: pageNumber,
                 message: req.flash('info'),
                 pageParts: pages
@@ -118,6 +123,10 @@ router.get('/search', function (req, res, next) {
                 msg: req.app.locals.i18n('noAds')
             });
         } else {
+            var dateArray = [];
+            for (var p = 0; p < docs.length; p++) {
+                dateArray.push(req.dateHandler(docs[p].date));
+            }
             adCol.count(searchIn, function (err, count) {
                 if (err) { return next(err); }
 
@@ -126,6 +135,7 @@ router.get('/search', function (req, res, next) {
                 res.render('ad/ads', {
                     title: searchText,
                     ads: docs,
+                    dates: dateArray,
                     message: req.flash('info'),
                     word: searchText,
                     pageNumber: pageNumber,
