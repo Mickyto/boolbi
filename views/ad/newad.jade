@@ -82,16 +82,15 @@ block content
                     tr
                       td
                         div.fileUpload
+                          div.img.fa.fa-trash(id='PAR#{image}', onclick='delImage("#{image}", "#{i}")')
+                          span.helper
                           input.upload(type='file', name='#{image}', accept='image/*', onchange='openPhoto(event, "#{i}")')
                           input(type='hidden', name='helper' + [i], value=(imageArray && imageArray[i] ? 1 : ''))
-                          img(id='#{image}', src=(imageArray && imageArray[i] ? '/images/small/#{imageArray[i].src}' : '/images/logo/camera.png'), width=150)
-                    tr
-                      td
-                          p.img(id='PAR#{image}', onclick='delImage("#{image}", "#{i}")')
-                              i.fa.fa-trash &nbsp #{i18n('del')}
+                          img.preview(id='#{image}', src=(imageArray && imageArray[i] ? '/images/small/#{imageArray[i].src}' : '/images/logo/camera.png'))
+
                   if imageArray && imageArray[i]
                       script.
-                          document.getElementById('PAR#{image}').style.visibility = ' visible';
+                          document.getElementById('PAR#{image}').style.visibility = 'visible';
                           //document.getElementsByName('image1')[0].setAttribute("disabled");
 
           div.invCaptcha
@@ -106,6 +105,7 @@ block content
           br
           hr
           button(type='submit') #{i18n('save')}
+          a.greenButton(href='/users/profile') #{i18n('cancel')}
 
   script(type='text/javascript').
       var delImage = function (name, i) {
@@ -141,5 +141,4 @@ block content
 
   script(type='text/javascript', src='/javascripts/validator.min.js').
   script(type ='text/javascript', src='/javascripts/validateFields.js').
-
 

@@ -82,7 +82,13 @@ module.exports = {
             wrongEmail: 'boolbi не знает этот email',
             addInfo: 'Добавьте контактную информацию',
             changesSaved: 'Изменения были сохранены',
-            seller: 'Продавец'
+            seller: 'Продавец',
+            editAd: 'Изменить объявление',
+            created: 'Создано',
+            ago: 'назад',
+            minutes: 'мин.',
+            hours: 'ч.',
+            days: 'д.'
         };
         return russian[word];
     },
@@ -163,7 +169,13 @@ module.exports = {
             wrongEmail: 'boolbi doesn\'t know that email',
             addInfo: 'Please add contact information',
             changesSaved: 'Changes have been saved',
-            seller: 'seller'
+            seller: 'seller',
+            editAd: 'Edit ad',
+            created: 'Created',
+            ago: 'ago',
+            minutes: 'min.',
+            hours: 'h.',
+            days: 'd.'
         };
         return english[word];
     }

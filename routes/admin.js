@@ -57,6 +57,7 @@ router.get('/', checkAdmin, function (req, res, next) {
             if (err) { return next(err); }
             var pages = req.pagination(pageNumber, perPage, count, link),
                 renderObject = {
+                    title: 'Admin panel',
                     pageNumber: pageNumber,
                     ads: ads,
                     message : req.flash('info'),
@@ -110,26 +111,14 @@ router.get('/magic', checkAdmin, function (req, res, next) {
 
     var adCol = req.db.get('ads');
 
-    adCol.find({ images: { $exists: true }}, function (err, docs) {
+    adCol.find({ date: { $exists: false }}, function (err, docs) {
         if (err) { return next(err); }
 
         for (var i in docs) {
-            var images = [];
-            if (docs[i].image1) {
-                images.push({
-                    src: docs[i].image1,
-                    fieldName: 'image1'
-                });
-                adCol.findAndModify({ image1: docs[i].image1 }, { $unset: { image1: docs[i].image1 }});
-            }
-            if (docs[i].image2) {
-                images.push({
-                    src: docs[i].image2,
-                    fieldName: 'image2'
-                });
-                adCol.findAndModify({ image2: docs[i].image2 }, { $unset: { image2: docs[i].image2 }});
-            }
-            adCol.findAndModify({ _id: docs[i]._id}, { $set: { images: images }});
+
+            adCol.findAndModify({ _id: docs[i]._id }, { $set: { date: new Date() }});
+            //adCol.findAndModify({ image1: docs[i].image1 }, { $unset: { image1: docs[i].image1 }});
+
         }
     });
 

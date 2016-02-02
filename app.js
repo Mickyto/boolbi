@@ -16,6 +16,7 @@ var ads = require('./routes/ads');
 var admin = require('./routes/admin');
 var i18n = require('./dictionaries');
 var pagination = require('./pagination');
+var dateHandler = require('./dateHandler');
 
 var app = express();
 
@@ -43,6 +44,7 @@ app.use(session({
 app.use(flash());
 app.use(function (req, res, next) {
     req.pagination = pagination;
+    req.dateHandler = dateHandler;
     next();
 });
 

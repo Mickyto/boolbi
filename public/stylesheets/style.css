@@ -280,24 +280,24 @@ div.bravito {
 }
 
 div.ads {
-  padding: 15px;
+  padding: 12px;
   margin: 5px;
   white-space: normal;
   background: #9FC4C6;
-    position: relative;
+  position: relative;
 }
 
 div.status {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 10px;
+    right: 15px;
 }
 
 div.advertisement {
   width: 170px;
   white-space: normal;
   padding-bottom: 20px;
-  margin: 0 0 10px 10px;
+  margin: 0 0 10px 5px;
     background: #ECD276;
 }
 
@@ -368,14 +368,42 @@ div.width {
   width: 220px;
 }
 
-div.img,
+div.adImg {
+  float: left;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  margin-right: 15px;
+}
+
+div.img {
+  visibility: hidden;
+  cursor: pointer;
+  font-size: 28px;
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  padding: 2px 5px;
+  color: white;
+  border: 2px solid white;
+  border-radius: 4px 0px;
+  transition: all 0.4s ease;
+  z-index: 2;
+}
+
+div.img:hover {
+  color: gold;
+  background: white;
+}
+
 div.fileUpload {
   border: 2px solid white;
   float: left;
   position: relative;
   margin: 0 10px 0 10px;
   width: 150px;
-  padding: 20px;
+  height: 150px;
+  padding: 10px;
   border-radius: 5px;
   transition: all 0.3s linear;
 }
@@ -385,11 +413,11 @@ div.fileUpload {
   top: 0;
   left: 0;
   cursor: pointer;
-  font-size: 300px;
+  font-size: 8px;
   opacity: 0;
   height: 200px;
   filter: alpha(opacity=0);
-  margin: 0;
+  margin: -20px 0 0 0;
 }
 
 [disabled] { cursor: auto !important; }
@@ -399,7 +427,7 @@ div.fileUpload {
 div.lang:hover {
   background: goldenrod;
 }
-div.fileUpload:hover { background: lightgoldenrodyellow; }
+div.fileUpload:hover { background: #C0D8D9; }
 
 .divHover:hover {
   background: #7FB1B3;
@@ -411,10 +439,6 @@ div.fileUpload:hover { background: lightgoldenrodyellow; }
   background: Teal;
 }
 
-div.img:hover {
-  width: 300px;
-}
-
 div.ads:hover {
   box-shadow: 1px 3px 6px 1px gray;
 }
@@ -424,16 +448,17 @@ div.editLink {
   position: absolute;
   right: 20px;
   top: 0;
-  padding: 2px 10px;
-  color: lightcyan;
-  border: 1px solid lightcyan;
-  border-radius: 10px;
+  padding: 3px 3px 1px 0px;
+  color: white;
+  border: 2px solid white;
+  border-radius: 3px;
   transition: all 0.4s ease;
   text-transform: lowercase;
+  text-indent: 6px;
 }
 
 div.editLink:hover {
-  font-size: 13px;
+  font-size: 16px;
   color: darkslategray;
   border-color: darkslategray
 }
@@ -446,8 +471,7 @@ div.title {
 div.image {
   width: 580px;
   height: 500px;
-  margin: 15px 0 15px 5px;
-  background: lightgoldenrodyellow;
+  background: #C0D8D9;
   border-radius: 10px;
   white-space: nowrap;
   text-align: center;
@@ -635,6 +659,7 @@ p.med {
   margin: auto;
   font-size: 18px;
   color: ivory;
+  font-style: italic;
 }
 
 p.validateErr {
@@ -667,10 +692,6 @@ p.micro {
 p.index {
   padding: 16px;
   font-size: 16px;
-}
-
-.img:hover{
-  color: gold;
 }
 
 table {
@@ -734,11 +755,11 @@ img.goods {
 }
 
 img.showAds {
-  width: 150px;
-  max-height: 200px;
-  margin: 5px;
+  max-width: 120px;
+  max-height: 120px;
   border-radius: 3px;
-  float: left;
+  vertical-align: middle;
+  padding: 5px;
 }
 
 img.main {
@@ -750,8 +771,14 @@ img.main {
 
 img.show {
   float: none;
-  max-width: 560px;
-  max-height: 480px;
+  max-width: 570px;
+  max-height: 490px;
+  vertical-align: middle;
+}
+
+img.preview {
+  max-width: 150px;
+  max-height: 150px;
   vertical-align: middle;
 }
 
@@ -838,8 +865,7 @@ ul.b:before{
 }
 
 span.fa-pencil-square-o {
-  padding: 2px;
-  font-size: 13px;
+  font-size: 22px;
 }
 
 .helper {

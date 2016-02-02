@@ -9,9 +9,10 @@ block content
 
         h1 #{ad.title}
         hr
-
+        p.small.fl #{i18n('created')} #{date.time} #{i18n(date.unit)} #{i18n('ago')}
         p.fr #{category.name[session.locale]}
         br
+
 
         if ad.images
             div.image
@@ -30,20 +31,20 @@ block content
             td.r
                 p.small #{i18n('price')}
             td.info.inl
-                p.info.med  #{ad.price} #{i18n('rub')}
+                p.med  #{ad.price} #{i18n('rub')}
 
         hr
         table
-             tr
-                 td.r(rowspan=2)
-                     p.small #{i18n('seller')}
-                 td.info
-                     p #{user.name}
-             tr
-                 td.info
-                     p #{user.telephone}
-                 td.info
-                     p #{user.email}
+            td.r
+                p.small #{i18n('seller')}
+            if user.name
+                td.info
+                    p.med #{user.name}
+            if user.telephone
+                td.info
+                    p.med #{user.telephone}
+            td.info
+                p.med #{user.email}
 
         if message.length > 0
              div.msg #{message}
@@ -66,11 +67,12 @@ block content
             div(align='right')
                 table
                     td
+                        button.fr(onclick="closeWindow()") #{i18n('cancel')}
+                    td
                       form(action='/ads/#{ad._id}', method='post', enctype='application/x-www-form-urlencoded')
                          input(type='hidden', value='DELETE', name='_method')
                          button.fr.login(type='submit') #{i18n('Del')}
-                    td
-                      button.fr(onclick="closeWindow()") #{i18n('cancel')}
+
 
     script.
         var showWindow = function() {
