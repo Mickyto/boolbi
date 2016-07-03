@@ -4,7 +4,7 @@ body
     div.contents
       table(align='center')
           td.t
-            div.left
+            div.left.no-print
                 each category, i in categories
                     a(href='/category/#{category._id}')
                         div.categ.divHover
@@ -17,7 +17,7 @@ body
               if mainAds
                   each ad, i in mainAds
                       a(href='/ads/#{ad._id}')
-                          div.advertisement
+                          div.advertisement.no-print
                               table.center
                                   tr
                                     td

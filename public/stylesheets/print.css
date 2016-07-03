@@ -1,0 +1,9 @@
+.no-print {
+    display: none;
+}
+
+div.bravito,
+div.contents {
+    padding: 0;
+}
+

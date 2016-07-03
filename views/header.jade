@@ -2,11 +2,13 @@ doctype html
 html
     head
         title= title
-        link(rel='stylesheet', href='/stylesheets/style.css')
-        link(rel='stylesheet', href='/stylesheets/font-awesome.css')
+        meta(charset='UTF-8')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css', media="all")
+        link(rel='stylesheet', type='text/css', href='/stylesheets/font-awesome.css', media="all")
+        link(rel='stylesheet', type='text/css', href='/stylesheets/print.css', media="print")
 
 
-    header
+    header.no-print
       table.full
         td
             a(href='/')
@@ -51,7 +53,7 @@ html
                         p.link #{i18n('login')}
         td.gold.center
             each lang in ['ru', 'en']
-                a.one(href='/locale?locale=#{lang}')
+                a.one(href='/locale?locale=#{lang}', hreflang='#{lang}')
                     div.lang
                         p.small #{lang}
     br
