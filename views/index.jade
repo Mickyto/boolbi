@@ -20,7 +20,19 @@ body
                                     div.indexCategory
                                         p.index #{category.name[session.locale]}
 
-                                               span.count #{counts[i][category._id]}
+                                            script(type='text/javascript').
+                                                var counttre = function (counts, id) {
+                                                    console.log(counts);
+                                                    function findFrontImage(image) {
+                                                        return image.front_image === 'yes';
+                                                    }
+
+                                                    return images.find(findFrontImage);
+                                                }
+
+                                            span.count(value='counttre("#{counts}", "#{category._id}")')
+
+
 
                         br
                         p.small #{i18n('text1')}
@@ -41,11 +53,3 @@ body
                                         td
                                             p #{ad.price}
     include footer
-
-script.
-    function openMenu() {
-        document.getElementById('menu').style.display = "block";
-    }
-    function closeMenu() {
-        document.getElementById('menu').style.display = "none";
-    }

@@ -8,7 +8,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var validator = require('validator');
 var monk = require('monk');
-var db = monk('127.0.0.1:27017/boolbi');
+var db = monk('mongo:27017/boolbi');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

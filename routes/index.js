@@ -10,12 +10,12 @@ router.get('/', function (req, res) {
 
     var adCol = req.db.get('ads');
     var arr = [];
-    adCol.col.aggregate([
+    adCol.aggregate([
         { $group: { _id: '$category_id', count: { $sum: 1 } } },
         { $sort: { _id: 1 } }
     ], function (err, result) {
-
-        for (var p = 0; p < result.length; p++) {
+	    console.log(result);
+	     /*for (var p = 0; p < result.length; p++) {
             var categoryKey = result[p]._id;
             var countKey = result[p].count;
             var newObject = {};
@@ -23,10 +23,11 @@ router.get('/', function (req, res) {
             newObject[categoryKey] = countKey;
             arr.push(newObject);
         }
+	    console.log(arr);*/
 
         res.render('index', {
             title: req.app.locals.i18n('boolbi'),
-            counts: arr
+            counts: result
         });
     });
 });

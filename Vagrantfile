@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
 
     config.vm.provider :virtualbox do |vb|
-        vb.gui = true
+        vb.gui = false
         vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
         vb.customize ["modifyvm", :id, "--memory", "512"]
     end
