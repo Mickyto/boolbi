@@ -3,7 +3,7 @@ Boolbi
 
 Boolbi is a free ads website
 
-![index](https://gyazo.com/44f35b7f5274228cb16c62addcbf596e)
+![index](https://cloud.githubusercontent.com/assets/10900755/19048404/d816e970-89ae-11e6-9262-6736b8266267.png)
 
 # Installation
 
