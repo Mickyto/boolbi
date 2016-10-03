@@ -7,8 +7,8 @@
   "globals_path" : "",
 
   "selenium" : {
-    "start_process" : true,
-    "server_path" : "./bin/selenium-server-standalone-2.46.0.jar",
+    "start_process" : false,
+    "server_path" : "",
     "log_path" : "",
     "host" : "127.0.0.1",
     "port" : 4444,
@@ -20,13 +20,14 @@
 
   "test_settings" : {
     "default" : {
-      "launch_url" : "http://boolbi.dev",
+      "launch_url" : "",
       "selenium_port"  : 4444,
-      "selenium_host"  : "localhost",
+      "selenium_host"  : "selenium",
       "silent": true,
+      "firefox_profile" : false,
       "screenshots" : {
-        "enabled" : true,
-        "path" : "./tests/errorShots"
+        "enabled" : false,
+        "path" : ""
       },
       "desiredCapabilities": {
         "browserName": "firefox",
