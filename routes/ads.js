@@ -108,15 +108,22 @@ router.get('/newad', checkAuth, function (req, res, next) {
             res.redirect('/users/profile');
             return;
         }
+
         var captcha = parseInt(Math.random() * 9000 + 1000, 10);
-        req.session.captcha = captcha;
-        res.render('ad/newad', {
+        var varObject = {
             title: req.app.locals.i18n('newad'),
             user: doc,
             formAction: '/ads/addad',
             captcha: imageCaptcha(captcha),
             message : req.flash('info')
-        });
+        };
+
+        if (req.flash('helper')[0] === true) {
+            varObject.ad = req.flash('ad')[0];
+        }
+
+        req.session.captcha = captcha;
+        res.render('ad/newad', varObject);
     });
 });
 
@@ -187,7 +194,7 @@ router.get('/:id/edit', checkAuth, function (req, res, next) {
         if (ad.images) {
             var arr = [];
             for (var i = 0; i < 2; i++) {
-                var result = ad.images.filter(function( obj ) {
+                var result = ad.images.filter(function(obj) {
                     return obj.fieldName == 'image' + i;
                 })[0];
                 arr.push(result);
@@ -204,12 +211,12 @@ router.get('/:id/edit', checkAuth, function (req, res, next) {
                 res.render('ad/newad', {
                     title: req.app.locals.i18n('editAd'),
                     imageArray: arr,
+                    message: req.flash('info'),
                     user : user,
                     category : category,
-                    ad : ad,
+                    ad : req.flash('helper')[0] ? req.flash('ad')[0] : ad,
                     formAction: '/ads/' + req.id + '/adedit',
-                    captcha: imageCaptcha(captcha),
-                    message: req.flash('info')
+                    captcha: imageCaptcha(captcha)
                 });
             });
         });
@@ -219,8 +226,21 @@ router.get('/:id/edit', checkAuth, function (req, res, next) {
 
 var adCallback = function (req, res, next) {
 
+    var adCol = req.db.get('ads'),
+        colObject = {
+            user_id: new ObjectId(req.session.user_id),
+            category_id: new ObjectId(req.body.category),
+            title: req.body.adtitle,
+            description: req.body.addescription,
+            price: req.body.adprice,
+            status: 'inactive'
+        };
+
+
     if (req.body.captcha != req.session.captcha) {
         req.flash('info', req.app.locals.i18n('noCaptcha'));
+        req.flash('ad', colObject);
+        req.flash('helper', true);
         res.redirect('back');
         return;
     }
@@ -235,15 +255,7 @@ var adCallback = function (req, res, next) {
         }
     }
 
-    var adCol = req.db.get('ads'),
-        colObject = {
-            user_id: new ObjectId(req.session.user_id),
-            category_id: new ObjectId(req.body.category),
-            title: req.body.adtitle,
-            description: req.body.addescription,
-            price: req.body.adprice,
-            status: 'inactive'
-        };
+
 
     if (req.id == undefined) {
 

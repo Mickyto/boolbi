@@ -231,7 +231,7 @@ router.get('/profile', checkAuth, function (req, res, next) {
             dateArray.push(req.dateHandler(ads[p].date));
         }
 
-            adCol.col.aggregate([
+            adCol.aggregate([
             { $match: { user_id : new ObjectId(req.session.user_id) }},
             { $group: { _id: '$status', count: { $sum: 1 } } },
             { $sort: { _id: 1 } }

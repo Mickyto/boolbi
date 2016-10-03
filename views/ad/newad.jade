@@ -44,7 +44,7 @@ block content
                   p.small #{i18n('category')}: &nbsp
                 td.info
                     select#select(name='category', align='right')
-                       option(value=(ad ? '#{category._id}' : '')) #{ad ? category.name[session.locale] : i18n('select')}
+                       option(value=(category ? '#{category._id}' : '')) #{category ? category.name[session.locale] : i18n('select')}
                        each category, i in categories
                           option(value='#{category._id}') #{category.name[session.locale]}
 

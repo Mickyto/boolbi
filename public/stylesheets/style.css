@@ -15,7 +15,7 @@ header {
   top: 0;
   width: 100%;
   opacity: 0.99;
-    z-index: 5;
+    z-index: 6;
 }
 
 footer {
@@ -26,6 +26,13 @@ footer {
   position: absolute;
   bottom: 0;
 }
+
+::selection {
+  background: #9e0b0f;
+  /* Safari */
+  color: #fff;
+}
+
 
 div.wrapper {
   min-height:100%;
@@ -441,6 +448,7 @@ div.fileUpload:hover { background: #C0D8D9; }
 
 div.ads:hover {
   box-shadow: 1px 3px 6px 1px gray;
+  z-index: 5;
 }
 
 div.editLink {

@@ -1,29 +1,29 @@
 {
   "name": "boolbi",
   "author": "Igor Egay",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
-    "body-parser": "^1.12.4",
+    "body-parser": "~1.15.1",
     "captchapng": "0.0.1",
     "connect-flash": "^0.1.1",
-    "connect-multiparty": "^1.2.5",
-    "cookie-parser": "~1.3.5",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
-    "express": "~4.12.4",
-    "express-session": "^1.11.3",
+    "express": "~4.13.4",
+    "express-session": "^1.14.1",
     "imagemagick": "^0.1.3",
-    "jade": "~1.9.2",
-    "mailgun-js": "^0.7.1",
-    "method-override": "^2.3.3",
-    "mongodb": "~2.0.33",
-    "monk": "~1.0.1",
-    "morgan": "~1.5.3",
+    "jade": "~1.11.0",
+    "mailgun-js": "^0.7.12",
+    "method-override": "^2.3.6",
+    "mongodb": "^2.2.10",
+    "monk": "^3.1.2",
+    "morgan": "~1.7.0",
     "password-hash": "^1.2.2",
-    "serve-favicon": "~2.2.1",
-    "validator": "^3.41.2"
+    "serve-favicon": "~2.3.0",
+    "validator": "^6.0.0"
   }
 }

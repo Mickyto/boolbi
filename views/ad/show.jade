@@ -20,7 +20,7 @@ block content
                 img.show(src='/images/big/#{image}')
 
             if ad.images.length > 1
-                div.thumbnail
+                div.thumbnail.no-print
                     each image in ad.images
                         a(href='/ads/#{ad._id}?image=#{image.src}')
                             img.showAds(src='/images/small/#{image.src}')
